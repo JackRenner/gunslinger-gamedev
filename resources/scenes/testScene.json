@@ -1,0 +1,39 @@
+[
+
+    {
+        "type" : "Sprite",
+        "id" : "test_sprite_1",
+        "filepath" : "./resources/solarSystem/Sun_1.png",
+        "info" : {
+            "position" : {
+                "x":0,
+                "y":0
+            },
+            "width": 100,
+            "heigh": 100,
+            "scaleX": 1.0,
+            "scaleY": 1.0,
+            "rotation": 0,
+        },
+        "children": []
+    },
+
+    {
+        "type" : "Sprite",
+        "id" : "test_sprite_2",
+        "filepath" : "./resources/solarSystem/Sun_2.png",
+        "info" : {
+            "position" : {
+                "x":200,
+                "y":200
+            },
+            "width": 100,
+            "heigh": 100,
+            "scaleX": 1.0,
+            "scaleY": 1.0,
+            "rotation": 0,
+        },
+        "children": []
+    }
+
+]
