@@ -8,42 +8,26 @@ using namespace std;
 
 MyGame::MyGame() : Game(1200, 1000) {
 	instance = this;
-
-	allSprites = new DisplayObjectContainer();
-	// move that point to the middle
-	allSprites->position = {600, 500};
-	instance->addChild(allSprites);
-
-	sun = new AnimatedSprite("sun");
-	sun->addAnimation("./resources/solarSystem/", "Sun", 4, 2, true);
-	sun->play("Sun");
-	// cout << sun->getWidth() << sun->getHeight();
-	sun->position = {0, 0};
-	sun->width = sun->height = 100;
-	sun->pivot = {50, 50};
-	allSprites->addChild(sun);
-
-	p1container = new DisplayObjectContainer();
-	p2container = new DisplayObjectContainer();
-	sun->addChild(p1container);
-	sun->addChild(p2container);
-
-	planet1 = new Sprite("planet1","./resources/solarSystem/Planet.png");
-	planet1->position = {200, 0};
-	planet1->width = planet1->height = 30;
-	planet1->pivot = {15, 15};
-	p1container->addChild(planet1);
-
-	planet2 = new Sprite("planet2","./resources/solarSystem/Planet.png");
-	planet2->position = {300, 0};
-	planet2->width = planet2->height = 30;
-	planet2->pivot = {15, 15};
-	p2container->addChild(planet2);
-
-	moon1_1 = new Sprite("moon1_1", "./resources/solarSystem/Moon.png");
-	moon1_1->position = {50, 0};
-	moon1_1->width = moon1_1->height = 15;
-	planet1->addChild(moon1_1);
+	girl = new Sprite("girl", "./resources/character/Dead_31.png");
+	//girl->addAnimation("./resources/character/", "Walk", 20, 2, true);
+	//girl->play("Walk");
+	
+	girl->position = {0,0};
+	girl->width = 200;
+	girl->height = 200;
+	
+	instance->addChild(girl);
+	
+	myCoin = new Coin("coin", "./resources/coin/dollar.png");
+	myCoin->position = {600, 500};
+	myCoin->height = 200;
+	myCoin->width = 200;
+	
+	instance->addChild(myCoin);
+	
+	myQuestManager = new QuestManager();
+	pickedUp = new Event("COIN_PICKED_UP", myCoin);
+	myCoin->addEventListener(myQuestManager, pickedUp->getType());
 }
 
 MyGame::~MyGame(){
@@ -51,49 +35,47 @@ MyGame::~MyGame(){
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys){
-	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		sun->position.x += 2;
+	set<SDL_Scancode>::iterator it = pressedKeys.begin();
+
+	while(it != pressedKeys.end()){
+	  switch(*it){
+	  case SDL_SCANCODE_RIGHT:
+		  girl->position.x += 10;
+		  break;
+	  case SDL_SCANCODE_LEFT:
+		  girl->position.x -= 10;
+		  break;
+	  case SDL_SCANCODE_UP:
+		  girl->position.y -= 10;
+		  break;
+	  case SDL_SCANCODE_DOWN:
+		  girl->position.y += 10;
+		  break;
+	  }
+	  it++;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-		sun->position.x -= 2;
+	
+	//Be careful if items for collision detection are different sizes
+	
+	SDL_Point uLGirl = {girl->position.x,girl->position.y};
+	SDL_Point uRGirl = {girl->position.x + girl->width,girl->position.y};
+	SDL_Point lLGirl = {girl->position.x,girl->position.y + girl->height};
+	SDL_Point lRGirl = {girl->position.x + girl->width,girl->position.y + girl->height};
+	
+	SDL_Point uLCoin = {myCoin->position.x, myCoin->position.y};
+	SDL_Point uRCoin = {myCoin->position.x + myCoin->width, myCoin->position.y};
+	SDL_Point lLCoin = {myCoin->position.x, myCoin->position.y + myCoin->height};
+	SDL_Point lRCoin = {myCoin->position.x + myCoin->height, myCoin->position.y + myCoin->height};
+	
+	bool rTol = (((uRGirl.x >= uLCoin.x) && (uRGirl.y >= uLCoin.y)) && (uRGirl.y <= lLCoin.y) && (uRGirl.x <= uRCoin.x)) || (((lRGirl.x >= uLCoin.x) && (lRGirl.y >= uLCoin.y)) && (lRGirl.y <= lLCoin.y) && (lRGirl.x <= uRCoin.x)); 
+	bool lTor = (((uLGirl.x <= uRCoin.x) && (uLGirl.y >= uRCoin.y)) && (uLGirl.y <= lRCoin.y) && (uLGirl.x >= uLCoin.x)) || (((lLGirl.x <= uRCoin.x) && (lLGirl.y >= uRCoin.y)) && (lLGirl.y <= lRCoin.y) && (lLGirl.x >= uLCoin.x));
+	bool tTob = (((uLGirl.x >= lLCoin.x) && (uLGirl.x <= lRCoin.x)) && ((uLGirl.y <= lLCoin.y) && (uLGirl.y >= uRCoin.y))) || (((uRGirl.x >= lLCoin.x) && (uRGirl.x <= lRCoin.x)) && ((uRGirl.y <= lLCoin.y) && (uRGirl.y >= uRCoin.y)));
+	bool bToT = (((lLGirl.x >= uLCoin.x) && (lLGirl.x <= uRCoin.x)) && ((lLGirl.y >= uLCoin.y) && (lLGirl.y <= lLCoin.y))) || (((lRGirl.x >= uLCoin.x) && (lRGirl.x <= uRCoin.x)) && ((lRGirl.y >= uLCoin.y) && (lRGirl.y <= lLCoin.y)));
+	
+	if(rTol || lTor || tTob || bToT){
+		myCoin->visible = false;
+		myCoin->dispatchEvent(pickedUp);
 	}
-	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-		sun->position.y += 2;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-		sun->position.y -= 2;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
-		// sun->rotation += 0.01;
-		p1container->rotation += 0.05;
-		p2container->rotation += 0.03;
-		planet1->rotation += 0.1;
-		p1container->position.x = 100*sin(p1container->rotation);
-		p2container->position.x = 100*sin(p2container->rotation);
-	}
-	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-		// sun->rotation -= 0.01;
-		p1container->rotation -= 0.05;
-		p2container->rotation -= 0.03;
-		planet1->rotation -= 0.1;
-		p1container->position.x = 100*sin(p1container->rotation);
-		p2container->position.x = 100*sin(p2container->rotation);
-	}
-	if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end()) {
-		allSprites->scaleX *= 1.05;
-		allSprites->scaleY *= 1.05;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-		allSprites->scaleX *= 1/1.05;
-		allSprites->scaleY *= 1/1.05;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
-		sun->play("Sun");
-	}
-	if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {
-		sun->stop();
-	}
-	Game::update(pressedKeys);
 }
 
 void MyGame::draw(AffineTransform &at){

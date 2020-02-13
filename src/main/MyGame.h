@@ -7,6 +7,9 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "AnimatedSprite.h"
+#include "Event.h"
+#include "Coin.h"
+#include "QuestManager.h"
 
 
 using namespace std;
@@ -22,16 +25,14 @@ public:
 
 private:
 	
-	AnimatedSprite* sun;
-	Sprite* planet1;
-	Sprite* planet2;
-	Sprite* moon1_1;
-
-	DisplayObjectContainer* p1container;
-	DisplayObjectContainer* p2container;
-	DisplayObjectContainer* allSprites;
-
-	// DisplayObject* character;
+	Sprite* girl;
+	
+	Coin* myCoin;
+	
+	QuestManager* myQuestManager;
+	
+	Event* pickedUp;
+	
 };
 
 #endif
