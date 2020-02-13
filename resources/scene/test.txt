@@ -1,7 +1,6 @@
 {
 	"test_sprite1": {
 		"type": "Sprite",
-		"id": "test_sprite1",
 		"filepath": "./resources/character/Dead_1.png",
 
 		"position": [100, 100],
@@ -16,7 +15,6 @@
 
 	"test_sprite2": {
 		"type": "Sprite",
-		"id": "test_sprite1",
 		"filepath": "./resources/character/Idle_1.png",
 
 		"position": [200, 200],
@@ -29,10 +27,24 @@
 		"parent": null
 	},
 
+	"test_rgb": {
+		"type": "RGB",
+		"rgb": [255, 10, 180],
+
+		"position": [0, 0],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "test_doc"
+	},
+
 	"test_doc": {
 		"type": "DisplayObjectContainer",
 		
-		"position": [300, 300],
+		"position": [350, 350],
 		"pivot": [0, 0],
 		"scale": [1.0, 1.0],
 		"rotation": 0.0,
@@ -44,7 +56,6 @@
 
 	"test_anim": {
 		"type": "AnimatedSprite",
-		"id": "test_anim",
 
 		"animation1": {
 			"basepath": "./resources/solarSystem/",
@@ -63,6 +74,6 @@
 		"alpha": 255,
 		"visible": true,
 
-		"parent": null
+		"parent": "fake"
 	}
 }

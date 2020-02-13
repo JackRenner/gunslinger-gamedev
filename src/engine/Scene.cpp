@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Scene::Scene() {
+Scene::Scene() : DisplayObjectContainer() {
 	this->type = "Scene";
 }
 
@@ -25,74 +25,127 @@ void Scene::loadScene(string sceneFilePath) {
 
 	fclose(fp);
 
+	// struct to hold DOC pointers and JSON object names so the method can set parents later
+	vector<DisplayObjectContainer*> entityStore;
+
+	// for loop to load entities in and will set them as children of this scene initially
 	for (rapidjson::Value::ConstMemberIterator it = sceneDoc.MemberBegin(); it != sceneDoc.MemberEnd(); ++it) {
 
-		string type = sceneDoc[it->name]["type"].GetString();
+		const char* entityName = it->name.GetString();
+		string type = sceneDoc[entityName]["type"].GetString();
 
 		// DisplayObjectContainers should only be declared if they are intended to be empty containers; this method will not handle constructor overloading for DOCs
 		if (type == "DisplayObjectContainer") {
 			// Make empty DOC
 			DisplayObjectContainer* new_doc = new DisplayObjectContainer();
+			new_doc->id = entityName;
 
 			// set transform parameters
-			new_doc->position.x = sceneDoc[it->name]["position"][0].GetInt();
-			new_doc->position.y = sceneDoc[it->name]["position"][1].GetInt();
-			new_doc->pivot.x = sceneDoc[it->name]["pivot"][0].GetInt();
-			new_doc->pivot.y = sceneDoc[it->name]["pivot"][1].GetInt();
-			new_doc->scaleX = sceneDoc[it->name]["scale"][0].GetDouble();
-			new_doc->scaleY = sceneDoc[it->name]["scale"][1].GetDouble();
-			new_doc->rotation = sceneDoc[it->name]["rotation"].GetDouble();
-			new_doc->alpha = sceneDoc[it->name]["alpha"].GetInt();
-			new_doc->visible = sceneDoc[it->name]["visible"].GetBool();
+			new_doc->position.x = sceneDoc[entityName]["position"][0].GetInt();
+			new_doc->position.y = sceneDoc[entityName]["position"][1].GetInt();
+			new_doc->pivot.x = sceneDoc[entityName]["pivot"][0].GetInt();
+			new_doc->pivot.y = sceneDoc[entityName]["pivot"][1].GetInt();
+			new_doc->scaleX = sceneDoc[entityName]["scale"][0].GetDouble();
+			new_doc->scaleY = sceneDoc[entityName]["scale"][1].GetDouble();
+			new_doc->rotation = sceneDoc[entityName]["rotation"].GetDouble();
+			new_doc->alpha = sceneDoc[entityName]["alpha"].GetInt();
+			new_doc->visible = sceneDoc[entityName]["visible"].GetBool();
 
-			this->addChild(new_doc);
+			entityStore.push_back(new_doc);
 		}
-		// As of now Sprites only support textures from filepaths; will eventually add overloading for RGB
+		// If an entity is declared as a Sprite in the JSON, it must have an image filepath, otherwise use type RGB
 		else if (type == "Sprite") {
 			// construct new Sprite
-			string id = sceneDoc[it->name]["id"].GetString();
-			string filepath = sceneDoc[it->name]["filepath"].GetString();
+			string id = entityName;
+			string filepath = sceneDoc[entityName]["filepath"].GetString();
 			Sprite* new_sprite = new Sprite(id, filepath);
 
 			// set transform parameters
-			new_sprite->position.x = sceneDoc[it->name]["position"][0].GetInt();
-			new_sprite->position.y = sceneDoc[it->name]["position"][1].GetInt();
-			new_sprite->pivot.x = sceneDoc[it->name]["pivot"][0].GetInt();
-			new_sprite->pivot.y = sceneDoc[it->name]["pivot"][1].GetInt();
-			new_sprite->scaleX = sceneDoc[it->name]["scale"][0].GetDouble();
-			new_sprite->scaleY = sceneDoc[it->name]["scale"][1].GetDouble();
-			new_sprite->rotation = sceneDoc[it->name]["rotation"].GetDouble();
-			new_sprite->alpha = sceneDoc[it->name]["alpha"].GetInt();
-			new_sprite->visible = sceneDoc[it->name]["visible"].GetBool();
+			new_sprite->position.x = sceneDoc[entityName]["position"][0].GetInt();
+			new_sprite->position.y = sceneDoc[entityName]["position"][1].GetInt();
+			new_sprite->pivot.x = sceneDoc[entityName]["pivot"][0].GetInt();
+			new_sprite->pivot.y = sceneDoc[entityName]["pivot"][1].GetInt();
+			new_sprite->scaleX = sceneDoc[entityName]["scale"][0].GetDouble();
+			new_sprite->scaleY = sceneDoc[entityName]["scale"][1].GetDouble();
+			new_sprite->rotation = sceneDoc[entityName]["rotation"].GetDouble();
+			new_sprite->alpha = sceneDoc[entityName]["alpha"].GetInt();
+			new_sprite->visible = sceneDoc[entityName]["visible"].GetBool();
 
-			this->addChild(new_sprite);
+			entityStore.push_back(new_sprite);
+		}
+		// mainly for testing and basic blocking
+		else if (type == "RGB") {
+			// construct new Sprite
+			string id = entityName;
+			int red = sceneDoc[entityName]["rgb"][0].GetInt();
+			int green = sceneDoc[entityName]["rgb"][1].GetInt();
+			int blue = sceneDoc[entityName]["rgb"][2].GetInt();
+			Sprite* new_rgb = new Sprite(id, red, green, blue);
+
+			// set transform parameters
+			new_rgb->position.x = sceneDoc[entityName]["position"][0].GetInt();
+			new_rgb->position.y = sceneDoc[entityName]["position"][1].GetInt();
+			new_rgb->pivot.x = sceneDoc[entityName]["pivot"][0].GetInt();
+			new_rgb->pivot.y = sceneDoc[entityName]["pivot"][1].GetInt();
+			new_rgb->scaleX = sceneDoc[entityName]["scale"][0].GetDouble();
+			new_rgb->scaleY = sceneDoc[entityName]["scale"][1].GetDouble();
+			new_rgb->rotation = sceneDoc[entityName]["rotation"].GetDouble();
+			new_rgb->alpha = sceneDoc[entityName]["alpha"].GetInt();
+			new_rgb->visible = sceneDoc[entityName]["visible"].GetBool();
+
+			entityStore.push_back(new_rgb);
 		}
 		else if (type == "AnimatedSprite") {
 			// construct new AnimatedSprite
-			string id = sceneDoc[it->name]["id"].GetString();
+			string id = entityName;
 			AnimatedSprite* new_animsprite = new AnimatedSprite(id);
 
-			string basepath = sceneDoc[it->name]["animation1"]["basepath"].GetString();
-			string animName = sceneDoc[it->name]["animation1"]["animName"].GetString();
-			int numFrames = sceneDoc[it->name]["animation1"]["numFrames"].GetInt();
-			int frameRate = sceneDoc[it->name]["animation1"]["frameRate"].GetInt();
-			bool loop = sceneDoc[it->name]["animation1"]["loop"].GetBool();
+			string basepath = sceneDoc[entityName]["animation1"]["basepath"].GetString();
+			string animName = sceneDoc[entityName]["animation1"]["animName"].GetString();
+			int numFrames = sceneDoc[entityName]["animation1"]["numFrames"].GetInt();
+			int frameRate = sceneDoc[entityName]["animation1"]["frameRate"].GetInt();
+			bool loop = sceneDoc[entityName]["animation1"]["loop"].GetBool();
 			new_animsprite->addAnimation(basepath, animName, numFrames, frameRate, loop);
 
-			new_animsprite->play(sceneDoc[it->name]["playing"].GetString());
+			new_animsprite->play(sceneDoc[entityName]["playing"].GetString());
 
 			// set transform parameters
-			new_animsprite->position.x = sceneDoc[it->name]["position"][0].GetInt();
-			new_animsprite->position.y = sceneDoc[it->name]["position"][1].GetInt();
-			new_animsprite->pivot.x = sceneDoc[it->name]["pivot"][0].GetInt();
-			new_animsprite->pivot.y = sceneDoc[it->name]["pivot"][1].GetInt();
-			new_animsprite->scaleX = sceneDoc[it->name]["scale"][0].GetDouble();
-			new_animsprite->scaleY = sceneDoc[it->name]["scale"][1].GetDouble();
-			new_animsprite->rotation = sceneDoc[it->name]["rotation"].GetDouble();
-			new_animsprite->alpha = sceneDoc[it->name]["alpha"].GetInt();
-			new_animsprite->visible = sceneDoc[it->name]["visible"].GetBool();
+			new_animsprite->position.x = sceneDoc[entityName]["position"][0].GetInt();
+			new_animsprite->position.y = sceneDoc[entityName]["position"][1].GetInt();
+			new_animsprite->pivot.x = sceneDoc[entityName]["pivot"][0].GetInt();
+			new_animsprite->pivot.y = sceneDoc[entityName]["pivot"][1].GetInt();
+			new_animsprite->scaleX = sceneDoc[entityName]["scale"][0].GetDouble();
+			new_animsprite->scaleY = sceneDoc[entityName]["scale"][1].GetDouble();
+			new_animsprite->rotation = sceneDoc[entityName]["rotation"].GetDouble();
+			new_animsprite->alpha = sceneDoc[entityName]["alpha"].GetInt();
+			new_animsprite->visible = sceneDoc[entityName]["visible"].GetBool();
 
-			this->addChild(new_animsprite);
+			entityStore.push_back(new_animsprite);
+		}
+	}
+
+	// Loop through the temporary store, and set the parent to Scene if key-value is null/not found, otherwise set real parent
+	for (int i = 0; i < entityStore.size(); i++) {
+		const char* jsonID = entityStore[i]->id.c_str();
+		if (sceneDoc[jsonID]["parent"].IsNull()) {
+			this->addChild(entityStore[i]);
+			entityStore[i]->parent = this;
+		}
+		else {
+			string parent = sceneDoc[jsonID]["parent"].GetString();
+			bool found = false;
+			for (int j = 0; j < entityStore.size(); j++) {
+				if (entityStore[j]->id == parent) {
+					entityStore[j]->addChild(entityStore[i]);
+					entityStore[i]->parent = entityStore[j];
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				this->addChild(entityStore[i]);
+				entityStore[i]->parent = this;
+			}
 		}
 	}
 }
