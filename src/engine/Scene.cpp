@@ -8,7 +8,7 @@
 using namespace std;
 
 Scene::Scene(): DisplayObjectContainer(){
-
+    this->type="Scene";
 }
 
 void Scene::loadScene(string sceneFilePath){
@@ -18,7 +18,6 @@ void Scene::loadScene(string sceneFilePath){
     //4. iterate through *possible* children of each object and construct / modify data
     //5. add children to parent and then parents to scene
 
-    
 
 }
 
