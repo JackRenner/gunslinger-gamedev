@@ -1,0 +1,68 @@
+{
+	"test_sprite1": {
+		"type": "Sprite",
+		"id": "test_sprite1",
+		"filepath": "./resources/character/Dead_1.png",
+
+		"position": [100, 100],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	},
+
+	"test_sprite2": {
+		"type": "Sprite",
+		"id": "test_sprite1",
+		"filepath": "./resources/character/Idle_1.png",
+
+		"position": [200, 200],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	},
+
+	"test_doc": {
+		"type": "DisplayObjectContainer",
+		
+		"position": [300, 300],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	},
+
+	"test_anim": {
+		"type": "AnimatedSprite",
+		"id": "test_anim",
+
+		"animation1": {
+			"basepath": "./resources/solarSystem/",
+			"animName": "Sun",
+			"numFrames": 4,
+			"frameRate": 2,
+			"loop": true
+		},
+
+		"playing": "Sun",
+
+		"position": [500, 500],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	}
+}
