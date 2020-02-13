@@ -11,13 +11,22 @@ See files in "./resources/scene/" for examples.
 		"filepath": "/filepath",			As of now, only for Sprite type.
 		"rgb": [red, green, blue],			Array of int values, only for RGB type.
 
-											Object for Animations, only for AnimatedSprite type.
-		"(animation)": {					(animation) is only used to parse the JSON, it is not the animation name in the AnimatedSprite.					
-			"basepath": "/basepath",
-			"animName": "name",
-			"numFrames": frames,			int value
-			"frameRate": rate,				int value
-			"loop": true | false			bool value
+		"animations": {						Object for Animations that holds animation objects, only for AnimatedSprite type.
+			"(animation1)": {						(animation) is only used to parse the JSON, it is not the animation name in the AnimatedSprite.					
+				"basepath": "/basepath",
+				"animName": "name",
+				"numFrames": frames,				int value
+				"frameRate": rate,					int value
+				"loop": true | false				bool value
+			},
+
+			"(animation2)": {		
+				"basepath": "/basepath",
+				"animName": "name",
+				"numFrames": frames,
+				"frameRate": rate,
+				"loop": true | false
+			}
 		},
 
 		"playing": "animName",				Name of the animation to initially play.

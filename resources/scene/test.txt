@@ -57,15 +57,25 @@
 	"test_anim": {
 		"type": "AnimatedSprite",
 
-		"animation1": {
-			"basepath": "./resources/solarSystem/",
-			"animName": "Sun",
-			"numFrames": 4,
-			"frameRate": 2,
-			"loop": true
+		"animations": {	
+			"animation1": {
+				"basepath": "./resources/solarSystem/",
+				"animName": "Sun",
+				"numFrames": 4,
+				"frameRate": 2,
+				"loop": true
+			},
+
+			"animation2": {
+				"basepath": "./resources/character/",
+				"animName": "Dead",
+				"numFrames": 30,
+				"frameRate": 2,
+				"loop": true
+			}
 		},
 
-		"playing": "Sun",
+		"playing": "Dead",
 
 		"position": [500, 500],
 		"pivot": [0, 0],

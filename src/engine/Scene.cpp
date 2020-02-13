@@ -100,12 +100,17 @@ void Scene::loadScene(string sceneFilePath) {
 			string id = entityName;
 			AnimatedSprite* new_animsprite = new AnimatedSprite(id);
 
-			string basepath = sceneDoc[entityName]["animation1"]["basepath"].GetString();
-			string animName = sceneDoc[entityName]["animation1"]["animName"].GetString();
-			int numFrames = sceneDoc[entityName]["animation1"]["numFrames"].GetInt();
-			int frameRate = sceneDoc[entityName]["animation1"]["frameRate"].GetInt();
-			bool loop = sceneDoc[entityName]["animation1"]["loop"].GetBool();
-			new_animsprite->addAnimation(basepath, animName, numFrames, frameRate, loop);
+			// loop through all animations
+			for (rapidjson::Value::ConstMemberIterator it = sceneDoc[entityName]["animations"].MemberBegin(); it != sceneDoc[entityName]["animations"].MemberEnd(); ++it) {
+				const char* animationID = it->name.GetString();
+
+				string basepath = sceneDoc[entityName]["animations"][animationID]["basepath"].GetString();
+				string animName = sceneDoc[entityName]["animations"][animationID]["animName"].GetString();
+				int numFrames = sceneDoc[entityName]["animations"][animationID]["numFrames"].GetInt();
+				int frameRate = sceneDoc[entityName]["animations"][animationID]["frameRate"].GetInt();
+				bool loop = sceneDoc[entityName]["animations"][animationID]["loop"].GetBool();
+				new_animsprite->addAnimation(basepath, animName, numFrames, frameRate, loop);
+			}
 
 			new_animsprite->play(sceneDoc[entityName]["playing"].GetString());
 
