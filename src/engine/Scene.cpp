@@ -28,8 +28,10 @@ void Scene::loadScene(string sceneFilePath) {
 	// struct to hold DOC pointers and JSON object names so the method can set parents later
 	vector<DisplayObjectContainer*> entityStore;
 
+
+	this->id = sceneDoc["scene_id"].GetString();
 	// for loop to load entities in and will set them as children of this scene initially
-	for (rapidjson::Value::ConstMemberIterator it = sceneDoc.MemberBegin(); it != sceneDoc.MemberEnd(); ++it) {
+	for (rapidjson::Value::ConstMemberIterator it = sceneDoc.MemberBegin() + 1; it != sceneDoc.MemberEnd(); ++it) {
 
 		const char* entityName = it->name.GetString();
 		string type = sceneDoc[entityName]["type"].GetString();
@@ -61,6 +63,8 @@ void Scene::loadScene(string sceneFilePath) {
 			Sprite* new_sprite = new Sprite(id, filepath);
 
 			// set transform parameters
+			new_sprite->width = sceneDoc[entityName]["dimensions"][0].GetInt();
+			new_sprite->height = sceneDoc[entityName]["dimensions"][1].GetInt();
 			new_sprite->position.x = sceneDoc[entityName]["position"][0].GetInt();
 			new_sprite->position.y = sceneDoc[entityName]["position"][1].GetInt();
 			new_sprite->pivot.x = sceneDoc[entityName]["pivot"][0].GetInt();
@@ -83,6 +87,8 @@ void Scene::loadScene(string sceneFilePath) {
 			Sprite* new_rgb = new Sprite(id, red, green, blue);
 
 			// set transform parameters
+			new_rgb->width = sceneDoc[entityName]["dimensions"][0].GetInt();
+			new_rgb->height = sceneDoc[entityName]["dimensions"][1].GetInt();
 			new_rgb->position.x = sceneDoc[entityName]["position"][0].GetInt();
 			new_rgb->position.y = sceneDoc[entityName]["position"][1].GetInt();
 			new_rgb->pivot.x = sceneDoc[entityName]["pivot"][0].GetInt();
@@ -115,6 +121,8 @@ void Scene::loadScene(string sceneFilePath) {
 			new_animsprite->play(sceneDoc[entityName]["playing"].GetString());
 
 			// set transform parameters
+			new_animsprite->width = sceneDoc[entityName]["dimensions"][0].GetInt();
+			new_animsprite->height = sceneDoc[entityName]["dimensions"][1].GetInt();
 			new_animsprite->position.x = sceneDoc[entityName]["position"][0].GetInt();
 			new_animsprite->position.y = sceneDoc[entityName]["position"][1].GetInt();
 			new_animsprite->pivot.x = sceneDoc[entityName]["pivot"][0].GetInt();

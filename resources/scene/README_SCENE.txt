@@ -4,6 +4,8 @@ Any key enclosed in ( ) can be anything the user enters, otherwise the key MUST 
 See files in "./resources/scene/" for examples.
 
 {
+	"scene_id": "id",						The ID of the scene object.
+
 	"(Entity ID)": {						This will be the ID assigned to the entity when constructed.
 		"type":	"DisplayObjectContainer" | "Sprite" | "RGB" | "AnimatedSprite",
 											DisplayObjectContainer will always be empty.
@@ -31,6 +33,7 @@ See files in "./resources/scene/" for examples.
 
 		"playing": "animName",				Name of the animation to initially play.
 
+		"dimensions": [width, height]		Array of ints, not required/does nothing for DOCs
 		"position": [x, y],					Array of ints
 		"pivot": [x, y],					Array of ints
 		"scale": [x, y],					Array of doubles
