@@ -1,101 +1,58 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
-#include "Sprite.h"
+#include "../engine/Sprite.h"
+#include "../engine/Scene.h"
 #include "MyGame.h"
 
 using namespace std;
 
 MyGame::MyGame() : Game(1200, 1000) {
-	instance = this;
 
-	allSprites = new DisplayObjectContainer();
-	// move that point to the middle
-	allSprites->position = {600, 500};
-	instance->addChild(allSprites);
+	testScene1 = new Scene();
+	testScene1->loadScene("./resources/scene/test1.txt");
+	testScene2 = new Scene();
+	testScene2->loadScene("./resources/scene/test2.txt");
 
-	sun = new AnimatedSprite("sun");
-	sun->addAnimation("./resources/solarSystem/", "Sun", 4, 2, true);
-	sun->play("Sun");
-	// cout << sun->getWidth() << sun->getHeight();
-	sun->position = {0, 0};
-	sun->width = sun->height = 100;
-	sun->pivot = {50, 50};
-	allSprites->addChild(sun);
-
-	p1container = new DisplayObjectContainer();
-	p2container = new DisplayObjectContainer();
-	sun->addChild(p1container);
-	sun->addChild(p2container);
-
-	planet1 = new Sprite("planet1","./resources/solarSystem/Planet.png");
-	planet1->position = {200, 0};
-	planet1->width = planet1->height = 30;
-	planet1->pivot = {15, 15};
-	p1container->addChild(planet1);
-
-	planet2 = new Sprite("planet2","./resources/solarSystem/Planet.png");
-	planet2->position = {300, 0};
-	planet2->width = planet2->height = 30;
-	planet2->pivot = {15, 15};
-	p2container->addChild(planet2);
-
-	moon1_1 = new Sprite("moon1_1", "./resources/solarSystem/Moon.png");
-	moon1_1->position = {50, 0};
-	moon1_1->width = moon1_1->height = 15;
-	planet1->addChild(moon1_1);
+	this->setScene(testScene1);
 }
 
-MyGame::~MyGame(){
+MyGame::~MyGame() {
+
 }
 
 
-void MyGame::update(set<SDL_Scancode> pressedKeys){
-	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		sun->position.x += 2;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-		sun->position.x -= 2;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-		sun->position.y += 2;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-		sun->position.y -= 2;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
-		// sun->rotation += 0.01;
-		p1container->rotation += 0.05;
-		p2container->rotation += 0.03;
-		planet1->rotation += 0.1;
-		p1container->position.x = 100*sin(p1container->rotation);
-		p2container->position.x = 100*sin(p2container->rotation);
-	}
-	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-		// sun->rotation -= 0.01;
-		p1container->rotation -= 0.05;
-		p2container->rotation -= 0.03;
-		planet1->rotation -= 0.1;
-		p1container->position.x = 100*sin(p1container->rotation);
-		p2container->position.x = 100*sin(p2container->rotation);
-	}
-	if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end()) {
-		allSprites->scaleX *= 1.05;
-		allSprites->scaleY *= 1.05;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-		allSprites->scaleX *= 1/1.05;
-		allSprites->scaleY *= 1/1.05;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
-		sun->play("Sun");
-	}
-	if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {
-		sun->stop();
-	}
+void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	Game::update(pressedKeys);
+
+	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
+		if (keyToggle) {
+			if (sceneFlip) {
+				this->setScene(testScene1);
+				sceneFlip = !sceneFlip;
+			}
+			else {
+				this->setScene(testScene2);
+				sceneFlip = !sceneFlip;
+			}
+		}
+		keyToggle = false;
+	}
+	if (pressedKeys.find(SDL_SCANCODE_P) == pressedKeys.end()) {
+		keyToggle = true;
+	}
 }
 
-void MyGame::draw(AffineTransform &at){
+void MyGame::draw(AffineTransform& at) {
 	Game::draw(at);
+}
+
+// sets the current scene and adds as child to game and unlinks the old scene from game (does not destroy it)
+// we can tweak this to destroy the scene for memory reasons (or add a new method to destroy), but left it like this for now
+void MyGame::setScene(Scene* scene) {
+	if (curScene != NULL)
+		this->unlinkImmediateChild(curScene->id);
+	this->curScene = scene;
+	if (curScene != NULL)
+		this->addChild(curScene);
 }
