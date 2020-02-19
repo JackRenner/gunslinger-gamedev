@@ -12,6 +12,14 @@
 
 using namespace std;
 
+struct Bound {
+	SDL_Rect bounds;
+	bool check_up = true;
+	bool check_down = true;
+	bool check_left = true;
+	bool check_right = true;
+};
+
 class MyGame : public Game {
 
 public:
@@ -23,6 +31,11 @@ public:
 
 	void setScene(Scene* scene);
 
+	void addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool right);
+	void enforceCameraBounds();
+
+	bool checkInside(SDL_Rect box, DisplayObject* entity);
+
 private:
 
 	Scene* curScene = NULL;
@@ -33,6 +46,9 @@ private:
 
 	bool sceneFlip = false;
 	bool keyToggle = true;
+
+	vector<Bound> boundaries;
+	int room_state = -1;
 };
 
 #endif
