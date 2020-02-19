@@ -27,8 +27,7 @@ private:
 
 	Scene* curScene = NULL;
 
-	Scene* testScene1;
-	Scene* testScene2;
+	Scene* cameraDemoScene;
 
 	AnimatedSprite* character;
 

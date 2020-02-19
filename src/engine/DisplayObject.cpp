@@ -58,7 +58,10 @@ void DisplayObject::setTexture(SDL_Texture* t){
 }
 
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
-	
+	if (affixToCamera) {
+		gameCamera.x = position.x - affixPoint.x;
+		gameCamera.y = position.y - affixPoint.y;
+	}
 }
 
 void DisplayObject::draw(AffineTransform &at){
@@ -73,12 +76,7 @@ void DisplayObject::draw(AffineTransform &at){
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
 
-		SDL_Rect dstrect;
-
-		if (!affixToCamera)
-			dstrect = { origin.x - gameCamera.x, origin.y - gameCamera.y, w, h };
-		else
-			dstrect = { origin.x, origin.y, w, h };
+		SDL_Rect dstrect = { origin.x - gameCamera.x, origin.y - gameCamera.y, w, h };
 
 		SDL_RendererFlip flip;
 		if (facingRight) {
