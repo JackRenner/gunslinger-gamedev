@@ -7,14 +7,27 @@
 
 using namespace std;
 
-MyGame::MyGame() : Game(1200, 1000) {
+Camera DisplayObject::gameCamera;
+
+MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
+
+	gameCamera = Camera();
 
 	testScene1 = new Scene();
 	testScene1->loadScene("./resources/scene/test1.txt");
 	testScene2 = new Scene();
 	testScene2->loadScene("./resources/scene/test2.txt");
 
+	character = new AnimatedSprite("character");
+	character->addAnimation("./resources/character/", "Run", 20, 2, true);
+
 	this->setScene(testScene1);
+	this->addChild(character);
+	character->affixToCamera = true;
+	character->position = { gameCamera.viewportWidth / 2, gameCamera.viewportHeight / 2 };
+	character->pivot = { character->width / 2, character->height / 2 };
+	character->play("Run");
+	character->width = 90;
 }
 
 MyGame::~MyGame() {
@@ -38,9 +51,17 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		}
 		keyToggle = false;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_P) == pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_P) == pressedKeys.end())
 		keyToggle = true;
-	}
+	
+	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end())
+		gameCamera.y -= 5;
+	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end())
+		gameCamera.y += 5;
+	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end())
+		gameCamera.x += 5;
+	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end())
+		gameCamera.x -= 5;
 }
 
 void MyGame::draw(AffineTransform& at) {

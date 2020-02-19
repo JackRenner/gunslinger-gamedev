@@ -30,6 +30,8 @@ private:
 	Scene* testScene1;
 	Scene* testScene2;
 
+	AnimatedSprite* character;
+
 	bool sceneFlip = false;
 	bool keyToggle = true;
 };

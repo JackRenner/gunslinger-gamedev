@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <set>
 #include "AffineTransform.h"
+#include "Camera.h"
 #include <string>
 #include <fstream>
 
@@ -50,6 +51,9 @@ public:
 	double rotation = 0.0; // in radians
 	int alpha = 255;
 	bool facingRight = true;
+
+	bool affixToCamera = false;
+	static Camera gameCamera;
 
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);
