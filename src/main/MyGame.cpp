@@ -37,6 +37,8 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	addCameraBound(small_room, false, true, true, true);
 
 	room_state = 0;
+
+	gunshot = new Sound();
 }
 
 MyGame::~MyGame() {
@@ -45,6 +47,10 @@ MyGame::~MyGame() {
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
+	if (pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()) {
+		gunshot->playSFX();
+	}
+
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
 		character->position.y -= 5;
 	}
@@ -56,6 +62,15 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		character->position.x -= 5;
+	}
+
+	if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end()) {
+		this->scaleX -= 0.05;
+		this->scaleY -= 0.05;
+	}
+	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
+		this->scaleX += 0.05;
+		this->scaleY += 0.05;
 	}
 
 	Game::update(pressedKeys);
@@ -122,5 +137,5 @@ bool MyGame::checkInside(SDL_Rect box, DisplayObject* entity) {
 	return (entity->position.x - entity->pivot.x >= box.x &&
 		entity->position.x + entity->pivot.x <= box.x + box.w &&
 		entity->position.y - entity->pivot.y >= box.y &&
-		entity->position.y - entity->pivot.y <= box.y + box.h);
+		entity->position.y + entity->pivot.y <= box.y + box.h);
 }

@@ -24,6 +24,7 @@ Game::Game(int windowWidth, int windowHeight){
 }
 
 Game::~Game(){
+	DisplayObjectContainer::~DisplayObjectContainer();
 	quitSDL();
 }
 
@@ -39,11 +40,13 @@ void Game::quitSDL(){
 void Game::initSDL(){
 	SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_PNG);
+	SDL_Init(SDL_INIT_AUDIO);
 
 	window = SDL_CreateWindow("myGame",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->windowWidth, this->windowHeight, 0);
 
-	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
+	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
 	Game::renderer = renderer;
 }

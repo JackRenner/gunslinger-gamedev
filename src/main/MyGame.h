@@ -8,6 +8,7 @@
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Scene.h"
+#include "../engine/Sound.h"
 
 
 using namespace std;
@@ -31,10 +32,10 @@ public:
 
 	void setScene(Scene* scene);
 
+	bool checkInside(SDL_Rect box, DisplayObject* entity);
+
 	void addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool right);
 	void enforceCameraBounds();
-
-	bool checkInside(SDL_Rect box, DisplayObject* entity);
 
 private:
 
@@ -49,6 +50,8 @@ private:
 
 	vector<Bound> boundaries;
 	int room_state = -1;
+
+	Sound* gunshot;
 };
 
 #endif
