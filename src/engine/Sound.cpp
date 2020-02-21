@@ -9,7 +9,7 @@ using namespace std;
 // }   
 
 Sound::Sound(){
-    music = Mix_LoadMUS("./resources/music/MoodyLoop");
+    music = Mix_LoadMUS("./resources/music/MoodyLoop.wav");
 }
 
 Sound::~Sound(){
