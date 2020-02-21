@@ -38,7 +38,10 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	room_state = 0;
 
+	// gunshot = new Sound("",false);
+	// music = new Sound("./resources/music/MoodyLoop",true);
 	gunshot = new Sound();
+	music = new Sound();
 
 	zoomPoint = { gameCamera.viewportWidth / 2, gameCamera.viewportHeight / 2 };
 }

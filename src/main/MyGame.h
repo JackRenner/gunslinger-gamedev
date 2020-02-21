@@ -63,6 +63,7 @@ private:
 	AffineTransform* boundsCalc;
 
 	Sound* gunshot;
+	Sound* music;
 };
 
 #endif

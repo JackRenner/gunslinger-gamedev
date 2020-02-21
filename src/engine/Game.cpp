@@ -6,6 +6,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include <SDL2/SDL_mixer.h>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ Game::Game(int windowWidth, int windowHeight){
 }
 
 Game::~Game(){
-	DisplayObjectContainer::~DisplayObjectContainer();
+	// DisplayObjectContainer::~DisplayObjectContainer();
 	quitSDL();
 }
 
@@ -41,6 +42,8 @@ void Game::initSDL(){
 	SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_PNG);
 	SDL_Init(SDL_INIT_AUDIO);
+
+	Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
 
 	window = SDL_CreateWindow("myGame",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->windowWidth, this->windowHeight, 0);

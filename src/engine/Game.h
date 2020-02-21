@@ -7,6 +7,7 @@
 #include "DisplayObjectContainer.h"
 #include <vector>
 #include <set>
+#include <SDL2/SDL_mixer.h>
 
 using namespace std;
 
