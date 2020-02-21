@@ -12,6 +12,7 @@ Camera DisplayObject::gameCamera;
 MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	gameCamera = Camera();
+	boundsCalc = new AffineTransform();
 
 	cameraDemoScene = new Scene();
 	cameraDemoScene->loadScene("./resources/scene/cameraDemoScene.txt");
@@ -19,30 +20,31 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character = new AnimatedSprite("character");
 	character->addAnimation("./resources/character/", "Run", 20, 2, true);
 
+
 	this->setScene(cameraDemoScene);
 	this->addChild(character);
-	character->affixToCamera = true;
 	character->position = { 300, 1100 };
 	character->pivot = { character->width / 2, character->height / 2 };
 	character->play("Run");
 	character->width = 90;
-	character->affixPoint = { (gameCamera.viewportWidth / 2), (gameCamera.viewportHeight / 2) };
 
 	SDL_Rect pivot = { 0, 0, 600, 800 };
 	SDL_Rect long_hall = { 600, 0, 1000, 800 };
 	SDL_Rect small_room = { 0, 800, 600, 500 };
 
+	addCameraBound(small_room, false, true, true, true);
 	addCameraBound(pivot, 1, 0, 1, 0);
 	addCameraBound(long_hall, true, true, false, true);
-	addCameraBound(small_room, false, true, true, true);
 
 	room_state = 0;
 
 	gunshot = new Sound();
+
+	zoomPoint = { gameCamera.viewportWidth / 2, gameCamera.viewportHeight / 2 };
 }
 
 MyGame::~MyGame() {
-
+	delete boundsCalc;
 }
 
 
@@ -65,15 +67,11 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	}
 
 	if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end()) {
-		this->scaleX -= 0.05;
-		this->scaleY -= 0.05;
+		gameCamera.scale -= 0.05;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-		this->scaleX += 0.05;
-		this->scaleY += 0.05;
+		gameCamera.scale += 0.05;
 	}
-
-	Game::update(pressedKeys);
 
 	SDL_Rect room;
 	for (int i = 0; i < boundaries.size(); i++) {
@@ -83,11 +81,27 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		}
 	}
 
+	Game::update(pressedKeys);
+
+	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
+	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
+
+	/*if (room_state == 0)
+		gameCamera.scale = 1.5;*/
+
 	enforceCameraBounds();
 }
 
 void MyGame::draw(AffineTransform& at) {
+	at.translate(zoomPoint.x, zoomPoint.y);
+	at.scale(gameCamera.scale, gameCamera.scale);
+	at.translate(-(gameCamera.x + zoomPoint.x), -(gameCamera.y + zoomPoint.y));
+
 	Game::draw(at);
+
+	at.translate(gameCamera.x + zoomPoint.x, gameCamera.y + zoomPoint.y);
+	at.scale(1 / gameCamera.scale, 1 / gameCamera.scale);
+	at.translate(-zoomPoint.x, -zoomPoint.y);
 }
 
 // sets the current scene and adds as child to game and unlinks the old scene from game (does not destroy it)
@@ -102,14 +116,14 @@ void MyGame::setScene(Scene* scene) {
 
 // Add a camera bound given an area to enforce and bools for whether you want to enforce that cardinal direction for this bound
 void MyGame::addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool right) {
-	Bound tmp_bound;
-	tmp_bound = { bounds, up, down, left, right };
+	Bound tmp_bound = Bound(bounds, up, down, left, right);
 	boundaries.push_back(tmp_bound);
 }
 
-// Enforce camera bounds for the current room state. Does not currently handle diagonal bounds well.
+// Enforce camera bounds for the current room state. Does not currently account for room rotations.
 void MyGame::enforceCameraBounds() {
 	Bound room = boundaries[room_state];
+
 	// check right bound
 	if (room.check_right) {
 		if (gameCamera.x + gameCamera.viewportWidth > room.bounds.x + room.bounds.w)

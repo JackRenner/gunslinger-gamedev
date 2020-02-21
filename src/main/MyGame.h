@@ -19,6 +19,14 @@ struct Bound {
 	bool check_down = true;
 	bool check_left = true;
 	bool check_right = true;
+
+	Bound(SDL_Rect bounds, bool up, bool down, bool left, bool right) {
+		this->bounds = bounds;
+		this->check_up = up;
+		this->check_down = down;
+		this->check_left = left;
+		this->check_right = right;
+	};
 };
 
 class MyGame : public Game {
@@ -50,6 +58,9 @@ private:
 
 	vector<Bound> boundaries;
 	int room_state = -1;
+
+	SDL_Point zoomPoint;
+	AffineTransform* boundsCalc;
 
 	Sound* gunshot;
 };
