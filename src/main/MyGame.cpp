@@ -52,6 +52,11 @@ MyGame::~MyGame() {
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
+
+	if( Mix_PlayingMusic() == 0 ){
+        music->playMusic();
+    }
+
 	if (pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()) {
 		gunshot->playSFX();
 	}
