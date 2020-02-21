@@ -52,9 +52,7 @@ public:
 	int alpha = 255;
 	bool facingRight = true;
 
-	bool affixToCamera = false;
 	static Camera gameCamera;
-	SDL_Point affixPoint = { 0, 0 };
 
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);
