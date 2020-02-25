@@ -60,7 +60,6 @@ private:
 	int room_state = -1;
 
 	SDL_Point zoomPoint;
-	AffineTransform* boundsCalc;
 
 	Sound* gunshot;
 	Sound* music;

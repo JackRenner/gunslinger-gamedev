@@ -12,7 +12,6 @@ Camera DisplayObject::gameCamera;
 MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	gameCamera = Camera();
-	boundsCalc = new AffineTransform();
 
 	cameraDemoScene = new Scene();
 	cameraDemoScene->loadScene("./resources/scene/cameraDemoScene.txt");
@@ -30,6 +29,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	SDL_Rect pivot = { 0, 0, 600, 800 };
 	SDL_Rect long_hall = { 600, 0, 1000, 800 };
+	//SDL_Rect small_room = { 0 - 150, 800 - 125, 600 * 1.5, 500 * 1.5 };
 	SDL_Rect small_room = { 0, 800, 600, 500 };
 
 	addCameraBound(small_room, false, true, true, true);
@@ -38,25 +38,20 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	room_state = 0;
 
-	// gunshot = new Sound("",false);
-	// music = new Sound("./resources/music/MoodyLoop",true);
-	gunshot = new Sound();
-	music = new Sound();
 
-	zoomPoint = { gameCamera.viewportWidth / 2, gameCamera.viewportHeight / 2 };
+	gunshot = new Sound();
+	//music = new Sound();
+	//music->playMusic();
+
+	zoomPoint = { small_room.x + small_room.w / 2, small_room.y + small_room.h / 2 };
 }
 
 MyGame::~MyGame() {
-	delete boundsCalc;
+	
 }
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
-
-	if( Mix_PlayingMusic() == 0 ){
-        music->playMusic();
-    }
-
 	if (pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()) {
 		gunshot->playSFX();
 	}
@@ -73,7 +68,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		character->position.x -= 5;
 	}
-
 	if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end()) {
 		gameCamera.scale -= 0.05;
 	}
@@ -94,22 +88,24 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
 	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
 
-	/*if (room_state == 0)
-		gameCamera.scale = 1.5;*/
+	if (room_state == 0)
+		gameCamera.scale = 1.3;
+	else
+		gameCamera.scale = 1.0;
 
 	enforceCameraBounds();
 }
 
 void MyGame::draw(AffineTransform& at) {
-	at.translate(zoomPoint.x, zoomPoint.y);
+	at.translate(-gameCamera.x + zoomPoint.x, -gameCamera.y + zoomPoint.y);
 	at.scale(gameCamera.scale, gameCamera.scale);
-	at.translate(-(gameCamera.x + zoomPoint.x), -(gameCamera.y + zoomPoint.y));
+	at.translate(-zoomPoint.x, -zoomPoint.y);
 
 	Game::draw(at);
 
-	at.translate(gameCamera.x + zoomPoint.x, gameCamera.y + zoomPoint.y);
+	at.translate(zoomPoint.x, zoomPoint.y);
 	at.scale(1 / gameCamera.scale, 1 / gameCamera.scale);
-	at.translate(-zoomPoint.x, -zoomPoint.y);
+	at.translate(gameCamera.x - zoomPoint.x, gameCamera.y - zoomPoint.y);
 }
 
 // sets the current scene and adds as child to game and unlinks the old scene from game (does not destroy it)
@@ -132,25 +128,34 @@ void MyGame::addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool
 void MyGame::enforceCameraBounds() {
 	Bound room = boundaries[room_state];
 
+	AffineTransform boundCalc = AffineTransform();
+
+	boundCalc.translate(zoomPoint.x, zoomPoint.y);
+	boundCalc.scale(gameCamera.scale, gameCamera.scale);
+	boundCalc.translate(-zoomPoint.x, -zoomPoint.y);
+
+	SDL_Point upper_left = boundCalc.transformPoint(room.bounds.x, room.bounds.y);
+	SDL_Point lower_right = boundCalc.transformPoint(room.bounds.x + room.bounds.w, room.bounds.y + room.bounds.h);
+	
 	// check right bound
 	if (room.check_right) {
-		if (gameCamera.x + gameCamera.viewportWidth > room.bounds.x + room.bounds.w)
-			gameCamera.x = room.bounds.x + room.bounds.w - gameCamera.viewportWidth;
+		if (gameCamera.x + gameCamera.viewportWidth > lower_right.x)
+			gameCamera.x = lower_right.x - gameCamera.viewportWidth;
 	}
 	// check left bound
 	if (room.check_left) {
-		if (gameCamera.x < room.bounds.x)
-			gameCamera.x = room.bounds.x;
+		if (gameCamera.x < upper_left.x)
+			gameCamera.x = upper_left.x;
 	}
 	// check upper bound
 	if (room.check_up) {
-		if (gameCamera.y < room.bounds.y)
-			gameCamera.y = room.bounds.y;
+		if (gameCamera.y < upper_left.y)
+			gameCamera.y = upper_left.y;
 	}
 	// check lower bound
 	if (room.check_down) {
-		if (gameCamera.y + gameCamera.viewportHeight > room.bounds.y + room.bounds.h)
-			gameCamera.y = room.bounds.y + room.bounds.h - gameCamera.viewportHeight;
+		if (gameCamera.y + gameCamera.viewportHeight > lower_right.y)
+			gameCamera.y = lower_right.y - gameCamera.viewportHeight;
 	}
 }
 
