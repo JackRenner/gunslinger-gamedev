@@ -19,7 +19,7 @@ DisplayObjectContainer::DisplayObjectContainer(string id, int red, int green, in
 }
 
 DisplayObjectContainer::~DisplayObjectContainer() {
-    for (int i = 0; i < children.size(); i++ ) {
+    for (int i = 0; i < children.size(); i++) {
         delete children[i];
     }
 }
@@ -48,6 +48,24 @@ void DisplayObjectContainer::removeImmediateChild(string id) {
     }
 }
 
+void DisplayObjectContainer::unlinkImmediateChild(DisplayObject* child) {
+    for (int i = 0; i < children.size(); i++) {
+        if (children[i] == child) {
+            child->parent = NULL;
+            children.erase(children.begin() + i);
+        }
+    }
+}
+
+void DisplayObjectContainer::unlinkImmediateChild(string id) {
+    for (int i = 0; i < children.size(); i++) {
+        if (children[i]->id == id) {
+            children[i]->parent = NULL;
+            children.erase(children.begin() + i);
+        }
+    }
+}
+
 void DisplayObjectContainer::removeChild(int index) {
     if (index < children.size()) {
         delete children[index];
@@ -55,9 +73,22 @@ void DisplayObjectContainer::removeChild(int index) {
     }
 }
 
+void DisplayObjectContainer::unlinkChild(int index) {
+    if (index < children.size()) {
+        children[index]->parent = NULL;
+        children.erase(children.begin() + index);
+    }
+}
+
 void DisplayObjectContainer::removeThis() {
     if (this->parent != NULL) {
         ((DisplayObjectContainer*)this->parent)->removeImmediateChild(this);
+    }
+}
+
+void DisplayObjectContainer::unlinkFromParent() {
+    if (this->parent != NULL) {
+        ((DisplayObjectContainer*)this->parent)->unlinkImmediateChild(this);
     }
 }
 
@@ -89,7 +120,7 @@ void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys) {
     }
 }
 
-void DisplayObjectContainer::draw(AffineTransform &at) {
+void DisplayObjectContainer::draw(AffineTransform& at) {
     DisplayObject::draw(at);
     applyTransformations(at);
     // undo the parent's pivot

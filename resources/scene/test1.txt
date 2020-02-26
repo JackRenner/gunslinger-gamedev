@@ -1,0 +1,95 @@
+{
+	"scene_id": "testScene1",
+
+	"test_sprite1": {
+		"type": "Sprite",
+		"filepath": "./resources/character/Dead_1.png",
+
+		"dimensions": [120, 100],
+		"position": [100, 100],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	},
+
+	"test_sprite2": {
+		"type": "Sprite",
+		"filepath": "./resources/character/Idle_1.png",
+
+		"dimensions": [100, 100],
+		"position": [200, 200],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	},
+
+	"test_rgb": {
+		"type": "RGB",
+		"rgb": [255, 10, 180],
+
+		"dimensions": [100, 100],
+		"position": [0, 0],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "test_doc"
+	},
+
+	"test_doc": {
+		"type": "DisplayObjectContainer",
+		
+		"position": [350, 350],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	},
+
+	"test_anim": {
+		"type": "AnimatedSprite",
+
+		"animations": {	
+			"animation1": {
+				"basepath": "./resources/solarSystem/",
+				"animName": "Sun",
+				"numFrames": 4,
+				"frameRate": 2,
+				"loop": true
+			},
+
+			"animation2": {
+				"basepath": "./resources/character/",
+				"animName": "Jump",
+				"numFrames": 30,
+				"frameRate": 2,
+				"loop": true
+			}
+		},
+
+		"playing": "Jump",
+
+		"dimensions": [90, 100],
+		"position": [500, 500],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "fake"
+	}
+}
