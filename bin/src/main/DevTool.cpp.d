@@ -1,11 +1,10 @@
-bin/./src/main/main.cpp.o: src/main/main.cpp src/engine/DisplayObject.h \
- src/engine/AffineTransform.h src/main/DevTool.h \
- src/main/../engine/Game.h src/main/../engine/DisplayObjectContainer.h \
+bin/./src/main/DevTool.cpp.o: src/main/DevTool.cpp \
+ src/main/../engine/Sprite.h src/main/../engine/DisplayObjectContainer.h \
  src/main/../engine/DisplayObject.h src/main/../engine/AffineTransform.h \
- src/main/../engine/Sprite.h src/main/../engine/AnimatedSprite.h \
- src/main/../engine/Sprite.h src/main/../engine/Scene.h \
- src/main/../engine/AnimatedSprite.h src/guisan/include/guisan.hpp \
- src/guisan/include/guisan/actionevent.hpp \
+ src/main/../engine/Scene.h src/main/../engine/Sprite.h \
+ src/main/../engine/AnimatedSprite.h src/main/DevTool.h \
+ src/main/../engine/Game.h src/main/../engine/AnimatedSprite.h \
+ src/guisan/include/guisan.hpp src/guisan/include/guisan/actionevent.hpp \
  src/guisan/include/guisan/event.hpp \
  src/guisan/include/guisan/platform.hpp \
  src/guisan/include/guisan/actionlistener.hpp \
@@ -70,13 +69,7 @@ bin/./src/main/main.cpp.o: src/main/main.cpp src/engine/DisplayObject.h \
  src/guisan/include/guisan/opengl/openglimage.hpp \
  src/guisan/include/guisan/opengl/openglsdlimageloader.hpp
 
-src/engine/DisplayObject.h:
-
-src/engine/AffineTransform.h:
-
-src/main/DevTool.h:
-
-src/main/../engine/Game.h:
+src/main/../engine/Sprite.h:
 
 src/main/../engine/DisplayObjectContainer.h:
 
@@ -84,13 +77,15 @@ src/main/../engine/DisplayObject.h:
 
 src/main/../engine/AffineTransform.h:
 
+src/main/../engine/Scene.h:
+
 src/main/../engine/Sprite.h:
 
 src/main/../engine/AnimatedSprite.h:
 
-src/main/../engine/Sprite.h:
+src/main/DevTool.h:
 
-src/main/../engine/Scene.h:
+src/main/../engine/Game.h:
 
 src/main/../engine/AnimatedSprite.h:
 
