@@ -4,6 +4,11 @@
 #include "../engine/Sprite.h"
 #include "../engine/Scene.h"
 #include "DevTool.h"
+#include <guisan.hpp>
+#include <guisan/sdl.hpp>
+#include <guisan/opengl.hpp>
+// A class used to load images for OpenGL using SDL
+#include <guisan/opengl/openglsdlimageloader.hpp>
 
 using namespace std;
 
