@@ -24,7 +24,7 @@ DevTool::~DevTool() {
 
 void DevTool::setUpPreferences(){
 	char a[] = {'P', 'r', 'e', 'f', 'e', 'r', 'e', 'n', 'c', 'e', 's', NULL};
-	rendererDos = kiss_init(a, objects, 300, 300);
+	rendererDos = kiss_init(a, objects, 300, 500);
 
 	pref = new kiss_window();
 	kiss_window_new(pref, NULL, 0, 0, 0, kiss_screen_width, kiss_screen_height);
@@ -33,10 +33,14 @@ void DevTool::setUpPreferences(){
 	int windowWidth = pref->rect.w;
 	int windowHeight = pref->rect.h;
 	int row1Y = 0;
-	int row2Y = windowHeight / 5;
-	int row3Y = 2 * (windowHeight / 5);
-	int row4Y = 3 * (windowHeight / 5);
-	int row5Y = 4 * (windowHeight / 5);
+	int row2Y = windowHeight / 9;
+	int row3Y = 2 * (windowHeight / 9);
+	int row4Y = 3 * (windowHeight / 9);
+	int row5Y = 4 * (windowHeight / 9);
+	int row6Y = 5 * (windowHeight / 9);
+	int row7Y = 6 * (windowHeight / 9);
+	int row8Y = 7 * (windowHeight / 9);
+	int row9Y = 8 * (windowHeight / 9);
 	int col1X = 0;
 	int col2X = windowWidth / 2;
 
@@ -86,15 +90,34 @@ void DevTool::setUpPreferences(){
 	deleteSprite = new kiss_button();
 	char dsC[] = {'d', 'e', 'l', 'e', 't', 'e', ' ', 's', 'p', 'r', 'i', 't', 'e', NULL};
 	deleteSprite->rect.w = 100;
-	kiss_button_new(deleteSprite, pref, dsC, col1X + deleteSprite->rect.w / 2, row5Y);
+	kiss_button_new(deleteSprite, pref, dsC, col2X - deleteSprite->rect.w / 3, row5Y);
 	SDL_Color butText = {58, 252, 10};
 	deleteSprite->textcolor = butText;
+
+	saveSLab = new kiss_label();
+	char sslC[] = {'r', 'e', 's', 'o', 'u', 'r', 'c', 'e', 's','/', 's', 'c', 'e', 'n', 'e', '/', NULL};
+	kiss_label_new(saveSLab, pref, sslC, col1X, row6Y);
+
+	saveSEnt = new kiss_entry();
+	kiss_entry_new(saveSEnt, pref, 1, id2C, saveSLab->rect.x + 145, row6Y, 150);
 
 	saveScene = new kiss_button();
 	char ssC[] = {'s', 'a', 'v', 'e', ' ', 's', 'c', 'e', 'n', 'e', NULL};
 	saveScene->rect.w = 100;
-	kiss_button_new(saveScene, pref, ssC, col2X + saveScene->rect.w / 2, row5Y);
+	kiss_button_new(saveScene, pref, ssC, col2X - saveScene->rect.w / 3, row7Y);
 	saveScene->textcolor = butText;
+
+	sceneDirLab = new kiss_label();
+	kiss_label_new(sceneDirLab, pref, sslC, col1X, row8Y);
+
+	sceneDirEnt = new kiss_entry();
+	kiss_entry_new(sceneDirEnt, pref, 1, id2C, sceneDirLab->rect.x + 145, row8Y, 150);
+
+	loadScene = new kiss_button();
+	char lsC[] = {'l', 'o', 'a', 'd', ' ', 's', 'c', 'e', 'n', 'e', NULL};
+	loadScene->rect.w = 100;
+	kiss_button_new(loadScene, pref, lsC, col2X - loadScene->rect.w / 3, row9Y);
+	loadScene->textcolor = butText;
 
 	pref->visible = 1;
 
@@ -110,6 +133,7 @@ void DevTool::setUpPreferences(){
 
 	kiss_button_draw(deleteSprite, rendererDos);
 	kiss_button_draw(saveScene, rendererDos);
+	kiss_button_draw(loadScene, rendererDos);
 
 	kiss_entry_draw(idEnt, rendererDos);
 	kiss_entry_draw(xEnt, rendererDos);
@@ -118,16 +142,20 @@ void DevTool::setUpPreferences(){
 	kiss_entry_draw(alphaEnt, rendererDos);
 	kiss_entry_draw(rotEnt, rendererDos);
 
+	kiss_label_draw(saveSLab, rendererDos);
+	kiss_entry_draw(saveSEnt, rendererDos);
+	kiss_label_draw(sceneDirLab, rendererDos);
+	kiss_entry_draw(sceneDirEnt, rendererDos);
+
 	SDL_RenderPresent(rendererDos);
 }
 
 void DevTool::setUpPictureSelector(){
-	pics = new kiss_window();
-	kiss_window_new(pics, NULL, 0, 0, 0, kiss_screen_width, kiss_screen_height);
+	
+}
 
-	//Add widgets for window here
+void DevTool::setUpGrid(){
 
-	pics->visible = 1;
 }
 
 void DevTool::init(){
@@ -138,13 +166,11 @@ void DevTool::init(){
 	//sets up preferences window
 	setUpPreferences();
 
-	//sets up picture selector window
-	char b[] = {'A', 'd', 'd', ' ', 'S', 'p', 'r', 'i', 't', 'e', NULL};
-	rendererTres = kiss_init(b, objects, 500, 500);
+	//sets up picture selector bar at top of screen
 	setUpPictureSelector();
-	SDL_RenderClear(rendererTres);
-	kiss_window_draw(pics, rendererTres);
-	SDL_RenderPresent(rendererTres);
+
+	//sets up grid for easy drag and drop
+	setUpGrid();
 }
 
 void DevTool::update(set<SDL_Scancode> pressedKeys) {

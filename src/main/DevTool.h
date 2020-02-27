@@ -20,6 +20,7 @@ public:
 
 	void setUpPreferences();
 	void setUpPictureSelector();
+	void setUpGrid();
 	void init();
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform& at);
@@ -28,7 +29,6 @@ public:
 private:
 	//SDL_Renderers for kiss windows
 	SDL_Renderer* rendererDos;
-	SDL_Renderer* rendererTres;
 
 	//kiss thangs
 	kiss_array* objects;
@@ -47,10 +47,13 @@ private:
 	kiss_entry* alphaEnt;
 	kiss_label* alphaLab;
 	kiss_button* deleteSprite;
+	//objects dealing with loading and saving a scene
+	kiss_label* saveSLab;
+	kiss_entry* saveSEnt;
 	kiss_button* saveScene;
-
-	kiss_window* pics;
-	//pics objects
+	kiss_label* sceneDirLab;
+	kiss_entry* sceneDirEnt;
+	kiss_button* loadScene;
 
 	Scene* curScene = NULL;
 
