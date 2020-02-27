@@ -63,6 +63,8 @@ void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 
 void DisplayObject::draw(AffineTransform &at){
 	applyTransformations(at);
+
+	//at.translate(-gameCamera.x, -gameCamera.y);
 	
 	if(curTexture != NULL && visible) {
 		SDL_Point origin = at.transformPoint(0, 0);
@@ -86,6 +88,8 @@ void DisplayObject::draw(AffineTransform &at){
 		SDL_SetTextureAlphaMod(curTexture, alpha);
 		SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
 	}
+
+	//at.translate(gameCamera.x, gameCamera.y);
 
 	reverseTransformations(at);
 }
