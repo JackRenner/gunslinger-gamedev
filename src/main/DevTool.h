@@ -8,13 +8,7 @@
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Scene.h"
-
-#include <guisan.hpp>
-#include <guisan/sdl.hpp>
-#include <guisan/opengl.hpp>
-// A class used to load images for OpenGL using SDL
-#include <guisan/opengl/openglsdlimageloader.hpp>
-
+#include "kiss_sdl.h"
 
 using namespace std;
 
@@ -24,42 +18,39 @@ public:
 	DevTool();
 	virtual ~DevTool();
 
+	void setUpPreferences();
+	void setUpPictureSelector();
+	void init();
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform& at);
 	void setScene(Scene* scene);
 
-
-	/*
-	 * Common stuff we need
-	 */
-	bool running = true;
-
-	/*
-	 * SDL Stuff we need
-	 */
-	SDL_Window* window;
-	SDL_GLContext context;
-	SDL_Event event;
-
-	/*
-	 * Guichan OpenGL/SDL stuff we need
-	 */
-	gcn::SDLInput* input;					// Input driver
-	gcn::OpenGLGraphics* graphics;		   // Graphics driver
-	gcn::OpenGLSDLImageLoader* imageLoader;  // For loading images
-
-	/*
-	 * Guichan stuff we need
-	 */
-	gcn::Gui* gui;			// A Gui object - binds it all together
-	gcn::Container* top;	  // A top container
-	gcn::ImageFont* font;	 // A font
-	gcn::Label* label;		// And a label for the Hello World text
-
-	
-
-
 private:
+	//SDL_Renderers for kiss windows
+	SDL_Renderer* rendererDos;
+	SDL_Renderer* rendererTres;
+
+	//kiss thangs
+	kiss_array* objects;
+	kiss_window* pref;
+	//pref objects
+	kiss_entry* idEnt;
+	kiss_label* idLab;
+	kiss_entry* xEnt;
+	kiss_label* xLab;
+	kiss_entry* yEnt;
+	kiss_label* yLab;
+	kiss_entry* scaleEnt;
+	kiss_label* scaleLab;
+	kiss_entry* rotEnt;
+	kiss_label* rotLab;
+	kiss_entry* alphaEnt;
+	kiss_label* alphaLab;
+	kiss_button* deleteSprite;
+	kiss_button* saveScene;
+
+	kiss_window* pics;
+	//pics objects
 
 	Scene* curScene = NULL;
 

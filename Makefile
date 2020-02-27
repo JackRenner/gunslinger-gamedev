@@ -10,6 +10,7 @@ DEPS := $(OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
+CFLAGS ?= $(INC_FLAGS) -DRESDIR=\"resources/kiss/\" -MMD -MP -std=c89 -g
 CPPFLAGS ?= $(INC_FLAGS) -MMD -MP -std=c++11 -g
 
 #LINKER_FLAGS specifies the libraries we're linking against
@@ -26,7 +27,7 @@ $(BUILD_DIR)/%.s.o: %.s
 # c source
 $(BUILD_DIR)/%.c.o: %.c
 	$(MKDIR_P) $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # c++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp

@@ -9,6 +9,7 @@ using namespace std;
 int main(int argc, char ** argv)
 {
 	DevTool* myDevTool = new DevTool();
+	myDevTool->init();
 	myDevTool->start();
 
 	delete myDevTool;
