@@ -1,0 +1,46 @@
+{
+	"scene_id": "cameraDemoScene",
+
+	"ground_tile_container": {
+		"type": "DisplayObjectContainer",
+
+		"position": [0, 0],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	},
+
+	"long_tile": {
+		"type": "RGB",
+		"rgb": [220, 220, 220],
+
+		"dimensions": [1600, 800],
+		"position": [0, 0],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "ground_tile_container"
+	},
+
+	"short_tile": {
+		"type": "RGB",
+		"rgb": [220, 220, 220],
+		
+		"dimensions": [600, 500],
+		"position": [0, 800],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "ground_tile_container"
+	}
+}

@@ -19,3 +19,9 @@
 - Worthley Burke
 
 ---
+
+# IMPORTANT NOTES FOR COMPILATON
+
+- rapidJSON has a folder named 'msinttypes' which provides type definitons for the Microsoft Visual Studio C++ compiler
+- TO COMPILE AND USE ON NON-WINDOWS: delete the 'msintypes' folder | run 'make clean' and 'make'
+
