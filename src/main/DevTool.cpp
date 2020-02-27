@@ -3,19 +3,21 @@
 #include <iostream>
 #include "../engine/Sprite.h"
 #include "../engine/Scene.h"
+#include <vector>
 #include <string>
+#include <dirent.h>
 #include "DevTool.h"
 #include "kiss_sdl.h"
 
 using namespace std;
 
 DevTool::DevTool() : Game(1200, 1000) {
-	testScene1 = new Scene();
+	/*testScene1 = new Scene();
 	testScene1->loadScene("./resources/scene/test1.txt");
 	testScene2 = new Scene();
 	testScene2->loadScene("./resources/scene/test2.txt");
 
-	this->setScene(testScene1);
+	this->setScene(testScene1);*/
 }
 
 DevTool::~DevTool() {
@@ -151,11 +153,70 @@ void DevTool::setUpPreferences(){
 }
 
 void DevTool::setUpPictureSelector(){
-	
-}
+	//set up nice display rect thingy
+	displayRect = new Sprite("rect", "./resources/dev-tool-resources/whiterect.png");
+	displayRect->width = this->windowWidth;
+	displayRect->alpha = 175;
+	this->addChild(displayRect);
 
-void DevTool::setUpGrid(){
+	//searches through sprites folder in resources and pulls all the files located therein
+	DIR *d;
+	struct dirent *dir;
+	int i = 0;
+	d = opendir("./resources/sprites/");
+	if(d){
+		while((dir = readdir(d)) != NULL){
+			i++;
+			string* name = new string();
+			*name = dir->d_name;
+			fileNames.push_back(name);
+		}
+		closedir(d);
+	}
+	//erases filenames that aren't .png
+	for(i = 0; i < fileNames.size(); i++){
+		string fileName = *fileNames[i];
+		if(fileName.find(".png") == string::npos){
+			fileNames.erase(fileNames.begin() + i);
+		}
+	}
 
+	//creates display sprites
+	Sprite* pic1 = new Sprite("sample1", resourceDirectory + *fileNames[0]);
+	Sprite* pic2 = new Sprite("sample2", resourceDirectory + *fileNames[1]);
+	Sprite* pic3 = new Sprite("sample3", resourceDirectory + *fileNames[2]);
+	Sprite* pic4 = new Sprite("sample4", resourceDirectory + *fileNames[3]);
+	Sprite* pic5 = new Sprite("sample5", resourceDirectory + *fileNames[4]);
+	Sprite* pic6 = new Sprite("sample6", resourceDirectory + *fileNames[5]);
+	Sprite* pic7 = new Sprite("sample7", resourceDirectory + *fileNames[6]);
+	sampleSprites.push_back(pic1);
+	sampleSprites.push_back(pic2);
+	sampleSprites.push_back(pic3);
+	sampleSprites.push_back(pic4);
+	sampleSprites.push_back(pic5);
+	sampleSprites.push_back(pic6);
+	sampleSprites.push_back(pic7);
+
+	int x1 = pic1->width / 2;
+	int x2 = (this->windowWidth / 7) + (pic2->width / 2);
+	int x3 = (2 * this->windowWidth / 7) + (pic3->width / 2);
+	int x4 = (3 * this->windowWidth / 7) + (pic4->width / 2);
+	int x5 = (4 * this->windowWidth / 7) + (pic5->width / 2);
+	int x6 = (5 * this->windowWidth / 7) + (pic6->width / 2);
+	int x7 = (6 * this->windowWidth / 7) + (pic7->width / 2);
+
+	pic1->position.x = x1;
+	pic2->position.x = x2;
+	pic3->position.x = x3;
+	pic4->position.x = x4;
+	pic5->position.x = x5;
+	pic6->position.x = x6;
+	pic7->position.x = x7;
+
+	for(Sprite* spr : sampleSprites){
+		spr->alpha = 215;
+		displayRect->addChild(spr);
+	}
 }
 
 void DevTool::init(){
@@ -169,27 +230,55 @@ void DevTool::init(){
 	//sets up picture selector bar at top of screen
 	setUpPictureSelector();
 
-	//sets up grid for easy drag and drop
-	setUpGrid();
+}
+
+void DevTool::shiftSamples(bool direction){
+	for(int k = sampleSprites.size() - 1; k >= 0; k--){
+		int newIndex = fileIndex + k;
+		//Changes index
+		if(direction){
+			newIndex++;
+		} else {
+			newIndex--;
+		}
+		//Checks to make sure doesn't overflow fileNames
+		if(newIndex >= (signed)fileNames.size()){
+			newIndex = newIndex - fileNames.size();
+		} else if(newIndex < 0){
+			newIndex = fileNames.size() - abs(newIndex);
+		}
+		//Sets fileIndex to new index of first sprite
+		if(k == 0){
+			fileIndex = newIndex;
+		}
+		//Sets actual resource name using newIndex
+		sampleSprites[k]->loadTexture(resourceDirectory + *fileNames[newIndex]);
+	}
 }
 
 void DevTool::update(set<SDL_Scancode> pressedKeys) {
 	Game::update(pressedKeys);
-	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
-		if (keyToggle) {
-			if (sceneFlip) {
-				this->setScene(testScene1);
-				sceneFlip = !sceneFlip;
+	set<SDL_Scancode>::iterator it = pressedKeys.begin();
+
+	sampleSwitchCount++;
+	int sampleSwitchTime = 15;
+
+	while(it != pressedKeys.end()){
+	  switch(*it){
+	  case SDL_SCANCODE_Q:
+			if(sampleSwitchCount > sampleSwitchTime){
+		  		shiftSamples(true);
+				sampleSwitchCount = 0;
 			}
-			else {
-				this->setScene(testScene2);
-				sceneFlip = !sceneFlip;
+		  	break;
+	  case SDL_SCANCODE_W:
+			if(sampleSwitchCount > sampleSwitchTime){
+		  		shiftSamples(false);
+				sampleSwitchCount = 0;
 			}
-		}
-		keyToggle = false;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_P) == pressedKeys.end()) {
-		keyToggle = true;
+		  	break;
+	  }
+	  it++;
 	}
 }
 

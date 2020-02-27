@@ -4,6 +4,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include <vector>
+#include <string>
 #include "../engine/Game.h"
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
@@ -22,6 +24,7 @@ public:
 	void setUpPictureSelector();
 	void setUpGrid();
 	void init();
+	void shiftSamples(bool direction);
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform& at);
 	void setScene(Scene* scene);
@@ -56,6 +59,15 @@ private:
 	kiss_button* loadScene;
 
 	Scene* curScene = NULL;
+	Sprite* selectedSprite;
+
+	//Picture viewer
+	vector<string*> fileNames;
+	Sprite* displayRect;
+	vector<Sprite*> sampleSprites;
+	string resourceDirectory = "./resources/sprites/";
+	int fileIndex = 0; //Keeps track of which filename the first sprite has
+	int sampleSwitchCount = 0; //Makes sure shiftSamples doesn't happen too fast
 
 	Scene* testScene1;
 	Scene* testScene2;
