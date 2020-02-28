@@ -4,6 +4,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include <vector>
+#include <string>
 #include "../engine/Game.h"
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
@@ -11,6 +13,22 @@
 #include "kiss_sdl.h"
 
 using namespace std;
+
+struct Bound {
+	SDL_Rect bounds;
+	bool check_up = true;
+	bool check_down = true;
+	bool check_left = true;
+	bool check_right = true;
+
+	Bound(SDL_Rect bounds, bool up, bool down, bool left, bool right) {
+		this->bounds = bounds;
+		this->check_up = up;
+		this->check_down = down;
+		this->check_left = left;
+		this->check_right = right;
+	};
+};
 
 class DevTool : public Game {
 
@@ -22,9 +40,17 @@ public:
 	void setUpPictureSelector();
 	void setUpGrid();
 	void init();
+	void shiftSamples(bool direction);
+	void createNewSprite(int index);
+	void mousePressed();
+	void updateFields();
+	void drawEntries();
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform& at);
 	void setScene(Scene* scene);
+	bool checkInside(SDL_Rect box, DisplayObject* entity);
+	void addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool right);
+	void enforceCameraBounds();
 
 private:
 	//SDL_Renderers for kiss windows
@@ -55,13 +81,32 @@ private:
 	kiss_entry* sceneDirEnt;
 	kiss_button* loadScene;
 
-	Scene* curScene = NULL;
+	Scene* curScene;
+	Sprite* selectedSprite;
+
+	//flag to see if a mouse is currently down
+	bool mouseDown = false;
+
+	int drawFlag = 1;
+	int spriteCreationInt = 0;
+	int makeJerkyMovement = 0;
+	int flashSelected = 0;
+	bool dim = false;
+
+	//Picture viewer
+	vector<string*> fileNames;
+	Sprite* displayRect;
+	vector<Sprite*> sampleSprites;
+	string resourceDirectory = "./resources/sprites/";
+	int fileIndex = 0; //Keeps track of which filename the first sprite has
+	int sampleSwitchCount = 0; //Makes sure shiftSamples doesn't happen too fast
 
 	Scene* testScene1;
 	Scene* testScene2;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;
+
 };
 
 #endif

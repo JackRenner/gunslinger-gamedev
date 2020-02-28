@@ -87,9 +87,22 @@ void Game::update(set<SDL_Scancode> pressedKeys){
 	frameCounter++;
 	DisplayObjectContainer::update(pressedKeys);
 }
+void Game::setUpGrid(){
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+	for(int x = 50; x < this->windowWidth; x += 50){
+		SDL_RenderDrawLine(renderer, x, 0, x, this->windowHeight);
+	}
+	for(int y = 50; y < this->windowHeight; y += 50){
+		SDL_RenderDrawLine(renderer, 0, y, this->windowWidth, y);
+	}
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+}
 
 void Game::draw(AffineTransform &at){
 	SDL_RenderClear(Game::renderer);
+
+	setUpGrid();
 	DisplayObjectContainer::draw(at);
+	
 	SDL_RenderPresent(Game::renderer);
 }
