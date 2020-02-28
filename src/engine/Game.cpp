@@ -92,6 +92,7 @@ void Game::start(){
 void Game::update(set<SDL_Scancode> pressedKeys){
 	frameCounter++;
 	DisplayObjectContainer::update(pressedKeys);
+	TweenJuggler::getInstance()->nextFrame();
 }
 
 void Game::draw(AffineTransform &at){

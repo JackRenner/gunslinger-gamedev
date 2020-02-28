@@ -7,19 +7,23 @@
 #include <string>
 
 enum TweenableParams {ALPHA, SCALE_X, SCALE_Y, POS_X, POS_Y, ROTATION};
-enum TweenTransitions {NONE,EASEINCUBIC,EASEOUTCUBIC,EASEINOUTCUBIC};
+enum TweenTransitions {LINEAR,EASEINCUBIC,EASEOUTCUBIC,EASEINOUTCUBIC};
 
 struct ParamInfo{
     TweenableParams field;
     double startVal;
+    double curVal;
     double endVal;
+    double curFrame;
     double frames;
     TweenTransitions transition;
     ParamInfo(){};
     ParamInfo(TweenableParams p,double start,double end,double num,TweenTransitions t){
         field=p;
         startVal=start;
+        curVal=start;
         endVal=end;
+        curFrame=1;
         frames=num;
         transition=t;
     }
@@ -38,7 +42,7 @@ public:
     void setValue(TweenableParams param, double value);
 
     // std::unordered_map<TweenableParams, ParamInfo> params;
-    vector<ParamInfo> params;
+    vector<ParamInfo*> params;
 
     DisplayObject *tweenObject;
 

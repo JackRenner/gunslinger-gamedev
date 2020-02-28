@@ -7,13 +7,12 @@
 class TweenJuggler { 
 
 public:
-
+    static TweenJuggler *getInstance();
     void add(Tween *tween);
     void nextFrame();
-    static TweenJuggler *getInstance();
 
 private:
-    TweenJuggler();
+    TweenJuggler(){};
     static TweenJuggler *instance;
     vector<Tween*> tweens;
 	

@@ -8,6 +8,7 @@
 #include <vector>
 #include <set>
 #include <SDL2/SDL_mixer.h>
+#include "TweenJuggler.h"
 
 using namespace std;
 

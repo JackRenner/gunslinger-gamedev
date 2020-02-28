@@ -38,7 +38,6 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	room_state = 0;
 
-
 	gunshot = new Sound();
 	//music = new Sound();
 	//music->playMusic();
@@ -47,7 +46,8 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	TweenJuggler* tweenJuggler = TweenJuggler::getInstance();
 	Tween * characterTween = new Tween(character);
-	characterTween->animate(ALPHA,0,255,1000,NONE);
+	characterTween->animate(ALPHA,0,255,100,EASEINCUBIC);
+	// characterTween->animate(POS_X,300,400,100,LINEAR);
 	tweenJuggler->add(characterTween);
 }
 
