@@ -1,0 +1,98 @@
+{
+    "scene_id": "testScene1",
+    "test_sprite1": {
+        "type": "Sprite",
+        "filepath": "./resources/character/Dead_1.png",
+        "dimensions": [
+            140,
+            100
+        ],
+        "position": [
+            100.0,
+            100.0
+        ],
+        "pivot": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    },
+    "test_sprite2": {
+        "type": "Sprite",
+        "filepath": "./resources/character/Idle_1.png",
+        "dimensions": [
+            100,
+            100
+        ],
+        "position": [
+            200.0,
+            200.0
+        ],
+        "pivot": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    },
+    "test_doc": {
+        "type": "DisplayObjectContainer",
+        "position": [
+            350.0,
+            350.0
+        ],
+        "pivot": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    },
+    "test_rgb": {
+        "type": "RGB",
+        "rgb": [
+            255,
+            10,
+            180
+        ],
+        "dimensions": [
+            100,
+            100
+        ],
+        "position": [
+            0.0,
+            0.0
+        ],
+        "pivot": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": "test_doc"
+    }
+}

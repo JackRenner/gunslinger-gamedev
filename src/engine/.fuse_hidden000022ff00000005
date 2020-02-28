@@ -27,7 +27,6 @@ void Scene:: saveScene(string sceneFilePath){
 		Document(kObjectType).Swap(this->savedoc); // after merging #369
 
 
-		char writebuffer[10000];
 		rapidjson:: Document::AllocatorType& allocator = this->savedoc.GetAllocator();
 		size_t sz = allocator.Size();
 /*
@@ -50,6 +49,7 @@ void Scene:: saveScene(string sceneFilePath){
 			}else if(this->getChild(i)->isRGB && this->getChild(i)->type == "Sprite" ){
 				saveRGB(dynamic_cast<Sprite*>(this->getChild(i)));
 			}
+
 			else if(this->getChild(i)-> type == "Sprite"){
 				saveSprite(dynamic_cast<Sprite*>(this->getChild(i)));
 			}
@@ -62,12 +62,17 @@ void Scene:: saveScene(string sceneFilePath){
 		}
 
 
+
 		const char* sceneFile = sceneFilePath.c_str();
 		FILE*fp = fopen(sceneFile, "w");
+
+
+		char writebuffer[10000];
 		rapidjson:: FileWriteStream writestream(fp, writebuffer, sizeof(writebuffer));
 		PrettyWriter<rapidjson:: FileWriteStream> writer(writestream);
 		writestream.Flush();//Erase the buffer
 		this->savedoc.Accept(writer);
+
 		fclose(fp);
 
 	}
@@ -235,16 +240,7 @@ void Scene:: saveScene(string sceneFilePath){
 		converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
 		Properties.AddMember("type", converter, allocator);
 
-/*
-//dimensions
 
-		tempInt= (at->width);
-		tempInt2 = (at->height);
-
-		TempArray.PushBack(Value().SetInt(tempInt), allocator);
-		TempArray.PushBack(Value().SetInt(tempInt2), allocator);
-		Properties.AddMember("dimensions", TempArray, allocator );
-*/
 //Position;
 			Value TempArray2(kArrayType); //I got frustrated trying to reset the TempArray
 			tempDouble = (at->position.x);
@@ -292,7 +288,8 @@ void Scene:: saveScene(string sceneFilePath){
 		for(int i = 0; i < at->numChildren(); i++){
 		if(at->getChild(i)-> type == "DisplayObjectContainer" &&  at->getChild(i)->isRGB == false ){
 					saveDisplayObjectContainer(dynamic_cast<DisplayObjectContainer*>(at->getChild(i)));
-				}else if(at->getChild(i)->isRGB && at->getChild(i)->type == "Sprite" ){
+				}
+				else if(at->getChild(i)->isRGB && at->getChild(i)->type == "Sprite" ){
 					saveRGB(dynamic_cast<Sprite*>(at->getChild(i)));
 				}
 				else if(at->getChild(i)-> type == "Sprite"){

@@ -8,6 +8,7 @@
 #include <dirent.h>
 #include "DevTool.h"
 #include "kiss_sdl.h"
+#include "lastEvent.h"
 
 using namespace std;
 
@@ -443,20 +444,10 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 				selectedSprite = NULL;
 			}
 			break;
-		case SDL_SCANCODE_S:
-			curScene->saveScene("Take2.txt");
-			break;
-		case SDL_SCANCODE_L:
-		curScene = new Scene();
-			curScene->loadScene("./resources/scene/test1.txt");
-			this->setScene(curScene);
-//			curScene->loadScene("./resources/scene/Trial.txt");
-	//		this->setScene(curScene);
-			break;
 	  }
 	  it++;
 	}
-/*
+
 	if(lastEvent){
 		kiss_entry_event(xEnt, lastEvent, &drawFlag);
 		kiss_entry_event(idEnt, lastEvent, &drawFlag);
@@ -481,7 +472,6 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 				break;
 		}
 	}
-	*/
 	if(drawFlag){
 		SDL_RenderClear(rendererDos);
 		drawEntries();

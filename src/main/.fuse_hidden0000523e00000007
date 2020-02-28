@@ -13,15 +13,16 @@ using namespace std;
 
 DevTool::DevTool() : Game(1200, 1000) {
 	curScene = new Scene();
-
+/*
 	testScene1 = new Scene();
 	testScene1->loadScene("./resources/scene/test1.txt");
 	testScene2 = new Scene();
 	testScene2->loadScene("./resources/scene/test2.txt");
 
-	curScene->loadScene("./resources/scene/test1.txt");
+	curScene->loadScene("./resources/scene/test2.txt");
 
 	this->setScene(curScene);
+	*/
 }
 
 DevTool::~DevTool() {
@@ -375,6 +376,16 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 				sampleSwitchCount = 0;
 			}
 		  	break;
+		case SDL_SCANCODE_S:
+			curScene->saveScene("Trial.txt");
+			break;
+		case SDL_SCANCODE_L:
+		curScene = new Scene();
+			curScene->loadScene("./resources/scene/test4.txt");
+			this->setScene(curScene);
+//			curScene->loadScene("./resources/scene/Trial.txt");
+	//		this->setScene(curScene);
+			break;
 		case SDL_SCANCODE_Z:
 			if(makeJerkyMovement > jerkyTime){
 				if(curScene->scaleX < 2.0){
@@ -443,19 +454,10 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 				selectedSprite = NULL;
 			}
 			break;
-		case SDL_SCANCODE_S:
-			curScene->saveScene("Take2.txt");
-			break;
-		case SDL_SCANCODE_L:
-		curScene = new Scene();
-			curScene->loadScene("./resources/scene/test1.txt");
-			this->setScene(curScene);
-//			curScene->loadScene("./resources/scene/Trial.txt");
-	//		this->setScene(curScene);
-			break;
 	  }
 	  it++;
 	}
+
 /*
 	if(lastEvent){
 		kiss_entry_event(xEnt, lastEvent, &drawFlag);
@@ -481,7 +483,6 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 				break;
 		}
 	}
-	*/
 	if(drawFlag){
 		SDL_RenderClear(rendererDos);
 		drawEntries();
@@ -489,6 +490,7 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 		drawFlag = 0;
 	}
 	updateFields();
+	*/
 }
 
 void DevTool::draw(AffineTransform& at) {
