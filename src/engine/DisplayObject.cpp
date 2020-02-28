@@ -72,6 +72,8 @@ void DisplayObject::draw(AffineTransform &at){
 		SDL_Point lowerRight = at.transformPoint(width, height);
 		SDL_Point corner = {0, 0};
 
+		// cout << "ID: " << this->id << " Origin: (" << origin.x << "," << origin.y << ")" << " Lower: (" << lowerRight.x << "," << lowerRight.y << ")" << endl;
+
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
 

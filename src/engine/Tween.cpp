@@ -21,22 +21,22 @@ void Tween::animate(TweenableParams fieldToAnimate, double startVal, double endV
 }
 
 void Tween::update(){
-    cout << "UPDATE" << endl;
+    // cout << "UPDATE" << endl;
     for(ParamInfo *param : params){
         // if (abs(param->endVal-param->curVal) < (param->endVal-param->startVal)/param->frames ){
         //     cout << "DONE!" << endl;
         //     continue;
         // }
         if (param->endVal > param->startVal && param->curVal >= param->endVal){
-            cout << "DONE!" << endl;
+            // Dispatch Event
             continue;
         }
         else if (param->endVal < param->startVal && param->curVal <= param->endVal){
-            cout << "DONE!" << endl;
+            // Dispatch Event
             continue;
         }
 
-        cout << "Frame: " << param->curFrame << " Value: " << param->curVal << endl;
+        // cout << "Frame: " << param->curFrame << " Value: " << param->curVal << endl;
 
         switch(param->transition){
         case LINEAR:

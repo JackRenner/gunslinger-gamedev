@@ -54,9 +54,11 @@ private:
 	Scene* cameraDemoScene;
 
 	AnimatedSprite* character;
+	Sprite* coin;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;
+	bool coinPickedUp = false;
 
 	vector<Bound> boundaries;
 	int room_state = -1;

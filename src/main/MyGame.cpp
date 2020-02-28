@@ -19,9 +19,17 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character = new AnimatedSprite("character");
 	character->addAnimation("./resources/character/", "Run", 20, 2, true);
 
-
+	coin = new Sprite("coin","./resources/dollar.png");
+	coin->position = {300,1000};
+	coin->pivot = {coin->width/2, coin->height/2};
+	coin->scaleX = 0.5;
+	coin->scaleY = 0.5;
+	coin->alpha = 255;
+	coin->visible = true;
+	
 	this->setScene(cameraDemoScene);
 	this->addChild(character);
+	this->addChild(coin);
 	character->position = { 300, 1100 };
 	character->pivot = { character->width / 2, character->height / 2 };
 	character->play("Run");
@@ -47,7 +55,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	TweenJuggler* tweenJuggler = TweenJuggler::getInstance();
 	Tween * characterTween = new Tween(character);
 	characterTween->animate(ALPHA,0,255,100,EASEINCUBIC);
-	// characterTween->animate(POS_X,300,400,100,LINEAR);
+	characterTween->animate(SCALE_X,0,1,150,EASEOUTCUBIC);
+	characterTween->animate(SCALE_Y,0,1,150,EASEOUTCUBIC);
+	characterTween->animate(ROTATION,0,6.2832,100,EASEINCUBIC);
 	tweenJuggler->add(characterTween);
 }
 
@@ -57,6 +67,19 @@ MyGame::~MyGame() {
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
+
+	if (!coinPickedUp && character->position.y>930 && character->position.y<1065 && character->position.x>250 && character->position.x<350){
+		cout << "COIN!" << endl;
+		coinPickedUp = true;
+		Tween * coinTween = new Tween(coin);
+		coinTween->animate(SCALE_X,1,4,100,EASEOUTCUBIC);
+		coinTween->animate(SCALE_Y,1,4,100,EASEOUTCUBIC);
+		coinTween->animate(POS_X,coin->position.x,character->position.x,100,EASEOUTCUBIC);
+		coinTween->animate(POS_Y,coin->position.y,character->position.y,100,EASEOUTCUBIC);
+		coinTween->animate(ALPHA,255,0,200,EASEINCUBIC);
+		TweenJuggler::getInstance()->add(coinTween);
+	}
+
 	if (pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()) {
 		gunshot->playSFX();
 	}
