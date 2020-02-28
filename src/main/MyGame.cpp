@@ -44,6 +44,11 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	//music->playMusic();
 
 	zoomPoint = { small_room.x + small_room.w / 2, small_room.y + small_room.h / 2 };
+
+	TweenJuggler* tweenJuggler = TweenJuggler::getInstance();
+	Tween * characterTween = new Tween(character);
+	characterTween->animate(ALPHA,0,255,1000,NONE);
+	tweenJuggler->add(characterTween);
 }
 
 MyGame::~MyGame() {

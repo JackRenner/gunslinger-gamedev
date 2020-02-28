@@ -9,6 +9,8 @@
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
+#include "../engine/Tween.h"
+#include "../engine/TweenJuggler.h"
 
 
 using namespace std;
