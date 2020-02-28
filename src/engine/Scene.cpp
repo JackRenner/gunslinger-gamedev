@@ -45,6 +45,10 @@ void Scene:: saveScene(string sceneFilePath){
 		for(int i = 0; i < this->numChildren(); i++){
 			cout << i << endl;
 
+
+
+
+
 			if(this->getChild(i)-> type == "DisplayObjectContainer" &&  this->getChild(i)->isRGB == false ){
 				saveDisplayObjectContainer(dynamic_cast<DisplayObjectContainer*>(this->getChild(i)));
 			}else if(this->getChild(i)->isRGB && this->getChild(i)->type == "Sprite" ){
@@ -59,7 +63,12 @@ void Scene:: saveScene(string sceneFilePath){
 			else if(this->getChild(i)-> type == "DisplayObject"){
 					saveDisplayObject(this->getChild(i));
 			}
+
+
+
 		}
+
+
 
 
 		const char* sceneFile = sceneFilePath.c_str();
@@ -145,20 +154,20 @@ void Scene:: saveScene(string sceneFilePath){
 				TempArray.PushBack(Value().SetInt(tempInt2), allocator);
 				Properties.AddMember("dimensions", TempArray, allocator );
 
-		//Position;
-					Value TempArray2(kArrayType); //I got frustrated trying to reset the TempArray
-					tempDouble = (at->position.x);
-					tempDouble2 = (at->position.y);
-					TempArray2.PushBack(Value().SetDouble(tempDouble), allocator);
-					TempArray2.PushBack(Value().SetDouble(tempDouble2), allocator);
-					Properties.AddMember("position", TempArray2, allocator);
-		//pivot
-				Value TempArray3(kArrayType);
-				tempDouble = (at->pivot.x);
-				tempDouble2 = (at->pivot.y);
-				TempArray3.PushBack(Value().SetDouble(tempDouble), allocator);
-				TempArray3.PushBack(Value().SetDouble(tempDouble2), allocator);
-				Properties.AddMember("pivot", TempArray3, allocator);
+				//Position;
+							Value TempArray2(kArrayType); //I got frustrated trying to reset the TempArray
+							tempInt = (at->position.x);
+							tempInt2 = (at->position.y);
+							TempArray2.PushBack(Value().SetInt(tempInt), allocator);
+							TempArray2.PushBack(Value().SetInt(tempInt2), allocator);
+							Properties.AddMember("position", TempArray2, allocator);
+				//pivot
+						Value TempArray3(kArrayType);
+						tempInt = (at->pivot.x);
+						tempInt2 = (at->pivot.y);
+						TempArray3.PushBack(Value().SetInt(tempInt), allocator);
+						TempArray3.PushBack(Value().SetInt(tempInt2), allocator);
+						Properties.AddMember("pivot", TempArray3, allocator);
 		//scale
 				Value TempArray4(kArrayType);
 				tempDouble = (at->scaleX);
@@ -247,17 +256,17 @@ void Scene:: saveScene(string sceneFilePath){
 */
 //Position;
 			Value TempArray2(kArrayType); //I got frustrated trying to reset the TempArray
-			tempDouble = (at->position.x);
-			tempDouble2 = (at->position.y);
-			TempArray2.PushBack(Value().SetDouble(tempDouble), allocator);
-			TempArray2.PushBack(Value().SetDouble(tempDouble2), allocator);
+			tempInt = (at->position.x);
+			tempInt2 = (at->position.y);
+			TempArray2.PushBack(Value().SetInt(tempInt), allocator);
+			TempArray2.PushBack(Value().SetInt(tempInt2), allocator);
 			Properties.AddMember("position", TempArray2, allocator);
 //pivot
 		Value TempArray3(kArrayType);
-		tempDouble = (at->pivot.x);
-		tempDouble2 = (at->pivot.y);
-		TempArray3.PushBack(Value().SetDouble(tempDouble), allocator);
-		TempArray3.PushBack(Value().SetDouble(tempDouble2), allocator);
+		tempInt = (at->pivot.x);
+		tempInt2 = (at->pivot.y);
+		TempArray3.PushBack(Value().SetInt(tempInt), allocator);
+		TempArray3.PushBack(Value().SetInt(tempInt2), allocator);
 		Properties.AddMember("pivot", TempArray3, allocator);
 //scale
 		Value TempArray4(kArrayType);
@@ -321,26 +330,6 @@ void Scene:: saveScene(string sceneFilePath){
 		id.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
 
 
-/*
-//This was singlehandedly the most horrifying workaround I have ever written in my Life.
-//And it was actually an easy fix. I am keeping this here in case something breaks again.
-		std:: ostringstream TheMChoiWorkAround; //What am I doing with my life.
-		//How did I resort to this.
-		TheMChoiWorkAround << at->id << endl; //If assigned directly to cstr
-		//THen the temporary object created will be destroyed before it can be fully formed.
-		//So I need to assign it to something else first.
-		 string tempString2 = TheMChoiWorkAround.str();
-		 cout << "WHAT DID I DO?";
-		 cout <<tempString2;
-		const char * cstr = tempString2.c_str();
-
-			cout<< cstr <<endl;
-		//cout <<cstr<<endl;
-			Value id (kObjectType);
-//		id.SetString(TheMChoiWorkAround.str());
-
-		id.SetString(cstr, static_cast<SizeType> (tempString2.size() - 2), allocator);
-*/
 
 
 		Value converter (kObjectType);
@@ -376,17 +365,17 @@ void Scene:: saveScene(string sceneFilePath){
 
 //Position;
 			Value TempArray2(kArrayType); //I got frustrated trying to reset the TempArray
-			tempDouble = (at->position.x);
-			tempDouble2 = (at->position.y);
-			TempArray2.PushBack(Value().SetDouble(tempDouble), allocator);
-			TempArray2.PushBack(Value().SetDouble(tempDouble2), allocator);
+			tempInt = (at->position.x);
+			tempInt2 = (at->position.y);
+			TempArray2.PushBack(Value().SetInt(tempInt), allocator);
+			TempArray2.PushBack(Value().SetInt(tempInt2), allocator);
 			Properties.AddMember("position", TempArray2, allocator);
 //pivot
 		Value TempArray3(kArrayType);
-		tempDouble = (at->pivot.x);
-		tempDouble2 = (at->pivot.y);
-		TempArray3.PushBack(Value().SetDouble(tempDouble), allocator);
-		TempArray3.PushBack(Value().SetDouble(tempDouble2), allocator);
+		tempInt = (at->pivot.x);
+		tempInt2 = (at->pivot.y);
+		TempArray3.PushBack(Value().SetInt(tempInt), allocator);
+		TempArray3.PushBack(Value().SetInt(tempInt2), allocator);
 		Properties.AddMember("pivot", TempArray3, allocator);
 //scale
 		Value TempArray4(kArrayType);
@@ -436,12 +425,35 @@ void Scene:: saveScene(string sceneFilePath){
 						saveDisplayObject(at->getChild(i));
 				}
 			}
+
 	}
 	void Scene :: saveAnimatedSprite(AnimatedSprite* at){
 		cout <<"ANimSprite";
 	}
 	void Scene :: saveAnimation(AnimatedSprite* at){}
 
+
+
+	/*
+	//This was singlehandedly the most horrifying workaround I have ever written in my Life.
+	//And it was actually an easy fix. I am keeping this here in case something breaks again.
+			std:: ostringstream TheMChoiWorkAround; //What am I doing with my life.
+			//How did I resort to this.
+			TheMChoiWorkAround << at->id << endl; //If assigned directly to cstr
+			//THen the temporary object created will be destroyed before it can be fully formed.
+			//So I need to assign it to something else first.
+			 string tempString2 = TheMChoiWorkAround.str();
+			 cout << "WHAT DID I DO?";
+			 cout <<tempString2;
+			const char * cstr = tempString2.c_str();
+
+				cout<< cstr <<endl;
+			//cout <<cstr<<endl;
+				Value id (kObjectType);
+	//		id.SetString(TheMChoiWorkAround.str());
+
+			id.SetString(cstr, static_cast<SizeType> (tempString2.size() - 2), allocator);
+	*/
 
 
 

@@ -444,11 +444,11 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 			}
 			break;
 		case SDL_SCANCODE_S:
-			curScene->saveScene("Take2.txt");
+			curScene->saveScene("./resources/scene/Take3.json");
 			break;
 		case SDL_SCANCODE_L:
 		curScene = new Scene();
-			curScene->loadScene("./resources/scene/test1.txt");
+			curScene->loadScene("./resources/scene/Take3.json");
 			this->setScene(curScene);
 //			curScene->loadScene("./resources/scene/Trial.txt");
 	//		this->setScene(curScene);
@@ -481,7 +481,7 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 				break;
 		}
 	}
-
+	
 	if(drawFlag){
 		SDL_RenderClear(rendererDos);
 		drawEntries();
