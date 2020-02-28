@@ -12,12 +12,16 @@
 using namespace std;
 
 DevTool::DevTool() : Game(1200, 1000) {
-	/*testScene1 = new Scene();
+	curScene = new Scene();
+	
+	testScene1 = new Scene();
 	testScene1->loadScene("./resources/scene/test1.txt");
 	testScene2 = new Scene();
 	testScene2->loadScene("./resources/scene/test2.txt");
 
-	this->setScene(testScene1);*/
+	curScene->loadScene("./resources/scene/test1.txt");
+
+	this->setScene(curScene);
 }
 
 DevTool::~DevTool() {
@@ -123,7 +127,7 @@ void DevTool::setUpPreferences(){
 
 	pref->visible = 1;
 
-	SDL_RenderClear(rendererDos);
+	/*SDL_RenderClear(rendererDos);
 
 	kiss_window_draw(pref, rendererDos);
 	kiss_label_draw(idLab, rendererDos);
@@ -149,7 +153,7 @@ void DevTool::setUpPreferences(){
 	kiss_label_draw(sceneDirLab, rendererDos);
 	kiss_entry_draw(sceneDirEnt, rendererDos);
 
-	SDL_RenderPresent(rendererDos);
+	SDL_RenderPresent(rendererDos);*/
 }
 
 void DevTool::setUpPictureSelector(){
@@ -256,30 +260,224 @@ void DevTool::shiftSamples(bool direction){
 	}
 }
 
+void DevTool::createNewSprite(int index){
+	string name = "new_sprite_" + spriteCreationInt;
+	spriteCreationInt++;
+	Sprite* newbie = new Sprite(name, resourceDirectory + *fileNames[index]);
+	int scX = curScene->position.x;
+	int scY = curScene->position.y;
+	newbie->position.x = (double)this->windowWidth / 2.0 * (1 / curScene->scaleX) - scX;
+	newbie->position.y = (double)this->windowHeight / 2.0 * (1 / curScene->scaleY) - scY;
+	newbie->pivot.x = newbie->width / 2;
+	newbie->pivot.y = newbie->height / 2;
+	selectedSprite = newbie;
+	curScene->addChild(newbie);
+}
+
+void DevTool::mousePressed(){
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	for(int u = 0; u < sampleSprites.size(); u++){
+		int uBound = 0;
+		int loBound = 100;
+		int leBound = (u * this->windowWidth / sampleSprites.size()) + sampleSprites[u]->width / 2;
+		int rBound = (u * this->windowWidth / sampleSprites.size()) + (int)(sampleSprites[u]->width * 1.5);
+		if(x <= rBound && x >= leBound && y <= loBound && y >= uBound){
+			if(selectedSprite == NULL){
+				createNewSprite(u + fileIndex);
+			}
+			break;
+		}
+	}
+}
+
+
+void DevTool::updateFields(){
+	
+}
+
+static void idEnt_Event(kiss_entry* idEnt, SDL_Event *e, int *drawFlag){
+	idEnt->active = true;
+	if(kiss_entry_event(idEnt, e, drawFlag)){
+		char h[] = {'h','e','l','l','o', NULL};
+		kiss_string_copy(idEnt->text, idEnt->textwidth / kiss_textfont.advance, h, NULL);
+		*drawFlag = 1;
+	}
+}
+
+void DevTool::drawEntries(){
+	kiss_window_draw(pref, rendererDos);
+	kiss_label_draw(idLab, rendererDos);
+	kiss_label_draw(xLab, rendererDos);
+	kiss_label_draw(yLab, rendererDos);
+	kiss_label_draw(scaleLab, rendererDos);
+	kiss_label_draw(alphaLab, rendererDos);
+	kiss_label_draw(rotLab, rendererDos);
+
+	kiss_button_draw(deleteSprite, rendererDos);
+	kiss_button_draw(saveScene, rendererDos);
+	kiss_button_draw(loadScene, rendererDos);
+
+	kiss_entry_draw(idEnt, rendererDos);
+	//idEnt->active = true;
+	kiss_entry_draw(xEnt, rendererDos);
+	//xEnt->active = true;
+	kiss_entry_draw(yEnt, rendererDos);
+	kiss_entry_draw(scaleEnt, rendererDos);
+	kiss_entry_draw(alphaEnt, rendererDos);
+	kiss_entry_draw(rotEnt, rendererDos);
+
+	kiss_label_draw(saveSLab, rendererDos);
+	kiss_entry_draw(saveSEnt, rendererDos);
+	kiss_label_draw(sceneDirLab, rendererDos);
+	kiss_entry_draw(sceneDirEnt, rendererDos);
+}
+
 void DevTool::update(set<SDL_Scancode> pressedKeys) {
 	Game::update(pressedKeys);
 	set<SDL_Scancode>::iterator it = pressedKeys.begin();
 
 	sampleSwitchCount++;
+	makeJerkyMovement++;
 	int sampleSwitchTime = 15;
+	int jerkyTime = 8;
+
+	flashSelected++;
+	int dimmer = 75;
+	if(flashSelected > 10){
+		if(selectedSprite != NULL){
+			if(!dim){
+				selectedSprite->alpha -= dimmer;
+				dim = true;
+			} else {
+				selectedSprite->alpha += dimmer;
+				dim = false;
+			}
+		}
+		flashSelected = 0;
+	}
+
+	//Although it may seem fast, it guarantees everything stays within blocks
+	int camSpeed = 50;
+	int spriteSpeed = 50;
 
 	while(it != pressedKeys.end()){
-	  switch(*it){
-	  case SDL_SCANCODE_Q:
+	  	switch(*it){
+	  	case SDL_SCANCODE_Q:
 			if(sampleSwitchCount > sampleSwitchTime){
 		  		shiftSamples(true);
 				sampleSwitchCount = 0;
 			}
 		  	break;
-	  case SDL_SCANCODE_W:
+	  	case SDL_SCANCODE_W:
 			if(sampleSwitchCount > sampleSwitchTime){
 		  		shiftSamples(false);
 				sampleSwitchCount = 0;
 			}
 		  	break;
+		case SDL_SCANCODE_Z:
+			if(makeJerkyMovement > jerkyTime){
+				if(curScene->scaleX < 2.0){
+					curScene->scaleX += 0.25;
+					curScene->scaleY += 0.25;
+				}
+				makeJerkyMovement = 0;
+			}
+			break;
+		case SDL_SCANCODE_X:
+			if(makeJerkyMovement > jerkyTime){
+				if(curScene->scaleX > 0.25){
+					curScene->scaleX -= 0.25;
+					curScene->scaleY -= 0.25;
+				}
+				makeJerkyMovement = 0;
+			}
+			break;
+	  	case SDL_SCANCODE_UP:
+			if (makeJerkyMovement > jerkyTime){
+				if(selectedSprite == NULL){
+					curScene->position.y += camSpeed;
+				}
+				else{
+					selectedSprite->position.y -= spriteSpeed;
+				}
+				makeJerkyMovement = 0;
+			}
+			break;
+		case SDL_SCANCODE_DOWN:
+			if (makeJerkyMovement > jerkyTime){
+				if(selectedSprite == NULL){
+					curScene->position.y -= camSpeed;
+				} else {
+					selectedSprite->position.y += spriteSpeed;
+				}
+				makeJerkyMovement = 0;
+			}
+			break;
+		case SDL_SCANCODE_RIGHT:
+			if (makeJerkyMovement > jerkyTime){		
+				if(selectedSprite == NULL){
+					curScene->position.x -= camSpeed;
+				} else {
+					selectedSprite->position.x += spriteSpeed;
+				}
+				makeJerkyMovement = 0;
+			}
+			break;
+		case SDL_SCANCODE_LEFT:
+			if (makeJerkyMovement > jerkyTime){		
+				if(selectedSprite == NULL){
+					curScene->position.x += camSpeed;
+				} else {
+					selectedSprite->position.x -= spriteSpeed;
+				}
+				makeJerkyMovement = 0;
+			}
+			break;
+		case SDL_SCANCODE_RETURN:
+			if(selectedSprite != NULL){
+				if(dim){
+					selectedSprite->alpha += dimmer;
+					dim = false;
+				}
+				selectedSprite = NULL;
+			}
+			break;
 	  }
 	  it++;
 	}
+
+	if(lastEvent){
+		kiss_entry_event(xEnt, lastEvent, &drawFlag);
+		kiss_entry_event(idEnt, lastEvent, &drawFlag);
+		switch(lastEvent->type){
+			case SDL_MOUSEBUTTONDOWN:
+				if(!mouseDown){
+					mousePressed();
+				}
+				mouseDown = true;
+				break;
+			case SDL_MOUSEBUTTONUP:
+				mouseDown = false;
+				break;
+			case SDL_MOUSEMOTION:
+				if(selectedSprite != NULL && mouseDown){
+					selectedSprite->position.x = (double)lastEvent->motion.x * (1 / curScene->scaleX);
+					selectedSprite->position.y = (double)lastEvent->motion.y * (1 / curScene->scaleY);
+
+					selectedSprite->position.x -= (selectedSprite->position.x % 50);
+					selectedSprite->position.y -= (selectedSprite->position.y % 50);
+				}
+				break;
+		}
+	}
+	if(drawFlag){
+		SDL_RenderClear(rendererDos);
+		drawEntries();
+		SDL_RenderPresent(rendererDos);
+		drawFlag = 0;
+	}
+	updateFields();
 }
 
 void DevTool::draw(AffineTransform& at) {
