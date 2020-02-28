@@ -1,13 +1,447 @@
 #include "Scene.h"
-#include "../rapidjson/document.h"
-#include "../rapidjson/filereadstream.h"
+#include <string>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
+using namespace rapidjson;
+
+
+
 
 Scene::Scene() : DisplayObjectContainer() {
 	this->type = "Scene";
+	this->id = "Default_Scene_id";
+	this->savedoc.SetObject();
 }
+
+
+
+
+void Scene:: saveScene(string sceneFilePath){
+
+
+
+		//This resets the savedoc with an empty doc so we no longer have old code in the save.
+		Document().Swap(this->savedoc).SetObject(); // minimize and recreate allocator
+		Document(kObjectType).Swap(this->savedoc); // after merging #369
+
+
+		char writebuffer[10000];
+		rapidjson:: Document::AllocatorType& allocator = this->savedoc.GetAllocator();
+		size_t sz = allocator.Size();
+/*
+*/
+		string tempString = this->id;
+//		const char * cstr = tempString.c_str();
+		Value id;
+		id.SetString(tempString.c_str(),  static_cast<SizeType> (tempString.size()), allocator);
+
+		this->savedoc.AddMember("scene_id", id, allocator);
+
+
+
+		cout << this -> children.size()<<endl;
+		for(int i = 0; i < this->numChildren(); i++){
+			cout << i << endl;
+
+			if(this->getChild(i)-> type == "DisplayObjectContainer" &&  this->getChild(i)->isRGB == false ){
+				saveDisplayObjectContainer(dynamic_cast<DisplayObjectContainer*>(this->getChild(i)));
+			}
+			else if(this->getChild(i)-> type == "Sprite"){
+				saveSprite(dynamic_cast<Sprite*>(this->getChild(i)));
+			}
+			else if(this->getChild(i)-> type == "AnimatedSprite"){
+				saveAnimatedSprite(dynamic_cast<AnimatedSprite*> (this->getChild(i)));
+			}else if(this->getChild(i)->isRGB && this->getChild(i)->type != "DisplayObject" ){
+				saveRGB(dynamic_cast<DisplayObjectContainer*>(this->getChild(i)));
+			}
+			else if(this->getChild(i)-> type == "DisplayObject"){
+					saveDisplayObject(this->getChild(i));
+			}
+		}
+
+		const char* sceneFile = sceneFilePath.c_str();
+		FILE*fp = fopen(sceneFile, "w");
+		rapidjson:: FileWriteStream writestream(fp, writebuffer, sizeof(writebuffer));
+		PrettyWriter<rapidjson:: FileWriteStream> writer(writestream);
+		writestream.Flush();//Erase the buffer
+		this->savedoc.Accept(writer);
+		fclose(fp);
+
+	}
+
+	void Scene :: saveDisplayObject(DisplayObject* at){
+		cout <<"DO";
+	}
+	void Scene :: saveRGB(DisplayObjectContainer* at){
+		cout <<"RGB";
+				rapidjson:: Document::AllocatorType& allocator = this->savedoc.GetAllocator();
+				size_t sz = allocator.Size();
+				string tempString = at->id;
+				string tempString2;
+				Value id (kObjectType);
+				id.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+
+
+		/*
+		//This was singlehandedly the most horrifying workaround I have ever written in my Life.
+		//And it was actually an easy fix. I am keeping this here in case something breaks again.
+				std:: ostringstream TheMChoiWorkAround; //What am I doing with my life.
+				//How did I resort to this.
+				TheMChoiWorkAround << at->id << endl; //If assigned directly to cstr
+				//THen the temporary object created will be destroyed before it can be fully formed.
+				//So I need to assign it to something else first.
+				 string tempString2 = TheMChoiWorkAround.str();
+				 cout << "WHAT DID I DO?";
+				 cout <<tempString2;
+				const char * cstr = tempString2.c_str();
+
+					cout<< cstr <<endl;
+				//cout <<cstr<<endl;
+					Value id (kObjectType);
+		//		id.SetString(TheMChoiWorkAround.str());
+
+				id.SetString(cstr, static_cast<SizeType> (tempString2.size() - 2), allocator);
+		*/
+
+
+				Value converter (kObjectType);
+				Value converter2 (kObjectType);
+				Value Properties(kObjectType);
+				Value TempArray(kArrayType);
+				int tempInt;
+				int tempInt2;
+				int tempInt3;
+				double tempDouble;
+				double tempDouble2;
+				bool tempBool;
+
+				tempString = at->type;
+				converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+				Properties.AddMember("type", converter, allocator);
+
+
+		//RGB
+				Value TempArray0(kArrayType);
+				tempInt = at->red;
+				tempInt2 = at->green;
+				tempInt3 = at->blue;
+
+				TempArray0.PushBack(Value().SetInt(tempInt), allocator);
+				TempArray0.PushBack(Value().SetInt(tempInt2), allocator);
+				TempArray0.PushBack(Value().SetInt(tempInt3), allocator);
+				Properties.AddMember("rgb", TempArray0, allocator);
+
+		//dimensions - Is this the width and the height?
+		//Or what we get from the getWidth and getHeight functions?
+		// Regardless of which, It should be a relatively easy fix.
+
+				tempInt= (at->width);
+				tempInt2 = (at->height);
+
+				TempArray.PushBack(Value().SetInt(tempInt), allocator);
+				TempArray.PushBack(Value().SetInt(tempInt2), allocator);
+				Properties.AddMember("dimensions", TempArray, allocator );
+
+		//Position;
+					Value TempArray2(kArrayType); //I got frustrated trying to reset the TempArray
+					tempDouble = (at->position.x);
+					tempDouble2 = (at->position.y);
+					TempArray2.PushBack(Value().SetDouble(tempDouble), allocator);
+					TempArray2.PushBack(Value().SetDouble(tempDouble2), allocator);
+					Properties.AddMember("position", TempArray2, allocator);
+		//pivot
+				Value TempArray3(kArrayType);
+				tempDouble = (at->pivot.x);
+				tempDouble2 = (at->pivot.y);
+				TempArray3.PushBack(Value().SetDouble(tempDouble), allocator);
+				TempArray3.PushBack(Value().SetDouble(tempDouble2), allocator);
+				Properties.AddMember("pivot", TempArray3, allocator);
+		//scale
+				Value TempArray4(kArrayType);
+				tempDouble = (at->scaleX);
+				tempDouble2 = (at->scaleY);
+				TempArray4.PushBack(Value().SetDouble(tempDouble), allocator);
+				TempArray4.PushBack(Value().SetDouble(tempDouble2), allocator);
+				Properties.AddMember("scale", TempArray4, allocator);
+		//Rotation
+				tempDouble = (at->rotation);
+				Properties.AddMember("rotation", tempDouble, allocator);
+		//Alpha
+				tempInt = (at->alpha);
+				Properties.AddMember("alpha", tempInt, allocator);
+		//visible
+				tempBool = (at->visible);
+				Properties.AddMember("visible", tempBool, allocator);
+		//parent
+				tempString = (at->parent->id);
+				if(tempString == this->id){
+					//tempString = "I'm a Dad";
+					//Don't know how to set this to null without breaking this
+					Properties.AddMember("parent", Value(), allocator); //Vlank Value is null;
+				}
+				else{
+					converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+					Properties.AddMember("parent", converter, allocator);
+				}
+		//
+		//
+		//
+				this->savedoc.AddMember(id, Properties, allocator);
+
+				for(int i = 0; i < at->numChildren(); i++){
+				if(at->getChild(i)-> type == "DisplayObjectContainer" &&  at->getChild(i)->isRGB == false ){
+				      saveDisplayObjectContainer(dynamic_cast<DisplayObjectContainer*>(at->getChild(i)));
+				    }
+				    else if(at->getChild(i)-> type == "Sprite"){
+				      saveSprite(dynamic_cast<Sprite*>(at->getChild(i)));
+				    }
+				    else if(at->getChild(i)-> type == "AnimatedSprite"){
+				      saveAnimatedSprite(dynamic_cast<AnimatedSprite*> (at->getChild(i)));
+				    }else if(at->getChild(i)->isRGB && at->getChild(i)->type != "DisplayObject" ){
+				      saveRGB(dynamic_cast<DisplayObjectContainer*>(at->getChild(i)));
+				    }
+				    else if(at->getChild(i)-> type == "DisplayObject"){
+				        saveDisplayObject(at->getChild(i));
+				    }
+				  }
+
+	}
+	void Scene :: saveDisplayObjectContainer(DisplayObjectContainer* at){
+		cout <<"DOC";
+		rapidjson:: Document::AllocatorType& allocator = this->savedoc.GetAllocator();
+		size_t sz = allocator.Size();
+
+		string tempString = at->id;
+		string tempString2;
+		Value id (kObjectType);
+		id.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+
+		Value converter (kObjectType);
+		Value converter2 (kObjectType);
+		Value Properties(kObjectType);
+		Value TempArray(kArrayType);
+		int tempInt;
+		int tempInt2;
+		double tempDouble;
+		double tempDouble2;
+		bool tempBool;
+
+
+//Filetype
+		tempString = at->type;
+		converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+		Properties.AddMember("type", converter, allocator);
+//dimensions
+
+		tempInt= (at->width);
+		tempInt2 = (at->height);
+
+		TempArray.PushBack(Value().SetInt(tempInt), allocator);
+		TempArray.PushBack(Value().SetInt(tempInt2), allocator);
+		Properties.AddMember("dimensions", TempArray, allocator );
+
+//Position;
+			Value TempArray2(kArrayType); //I got frustrated trying to reset the TempArray
+			tempDouble = (at->position.x);
+			tempDouble2 = (at->position.y);
+			TempArray2.PushBack(Value().SetDouble(tempDouble), allocator);
+			TempArray2.PushBack(Value().SetDouble(tempDouble2), allocator);
+			Properties.AddMember("position", TempArray2, allocator);
+//pivot
+		Value TempArray3(kArrayType);
+		tempDouble = (at->pivot.x);
+		tempDouble2 = (at->pivot.y);
+		TempArray3.PushBack(Value().SetDouble(tempDouble), allocator);
+		TempArray3.PushBack(Value().SetDouble(tempDouble2), allocator);
+		Properties.AddMember("pivot", TempArray3, allocator);
+//scale
+		Value TempArray4(kArrayType);
+		tempDouble = (at->scaleX);
+		tempDouble2 = (at->scaleY);
+		TempArray4.PushBack(Value().SetDouble(tempDouble), allocator);
+		TempArray4.PushBack(Value().SetDouble(tempDouble2), allocator);
+		Properties.AddMember("scale", TempArray4, allocator);
+//Rotation
+		tempDouble = (at->rotation);
+		Properties.AddMember("rotation", tempDouble, allocator);
+//Alpha
+		tempInt = (at->alpha);
+		Properties.AddMember("alpha", tempInt, allocator);
+//visible
+		tempBool = (at->visible);
+		Properties.AddMember("visible", tempBool, allocator);
+//parent
+		tempString = (at->parent->id);
+		if(tempString == this->id){
+			//tempString = "I'm a Dad";
+			//Don't know how to set this to null without breaking this
+			Properties.AddMember("parent", Value(), allocator); //Vlank Value is null;
+		}
+		else{
+			converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+			Properties.AddMember("parent", converter, allocator);
+		}
+
+		this->savedoc.AddMember(id, Properties, allocator);
+
+		for(int i = 0; i < at->numChildren(); i++){
+		if(at->getChild(i)-> type == "DisplayObjectContainer" &&  at->getChild(i)->isRGB == false ){
+					saveDisplayObjectContainer(dynamic_cast<DisplayObjectContainer*>(at->getChild(i)));
+				}
+				else if(at->getChild(i)-> type == "Sprite"){
+					saveSprite(dynamic_cast<Sprite*>(at->getChild(i)));
+				}
+				else if(at->getChild(i)-> type == "AnimatedSprite"){
+					saveAnimatedSprite(dynamic_cast<AnimatedSprite*> (at->getChild(i)));
+				}else if(at->getChild(i)->isRGB && at->getChild(i)->type != "DisplayObject" ){
+					saveRGB(dynamic_cast<DisplayObjectContainer*>(at->getChild(i)));
+				}
+				else if(at->getChild(i)-> type == "DisplayObject"){
+						saveDisplayObject(at->getChild(i));
+				}
+			}
+
+	}
+
+
+	void Scene :: saveSprite(Sprite* at){
+
+		rapidjson:: Document::AllocatorType& allocator = this->savedoc.GetAllocator();
+		size_t sz = allocator.Size();
+
+
+		string tempString = at->id;
+		string tempString2;
+		Value id (kObjectType);
+		id.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+
+
+/*
+//This was singlehandedly the most horrifying workaround I have ever written in my Life.
+//And it was actually an easy fix. I am keeping this here in case something breaks again.
+		std:: ostringstream TheMChoiWorkAround; //What am I doing with my life.
+		//How did I resort to this.
+		TheMChoiWorkAround << at->id << endl; //If assigned directly to cstr
+		//THen the temporary object created will be destroyed before it can be fully formed.
+		//So I need to assign it to something else first.
+		 string tempString2 = TheMChoiWorkAround.str();
+		 cout << "WHAT DID I DO?";
+		 cout <<tempString2;
+		const char * cstr = tempString2.c_str();
+
+			cout<< cstr <<endl;
+		//cout <<cstr<<endl;
+			Value id (kObjectType);
+//		id.SetString(TheMChoiWorkAround.str());
+
+		id.SetString(cstr, static_cast<SizeType> (tempString2.size() - 2), allocator);
+*/
+
+
+		Value converter (kObjectType);
+		Value converter2 (kObjectType);
+		Value Properties(kObjectType);
+		Value TempArray(kArrayType);
+		int tempInt;
+		int tempInt2;
+		double tempDouble;
+		double tempDouble2;
+		bool tempBool;
+
+		tempString = at->type;
+		converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+		Properties.AddMember("type", converter, allocator);
+
+
+//filepath
+		tempString = (at->imgPath);
+		converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+		Properties.AddMember("filepath", converter, allocator);
+
+//dimensions - Is this the width and the height?
+//Or what we get from the getWidth and getHeight functions?
+// Regardless of which, It should be a relatively easy fix.
+
+		tempInt= (at->width);
+		tempInt2 = (at->height);
+
+		TempArray.PushBack(Value().SetInt(tempInt), allocator);
+		TempArray.PushBack(Value().SetInt(tempInt2), allocator);
+		Properties.AddMember("dimensions", TempArray, allocator );
+
+//Position;
+			Value TempArray2(kArrayType); //I got frustrated trying to reset the TempArray
+			tempDouble = (at->position.x);
+			tempDouble2 = (at->position.y);
+			TempArray2.PushBack(Value().SetDouble(tempDouble), allocator);
+			TempArray2.PushBack(Value().SetDouble(tempDouble2), allocator);
+			Properties.AddMember("position", TempArray2, allocator);
+//pivot
+		Value TempArray3(kArrayType);
+		tempDouble = (at->pivot.x);
+		tempDouble2 = (at->pivot.y);
+		TempArray3.PushBack(Value().SetDouble(tempDouble), allocator);
+		TempArray3.PushBack(Value().SetDouble(tempDouble2), allocator);
+		Properties.AddMember("pivot", TempArray3, allocator);
+//scale
+		Value TempArray4(kArrayType);
+		tempDouble = (at->scaleX);
+		tempDouble2 = (at->scaleY);
+		TempArray4.PushBack(Value().SetDouble(tempDouble), allocator);
+		TempArray4.PushBack(Value().SetDouble(tempDouble2), allocator);
+		Properties.AddMember("scale", TempArray4, allocator);
+//Rotation
+		tempDouble = (at->rotation);
+		Properties.AddMember("rotation", tempDouble, allocator);
+//Alpha
+		tempInt = (at->alpha);
+		Properties.AddMember("alpha", tempInt, allocator);
+//visible
+		tempBool = (at->visible);
+		Properties.AddMember("visible", tempBool, allocator);
+//parent
+		tempString = (at->parent->id);
+		if(tempString == this->id){
+			//tempString = "I'm a Dad";
+			//Don't know how to set this to null without breaking this
+			Properties.AddMember("parent", Value(), allocator); //Vlank Value is null;
+		}
+		else{
+			converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+			Properties.AddMember("parent", converter, allocator);
+		}
+//
+//
+//
+		this->savedoc.AddMember(id, Properties, allocator);
+
+		for(int i = 0; i < at->numChildren(); i++){
+		if(at->getChild(i)-> type == "DisplayObjectContainer" &&  at->getChild(i)->isRGB == false ){
+					saveDisplayObjectContainer(dynamic_cast<DisplayObjectContainer*>(at->getChild(i)));
+				}
+				else if(at->getChild(i)-> type == "Sprite"){
+					saveSprite(dynamic_cast<Sprite*>(at->getChild(i)));
+				}
+				else if(at->getChild(i)-> type == "AnimatedSprite"){
+					saveAnimatedSprite(dynamic_cast<AnimatedSprite*> (at->getChild(i)));
+				}else if(at->getChild(i)->isRGB && at->getChild(i)->type != "DisplayObject" ){
+					saveRGB(dynamic_cast<DisplayObjectContainer*>(at->getChild(i)));
+				}
+				else if(at->getChild(i)-> type == "DisplayObject"){
+						saveDisplayObject(at->getChild(i));
+				}
+			}
+	}
+	void Scene :: saveAnimatedSprite(AnimatedSprite* at){
+		cout <<"ANimSprite";
+	}
+	void Scene :: saveAnimation(AnimatedSprite* at){}
+
+
+
+
 
 void Scene::loadScene(string sceneFilePath) {
 
@@ -165,9 +599,10 @@ void Scene::loadScene(string sceneFilePath) {
 
 void Scene::update(set<SDL_Scancode> pressedKeys) {
 	DisplayObjectContainer::update(pressedKeys);
+
+
 }
 
 void Scene::draw(AffineTransform& at) {
 	DisplayObjectContainer::draw(at);
 }
-
