@@ -11,12 +11,14 @@
 
 using namespace std;
 
-class DisplayObject{
+class DisplayObject {
 
 public:
 	string id = "DEFAULT_ID";
 	string imgPath = "";
-	int red, green, blue;
+	int red = 0;
+	int green = 0; 
+	int blue = 0;
 	string type = "DisplayObject";
 
 	DisplayObject* parent = NULL;

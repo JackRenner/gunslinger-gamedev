@@ -4,7 +4,7 @@
 #include "DisplayObjectContainer.h"
 #include "Sprite.h"
 #include "AnimatedSprite.h"
-#include "Sprite.h"
+#include "Layer.h"
 #include <string>
 #include <vector>
 #include <fstream>

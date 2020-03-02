@@ -18,7 +18,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character->addAnimation("./resources/character/", "Run", 20, 2, true);
 
 	coin = new Sprite("coin","./resources/dollar.png");
-	coin->position = { 1000, 400 };
+	coin->position = { 1000, 550 };
 	coin->width = 50;
 	coin->height = 50;
 	coin->pivot = { coin->width / 2, coin->height / 2 };
@@ -27,11 +27,11 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	this->addChild(character);
 	this->addChild(coin);
 
-	SDL_Rect room_bound = { -50, -50, 1700, 900 };
+	SDL_Rect room_bound = { 0, 0, 1600, 800 };
 
 	addCameraBound(room_bound, true, true, true, true);
 
-	character->position = { 800, 400 };
+	character->position = { 800, 550 };
 	character->pivot = { character->width / 2, character->height / 2 };
 	character->play("Run");
 	character->width = 90;
@@ -41,8 +41,6 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	gunshot = new Sound();
 	//music = new Sound();
 	//music->playMusic();
-
-	zoomPoint = { room_bound.x + room_bound.w / 2, room_bound.y + room_bound.h / 2 };
 
 	juggler = TweenJuggler::getInstance();
 	Tween* characterTween = new Tween(character);
@@ -77,12 +75,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 		character->position.x -= 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end()) {
-		gameCamera.scale -= 0.05;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-		gameCamera.scale += 0.05;
-	}
 
 	if (!coinPickedUp && checkInside(SDL_Rect{ character->position.x - character->pivot.x, character->position.y - character->pivot.y, character->width, character->height }, coin)) {
 		coinPickedUp = true;
@@ -96,8 +88,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		moveCoinTween->addEventListener(coinListener, TweenEvent::TWEEN_COMPLETE_EVENT);
 	}
 
-	juggler->nextFrame();
-
 	/*SDL_Rect room;
 	for (int i = 0; i < boundaries.size(); i++) {
 		room = boundaries[i].bounds;
@@ -105,6 +95,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			room_state = i;
 		}
 	}*/
+
 
 	Game::update(pressedKeys);
 
@@ -115,15 +106,15 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 }
 
 void MyGame::draw(AffineTransform& at) {
-	at.translate(-gameCamera.x + zoomPoint.x, -gameCamera.y + zoomPoint.y);
+	at.translate(-gameCamera.x + gameCamera.zoomPoint.x, -gameCamera.y + gameCamera.zoomPoint.y);
 	at.scale(gameCamera.scale, gameCamera.scale);
-	at.translate(-zoomPoint.x, -zoomPoint.y);
+	at.translate(-gameCamera.zoomPoint.x, -gameCamera.zoomPoint.y);
 
 	Game::draw(at);
 
-	at.translate(zoomPoint.x, zoomPoint.y);
+	at.translate(gameCamera.zoomPoint.x, gameCamera.zoomPoint.y);
 	at.scale(1 / gameCamera.scale, 1 / gameCamera.scale);
-	at.translate(gameCamera.x - zoomPoint.x, gameCamera.y - zoomPoint.y);
+	at.translate(gameCamera.x - gameCamera.zoomPoint.x, gameCamera.y - gameCamera.zoomPoint.y);
 }
 
 // sets the current scene and adds as child to game and unlinks the old scene from game (does not destroy it)
@@ -148,9 +139,9 @@ void MyGame::enforceCameraBounds() {
 
 	AffineTransform boundCalc = AffineTransform();
 
-	boundCalc.translate(zoomPoint.x, zoomPoint.y);
+	boundCalc.translate(gameCamera.zoomPoint.x, gameCamera.zoomPoint.y);
 	boundCalc.scale(gameCamera.scale, gameCamera.scale);
-	boundCalc.translate(-zoomPoint.x, -zoomPoint.y);
+	boundCalc.translate(-gameCamera.zoomPoint.x, -gameCamera.zoomPoint.y);
 
 	SDL_Point upper_left = boundCalc.transformPoint(room.bounds.x, room.bounds.y);
 	SDL_Point lower_right = boundCalc.transformPoint(room.bounds.x + room.bounds.w, room.bounds.y + room.bounds.h);

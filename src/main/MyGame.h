@@ -63,8 +63,6 @@ private:
 	vector<Bound> boundaries;
 	int room_state = -1;
 
-	SDL_Point zoomPoint;
-
 	Sound* gunshot;
 	Sound* music;
 

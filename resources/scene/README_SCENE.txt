@@ -7,7 +7,7 @@ See files in "./resources/scene/" for examples.
 	"scene_id": "id",						The ID of the scene object.
 
 	"(Entity ID)": {						This will be the ID assigned to the entity when constructed.
-		"type":	"DisplayObjectContainer" | "Sprite" | "RGB" | "AnimatedSprite",
+		"type":	"DisplayObjectContainer" | "Sprite" | "RGB" | "AnimatedSprite" | "Layer",
 											DisplayObjectContainer will always be empty.
 
 		"filepath": "/filepath",			As of now, only for Sprite type.
@@ -40,6 +40,9 @@ See files in "./resources/scene/" for examples.
 		"rotation": angle,					double value
 		"alpha": 0-255,						int value
 		"visible": true | false,			bool value
+
+		"scrollSpeedX": speed				double value, only for Layer
+		"scrollSpeedY": speed
 
 		"parent": "parent_id" | null		if null or parent was not found (might change this later), will set Scene object as parent
 	}
