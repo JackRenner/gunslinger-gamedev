@@ -2,8 +2,7 @@
 
 using namespace std;
 
-Layer::Layer() {
-	DisplayObjectContainer::DisplayObjectContainer();
+Layer::Layer() : DisplayObjectContainer() {
 	this->type = "Layer";
 }
 
