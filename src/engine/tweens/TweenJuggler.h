@@ -2,7 +2,7 @@
 #define TWEENJUGGLER_H
 
 #include "Tween.h"
-#include <vector>
+#include <list>
 
 class TweenJuggler { 
 
@@ -12,9 +12,9 @@ public:
     void nextFrame();
 
 private:
-    TweenJuggler(){};
+    TweenJuggler() {};
     static TweenJuggler *instance;
-    vector<Tween*> tweens;
+    list<Tween*> tweens;
 	
 };
 

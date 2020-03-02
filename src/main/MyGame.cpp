@@ -1,8 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
-#include "../engine/Sprite.h"
-#include "../engine/Scene.h"
 #include "MyGame.h"
 
 using namespace std;
@@ -13,36 +11,30 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	gameCamera = Camera();
 
-	cameraDemoScene = new Scene();
-	cameraDemoScene->loadScene("./resources/scene/cameraDemoScene.txt");
+	tweenDemo = new Scene();
+	tweenDemo->loadScene("./resources/scene/tweenDemo.txt");
 
 	character = new AnimatedSprite("character");
 	character->addAnimation("./resources/character/", "Run", 20, 2, true);
 
 	coin = new Sprite("coin","./resources/dollar.png");
-	coin->position = {300,1000};
-	coin->pivot = {coin->width/2, coin->height/2};
-	coin->scaleX = 0.5;
-	coin->scaleY = 0.5;
-	coin->alpha = 255;
-	coin->visible = true;
+	coin->position = { 1000, 400 };
+	coin->width = 50;
+	coin->height = 50;
+	coin->pivot = { coin->width / 2, coin->height / 2 };
 	
-	this->setScene(cameraDemoScene);
+	this->setScene(tweenDemo);
 	this->addChild(character);
 	this->addChild(coin);
-	character->position = { 300, 1100 };
+
+	SDL_Rect room_bound = { -50, -50, 1700, 900 };
+
+	addCameraBound(room_bound, true, true, true, true);
+
+	character->position = { 800, 400 };
 	character->pivot = { character->width / 2, character->height / 2 };
 	character->play("Run");
 	character->width = 90;
-
-	SDL_Rect pivot = { 0, 0, 600, 800 };
-	SDL_Rect long_hall = { 600, 0, 1000, 800 };
-	//SDL_Rect small_room = { 0 - 150, 800 - 125, 600 * 1.5, 500 * 1.5 };
-	SDL_Rect small_room = { 0, 800, 600, 500 };
-
-	addCameraBound(small_room, false, true, true, true);
-	addCameraBound(pivot, 1, 0, 1, 0);
-	addCameraBound(long_hall, true, true, false, true);
 
 	room_state = 0;
 
@@ -50,15 +42,16 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	//music = new Sound();
 	//music->playMusic();
 
-	zoomPoint = { small_room.x + small_room.w / 2, small_room.y + small_room.h / 2 };
+	zoomPoint = { room_bound.x + room_bound.w / 2, room_bound.y + room_bound.h / 2 };
 
-	TweenJuggler* tweenJuggler = TweenJuggler::getInstance();
-	Tween * characterTween = new Tween(character);
-	characterTween->animate(ALPHA,0,255,100,EASEINCUBIC);
-	characterTween->animate(SCALE_X,0,1,150,EASEOUTCUBIC);
-	characterTween->animate(SCALE_Y,0,1,150,EASEOUTCUBIC);
-	characterTween->animate(ROTATION,0,6.2832,100,EASEINCUBIC);
-	tweenJuggler->add(characterTween);
+	juggler = TweenJuggler::getInstance();
+	Tween* characterTween = new Tween(character);
+	characterTween->animate(TweenableParams::ALPHA, 0, 255, 30, TweenTransitions::EASEINCUBIC);
+	characterTween->animate(TweenableParams::SCALE_X, 0, 1, 30, TweenTransitions::EASEOUTCUBIC);
+	characterTween->animate(TweenableParams::SCALE_Y, 0, 1, 30, TweenTransitions::EASEOUTCUBIC);
+	juggler->add(characterTween);
+
+	coinListener = new CoinListener(coin);
 }
 
 MyGame::~MyGame() {
@@ -67,18 +60,6 @@ MyGame::~MyGame() {
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
-
-	if (!coinPickedUp && character->position.y>930 && character->position.y<1065 && character->position.x>250 && character->position.x<350){
-		cout << "COIN!" << endl;
-		coinPickedUp = true;
-		Tween * coinTween = new Tween(coin);
-		coinTween->animate(SCALE_X,1,4,100,EASEOUTCUBIC);
-		coinTween->animate(SCALE_Y,1,4,100,EASEOUTCUBIC);
-		coinTween->animate(POS_X,coin->position.x,character->position.x,100,EASEOUTCUBIC);
-		coinTween->animate(POS_Y,coin->position.y,character->position.y,100,EASEOUTCUBIC);
-		coinTween->animate(ALPHA,255,0,200,EASEINCUBIC);
-		TweenJuggler::getInstance()->add(coinTween);
-	}
 
 	if (pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()) {
 		gunshot->playSFX();
@@ -103,23 +84,32 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		gameCamera.scale += 0.05;
 	}
 
-	SDL_Rect room;
+	if (!coinPickedUp && checkInside(SDL_Rect{ character->position.x - character->pivot.x, character->position.y - character->pivot.y, character->width, character->height }, coin)) {
+		coinPickedUp = true;
+		Tween* moveCoinTween = new Tween(coin);
+		moveCoinTween->animate(TweenableParams::SCALE_X, 1, 4, 30, TweenTransitions::EASEOUTCUBIC);
+		moveCoinTween->animate(TweenableParams::SCALE_Y, 1, 4, 30, TweenTransitions::EASEOUTCUBIC);
+		moveCoinTween->animate(TweenableParams::POS_X, coin->position.x, 800, 30, TweenTransitions::EASEOUTCUBIC);
+		moveCoinTween->animate(TweenableParams::POS_Y, coin->position.y, 400, 30, TweenTransitions::EASEOUTCUBIC);
+		TweenJuggler::getInstance()->add(moveCoinTween);
+
+		moveCoinTween->addEventListener(coinListener, TweenEvent::TWEEN_COMPLETE_EVENT);
+	}
+
+	juggler->nextFrame();
+
+	/*SDL_Rect room;
 	for (int i = 0; i < boundaries.size(); i++) {
 		room = boundaries[i].bounds;
 		if (checkInside(room, character)) {
 			room_state = i;
 		}
-	}
+	}*/
 
 	Game::update(pressedKeys);
 
 	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
 	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
-
-	if (room_state == 0)
-		gameCamera.scale = 1.3;
-	else
-		gameCamera.scale = 1.0;
 
 	enforceCameraBounds();
 }
@@ -190,7 +180,7 @@ void MyGame::enforceCameraBounds() {
 // checks if entire entity is inside area described by box (rudimentary "collision" until engine team implements it)
 bool MyGame::checkInside(SDL_Rect box, DisplayObject* entity) {
 	return (entity->position.x - entity->pivot.x >= box.x &&
-		entity->position.x + entity->pivot.x <= box.x + box.w &&
+		entity->position.x - entity->pivot.x + entity->width <= box.x + box.w &&
 		entity->position.y - entity->pivot.y >= box.y &&
-		entity->position.y + entity->pivot.y <= box.y + box.h);
+		entity->position.y - entity->pivot.y + entity->height <= box.y + box.h);
 }

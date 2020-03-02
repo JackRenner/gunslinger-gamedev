@@ -1,0 +1,18 @@
+{
+	"scene_id": "tweenDemo",
+
+	"room": {
+		"type": "RGB",
+		"rgb": [220, 220, 220],
+
+		"dimensions": [1600, 800],
+		"position": [0, 0],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	}
+}

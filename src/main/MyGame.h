@@ -9,9 +9,9 @@
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
-#include "../engine/Tween.h"
-#include "../engine/TweenJuggler.h"
-
+#include "../engine/tweens/Tween.h"
+#include "../engine/tweens/TweenJuggler.h"
+#include "../engine/eventhandlers/CoinListener.h"
 
 using namespace std;
 
@@ -51,7 +51,7 @@ private:
 
 	Scene* curScene = NULL;
 
-	Scene* cameraDemoScene;
+	Scene* tweenDemo;
 
 	AnimatedSprite* character;
 	Sprite* coin;
@@ -67,6 +67,10 @@ private:
 
 	Sound* gunshot;
 	Sound* music;
+
+	TweenJuggler* juggler;
+
+	CoinListener* coinListener;
 };
 
 #endif
