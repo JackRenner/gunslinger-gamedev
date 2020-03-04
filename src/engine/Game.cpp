@@ -16,12 +16,15 @@ unsigned int Game::frameCounter = 0;
 
 Game::Game(int windowWidth, int windowHeight){
 	Game::instance = this;
-	
+
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
 
 	initSDL();
 	TTF_Init();
+
+
+
 }
 
 Game::~Game(){
@@ -39,7 +42,7 @@ void Game::quitSDL(){
 }
 
 void Game::initSDL(){
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
 	IMG_Init(IMG_INIT_PNG);
 	SDL_Init(SDL_INIT_AUDIO);
 
@@ -55,6 +58,27 @@ void Game::initSDL(){
 }
 
 void Game::start(){
+
+	SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
+ 			//SDL_GameControllerAddMapping("03000000790000004418000010010000,Mayflash GameCube Controller,a:b1,b:b2,dpdown:b14,dpleft:b15,dpright:b13,dpup:b12,lefttrigger:a3,leftx:a0,lefty:a1,rightshoulder:b7,righttrigger:a4,rightx:a5,righty:a2,start:b9,x:b0,y:b3,");
+ 			cout << SDL_NumJoysticks() << endl;
+ 			for (int i = 0; i < SDL_NumJoysticks(); ++i) {
+ 				if (SDL_IsGameController(i)) {
+ 						controller = SDL_GameControllerOpen(i);
+ 						printf("%s", "Found a controller!" );
+ 					    if (controller) {
+ 								cout << "Controller OPENED!";
+ 					       break;
+ 					       } else {
+ 					          fprintf(stderr, "Could not open gamecontroller %i: %s\n", i, SDL_GetError());
+ 					      }
+ 				}
+ 				else{
+ 					cout << "No Controller found";
+ 						printf("%s", "No Controller found");
+ 					}
+ 				}
+
 
 	int ms_per_frame = (1.0/(double)this->frames_per_sec)*1000;
 	std::clock_t start = std::clock();
@@ -84,8 +108,33 @@ void Game::start(){
 			case SDL_KEYUP:
 				pressedKeys.erase(event.key.keysym.scancode);
 				break;
+				/*
+			case SDL_JOYDEVICEADDED:
+				cout << "JoyDevice added!";
+				break;
+			case SDL_JOYDEVICEREMOVED:
+				cout <<"JoyDevice Removed";
+				break;
+				*/
+			case SDL_CONTROLLERDEVICEADDED:
+				cout <<"Controller was added";
+				break;
+			case SDL_CONTROLLERBUTTONDOWN:
+				cout << "Controller Button is Down!";
+				break;
+			case SDL_CONTROLLERBUTTONUP:
+				cout <<"Controller Button is UP"<<endl;
+				break;
+			/*
+			case SDL_JOYBUTTONDOWN:
+				cout << "JoyButton Down!";
+				break;
+			case SDL_JOYBUTTONUP:
+				cout << "JOYBUTTON UP";
+				break;
+*/
 		}
-	
+
 	}
 }
 
