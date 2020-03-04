@@ -26,7 +26,7 @@ struct Animation {
 class AnimatedSprite : public Sprite{
 
 public:
-	
+
 	AnimatedSprite();
 	AnimatedSprite(string id);
 	~AnimatedSprite();
@@ -40,6 +40,8 @@ public:
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
+	std:: vector<string> getAnimationNames();
+
 
 	bool playing = false;
 
@@ -47,7 +49,7 @@ private:
 	Animation* current;
 	vector<Animation*> animations;
 	int frameCount;
-	
+
 };
 
 #endif

@@ -42,6 +42,15 @@ void AnimatedSprite::addAnimation(string basepath, string animName, int numFrame
     animations.push_back(anim);
 }
 
+std:: vector<string> AnimatedSprite:: getAnimationNames(){
+  vector <string> animNameSet;
+  for (int i = 0; i < animations.size(); i++) {
+      animNameSet.push_back(animations[i]->animName);
+  }
+  return animNameSet;
+}
+
+
 Animation* AnimatedSprite::getAnimation(string animName) {
     for (int i = 0; i < animations.size(); i++) {
         if (animations[i]->animName == animName) {
@@ -93,7 +102,7 @@ void AnimatedSprite::update(set<SDL_Scancode> pressedKeys) {
         }
 
     }
-    
+
 }
 
 void AnimatedSprite::draw(AffineTransform &at) {

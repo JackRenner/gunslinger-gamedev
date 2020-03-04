@@ -187,8 +187,6 @@ void Scene:: saveScene(string sceneFilePath){
 		//parent
 				tempString = (at->parent->id);
 				if(tempString == this->id){
-					//tempString = "I'm a Dad";
-					//Don't know how to set this to null without breaking this
 					Properties.AddMember("parent", Value(), allocator); //Vlank Value is null;
 				}
 				else{
@@ -287,8 +285,6 @@ void Scene:: saveScene(string sceneFilePath){
 //parent
 		tempString = (at->parent->id);
 		if(tempString == this->id){
-			//tempString = "I'm a Dad";
-			//Don't know how to set this to null without breaking this
 			Properties.AddMember("parent", Value(), allocator); //Vlank Value is null;
 		}
 		else{
@@ -396,8 +392,6 @@ void Scene:: saveScene(string sceneFilePath){
 //parent
 		tempString = (at->parent->id);
 		if(tempString == this->id){
-			//tempString = "I'm a Dad";
-			//Don't know how to set this to null without breaking this
 			Properties.AddMember("parent", Value(), allocator); //Vlank Value is null;
 		}
 		else{
@@ -429,8 +423,140 @@ void Scene:: saveScene(string sceneFilePath){
 	}
 	void Scene :: saveAnimatedSprite(AnimatedSprite* at){
 		cout <<"ANimSprite";
+
+				rapidjson:: Document::AllocatorType& allocator = this->savedoc.GetAllocator();
+				size_t sz = allocator.Size();
+
+
+				string tempString = at->id;
+				string tempString2;
+				Value id (kObjectType);
+				id.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+
+
+
+
+				Value converter (kObjectType);
+				Value converter2 (kObjectType);
+				Value Properties(kObjectType);
+				Value TempArray(kArrayType);
+				int tempInt;
+				int tempInt2;
+				double tempDouble;
+				double tempDouble2;
+				bool tempBool;
+
+				tempString = at->type;
+				converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+				Properties.AddMember("type", converter, allocator);
+
+
+		//LOAD ANIMATIONS HERE!
+		//
+				tempString = "animations";
+				converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+				Value animationSet(kObjectType);
+
+
+
+
+
+
+
+		//dimensions - Is this the width and the height?
+		//Or what we get from the getWidth and getHeight functions?
+		// Regardless of which, It should be a relatively easy fix.
+
+				tempInt= (at->width);
+				tempInt2 = (at->height);
+
+				TempArray.PushBack(Value().SetInt(tempInt), allocator);
+				TempArray.PushBack(Value().SetInt(tempInt2), allocator);
+				Properties.AddMember("dimensions", TempArray, allocator );
+
+		//Position;
+					Value TempArray2(kArrayType); //I got frustrated trying to reset the TempArray
+					tempInt = (at->position.x);
+					tempInt2 = (at->position.y);
+					TempArray2.PushBack(Value().SetInt(tempInt), allocator);
+					TempArray2.PushBack(Value().SetInt(tempInt2), allocator);
+					Properties.AddMember("position", TempArray2, allocator);
+		//pivot
+				Value TempArray3(kArrayType);
+				tempInt = (at->pivot.x);
+				tempInt2 = (at->pivot.y);
+				TempArray3.PushBack(Value().SetInt(tempInt), allocator);
+				TempArray3.PushBack(Value().SetInt(tempInt2), allocator);
+				Properties.AddMember("pivot", TempArray3, allocator);
+		//scale
+				Value TempArray4(kArrayType);
+				tempDouble = (at->scaleX);
+				tempDouble2 = (at->scaleY);
+				TempArray4.PushBack(Value().SetDouble(tempDouble), allocator);
+				TempArray4.PushBack(Value().SetDouble(tempDouble2), allocator);
+				Properties.AddMember("scale", TempArray4, allocator);
+		//Rotation
+				tempDouble = (at->rotation);
+				Properties.AddMember("rotation", tempDouble, allocator);
+		//Alpha
+				tempInt = (at->alpha);
+				Properties.AddMember("alpha", tempInt, allocator);
+		//visible
+				tempBool = (at->visible);
+				Properties.AddMember("visible", tempBool, allocator);
+		//parent
+				tempString = (at->parent->id);
+				if(tempString == this->id){
+					Properties.AddMember("parent", Value(), allocator); //Vlank Value is null;
+				}
+				else{
+					converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+					Properties.AddMember("parent", converter, allocator);
+				}
+				this->savedoc.AddMember(id, Properties, allocator);
+
+				for(int i = 0; i < at->numChildren(); i++){
+				if(at->getChild(i)-> type == "DisplayObjectContainer" &&  at->getChild(i)->isRGB == false ){
+							saveDisplayObjectContainer(dynamic_cast<DisplayObjectContainer*>(at->getChild(i)));
+						}else if(at->getChild(i)->isRGB && at->getChild(i)->type == "Sprite" ){
+							saveRGB(dynamic_cast<Sprite*>(at->getChild(i)));
+						}
+						else if(at->getChild(i)-> type == "Sprite"){
+							saveSprite(dynamic_cast<Sprite*>(at->getChild(i)));
+						}
+						else if(at->getChild(i)-> type == "AnimatedSprite"){
+							saveAnimatedSprite(dynamic_cast<AnimatedSprite*> (at->getChild(i)));
+						}
+						else if(at->getChild(i)-> type == "DisplayObject"){
+								saveDisplayObject(at->getChild(i));
+						}
+					}
+
+
+
 	}
-	void Scene :: saveAnimation(AnimatedSprite* at){}
+	void Scene :: saveAnimation(AnimatedSprite* at , string animName, rapidjson:: Value animationSet){
+			Value converter (kObjectType);
+			Value converter2 (kObjectType);
+			Value animation(kObjectType);
+			cout << "CheckIf Save Animation pulls info"<< endl;
+			cout << at->getAnimation(animName) -> animName <<endl;
+
+
+			string tempString;
+			tempString = animName;
+			
+
+
+//			converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+	//		animation.AddMember("type", converter, allocator);
+
+
+
+
+
+
+	}
 
 
 

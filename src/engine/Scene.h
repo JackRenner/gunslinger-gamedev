@@ -66,7 +66,9 @@ void saveRGB(Sprite* at);
 	void saveDisplayObjectContainer(DisplayObjectContainer* at);
 	void saveSprite(Sprite* at);
 	void saveAnimatedSprite(AnimatedSprite* at);
+
 	void saveAnimation(AnimatedSprite* at);
+	void saveAnimation(AnimatedSprite* at , string animName, rapidjson:: Value animationSet);
 
 /*
 	void saveDisplayObject(DisplayObject* at, string filepath);
