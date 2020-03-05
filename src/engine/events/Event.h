@@ -2,14 +2,13 @@
 #define EVENT_H
 
 #include <string>
-
 #include "EventDispatcher.h"
 
 using namespace std;
 
 class EventDispatcher;
 
-class Event{
+class Event {
 
 public:
 

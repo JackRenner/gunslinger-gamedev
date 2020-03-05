@@ -135,6 +135,25 @@ void Scene::loadScene(string sceneFilePath) {
 
 			entityStore.push_back(new_animsprite);
 		}
+		else if (type == "Layer") {
+			Layer* new_doc = new Layer();
+			new_doc->id = entityName;
+
+			// set transform parameters
+			new_doc->position.x = sceneDoc[entityName]["position"][0].GetInt();
+			new_doc->position.y = sceneDoc[entityName]["position"][1].GetInt();
+			new_doc->pivot.x = sceneDoc[entityName]["pivot"][0].GetInt();
+			new_doc->pivot.y = sceneDoc[entityName]["pivot"][1].GetInt();
+			new_doc->scaleX = sceneDoc[entityName]["scale"][0].GetDouble();
+			new_doc->scaleY = sceneDoc[entityName]["scale"][1].GetDouble();
+			new_doc->rotation = sceneDoc[entityName]["rotation"].GetDouble();
+			new_doc->alpha = sceneDoc[entityName]["alpha"].GetInt();
+			new_doc->visible = sceneDoc[entityName]["visible"].GetBool();
+			new_doc->scrollSpeedX = sceneDoc[entityName]["scrollSpeedX"].GetDouble();
+			new_doc->scrollSpeedY = sceneDoc[entityName]["scrollSpeedY"].GetDouble();
+
+			entityStore.push_back(new_doc);
+		}
 	}
 
 	// Loop through the temporary store, and set the parent to Scene if key-value is null/not found, otherwise set real parent

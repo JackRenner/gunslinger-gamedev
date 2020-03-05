@@ -1,0 +1,93 @@
+{
+	"scene_id": "tweenDemo",
+
+	"floor": {
+		"type": "RGB",
+		"rgb": [220, 220, 220],
+
+		"dimensions": [1600, 200],
+		"position": [0, 600],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	},
+
+	"background": {
+		"type": "Layer",
+
+		"position": [0, 0],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+		"scrollSpeedX": 2.0,
+		"scrollSpeedY": 1.0,
+
+		"parent": null
+	},
+
+	"sky": {
+		"type": "RGB",
+		"rgb": [10, 80, 150],
+
+		"dimensions": [2400, 600],
+		"position": [0, 0],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "background"
+	},
+
+	"back1": {
+		"type": "RGB",
+		"rgb": [10, 150, 10],
+
+		"dimensions": [100, 200],
+		"position": [600, 400],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "background"
+	},
+
+	"back2": {
+		"type": "RGB",
+		"rgb": [10, 150, 10],
+
+		"dimensions": [100, 200],
+		"position": [1200, 400],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "background"
+	},
+
+	"back3": {
+		"type": "RGB",
+		"rgb": [10, 150, 10],
+
+		"dimensions": [100, 200],
+		"position": [1950, 400],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "background"
+	}
+}

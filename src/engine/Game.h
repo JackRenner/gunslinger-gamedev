@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "DisplayObjectContainer.h"
+#include "tweens/TweenJuggler.h"
 #include <vector>
 #include <set>
 #include <SDL2/SDL_mixer.h>

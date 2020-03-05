@@ -9,7 +9,9 @@
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
-
+#include "../engine/tweens/Tween.h"
+#include "../engine/tweens/TweenJuggler.h"
+#include "../engine/eventhandlers/CoinListener.h"
 
 using namespace std;
 
@@ -49,20 +51,24 @@ private:
 
 	Scene* curScene = NULL;
 
-	Scene* cameraDemoScene;
+	Scene* tweenDemo;
 
 	AnimatedSprite* character;
+	Sprite* coin;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;
+	bool coinPickedUp = false;
 
 	vector<Bound> boundaries;
 	int room_state = -1;
 
-	SDL_Point zoomPoint;
-
 	Sound* gunshot;
 	Sound* music;
+
+	TweenJuggler* juggler;
+
+	CoinListener* coinListener;
 };
 
 #endif

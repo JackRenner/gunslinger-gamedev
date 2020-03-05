@@ -94,16 +94,16 @@ void DisplayObject::draw(AffineTransform &at){
 	reverseTransformations(at);
 }
 
-void DisplayObject::applyTransformations(AffineTransform &at) {
+void DisplayObject::applyTransformations(AffineTransform& at) {
 	at.translate(position.x, position.y);
 	at.rotate(rotation);
 	at.scale(scaleX, scaleY);
 	at.translate(-pivot.x, -pivot.y);
 }
 
-void DisplayObject::reverseTransformations(AffineTransform &at) {
+void DisplayObject::reverseTransformations(AffineTransform& at) {
 	at.translate(pivot.x, pivot.y);
-	at.scale(1.0/scaleX, 1.0/scaleY);
+	at.scale(1.0 / scaleX, 1.0 / scaleY);
 	at.rotate(-rotation);
 	at.translate(-position.x, -position.y);
 }
