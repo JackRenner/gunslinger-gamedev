@@ -34,12 +34,19 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
+
+	SDL_Joystick* joystick = NULL;
+	SDL_GameController *controller = NULL;
+	set<SDL_ControllerButtonEvent> GameButtons;
+	set<SDL_ControllerButtonEvent> recentlyPressed;
+	set <SDL_JoyAxisEvent> JoyStickMovement;
+
 private:
 
 	void initSDL();
 	void quitSDL();
 	set<SDL_Scancode> pressedKeys;
-	
+
 };
 
 #endif
