@@ -41,6 +41,8 @@ public:
 	int getWidth();
 	int getHeight();
 
+	void setSourceRect(SDL_Rect* srcrect);
+
 	bool visible = true;
 	SDL_Point position = {0, 0};
 	int width = 100;
@@ -51,6 +53,9 @@ public:
 	double rotation = 0.0; // in radians
 	int alpha = 255;
 	bool facingRight = true;
+
+	//This rect is to allow spritesheet support in AnimatedSprite.h
+	SDL_Rect* srcrect = NULL;
 
 	static Camera gameCamera;
 

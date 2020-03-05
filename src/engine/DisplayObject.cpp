@@ -61,6 +61,10 @@ void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 	
 }
 
+void DisplayObject::setSourceRect(SDL_Rect* srcrect){
+	this->srcrect = srcrect;
+}
+
 void DisplayObject::draw(AffineTransform &at){
 	applyTransformations(at);
 
@@ -86,7 +90,7 @@ void DisplayObject::draw(AffineTransform &at){
 		}
 		
 		SDL_SetTextureAlphaMod(curTexture, alpha);
-		SDL_RenderCopyEx(Game::renderer, curTexture, NULL, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
+		SDL_RenderCopyEx(Game::renderer, curTexture, srcrect, &dstrect, calculateRotation(origin, upperRight), &corner, flip);	
 	}
 
 	//at.translate(gameCamera.x, gameCamera.y);
