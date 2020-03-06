@@ -18,8 +18,8 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	character = new AnimatedSprite("character");
 	character->addAnimation("./resources/character/", "Run", 20, 2, true);
-
-
+	character->addAnimation("./resources/character/", "Walk", 20, 2, true);
+	character->addAnimation("./resources/character/", "Dead", 30, 2, true);
 	this->setScene(cameraDemoScene);
 	this->addChild(character);
 	character->position = { 300, 1100 };
@@ -47,7 +47,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 }
 
 MyGame::~MyGame() {
-	
+
 }
 
 
@@ -57,15 +57,19 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	}
 
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+
 		character->position.y -= 5;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+
 		character->position.y += 5;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+
 		character->position.x += 5;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
+
 		character->position.x -= 5;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end()) {
@@ -74,6 +78,30 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
 		gameCamera.scale += 0.05;
 	}
+	if(pressedKeys.find(SDL_SCANCODE_T) != pressedKeys.end()){
+		character->play("Dead");
+	}
+	if(pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end()){
+		character->play("Walk");
+	}
+/*
+		if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
+			character->play("Run");
+			character->position.y -= 5;
+		}
+		if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
+			character->play("Run");
+			character->position.y += 5;
+		}
+		if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
+			character->play("Run");
+			character->position.x += 5;
+		}
+		if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
+			character->play("Run");
+			character->position.x -= 5;
+		}
+*/
 
 	SDL_Rect room;
 	for (int i = 0; i < boundaries.size(); i++) {
@@ -136,7 +164,7 @@ void MyGame::enforceCameraBounds() {
 
 	SDL_Point upper_left = boundCalc.transformPoint(room.bounds.x, room.bounds.y);
 	SDL_Point lower_right = boundCalc.transformPoint(room.bounds.x + room.bounds.w, room.bounds.y + room.bounds.h);
-	
+
 	// check right bound
 	if (room.check_right) {
 		if (gameCamera.x + gameCamera.viewportWidth > lower_right.x)

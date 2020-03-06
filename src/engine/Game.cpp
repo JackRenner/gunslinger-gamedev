@@ -28,7 +28,7 @@ Game::Game(int windowWidth, int windowHeight){
 }
 
 Game::~Game(){
-	// DisplayObjectContainer::~DisplayObjectContainer();
+	// DisplayObjectContainer::~DisplayObjectContainer ();
 	quitSDL();
 }
 
@@ -68,6 +68,7 @@ void Game::start(){
  						printf("%s", "Found a controller!" );
  					    if (controller) {
  								cout << "Controller OPENED!";
+								controllerPluggedIn = true;
  					       break;
  					       } else {
  					          fprintf(stderr, "Could not open gamecontroller %i: %s\n", i, SDL_GetError());
@@ -103,10 +104,14 @@ void Game::start(){
 				quit = true;
 				break;
 			case SDL_KEYDOWN:
-				pressedKeys.insert(event.key.keysym.scancode);
+				if(controllerPluggedIn == false){
+					pressedKeys.insert(event.key.keysym.scancode);
+				}
 				break;
 			case SDL_KEYUP:
-				pressedKeys.erase(event.key.keysym.scancode);
+				if(controllerPluggedIn == false){
+					pressedKeys.erase(event.key.keysym.scancode);
+				}
 				break;
 				/*
 			case SDL_JOYDEVICEADDED:
@@ -118,13 +123,121 @@ void Game::start(){
 				*/
 			case SDL_CONTROLLERDEVICEADDED:
 				cout <<"Controller was added";
+				controllerPluggedIn = true;
+				break;
+			case SDL_CONTROLLERDEVICEREMOVED:
+				cout << "Controller Removed";
+				controllerPluggedIn = false;
 				break;
 			case SDL_CONTROLLERBUTTONDOWN:
-				cout << "Controller Button is Down!";
+			/*
+			SDL_CONTROLLER_BUTTON_INVALID
+			SDL_CONTROLLER_BUTTON_A
+			SDL_CONTROLLER_BUTTON_B
+			SDL_CONTROLLER_BUTTON_X
+			SDL_CONTROLLER_BUTTON_Y
+			SDL_CONTROLLER_BUTTON_BACK
+			SDL_CONTROLLER_BUTTON_GUIDE
+			SDL_CONTROLLER_BUTTON_START
+			SDL_CONTROLLER_BUTTON_LEFTSTICK
+			SDL_CONTROLLER_BUTTON_RIGHTSTICK
+			SDL_CONTROLLER_BUTTON_LEFTSHOULDER
+			SDL_CONTROLLER_BUTTON_RIGHTSHOULDER
+			SDL_CONTROLLER_BUTTON_DPAD_UP
+			SDL_CONTROLLER_BUTTON_DPAD_DOWN
+			SDL_CONTROLLER_BUTTON_DPAD_LEFT
+			SDL_CONTROLLER_BUTTON_DPAD_RIGHT
+			SDL_CONTROLLER_BUTTON_MAX
+			*/
+//				cout << "Controller Button is Down!";
+				if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A){
+					cout << "A Button is pressed down";
+					pressedKeys.insert(SDL_SCANCODE_T);
+				}
+				if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B){
+					cout << "B Button is pressed down";
+					pressedKeys.insert(SDL_SCANCODE_Y);
+				}
 				break;
+				//GameButtonDown.insert(event.cbutton);
 			case SDL_CONTROLLERBUTTONUP:
-				cout <<"Controller Button is UP"<<endl;
+				if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A){
+					pressedKeys.erase(SDL_SCANCODE_T);
+				}
+				if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B){
+					pressedKeys.erase(SDL_SCANCODE_Y);
+				}
+				cout <<" : Controller Button is UP"<<endl;
+//				if(GameButtonDown.erase(event.cbutton.button))
+				//GameButtonUp.insert(event);
+				//	if((event.cbutton = ))
+
+
 				break;
+				case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
+
+        			if( event.jaxis.axis == 0){ //Of Left Joystick
+            			/* Left-right movement code goes here */
+									if (event.jaxis.value > 3200){
+											pressedKeys.insert(SDL_SCANCODE_RIGHT);
+									}
+									else if(event.jaxis.value < -3200){
+											pressedKeys.insert(SDL_SCANCODE_LEFT);
+									}
+									if(event.jaxis.value < 3200 && event.jaxis.value > -3200){
+										pressedKeys.erase(SDL_SCANCODE_RIGHT);
+										pressedKeys.erase(SDL_SCANCODE_LEFT);
+									}
+
+        			}
+        			if( event.jaxis.axis == 1)//LEFT JOYSTICK
+        			{
+            			/* Up-Down movement code goes here */
+									if (event.jaxis.value > 3200){
+											pressedKeys.insert(SDL_SCANCODE_DOWN);
+									}
+									else if(event.jaxis.value < -3200){
+											pressedKeys.insert(SDL_SCANCODE_UP);
+									}
+									if(event.jaxis.value < 3200 && event.jaxis.value > -3200){
+										pressedKeys.erase(SDL_SCANCODE_UP);
+										pressedKeys.erase(SDL_SCANCODE_DOWN);
+									}
+							}
+
+							if( event.jaxis.axis == 3){ //RIGHT STICK X
+            			/* Left-right movement code goes here */
+									if (event.jaxis.value > 3200){
+											pressedKeys.insert(SDL_SCANCODE_D);
+									}
+									else if(event.jaxis.value < -3200){
+											pressedKeys.insert(SDL_SCANCODE_A);
+									}
+									if(event.jaxis.value < 3200 && event.jaxis.value > -3200){
+										pressedKeys.erase(SDL_SCANCODE_A);
+										pressedKeys.erase(SDL_SCANCODE_D);
+									}
+
+        			}
+        			if( event.jaxis.axis == 4)
+        			{
+            			/* Up-Down movement code goes here */
+									if (event.jaxis.value > 3200){
+											pressedKeys.insert(SDL_SCANCODE_S);
+									}
+									else if(event.jaxis.value < -3200){
+											pressedKeys.insert(SDL_SCANCODE_W);
+									}
+									if(event.jaxis.value < 3200 && event.jaxis.value > -3200){
+										pressedKeys.erase(SDL_SCANCODE_W);
+										pressedKeys.erase(SDL_SCANCODE_S);
+									}
+							}
+
+    break;
+
+
+
 			/*
 			case SDL_JOYBUTTONDOWN:
 				cout << "JoyButton Down!";

@@ -8,6 +8,7 @@
 #include <vector>
 #include <set>
 #include <SDL2/SDL_mixer.h>
+#include <map>
 
 using namespace std;
 
@@ -34,11 +35,28 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
+	bool controllerPluggedIn = false;
 
 	SDL_Joystick* joystick = NULL;
 	SDL_GameController *controller = NULL;
-	set<SDL_ControllerButtonEvent> GameButtons;
-	set<SDL_ControllerButtonEvent> recentlyPressed;
+
+//	map<SDL_JoystickID , vector<uint8> > controllerButtonMap;
+	//map<SDL_JoystickID, int > ControllerDirection;
+
+
+	int LeftStickX;
+	int leftStickY;
+	int RightStickX;
+	int RightStickY;
+
+
+	set<Uint8> GameButtonUp;
+
+
+
+	set<SDL_ControllerButtonEvent> GameButtonDown;
+//	set<SDL_cbutton> GameButtonDown;
+
 	set <SDL_JoyAxisEvent> JoyStickMovement;
 
 private:
