@@ -436,6 +436,10 @@ void Scene:: saveScene(string sceneFilePath){
 
 
 
+
+
+
+
 				Value converter (kObjectType);
 				Value converter2 (kObjectType);
 				Value Properties(kObjectType);
@@ -451,16 +455,24 @@ void Scene:: saveScene(string sceneFilePath){
 				Properties.AddMember("type", converter, allocator);
 
 
+
+
 		//LOAD ANIMATIONS HERE!
 		//
 				tempString = "animations";
 				converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
-				Value animationSet(kObjectType);
+				Value animationJson(kObjectType);
+				Value& animationJsonRef = animationJson;
+				saveAnimation(at, animationJsonRef);
+				//saveAnimation(at, animationJson);
+//				saveAnimation(at);
 
+				Properties.AddMember("animations", animationJson, allocator);
 
-
-
-
+				//Save playing
+				tempString = at->getCurrentAnimationName();
+				converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+				Properties.AddMember("playing", converter, allocator);
 
 
 		//dimensions - Is this the width and the height?
@@ -535,28 +547,75 @@ void Scene:: saveScene(string sceneFilePath){
 
 
 	}
-	void Scene :: saveAnimation(AnimatedSprite* at , string animName, rapidjson:: Value animationSet){
+	void Scene :: saveAnimation(AnimatedSprite* at , rapidjson:: Value& animationSet){
+			Value converter (kObjectType);
+			Value converter2 (kObjectType);
+			Value animNameConverter (kObjectType);
+			bool tempBool;
+			rapidjson:: Document::AllocatorType& allocator = this->savedoc.GetAllocator();
+			size_t sz = allocator.Size();
+			string tempString;
+			int tempInt;
+			string CurrentAnimName;
+
+			//cout << "CheckIf Save Animation pulls info"<< endl;
+			std:: vector<string> AnimationNames = at->getAnimationNames();
+				for (int i = 0; i < AnimationNames.size(); i++) {
+						cout << AnimationNames[i] <<endl;
+						Value animation(kObjectType);
+						Animation* currentAnim = at->getAnimation(AnimationNames[i]);
+						tempString = currentAnim->basepath;
+						converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+						animation.AddMember("basepath", converter, allocator);
+
+
+
+						tempString = currentAnim->animName;
+						converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+						animation.AddMember("animName", converter, allocator);
+
+
+						tempInt = currentAnim->numFrames;
+						animation.AddMember("numFrames", Value().SetInt(tempInt), allocator);
+
+
+
+						tempInt = currentAnim->frameRate;
+												animation.AddMember("frameRate", Value().SetInt(tempInt), allocator);
+
+					 tempBool = currentAnim->loop;
+
+			 				animation.AddMember("loop", tempBool, allocator);
+
+						CurrentAnimName = AnimationNames[i];
+						animNameConverter.SetString(CurrentAnimName.c_str(), static_cast<SizeType> (CurrentAnimName.size()), allocator);
+						animationSet.AddMember(animNameConverter, animation , allocator );
+
+					}
+	//		tempString = animName;
+//			converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+	//		animation.AddMember("type", converter, allocator);
+		}
+
+
+
+		void Scene :: saveAnimation(AnimatedSprite* at){
 			Value converter (kObjectType);
 			Value converter2 (kObjectType);
 			Value animation(kObjectType);
-			cout << "CheckIf Save Animation pulls info"<< endl;
-			cout << at->getAnimation(animName) -> animName <<endl;
+			cout <<endl;
+			cout << "Animation Set" <<endl;
+			std:: vector<string> AnimationNames = at->getAnimationNames();
+				for (int i = 0; i < AnimationNames.size(); i++) {
+						cout << AnimationNames[i] <<endl;
+						Animation* currentAnim = at->getAnimation(AnimationNames[i]);
 
 
+
+				}
 			string tempString;
-			tempString = animName;
-			
+		}
 
-
-//			converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
-	//		animation.AddMember("type", converter, allocator);
-
-
-
-
-
-
-	}
 
 
 

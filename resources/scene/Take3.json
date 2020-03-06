@@ -94,5 +94,45 @@
         "alpha": 255,
         "visible": true,
         "parent": "test_doc"
+    },
+    "test_anim": {
+        "type": "AnimatedSprite",
+        "animations": {
+            "Sun": {
+                "basepath": "./resources/solarSystem/",
+                "animName": "Sun",
+                "numFrames": 4,
+                "frameRate": 2,
+                "loop": true
+            },
+            "Jump": {
+                "basepath": "./resources/character/",
+                "animName": "Jump",
+                "numFrames": 30,
+                "frameRate": 2,
+                "loop": true
+            }
+        },
+        "playing": "Jump",
+        "dimensions": [
+            90,
+            100
+        ],
+        "position": [
+            500,
+            500
+        ],
+        "pivot": [
+            0,
+            0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
     }
 }

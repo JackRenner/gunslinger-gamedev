@@ -19,7 +19,7 @@ DevTool::DevTool() : Game(1200, 1000) {
 	testScene2 = new Scene();
 	testScene2->loadScene("./resources/scene/test2.txt");
 
-	curScene->loadScene("./resources/scene/test1.txt");
+	curScene->loadScene("./resources/scene/test2.txt");
 
 	this->setScene(curScene);
 }
@@ -456,7 +456,7 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 	  }
 	  it++;
 	}
-
+/*
 	if(lastEvent){
 		kiss_entry_event(xEnt, lastEvent, &drawFlag);
 		kiss_entry_event(idEnt, lastEvent, &drawFlag);
@@ -481,7 +481,7 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 				break;
 		}
 	}
-	
+	*/
 	if(drawFlag){
 		SDL_RenderClear(rendererDos);
 		drawEntries();

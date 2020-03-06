@@ -32,6 +32,9 @@ void AnimatedSprite::addAnimation(string basepath, string animName, int numFrame
     anim->loop = loop;
     anim->curFrame = 0;
     anim->frames = new Frame*[numFrames]; // new frame pointer array of size numFrames;
+    //Added basepath
+    anim->basepath = basepath;
+    //
     for (int i = 0; i < numFrames; i++ ) {
         Frame* f = new Frame();
         string path = basepath + animName + "_" + to_string(i+1) + ".png";
@@ -59,6 +62,11 @@ Animation* AnimatedSprite::getAnimation(string animName) {
     }
     return NULL;
 }
+std:: string AnimatedSprite :: getCurrentAnimationName(){
+  return(current->animName);
+}
+
+
 
 void AnimatedSprite::play(string animName) {
     Animation* anim = getAnimation(animName);

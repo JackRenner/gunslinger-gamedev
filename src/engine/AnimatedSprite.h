@@ -21,6 +21,8 @@ struct Animation {
 	int frameRate;
 	bool loop;
 	int curFrame;
+	//Added
+	string basepath;
 };
 
 class AnimatedSprite : public Sprite{
@@ -41,6 +43,7 @@ public:
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 	std:: vector<string> getAnimationNames();
+	std:: string getCurrentAnimationName();
 
 
 	bool playing = false;
