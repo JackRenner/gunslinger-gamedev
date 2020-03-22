@@ -76,6 +76,11 @@ void DisplayObject::draw(AffineTransform &at){
 		SDL_Point lowerRight = at.transformPoint(width, height);
 		SDL_Point corner = {0, 0};
 
+		transformedOrigin = origin;
+		transformedURight = upperRight;
+		transformedLRight = lowerRight;
+		transformedLLeft = at.transformPoint(0, height);
+
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
 
