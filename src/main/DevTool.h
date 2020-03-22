@@ -43,7 +43,7 @@ public:
 	void shiftSamples(bool direction);
 	void createNewSprite(int index);
 	void mousePressed();
-	void updateFields();
+	void updateEntries();
 	void drawEntries();
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform& at);
@@ -55,6 +55,9 @@ public:
 private:
 	//SDL_Renderers for kiss windows
 	SDL_Renderer* rendererDos;
+
+	//main window id
+	int mWindowId = 0;
 
 	//kiss thangs
 	kiss_array* objects;
@@ -73,6 +76,10 @@ private:
 	kiss_entry* alphaEnt;
 	kiss_label* alphaLab;
 	kiss_button* deleteSprite;
+	kiss_label* widthLab;
+	kiss_entry* widthEnt;
+	kiss_label* heightLab;
+	kiss_entry* heightEnt;
 	//objects dealing with loading and saving a scene
 	kiss_label* saveSLab;
 	kiss_entry* saveSEnt;
@@ -82,7 +89,9 @@ private:
 	kiss_button* loadScene;
 
 	Scene* curScene;
-	Sprite* selectedSprite;
+	DisplayObject* selectedSprite;
+	//Alpha value for the selected sprite
+	int ssAlpha;
 
 	//flag to see if a mouse is currently down
 	bool mouseDown = false;
@@ -92,6 +101,7 @@ private:
 	int makeJerkyMovement = 0;
 	int flashSelected = 0;
 	bool dim = false;
+	int typeCheck = 0;
 
 	//Picture viewer
 	vector<string*> fileNames;

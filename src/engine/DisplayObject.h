@@ -50,6 +50,10 @@ public:
 	double rotation = 0.0; // in radians
 	int alpha = 255;
 	bool facingRight = true;
+	SDL_Point transformedOrigin;
+	SDL_Point transformedURight;
+	SDL_Point transformedLRight;
+	SDL_Point transformedLLeft;
 
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);

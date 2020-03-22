@@ -15,7 +15,7 @@ unsigned int Game::frameCounter = 0;
 
 Game::Game(int windowWidth, int windowHeight){
 	Game::instance = this;
-
+	
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
 
@@ -37,7 +37,7 @@ void Game::quitSDL(){
 }
 
 void Game::initSDL(){
-	SDL_Init(SDL_INIT_VIDEO| SDL_INIT_JOYSTICK);
+	SDL_Init(SDL_INIT_VIDEO);
 	IMG_Init(IMG_INIT_PNG);
 
 	window = SDL_CreateWindow("myGame",
@@ -49,29 +49,6 @@ void Game::initSDL(){
 }
 
 void Game::start(){
-	SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
- 			//SDL_GameControllerAddMapping("03000000790000004418000010010000,Mayflash GameCube Controller,a:b1,b:b2,dpdown:b14,dpleft:b15,dpright:b13,dpup:b12,lefttrigger:a3,leftx:a0,lefty:a1,rightshoulder:b7,righttrigger:a4,rightx:a5,righty:a2,start:b9,x:b0,y:b3,");
- 			cout << SDL_NumJoysticks() << endl;
- 			for (int i = 0; i < SDL_NumJoysticks(); ++i) {
- 				if (SDL_IsGameController(i)) {
- 						controller = SDL_GameControllerOpen(i);
- 						printf("%s", "Found a controller!" );
- 					    if (controller) {
- 								cout << "Controller OPENED!";
- 					       break;
- 					       } else {
- 					          fprintf(stderr, "Could not open gamecontroller %i: %s\n", i, SDL_GetError());
- 					      }
- 				}
- 				else{
- 					cout << "No Controller found";
- 						printf("%s", "No Controller found");
- 					}
- 				}
-
-
-
-
 
 	int ms_per_frame = (1.0/(double)this->frames_per_sec)*1000;
 	std::clock_t start = std::clock();
@@ -101,28 +78,9 @@ void Game::start(){
 			case SDL_KEYUP:
 				pressedKeys.erase(event.key.keysym.scancode);
 				break;
-			case SDL_JOYDEVICEADDED:
-				cout << "JoyDevice added!";
-				break;
-			case SDL_JOYDEVICEREMOVED:
-				cout <<"Joy Device Controller Removed";
-				break;
-			case SDL_CONTROLLERBUTTONDOWN:
-				cout << "Controller Button is Down!";
-				break;
-			case SDL_CONTROLLERBUTTONUP:
-				cout <<"Controller Button is UP";
-				break;
-				/*
-			case SDL_JOYBUTTONDOWN:
-				cout << "JoyButton Down!";
-				break;
-			case SDL_JOYBUTTONUP:
-				cout << "JOYBUTTON UP";
-				break;
-				*/
 		}
-
+		lastEvent = &event;
+	
 	}
 }
 
@@ -132,10 +90,11 @@ void Game::update(set<SDL_Scancode> pressedKeys){
 }
 void Game::setUpGrid(){
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
-	for(int x = 50; x < this->windowWidth; x += 50){
+	int num = 50 * gridScale;
+	for(int x = num; x < this->windowWidth; x += num){
 		SDL_RenderDrawLine(renderer, x, 0, x, this->windowHeight);
 	}
-	for(int y = 50; y < this->windowHeight; y += 50){
+	for(int y = num; y < this->windowHeight; y += num){
 		SDL_RenderDrawLine(renderer, 0, y, this->windowWidth, y);
 	}
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
@@ -146,6 +105,6 @@ void Game::draw(AffineTransform &at){
 
 	setUpGrid();
 	DisplayObjectContainer::draw(at);
-
+	
 	SDL_RenderPresent(Game::renderer);
 }
