@@ -1,8 +1,8 @@
 bin/./src/main/DevTool.cpp.o: src/main/DevTool.cpp \
  src/main/../engine/Sprite.h src/main/../engine/DisplayObjectContainer.h \
  src/main/../engine/DisplayObject.h src/main/../engine/AffineTransform.h \
- src/main/../engine/Scene.h src/main/../engine/Sprite.h \
- src/main/../engine/AnimatedSprite.h \
+ src/main/../engine/Camera.h src/main/../engine/Scene.h \
+ src/main/../engine/Sprite.h src/main/../engine/AnimatedSprite.h \
  src/main/../engine/../rapidjson/filereadstream.h \
  src/main/../engine/../rapidjson/stream.h \
  src/main/../engine/../rapidjson/rapidjson.h \
@@ -52,6 +52,8 @@ src/main/../engine/DisplayObjectContainer.h:
 src/main/../engine/DisplayObject.h:
 
 src/main/../engine/AffineTransform.h:
+
+src/main/../engine/Camera.h:
 
 src/main/../engine/Scene.h:
 

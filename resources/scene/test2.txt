@@ -81,6 +81,8 @@
 			"animation1": {
 				"basepath": "./resources/character/",
 				"animName": "Dead",
+		                "fromSheet": false,
+                		"xmlPath": "Placeholder",
 				"numFrames": 30,
 				"frameRate": 3,
 				"loop": true

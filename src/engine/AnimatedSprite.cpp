@@ -2,6 +2,11 @@
 #include "Game.h"
 #include <string>
 
+#include <iostream>
+#include <fstream>
+#include <string>
+
+
 using namespace std;
 
 AnimatedSprite::AnimatedSprite() : Sprite() {
@@ -24,6 +29,26 @@ AnimatedSprite::~AnimatedSprite() {
     }
 }
 
+
+vector<string> AnimatedSprite::parseXML(string spriteSheet, string xml){
+    ifstream myFile;
+    myFile.open(xml);
+    string line;
+    vector<string> ssframes;
+    if(myFile.is_open()){
+        while (getline(myFile, line)){
+            if(line.find("x=") != string::npos){
+                ssframes.push_back(line);
+            }
+        }
+        myFile.close();
+    } else {
+        cout << "Unable to open " << xml << endl;
+    }
+    return ssframes;
+}
+
+
 void AnimatedSprite::addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop) {
     Animation* anim = new Animation();
     anim->animName = animName;
@@ -34,6 +59,8 @@ void AnimatedSprite::addAnimation(string basepath, string animName, int numFrame
     anim->frames = new Frame*[numFrames]; // new frame pointer array of size numFrames;
     //Added basepath
     anim->basepath = basepath;
+    anim->fromSheet = false;
+    //anim->xmlPath = "PlaceHolderPath";
     //
     for (int i = 0; i < numFrames; i++ ) {
         Frame* f = new Frame();
@@ -41,6 +68,60 @@ void AnimatedSprite::addAnimation(string basepath, string animName, int numFrame
         f->image = IMG_Load(path.c_str());
         f->texture = SDL_CreateTextureFromSurface(Game::renderer, f->image);
         anim->frames[i] = f;
+    }
+    animations.push_back(anim);
+}
+
+
+void AnimatedSprite::addAnimation(string spriteSheet, string xml, string animName, int numFrames, int frameRate, bool loop){
+    vector<string> ssframes = parseXML(spriteSheet, xml);
+    Animation* anim = new Animation();
+    anim->animName = animName;
+    anim->numFrames = numFrames;
+    anim->frameRate = frameRate;
+    anim->loop = loop;
+    anim->curFrame = 0;
+    anim->frames = new Frame*[numFrames];
+    anim->fromSheet = true;
+    anim->rects = new SDL_Rect*[numFrames];
+    //ADDED
+    anim->basepath = spriteSheet;
+    anim->xmlPath = xml;
+    for(int i = 0; i < numFrames; i++){
+        Frame* f = new Frame();
+        f->image = IMG_Load(spriteSheet.c_str());
+        f->texture = SDL_CreateTextureFromSurface(Game::renderer, f->image);
+        anim->frames[i] = f;
+
+        int x, y, w, h;
+        string img = ssframes[i];
+        try{
+            int xIn = img.find("x=") + 3;
+            int xOut = img.find("\"", xIn);
+            string xSub = img.substr(xIn, xOut - xIn);
+            x = stoi(xSub);
+            int yIn = img.find("y=") + 3;
+            int yOut = img.find("\"", yIn);
+            string ySub = img.substr(yIn, yOut - yIn);
+            y = stoi(ySub);
+            int wIn = img.find("w=") + 3;
+            int wOut = img.find("\"", wIn);
+            string wSub = img.substr(wIn, wOut - wIn);
+            w = stoi(wSub);
+            int hIn = img.find("h=") + 3;
+            int hOut = img.find("\"", hIn);
+            string hSub = img.substr(hIn, hOut - hIn);
+            h = stoi(hSub);
+        } catch(exception e){
+            cout << "xml formatting in " << xml << " is off" << endl;
+        }
+
+        SDL_Rect* r = new SDL_Rect();
+        r->h = h;
+        r->y = y;
+        r->w = w;
+        r->x = x;
+        anim->rects[i] = r;
     }
     animations.push_back(anim);
 }
@@ -107,6 +188,9 @@ void AnimatedSprite::update(set<SDL_Scancode> pressedKeys) {
                 }
             }
             DisplayObject::setTexture(current->frames[current->curFrame]->texture);
+            if(current->fromSheet) {
+                DisplayObject::setSourceRect(current->rects[current->curFrame]);
+            }
         }
 
     }

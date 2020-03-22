@@ -22,6 +22,22 @@ DevTool::DevTool() : Game(1200, 1000) {
 	curScene->loadScene("./resources/scene/test2.txt");
 
 	this->setScene(curScene);
+
+
+	AnimatedSprite* character;
+	character = new AnimatedSprite("character");
+	character-> id = "TestingSpriteSheetID";
+	character->addAnimation("./resources/character/", "Run", 20, 2, true);
+	character->addAnimation("./resources/character/", "Walk", 20, 2, true);
+	character->addAnimation("./resources/character/dead_spritesheet.png", "./resources/character/dead_spritesheet.xml", "Dead", 12, 5, true);
+
+	character->position = { 500, 200 };
+	character->pivot = { character->width / 2, character->height / 2 };
+	character->play("Run");
+	character->width = 90;
+
+	curScene->addChild(character);
+
 }
 
 DevTool::~DevTool() {

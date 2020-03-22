@@ -1,5 +1,5 @@
 bin/./src/main/main.cpp.o: src/main/main.cpp src/engine/DisplayObject.h \
- src/engine/AffineTransform.h src/main/DevTool.h \
+ src/engine/AffineTransform.h src/engine/Camera.h src/main/DevTool.h \
  src/main/../engine/Game.h src/main/../engine/DisplayObjectContainer.h \
  src/main/../engine/DisplayObject.h src/main/../engine/AffineTransform.h \
  src/main/../engine/Sprite.h src/main/../engine/AnimatedSprite.h \
@@ -49,6 +49,8 @@ bin/./src/main/main.cpp.o: src/main/main.cpp src/engine/DisplayObject.h \
 src/engine/DisplayObject.h:
 
 src/engine/AffineTransform.h:
+
+src/engine/Camera.h:
 
 src/main/DevTool.h:
 

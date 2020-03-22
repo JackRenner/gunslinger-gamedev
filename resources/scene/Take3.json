@@ -1,19 +1,38 @@
 {
-    "scene_id": "testScene1",
+    "scene_id": "testScene2",
+    "test_doc": {
+        "type": "DisplayObjectContainer",
+        "position": [
+            600,
+            500
+        ],
+        "pivot": [
+            0,
+            0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    },
     "test_sprite1": {
         "type": "Sprite",
-        "filepath": "./resources/character/Dead_1.png",
+        "filepath": "./resources/character/Dead_30.png",
         "dimensions": [
             120,
             100
         ],
         "position": [
-            100,
-            100
+            0,
+            -400
         ],
         "pivot": [
-            0,
-            0
+            60,
+            50
         ],
         "scale": [
             1.0,
@@ -22,22 +41,22 @@
         "rotation": 0.0,
         "alpha": 255,
         "visible": true,
-        "parent": null
+        "parent": "test_doc"
     },
     "test_sprite2": {
         "type": "Sprite",
-        "filepath": "./resources/character/Idle_1.png",
+        "filepath": "./resources/character/Dead_30.png",
         "dimensions": [
-            100,
+            120,
             100
         ],
         "position": [
-            200,
-            200
+            0,
+            400
         ],
         "pivot": [
-            0,
-            0
+            60,
+            50
         ],
         "scale": [
             1.0,
@@ -46,45 +65,54 @@
         "rotation": 0.0,
         "alpha": 255,
         "visible": true,
-        "parent": null
-    },
-    "test_doc": {
-        "type": "DisplayObjectContainer",
-        "position": [
-            350,
-            350
-        ],
-        "pivot": [
-            0,
-            0
-        ],
-        "scale": [
-            1.0,
-            1.0
-        ],
-        "rotation": 0.0,
-        "alpha": 255,
-        "visible": true,
-        "parent": null
+        "parent": "test_doc"
     },
     "test_rgb": {
         "type": "RGB",
         "rgb": [
             255,
             10,
-            180
+            10
         ],
         "dimensions": [
-            100,
-            100
+            50,
+            50
         ],
         "position": [
-            0,
+            -400,
             0
         ],
         "pivot": [
-            0,
+            25,
+            25
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": "test_doc"
+    },
+    "test_rgb2": {
+        "type": "RGB",
+        "rgb": [
+            255,
+            10,
+            10
+        ],
+        "dimensions": [
+            50,
+            50
+        ],
+        "position": [
+            400,
             0
+        ],
+        "pivot": [
+            25,
+            25
         ],
         "scale": [
             1.0,
@@ -98,33 +126,81 @@
     "test_anim": {
         "type": "AnimatedSprite",
         "animations": {
-            "Sun": {
-                "basepath": "./resources/solarSystem/",
-                "animName": "Sun",
-                "numFrames": 4,
-                "frameRate": 2,
-                "loop": true
-            },
-            "Jump": {
+            "Dead": {
                 "basepath": "./resources/character/",
-                "animName": "Jump",
+                "animName": "Dead",
+                "fromSheet": false,
+                "xmlPath": "",
                 "numFrames": 30,
-                "frameRate": 2,
+                "frameRate": 3,
                 "loop": true
             }
         },
-        "playing": "Jump",
+        "playing": "Dead",
+        "dimensions": [
+            120,
+            100
+        ],
+        "position": [
+            600,
+            500
+        ],
+        "pivot": [
+            60,
+            50
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    },
+    "TestingSpriteSheetID": {
+        "type": "AnimatedSprite",
+        "animations": {
+            "Run": {
+                "basepath": "./resources/character/",
+                "animName": "Run",
+                "fromSheet": false,
+                "xmlPath": "",
+                "numFrames": 20,
+                "frameRate": 2,
+                "loop": true
+            },
+            "Walk": {
+                "basepath": "./resources/character/",
+                "animName": "Walk",
+                "fromSheet": false,
+                "xmlPath": "",
+                "numFrames": 20,
+                "frameRate": 2,
+                "loop": true
+            },
+            "Dead": {
+                "basepath": "./resources/character/dead_spritesheet.png",
+                "animName": "Dead",
+                "fromSheet": true,
+                "xmlPath": "./resources/character/dead_spritesheet.xml",
+                "numFrames": 12,
+                "frameRate": 5,
+                "loop": true
+            }
+        },
+        "playing": "Run",
         "dimensions": [
             90,
             100
         ],
         "position": [
             500,
-            500
+            200
         ],
         "pivot": [
-            0,
-            0
+            50,
+            50
         ],
         "scale": [
             1.0,

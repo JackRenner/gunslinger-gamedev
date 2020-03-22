@@ -427,7 +427,6 @@ void Scene:: saveScene(string sceneFilePath){
 				rapidjson:: Document::AllocatorType& allocator = this->savedoc.GetAllocator();
 				size_t sz = allocator.Size();
 
-
 				string tempString = at->id;
 				string tempString2;
 				Value id (kObjectType);
@@ -449,6 +448,10 @@ void Scene:: saveScene(string sceneFilePath){
 				double tempDouble;
 				double tempDouble2;
 				bool tempBool;
+
+
+
+
 
 				tempString = at->type;
 				converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
@@ -519,12 +522,14 @@ void Scene:: saveScene(string sceneFilePath){
 		//parent
 				tempString = (at->parent->id);
 				if(tempString == this->id){
-					Properties.AddMember("parent", Value(), allocator); //Vlank Value is null;
+					Properties.AddMember("parent", Value(), allocator); //Blank Value is null;
 				}
 				else{
 					converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
 					Properties.AddMember("parent", converter, allocator);
 				}
+
+
 				this->savedoc.AddMember(id, Properties, allocator);
 
 				for(int i = 0; i < at->numChildren(); i++){
@@ -575,8 +580,22 @@ void Scene:: saveScene(string sceneFilePath){
 						animation.AddMember("animName", converter, allocator);
 
 
+
+						tempBool = currentAnim->fromSheet;
+						animation.AddMember("fromSheet", tempBool, allocator);
+
+						tempString = currentAnim->xmlPath;
+						converter.SetString(tempString.c_str(), static_cast<SizeType> (tempString.size()), allocator);
+						animation.AddMember("xmlPath", converter, allocator);
+
+
+
+
+
+
 						tempInt = currentAnim->numFrames;
 						animation.AddMember("numFrames", Value().SetInt(tempInt), allocator);
+
 
 
 
@@ -746,10 +765,20 @@ void Scene::loadScene(string sceneFilePath) {
 
 				string basepath = sceneDoc[entityName]["animations"][animationID]["basepath"].GetString();
 				string animName = sceneDoc[entityName]["animations"][animationID]["animName"].GetString();
+				bool fromSheet = sceneDoc[entityName]["animations"][animationID]["fromSheet"].GetBool();
+				string xmlPath = sceneDoc[entityName]["animations"][animationID]["xmlPath"].GetString();
 				int numFrames = sceneDoc[entityName]["animations"][animationID]["numFrames"].GetInt();
 				int frameRate = sceneDoc[entityName]["animations"][animationID]["frameRate"].GetInt();
 				bool loop = sceneDoc[entityName]["animations"][animationID]["loop"].GetBool();
-				new_animsprite->addAnimation(basepath, animName, numFrames, frameRate, loop);
+
+
+				if(fromSheet){
+					new_animsprite->addAnimation(basepath, xmlPath, animName, numFrames, frameRate, loop);
+				}
+				else{
+					new_animsprite->addAnimation(basepath, animName, numFrames, frameRate, loop);
+				}
+
 			}
 
 			new_animsprite->play(sceneDoc[entityName]["playing"].GetString());

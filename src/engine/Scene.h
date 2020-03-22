@@ -68,6 +68,7 @@ void saveRGB(Sprite* at);
 	void saveAnimatedSprite(AnimatedSprite* at);
 
 
+
 	void saveAnimation(AnimatedSprite* at);
 	void saveAnimation(AnimatedSprite* at ,  rapidjson:: Value& animationSet);
 

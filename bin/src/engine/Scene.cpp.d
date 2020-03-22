@@ -1,6 +1,6 @@
 bin/./src/engine/Scene.cpp.o: src/engine/Scene.cpp src/engine/Scene.h \
  src/engine/DisplayObjectContainer.h src/engine/DisplayObject.h \
- src/engine/AffineTransform.h src/engine/Sprite.h \
+ src/engine/AffineTransform.h src/engine/Camera.h src/engine/Sprite.h \
  src/engine/AnimatedSprite.h src/engine/../rapidjson/filereadstream.h \
  src/engine/../rapidjson/stream.h src/engine/../rapidjson/rapidjson.h \
  src/engine/../rapidjson/encodings.h src/rapidjson/writer.h \
@@ -43,6 +43,8 @@ src/engine/DisplayObjectContainer.h:
 src/engine/DisplayObject.h:
 
 src/engine/AffineTransform.h:
+
+src/engine/Camera.h:
 
 src/engine/Sprite.h:
 
