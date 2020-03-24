@@ -41,6 +41,7 @@ public:
 	void addAnimation(Animation* anim);
 
 	Animation* getAnimation(string animName);
+	Animation* getCopyAnimation(string animName);
 
 	void play(string animName);
 	void replay();

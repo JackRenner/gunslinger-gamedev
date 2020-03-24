@@ -147,6 +147,23 @@ Animation* AnimatedSprite::getAnimation(string animName) {
     }
     return NULL;
 }
+
+Animation* AnimatedSprite::getCopyAnimation(string animName){
+    Animation* realThing = this->getAnimation(animName);
+    Animation* copy = new Animation();
+    copy->frames = realThing->frames;
+    copy->animName = realThing->animName;
+    copy->numFrames = realThing->numFrames;
+    copy->frameRate = realThing->frameRate;
+    copy->loop = realThing->loop;
+    copy->curFrame = realThing->curFrame;
+    copy->basepath = realThing->basepath;
+    copy->fromSheet = realThing->fromSheet;
+    copy->rects = realThing->rects;
+    copy->xmlPath = realThing->xmlPath;
+    return copy;
+}
+
 std:: string AnimatedSprite :: getCurrentAnimationName(){
   return(current->animName);
 }

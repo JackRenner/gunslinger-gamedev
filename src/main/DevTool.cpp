@@ -237,6 +237,7 @@ void DevTool::setUpPictureSelector(){
 	pic6->position.x = x6;
 	pic7->position.x = x7;
 	bool msgDisplayed = false;
+	int counterr = sampleSprites.size();
 	for(AnimatedSprite* spr : sampleSprites){
 		for(int i = 0; i < animationPNGFileNames.size(); i++){
 			if(!msgDisplayed){
@@ -244,11 +245,13 @@ void DevTool::setUpPictureSelector(){
 			}
 			createAnimation(spr, i, to_string(i));
 		}
+		cout << counterr << " " << flush;
+		counterr--;
 		msgDisplayed = true;
 		spr->alpha = 215;
 		displayRect->addChild(spr);
 	}
-	cout << "Resources successfully loaded!" << endl;
+	cout << "\nResources successfully loaded!" << endl;
 }
 
 void DevTool::init(){
@@ -355,7 +358,7 @@ void DevTool::pasteSprite(){
 			animSpriteCreationInt++;
 			vector<string> names = anim->getAnimationNames();
 			for(string name : names){
-				newbie->addAnimation(anim->getAnimation(name));
+				newbie->addAnimation(anim->getCopyAnimation(name));
 			}
 			newbie->position.x = anim->position.x;
 			newbie->position.y = anim->position.y;
@@ -369,9 +372,9 @@ void DevTool::pasteSprite(){
 			newbie->rotation = anim->rotation;
 
 			ssAlpha = newbie->alpha;
+			newbie->play(anim->getCurrentAnimationName());
 			selectedSprite = newbie;
 			curScene->addChild(newbie);
-			newbie->play(anim->getCurrentAnimationName());
 		}
 	} else {
 		string name = "new_sprite_" + to_string(spriteCreationInt);
