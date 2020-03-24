@@ -72,6 +72,10 @@ void AnimatedSprite::addAnimation(string basepath, string animName, int numFrame
     animations.push_back(anim);
 }
 
+void AnimatedSprite::addAnimation(Animation* anim){
+    animations.push_back(anim);
+}
+
 
 void AnimatedSprite::addAnimation(string spriteSheet, string xml, string animName, int numFrames, int frameRate, bool loop){
     vector<string> ssframes = parseXML(spriteSheet, xml);

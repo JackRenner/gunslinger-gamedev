@@ -57,6 +57,10 @@ void DisplayObject::setTexture(SDL_Texture* t){
 	this->curTexture = t;
 }
 
+SDL_Texture* DisplayObject::getCurrentTexture(){
+	return SDL_CreateTextureFromSurface(Game::renderer, this->image);
+}
+
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 	
 }

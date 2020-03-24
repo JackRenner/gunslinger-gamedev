@@ -8,12 +8,15 @@
 
 # Important Notes
 
-- Put all the images you want to access in /resources/sprites (spritesheet support coming soon)
+- Put all the images you want to access in /resources/sprites
+- To use a spritesheet in the sprites folder add the spritesheet.png and spritesheet.xml file, make sure the word "spritesheet" is part of the file name, and each file corresponding to one spritesheet is named the same except for the extension
+- Every spritesheet in the resource folder delays the program in opening up by about 5 seconds while it loads the data
 - Trying to load a scene which does not exist will cause the program to crash (be careful when typing)
 - The GUI is really janky and sometimes things require a couple clicks to respond
 - Similar to the last note, typing into the fields sometimes requires a couple key presses so be careful
 - If a button isn't working, most likely an entry box is selected, hit enter to deselect the entry box and try the button again
 - There is no way to update the z value of sprites, thus add sprites in the order you want them to layer (bottom layer first)
+- The x button on the windows don't work so just use ctrl + C in the console to quit
 - If you have any questions or encounter any bugs please reach out to me (Reed) via Slack or at (239) 250-0123.
 
 # Instructions for Use
@@ -24,9 +27,10 @@
 
 - Use the arrow keys to move around the scene
 - Use the Z and X keys to zoom in and out of the scene
-- The bar at top displays all the .png images found in /resources/sprites (spritesheet support coming soon), the Q and W keys allow you to scroll through them
+- The bar at top displays all the .png images found in /resources/sprites, the Q and W keys allow you to scroll through them
 - Click on an image in the bar at top to create a new sprite with that texture
 - Click on a sprite already in the scene to select it
+- Press V to paste the sprite in the clipboard to the screen (it will paste it directly on top of the copied sprite)
 
 ## When a sprite is selected (if it's flashing) and main window is in focus:
 
@@ -34,6 +38,7 @@
 - Press enter to deselect a sprite
 - Click and drag anywhere in the window to have the sprite follow the mouse (kind of whack, but works) and click the mouse again to set it down
 - Values in the preferences window will update automagically
+- Press C to copy a sprite to the clipboard
 
 ## When a sprite is selected and preferences window is in focus (click on it if it's not):
 

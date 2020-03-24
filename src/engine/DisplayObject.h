@@ -34,6 +34,7 @@ public:
 	void loadTexture(string filepath);
 	void loadRGBTexture(int red, int green, int blue);
 	void setTexture(SDL_Texture* t);
+	SDL_Texture* getCurrentTexture();
 
 	void applyTransformations(AffineTransform &at);
 	void reverseTransformations(AffineTransform &at);

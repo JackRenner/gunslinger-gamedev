@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <dirent.h>
+#include <fstream>
 #include "DevTool.h"
 #include "kiss_sdl.h"
 
@@ -14,31 +15,8 @@ using namespace std;
 DevTool::DevTool() : Game(1200, 1000) {
 	mWindowId = SDL_GetWindowID(this->window);
 	curScene = new Scene();
-	
-	/*testScene1 = new Scene();
-	testScene1->loadScene("./resources/scene/test1.txt");
-	testScene2 = new Scene();
-	testScene2->loadScene("./resources/scene/test2.txt");
-
-	curScene->loadScene("./resources/scene/test1.txt");*/
-
+	basicSrcRect = NULL;
 	this->setScene(curScene);
-
-
-	AnimatedSprite* character;
-	character = new AnimatedSprite("character");
-	character-> id = "TestingSpriteSheetID";
-	character->addAnimation("./resources/character/", "Run", 20, 2, true);
-	character->addAnimation("./resources/character/", "Walk", 20, 2, true);
-	character->addAnimation("./resources/character/dead_spritesheet.png", "./resources/character/dead_spritesheet.xml", "Dead", 12, 5, true);
-
-	character->position = { 500, 200 };
-	character->pivot = { character->width / 2, character->height / 2 };
-	character->play("Run");
-	character->width = 90;
-
-	curScene->addChild(character);
-
 }
 
 DevTool::~DevTool() {
@@ -174,6 +152,22 @@ void DevTool::setUpPreferences(){
 	pref->visible = 1;
 }
 
+void DevTool::createAnimation(AnimatedSprite* sprite, int index, string name){
+	string pngName = resourceDirectory + *animationPNGFileNames[index];
+	string xmlName;
+	for(int j = 0; j < animationXMLFileNames.size(); j++){
+		string base = animationPNGFileNames[index]->substr(0, animationPNGFileNames[index]->find(".png") - 1);
+		if(animationXMLFileNames[j]->find(base) != string::npos){
+			xmlName = resourceDirectory + *animationXMLFileNames[j];
+			break;
+		}
+	}
+
+	int numFrames = getNumFrames(xmlName);
+
+	sprite->addAnimation(pngName, xmlName, name, numFrames, newAnimationFrameRate, true);
+}
+
 void DevTool::setUpPictureSelector(){
 	//set up nice display rect thingy
 	displayRect = new Sprite("rect", "./resources/dev-tool-resources/whiterect.png");
@@ -191,26 +185,34 @@ void DevTool::setUpPictureSelector(){
 			i++;
 			string* name = new string();
 			*name = dir->d_name;
-			fileNames.push_back(name);
+			if(name->find("spritesheet") != string::npos){
+				if(name->find(".png") != string::npos){
+					animationPNGFileNames.push_back(name);
+				} else {
+					animationXMLFileNames.push_back(name);
+				}
+			} else if (name->find(".png") != string::npos){
+				fileNames.push_back(name);
+			}
 		}
 		closedir(d);
 	}
-	//erases filenames that aren't .png
-	for(i = 0; i < fileNames.size(); i++){
-		string fileName = *fileNames[i];
-		if(fileName.find(".png") == string::npos){
-			fileNames.erase(fileNames.begin() + i);
-		}
-	}
 
 	//creates display sprites
-	Sprite* pic1 = new Sprite("sample1", resourceDirectory + *fileNames[0]);
-	Sprite* pic2 = new Sprite("sample2", resourceDirectory + *fileNames[1]);
-	Sprite* pic3 = new Sprite("sample3", resourceDirectory + *fileNames[2]);
-	Sprite* pic4 = new Sprite("sample4", resourceDirectory + *fileNames[3]);
-	Sprite* pic5 = new Sprite("sample5", resourceDirectory + *fileNames[4]);
-	Sprite* pic6 = new Sprite("sample6", resourceDirectory + *fileNames[5]);
-	Sprite* pic7 = new Sprite("sample7", resourceDirectory + *fileNames[6]);
+	AnimatedSprite* pic1 = new AnimatedSprite("sample1");
+	pic1->loadTexture(resourceDirectory + *fileNames[0]);
+	AnimatedSprite* pic2 = new AnimatedSprite("sample2");
+	pic2->loadTexture(resourceDirectory + *fileNames[1]);
+	AnimatedSprite* pic3 = new AnimatedSprite("sample3");
+	pic3->loadTexture(resourceDirectory + *fileNames[2]);
+	AnimatedSprite* pic4 = new AnimatedSprite("sample4");
+	pic4->loadTexture(resourceDirectory + *fileNames[3]);
+	AnimatedSprite* pic5 = new AnimatedSprite("sample5");
+	pic5->loadTexture(resourceDirectory + *fileNames[4]);
+	AnimatedSprite* pic6 = new AnimatedSprite("sample6");
+	pic6->loadTexture(resourceDirectory + *fileNames[5]);
+	AnimatedSprite* pic7 = new AnimatedSprite("sample7");
+	pic7->loadTexture(resourceDirectory + *fileNames[6]);
 	sampleSprites.push_back(pic1);
 	sampleSprites.push_back(pic2);
 	sampleSprites.push_back(pic3);
@@ -234,11 +236,19 @@ void DevTool::setUpPictureSelector(){
 	pic5->position.x = x5;
 	pic6->position.x = x6;
 	pic7->position.x = x7;
-
-	for(Sprite* spr : sampleSprites){
+	bool msgDisplayed = false;
+	for(AnimatedSprite* spr : sampleSprites){
+		for(int i = 0; i < animationPNGFileNames.size(); i++){
+			if(!msgDisplayed){
+				cout << "Loading spritesheet: " << *animationPNGFileNames[i] << "..." << endl;
+			}
+			createAnimation(spr, i, to_string(i));
+		}
+		msgDisplayed = true;
 		spr->alpha = 215;
 		displayRect->addChild(spr);
 	}
+	cout << "Resources successfully loaded!" << endl;
 }
 
 void DevTool::init(){
@@ -254,6 +264,24 @@ void DevTool::init(){
 
 }
 
+int DevTool::getNumFrames(string xmlName){
+	int numFrames = 0;
+	ifstream myFile;
+	myFile.open(xmlName);
+	string line;
+	if(myFile.is_open()){
+		while(getline(myFile, line)){
+			if(line.find("<sprite") != string::npos){
+				numFrames++;
+			}
+		}
+		myFile.close();
+	} else {
+		cout << "unable to open " << xmlName << endl;
+	}
+	return numFrames;
+}
+
 void DevTool::shiftSamples(bool direction){
 	for(int k = sampleSprites.size() - 1; k >= 0; k--){
 		int newIndex = fileIndex + k;
@@ -264,17 +292,23 @@ void DevTool::shiftSamples(bool direction){
 			newIndex--;
 		}
 		//Checks to make sure doesn't overflow fileNames
-		if(newIndex >= (signed)fileNames.size()){
-			newIndex = newIndex - fileNames.size();
+		if(newIndex >= (signed)(fileNames.size() + animationPNGFileNames.size())){
+			newIndex = newIndex - (fileNames.size() + animationPNGFileNames.size());
 		} else if(newIndex < 0){
-			newIndex = fileNames.size() - abs(newIndex);
+			newIndex = (fileNames.size() + animationPNGFileNames.size()) - abs(newIndex);
 		}
 		//Sets fileIndex to new index of first sprite
 		if(k == 0){
 			fileIndex = newIndex;
 		}
 		//Sets actual resource name using newIndex
-		sampleSprites[k]->loadTexture(resourceDirectory + *fileNames[newIndex]);
+		if(newIndex < fileNames.size()){
+			sampleSprites[k]->stop();
+			sampleSprites[k]->loadTexture(resourceDirectory + *fileNames[newIndex]);
+			sampleSprites[k]->setSourceRect(basicSrcRect);
+		} else {
+			sampleSprites[k]->play(to_string(newIndex - fileNames.size()));
+		}
 	}
 }
 
@@ -293,6 +327,75 @@ void DevTool::createNewSprite(int index){
 	curScene->addChild(newbie);
 }
 
+void DevTool::createNewAnimatedSprite(int index){
+	string name = "new_anim_sprite_" + to_string(animSpriteCreationInt);
+	animSpriteCreationInt++;
+	AnimatedSprite* newbie = new AnimatedSprite(name);
+	
+	createAnimation(newbie, index, "anim_" + to_string(animSpriteCreationInt - 1));
+
+	int scX = curScene->position.x;
+	int scY = curScene->position.y;
+	newbie->position.x = (double)this->windowWidth / 2.0 * (1 / curScene->scaleX) - scX;
+	newbie->position.y = (double)this->windowHeight / 2.0 * (1 / curScene->scaleY) - scY;
+	newbie->pivot.x = newbie->width / 2;
+	newbie->pivot.y = newbie->height / 2;
+	ssAlpha = newbie->alpha;
+	selectedSprite = newbie;
+	curScene->addChild(newbie);
+
+	newbie->play("anim_" + to_string(animSpriteCreationInt - 1));
+}
+
+void DevTool::pasteSprite(){
+	if(copySprite->type == "AnimatedSprite"){
+		AnimatedSprite* anim = dynamic_cast<AnimatedSprite*>(copySprite);
+		if(anim != NULL){
+			AnimatedSprite* newbie = new AnimatedSprite("new_anim_sprite_" + to_string(animSpriteCreationInt));
+			animSpriteCreationInt++;
+			vector<string> names = anim->getAnimationNames();
+			for(string name : names){
+				newbie->addAnimation(anim->getAnimation(name));
+			}
+			newbie->position.x = anim->position.x;
+			newbie->position.y = anim->position.y;
+			newbie->pivot.x = anim->pivot.x;
+			newbie->pivot.y = anim->pivot.y;
+			newbie->alpha = anim->alpha;
+			newbie->width = anim->width;
+			newbie->height = anim->height;
+			newbie->scaleX = anim->scaleX;
+			newbie->scaleY = anim->scaleY;
+			newbie->rotation = anim->rotation;
+
+			ssAlpha = newbie->alpha;
+			selectedSprite = newbie;
+			curScene->addChild(newbie);
+			newbie->play(anim->getCurrentAnimationName());
+		}
+	} else {
+		string name = "new_sprite_" + to_string(spriteCreationInt);
+		spriteCreationInt++;
+		Sprite* newbie = new Sprite();
+		newbie->id = name;
+		newbie->setTexture(copySprite->getCurrentTexture());
+		newbie->position.x = copySprite->position.x;
+		newbie->position.y = copySprite->position.y;
+		newbie->pivot.x = copySprite->pivot.x;
+		newbie->pivot.y = copySprite->pivot.y;
+		newbie->alpha = copySprite->alpha;
+		newbie->width = copySprite->width;
+		newbie->height = copySprite->height;
+		newbie->scaleX = copySprite->scaleX;
+		newbie->scaleY = copySprite->scaleY;
+		newbie->rotation = copySprite->rotation;
+
+		ssAlpha = newbie->alpha;
+		selectedSprite = newbie;
+		curScene->addChild(newbie);
+	}
+}
+
 void DevTool::mousePressed(){
 	int x, y;
 	SDL_GetMouseState(&x, &y);
@@ -305,7 +408,12 @@ void DevTool::mousePressed(){
 		if(x <= rBound && x >= leBound && y <= loBound && y >= uBound){
 			if(selectedSprite == NULL){
 				clickedUpperBar = true;
-				createNewSprite(u + fileIndex);
+				if(u + fileIndex < fileNames.size() || u + fileIndex >= (fileNames.size() + animationPNGFileNames.size())){
+					createNewSprite((u + fileIndex) % (fileNames.size() + animationPNGFileNames.size()));
+				} else {
+					int index = (u + fileIndex) - fileNames.size();
+					createNewAnimatedSprite(index);
+				}
 			}
 			break;
 		}
@@ -506,6 +614,16 @@ void DevTool::update(set<SDL_Scancode> pressedKeys) {
 					}
 				}
 				makeJerkyMovement = 0;
+			}
+			break;
+		case SDL_SCANCODE_C:
+			if(selectedSprite != NULL && lastEvent->window.windowID == mWindowId){
+				copySprite = selectedSprite;
+			}
+			break;
+		case SDL_SCANCODE_V:
+			if(copySprite != NULL && lastEvent->window.windowID == mWindowId && selectedSprite == NULL){
+				pasteSprite();
 			}
 			break;
 	  	case SDL_SCANCODE_UP:

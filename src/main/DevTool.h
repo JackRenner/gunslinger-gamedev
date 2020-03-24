@@ -40,8 +40,12 @@ public:
 	void setUpPictureSelector();
 	void setUpGrid();
 	void init();
+	void createAnimation(AnimatedSprite* sprite, int index, string name);
+	int getNumFrames(string xmlName);
 	void shiftSamples(bool direction);
 	void createNewSprite(int index);
+	void createNewAnimatedSprite(int index);
+	void pasteSprite();
 	void mousePressed();
 	void updateEntries();
 	void drawEntries();
@@ -90,6 +94,8 @@ private:
 
 	Scene* curScene;
 	DisplayObject* selectedSprite;
+	DisplayObject* copySprite;
+	SDL_Rect* basicSrcRect;
 	//Alpha value for the selected sprite
 	int ssAlpha;
 
@@ -98,6 +104,8 @@ private:
 
 	int drawFlag = 1;
 	int spriteCreationInt = 0;
+	int animSpriteCreationInt = 0;
+	int newAnimationFrameRate = 5;
 	int makeJerkyMovement = 0;
 	int flashSelected = 0;
 	bool dim = false;
@@ -105,8 +113,10 @@ private:
 
 	//Picture viewer
 	vector<string*> fileNames;
+	vector<string*> animationPNGFileNames;
+	vector<string*> animationXMLFileNames;
 	Sprite* displayRect;
-	vector<Sprite*> sampleSprites;
+	vector<AnimatedSprite*> sampleSprites;
 	string resourceDirectory = "./resources/sprites/";
 	int fileIndex = 0; //Keeps track of which filename the first sprite has
 	int sampleSwitchCount = 0; //Makes sure shiftSamples doesn't happen too fast

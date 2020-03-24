@@ -38,6 +38,7 @@ public:
 
 	void addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop);
 	void addAnimation(string spriteSheet, string xml, string animName, int numFrames, int frameRate, bool loop);
+	void addAnimation(Animation* anim);
 
 	Animation* getAnimation(string animName);
 
