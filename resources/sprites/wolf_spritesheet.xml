@@ -1,0 +1,14 @@
+<textureatlas xmlns="http://www.w3.org/1999/xhtml" imagepath="wolf.png">
+<subtexture name="tile0" x="0" y="0" w="64" h="48"></subtexture>
+<subtexture name="tile1" x="0" y="49" w="64" h="48"></subtexture>
+<subtexture name="tile2" x="65" y="0" w="64" h="48"></subtexture>
+<subtexture name="tile3" x="65" y="49" w="64" h="48"></subtexture>
+<subtexture name="tile4" x="0" y="98" w="64" h="48"></subtexture>
+<subtexture name="tile5" x="65" y="98" w="64" h="48"></subtexture>
+<subtexture name="tile6" x="130" y="0" w="64" h="48"></subtexture>
+<subtexture name="tile7" x="130" y="49" w="64" h="48"></subtexture>
+<subtexture name="tile8" x="130" y="98" w="64" h="48"></subtexture>
+<subtexture name="tile009" x="0" y="147" w="64" h="48"></subtexture>
+<subtexture name="tile010" x="65" y="147" w="64" h="48"></subtexture>
+<subtexture name="tile011" x="130" y="147" w="64" h="48"></subtexture>
+</textureatlas>

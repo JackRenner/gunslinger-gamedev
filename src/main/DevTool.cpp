@@ -274,7 +274,7 @@ int DevTool::getNumFrames(string xmlName){
 	string line;
 	if(myFile.is_open()){
 		while(getline(myFile, line)){
-			if(line.find("<sprite") != string::npos){
+			if(line.find("<sprite") != string::npos || line.find("<subtexture") != string::npos){
 				numFrames++;
 			}
 		}
