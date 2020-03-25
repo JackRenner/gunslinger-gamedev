@@ -16,15 +16,18 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	cameraDemoScene = new Scene();
 	cameraDemoScene->loadScene("./resources/scene/cameraDemoScene.txt");
 
-	character = new AnimatedSprite("character");
-	character->addAnimation("./resources/character/", "Run", 20, 2, true);
+	// character = new AnimatedSprite("character");
+	// character->addAnimation("./resources/character/", "Run", 20, 2, true);
+	character = new Player();
+	// character->addAnimation("./resources/character/", "Down", 3, 1, true)
 
 
 	this->setScene(cameraDemoScene);
 	this->addChild(character);
 	character->position = { 300, 1100 };
 	character->pivot = { character->width / 2, character->height / 2 };
-	character->play("Run");
+	character->scaleX = 0.5;
+	character->scaleY = 0.5;
 	character->width = 90;
 
 	SDL_Rect pivot = { 0, 0, 600, 800 };
@@ -55,23 +58,22 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if (pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()) {
 		gunshot->playSFX();
 	}
-
-	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
 		character->position.y -= 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
 		character->position.y += 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
 		character->position.x += 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 		character->position.x -= 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_O) != pressedKeys.end()) {
 		gameCamera.scale -= 0.05;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
 		gameCamera.scale += 0.05;
 	}
 

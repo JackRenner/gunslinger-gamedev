@@ -7,6 +7,7 @@
 #include "../engine/Game.h"
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
+#include "../engine/Player.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
 
