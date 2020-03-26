@@ -69,6 +69,7 @@ private:
 
 	AnimatedSprite* character;
 	Sprite* coin;
+	Sprite* blackBox;
 
 	DisplayObjectContainer* foreground;
 

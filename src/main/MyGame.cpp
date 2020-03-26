@@ -88,6 +88,12 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	characterTween->animate(TweenableParams::SCALE_X, 0, 1, 30, TweenTransitions::EASEOUTCUBIC);
 	characterTween->animate(TweenableParams::SCALE_Y, 0, 1, 30, TweenTransitions::EASEOUTCUBIC);
 	juggler->add(characterTween);
+
+	blackBox = new Sprite("blackbox",0,0,0);
+	blackBox->alpha = 0;
+	blackBox->width = 5000;
+	blackBox->height = 5000;
+	// this->addChild(blackBox);
 }
 
 MyGame::~MyGame() {
@@ -96,6 +102,8 @@ MyGame::~MyGame() {
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
+
+	cout << blackBox->alpha << endl;
 
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
 		character->position.y -= 8;
@@ -211,9 +219,14 @@ void MyGame::handleEvent(Event* e) {
 	character->position = sceneInfo[room_state].startPos;
 
 	e->getSource()->removeEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
-	Tween* gameFade = new Tween(character);
-	gameFade->animate(TweenableParams::ALPHA, 0, 255, 30, TweenTransitions::EASEINCUBIC);
-	juggler->add(gameFade);
+
+	// Tween* gameFade = new Tween(character);
+	// gameFade->animate(TweenableParams::ALPHA, 0, 255, 30, TweenTransitions::EASEINCUBIC);
+	// juggler->add(gameFade);
+
+	Tween* fadeIn = new Tween(blackBox);
+	fadeIn->animate(TweenableParams::ALPHA, 255, 0, 30, TweenTransitions::EASEOUTCUBIC);
+	juggler->add(fadeIn);
 }
 
 void MyGame::transitionScene(TransitionPoint tp) {
@@ -221,9 +234,21 @@ void MyGame::transitionScene(TransitionPoint tp) {
 		sceneInfo[room_state].startPos = SDL_Point{ tp.point.x + sceneInfo[room_state].offset.x, tp.point.y + sceneInfo[room_state].offset.y };
 	room_state = tp.newstate;
 
-	Tween* gameFade = new Tween(character);
-	gameFade->animate(TweenableParams::ALPHA, 255, 0, 30, TweenTransitions::EASEINCUBIC);
-	juggler->add(gameFade);
+	this->curScene->addChild(blackBox);
 
-	gameFade->addEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
+	//Center blackbox at character
+	blackBox->position.x = character->position.x-blackBox->width/2;
+	blackBox->position.y = character->position.y-blackBox->height/2;
+
+	Tween* fadeOut = new Tween(blackBox);
+	fadeOut->animate(TweenableParams::ALPHA, 0, 255, 30, TweenTransitions::EASEOUTCUBIC);
+	juggler->add(fadeOut);
+	fadeOut->addEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
+
+	// Tween* gameFade = new Tween(character);
+	// gameFade->animate(TweenableParams::ALPHA, 255, 0, 30, TweenTransitions::EASEINCUBIC);
+	// juggler->add(gameFade);
+	// gameFade->addEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
+
+
 }
