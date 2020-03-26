@@ -150,12 +150,13 @@ void Game::start(){
 			SDL_CONTROLLER_BUTTON_MAX
 			*/
 //				cout << "Controller Button is Down!";
+					cout << event.cbutton.button;
 				if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A){
-					cout << "A Button is pressed down";
+					//cout << "A Button is pressed down";
 					pressedKeys.insert(SDL_SCANCODE_T);
 				}
 				if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B){
-					cout << "B Button is pressed down";
+					//cout << "B Button is pressed down";
 					pressedKeys.insert(SDL_SCANCODE_Y);
 				}
 				break;
