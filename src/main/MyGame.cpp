@@ -93,7 +93,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->alpha = 0;
 	blackBox->width = 5000;
 	blackBox->height = 5000;
-	// this->addChild(blackBox);
+	foreground->addChild(blackBox);
 }
 
 MyGame::~MyGame() {
@@ -233,8 +233,6 @@ void MyGame::transitionScene(TransitionPoint tp) {
 	if (sceneInfo[room_state].saveLast)
 		sceneInfo[room_state].startPos = SDL_Point{ tp.point.x + sceneInfo[room_state].offset.x, tp.point.y + sceneInfo[room_state].offset.y };
 	room_state = tp.newstate;
-
-	this->curScene->addChild(blackBox);
 
 	//Center blackbox at character
 	blackBox->position.x = character->position.x-blackBox->width/2;
