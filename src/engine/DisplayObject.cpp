@@ -64,7 +64,7 @@ void DisplayObject::setTexture(SDL_Texture* t){
 }
 
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
-
+	this->saveHitbox();
 }
 
 void DisplayObject::setSourceRect(SDL_Rect* srcrect){
@@ -77,27 +77,20 @@ void DisplayObject::draw(AffineTransform &at){
 	//at.translate(-gameCamera.x, -gameCamera.y);
 
 	if(curTexture != NULL && visible) {
+
+
 		SDL_Point origin = at.transformPoint(0, 0);
 		SDL_Point upperRight = at.transformPoint(width, 0);
 		SDL_Point lowerRight = at.transformPoint(width, height);
 		SDL_Point corner = {0, 0};
 
-		transformedOrigin = origin;
-		transformedURight = upperRight;
-		transformedLRight = lowerRight;
-		transformedLLeft = at.transformPoint(0, height);
-
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
-
-		//Lets go inserting!
-		this->saveHitbox(transformedOrigin, transformedURight, transformedLRight, transformedLLeft, w, h);
-
-		if(this->hitboxDrawn){
-			drawHitbox();
-		}
-
+	//	if(this->hitboxDrawn){
+			this->drawHitbox();
+		// }
 		SDL_Rect dstrect = { origin.x, origin.y, w, h };
+
 
 		SDL_RendererFlip flip;
 		if (facingRight) {
@@ -149,7 +142,7 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	return (atan2(y, x) * 180 / PI);
 }
 
-
+/*
 	void DisplayObject:: saveHitbox(SDL_Point transformedOrigin, SDL_Point transformedURight,	SDL_Point transformedLRight, SDL_Point transformedLLeft, int width, int height){
 			this->myHitbox.origin.x = transformedOrigin.x;
 			this->myHitbox.origin.y = transformedOrigin.x;
@@ -169,25 +162,89 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 			this->myHitbox.width =  width;
 			this->myHitbox.height = height;
 	}
-
+*/
 
 	Hitbox DisplayObject:: getHitbox(){
 		return this->myHitbox;
 	}
 
 
-	void DisplayObject :: drawHitbox(){
-		SDL_Rect temp;
-		temp.x = this->myHitbox.origin.x;
-		temp.y = this->myHitbox.origin.y;
-		temp.w = this->myHitbox.width;
-		temp.h = this->myHitbox.height;
+	void DisplayObject :: saveHitbox(){
+			AffineTransform myTransform;
+			this->setGlobalTransform(myTransform);
 
+cout << "position x : ";
+			cout << this->position.x << endl;
+			cout << "position y: ";
+			cout << this->position.y << endl;
+
+		SDL_Point globalPosition = myTransform.transformPoint(this->position.x, this->position.y);
+		this->myHitbox.globalPosition.x = globalPosition.x;
+		this->myHitbox.globalPosition.y = globalPosition.y;
+		cout << "Global position x: ";
+		cout << globalPosition.x <<endl;
+		cout << "Global Position y: ";
+		cout << globalPosition.y << endl;
+
+
+/*
+			SDL_Point upperRight = at.transformPoint(width, 0);
+			SDL_Point lowerRight = at.transformPoint(width, height);
+			SDL_Point corner = {0, 0};
+
+			int w = (int)distance(origin, upperRight);
+			int h = (int)distance(upperRight, lowerRight);
+*/
+
+
+/*
+
+		this->myHitbox.origin.x = this->position.x;
+		this->myHitbox.origin.y = this->position.y;
+		this->myHitbox.upperRight.x = this->pivot.x;
+		this->myHitbox.upperRight.y = this->pivot.y;
+		this->myHitbox.upperRight.x = transformedURight.x;
+		this->myHitbox.upperRight.y = transformedURight.x;
+		this->myHitbox.lowerLeft.x = transformedLLeft.x;
+		this->myHitbox.lowerLeft.y = transformedLLeft.y;
+		this->myHitbox.lowerRight.x = transformedLRight.x;
+		this->myHitbox.lowerRight.y = transformedLRight.y;
+*/
+	}
+
+
+
+
+
+
+		void DisplayObject ::  setGlobalTransform( AffineTransform& toPass){
+			if(this->parent != NULL){
+				this->parent->setGlobalTransform(toPass);
+					applyTransformations( toPass );
+			}
+			else{
+//				toPass.transform =  ; // Forms the identity matrix;
+			}
+			//toPass.printMatrix();
+		}
+
+
+
+
+	void DisplayObject :: drawHitbox(){
+
+
+/*
 		SDL_Rect origin;
+		origin.x = this->myHitbox.origin.x;
+		origin.y = this->myHitbox.origin.y;
+		origin.w = this->myHitbox.width;
+		origin.h = this->myHitbox.height;
 		SDL_Rect upperLeft;
 		SDL_Rect upperRight;
 		SDL_Rect lowerLeft;
 		SDL_Rect lowerRight;
+
 
 		origin.x = this->myHitbox.origin.x;
 		origin.y = this->myHitbox.origin.y;
@@ -198,38 +255,34 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 		upperLeft.y = this->myHitbox.upperLeft.y;
 		upperLeft.w = 25;
 		upperLeft.h = 25;
-
-
-
-
-
-
-
 		upperRight.x = this->myHitbox.upperRight.x;
 		upperRight.y = this->myHitbox.upperRight.y;
 		upperRight.w = 20;
 		upperRight.h = 20;
-
 		lowerLeft.x = this->myHitbox.lowerLeft.x;
 		lowerLeft.y = this->myHitbox.lowerLeft.y;
-		lowerLeft.w = 10;
-		lowerLeft.h = 10;
-
-
+		lowerLeft.w = 15;
+		lowerLeft.h = 15;
 		lowerRight.x = this->myHitbox.lowerRight.x;
 		lowerRight.y = this->myHitbox.lowerRight.y;
-		lowerRight.w = 15;
-		lowerRight.h = 15;
-
-
-
+		lowerRight.w = 10;
+		lowerRight.h = 10;
 		SDL_RenderDrawRect(Game::renderer, &origin);
 		SDL_RenderDrawRect(Game::renderer, &upperRight);
 		SDL_RenderDrawRect(Game::renderer, &lowerLeft);
 		SDL_RenderDrawRect(Game::renderer, &lowerRight);
 		SDL_RenderDrawRect(Game::renderer, &upperLeft);
 
+*/
 
+
+		SDL_Rect globalPosition;
+		globalPosition.x = this->myHitbox.globalPosition.x;
+		globalPosition.y = this->myHitbox.globalPosition.y;
+		globalPosition.w = 50;
+		globalPosition.h = 50;
+
+		SDL_RenderDrawRect(Game::renderer, &globalPosition);
 //		SDL_RenderDrawRect(Game::renderer, &temp);
 		SDL_RenderPresent(Game::renderer);
 

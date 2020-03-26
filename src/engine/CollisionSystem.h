@@ -7,7 +7,7 @@
 #include "EventListener.h"
 #include "Event.h"
 
-using namespace std; 
+using namespace std;
 
 class CollisionSystem : public EventListener{
 
@@ -19,6 +19,8 @@ public:
 	//checks collisions between pairs of DOs where the corresponding types have been requested
 	//to be checked (via a single call to watchForCollisions) below.
 	void update();
+
+
 
 	//This system watches the game's display tree and is notified whenever a display object is placed onto
 	//or taken off of the tree. Thus, the collision system always knows what DOs are in the game at any moment automatically.

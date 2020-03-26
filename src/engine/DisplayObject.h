@@ -12,6 +12,7 @@
 using namespace std;
 
 struct Hitbox{
+	SDL_Point globalPosition;
 	SDL_Point origin;
 	SDL_Point upperLeft;
 	SDL_Point upperRight;
@@ -21,6 +22,7 @@ struct Hitbox{
 	int height;
 
 	Hitbox(){//set default values to be 00
+			SDL_Point globalPosition = {0,0};
 		 	origin = {0,0};
 			upperLeft = {0,0};
 			upperRight = {0,0};
@@ -89,9 +91,13 @@ public:
 
 	struct Hitbox myHitbox;
 
-	void saveHitbox(SDL_Point transformedOrigin, SDL_Point transformedURight,	SDL_Point transformedLRight, SDL_Point transformedLLeft, int width, int height);
-	Hitbox getHitbox();
+//	void saveHitbox(SDL_Point transformedOrigin, SDL_Point transformedURight,	SDL_Point transformedLRight, SDL_Point transformedLLeft, int width, int height);
 
+	AffineTransform myAffineTransform = AffineTransform();
+
+	void setGlobalTransform(AffineTransform& toPass);
+	Hitbox getHitbox();
+	void saveHitbox();
 	void drawHitbox();
 	bool hitboxDrawn = false;
 

@@ -9,7 +9,7 @@ using namespace std;
 class AffineTransform{
 
 public:
-	
+
 	AffineTransform();
 	~AffineTransform();
 	SDL_Point transformPoint(int x, int y);
@@ -21,13 +21,14 @@ public:
 
 	double getScaleX();
 	double getScaleY();
+	void printMatrix();
 
 private:
 	double** transform;
-	
+
 	double** identity();
 	void cleanMatrix(double** m);
-	
+
 
 
 };
