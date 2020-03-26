@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../engine/Sprite.h"
 #include "../engine/Scene.h"
+#include "../engine/Controls.h"
 #include "MyGame.h"
 
 using namespace std;
@@ -55,27 +56,19 @@ MyGame::~MyGame() {
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
-	if (pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()) {
+	controls::update(pressedKeys);
+
+	// shooting sound
+	if (controls::holdDown() || controls::holdUp() || controls::holdRight() || controls::holdLeft()) {
 		gunshot->playSFX();
 	}
-	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-		character->position.y -= 5;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-		character->position.y += 5;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
-		character->position.x += 5;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
-		character->position.x -= 5;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_O) != pressedKeys.end()) {
-		gameCamera.scale -= 0.05;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
-		gameCamera.scale += 0.05;
-	}
+
+	// if (pressedKeys.find(SDL_SCANCODE_O) != pressedKeys.end()) {
+	// 	gameCamera.scale -= 0.05;
+	// }
+	// if (pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()) {
+	// 	gameCamera.scale += 0.05;
+	// }
 
 	SDL_Rect room;
 	for (int i = 0; i < boundaries.size(); i++) {

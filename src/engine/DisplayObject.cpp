@@ -6,6 +6,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include "Controls.h"
 
 #define PI 3.14159265
 

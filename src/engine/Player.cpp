@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "AnimatedSprite.h"
 #include "Sprite.h"
+#include "Controls.h"
 
 using namespace std;
 
@@ -16,12 +17,12 @@ Player::Player() : AnimatedSprite("Player"){
 	// this->scaleX = 0.15;
 	// this->scaleY = 0.15;
 
-	this->addAnimation("resources/character/", "Up", 3, 1, true);
-	this->addAnimation("resources/character/", "Left", 3, 1, true);
-	this->addAnimation("resources/character/", "Right", 3, 1, true);
-	this->addAnimation("resources/character/", "Down", 3, 1, true);
+	this->addAnimation("resources/character/", "FaceUp", 1, 1, true);
+	this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
+	this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
+	this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
 
-	this->play("Up");
+	this->play("FaceUp");
 }
 
 //Called automatically by collision system when something collides with the player
@@ -43,18 +44,50 @@ Player::Player() : AnimatedSprite("Player"){
 
 void Player::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
-	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
-		this->play("Up");
+	controls::update(pressedKeys);
+	if (controls::holdW()) {
+		this->position.y -= 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
-		this->play("Down");
+	if (controls::holdS()) {
+		this->position.y += 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
-		this->play("Right");
+	if (controls::holdD()) {
+		this->position.x += 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
-		this->play("Left");
+	if (controls::holdA()) {
+		this->position.x -= 5;
 	}
+	if (controls::holdUp()) {
+		this->dir = "Up";
+		this->play("FaceUp");
+	}
+	if (controls::holdDown()) {
+		this->dir = "Down";
+		this->play("FaceDown");
+	}
+	if (controls::holdRight()) {
+		this->dir = "Right";
+		this->play("FaceRight");
+	}
+	if (controls::holdLeft()) {
+		this->dir = "Left";
+		this->play("FaceLeft");
+	}
+	if (controls::pressShift()) {
+		if (this->dir == "Up") {
+			this->position.y -= 50;
+		}
+		if (this->dir == "Down") {
+			this->position.y += 50;
+		}
+		if (this->dir == "Right") {
+			this->position.x += 50;
+		}
+		if (this->dir == "Left") {
+			this->position.x -= 50;
+		}
+	}
+
 }
 
 // void Player::onEnemyCollision(Enemy* enemy){

@@ -7,6 +7,7 @@
 #include <string>
 #include <fstream>
 #include "Sprite.h"
+#include "Controls.h"
 
 using namespace std;
 
@@ -24,6 +25,9 @@ public:
 	/* Health and such */
 	int health = 100;
 	int maxHealth = 100;
+
+	/* direction */
+	string dir;
 
 	//iFrames
 	bool iFrames = false;
