@@ -8,11 +8,12 @@
 #include "Camera.h"
 #include <string>
 #include <fstream>
- 
+
 using namespace std;
 
 struct Hitbox{
 	SDL_Point origin;
+	SDL_Point upperLeft;
 	SDL_Point upperRight;
 	SDL_Point lowerLeft;
 	SDL_Point lowerRight;
@@ -21,6 +22,7 @@ struct Hitbox{
 
 	Hitbox(){//set default values to be 00
 		 	origin = {0,0};
+			upperLeft = {0,0};
 			upperRight = {0,0};
 			lowerLeft = {0,0};
 			lowerRight = {0,0};

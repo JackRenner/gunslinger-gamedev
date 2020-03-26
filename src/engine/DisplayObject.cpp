@@ -153,12 +153,19 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	void DisplayObject:: saveHitbox(SDL_Point transformedOrigin, SDL_Point transformedURight,	SDL_Point transformedLRight, SDL_Point transformedLLeft, int width, int height){
 			this->myHitbox.origin.x = transformedOrigin.x;
 			this->myHitbox.origin.y = transformedOrigin.x;
+
 			this->myHitbox.upperRight.x = transformedURight.x;
 			this->myHitbox.upperRight.y = transformedURight.x;
 			this->myHitbox.lowerLeft.x = transformedLLeft.x;
 			this->myHitbox.lowerLeft.y = transformedLLeft.y;
 			this->myHitbox.lowerRight.x = transformedLRight.x;
 			this->myHitbox.lowerRight.y = transformedLRight.y;
+
+//The upper Left has the same triangle relationship.
+			this->myHitbox.upperLeft.x = transformedLLeft.x - (  transformedLRight.x - transformedLLeft.x);
+			this->myHitbox.upperLeft.y = transformedURight.y - (transformedLRight.y - transformedLLeft.y );
+
+
 			this->myHitbox.width =  width;
 			this->myHitbox.height = height;
 	}
@@ -167,24 +174,34 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	Hitbox DisplayObject:: getHitbox(){
 		return this->myHitbox;
 	}
+
+
 	void DisplayObject :: drawHitbox(){
 		SDL_Rect temp;
-
 		temp.x = this->myHitbox.origin.x;
 		temp.y = this->myHitbox.origin.y;
 		temp.w = this->myHitbox.width;
 		temp.h = this->myHitbox.height;
 
-
 		SDL_Rect origin;
+		SDL_Rect upperLeft;
 		SDL_Rect upperRight;
 		SDL_Rect lowerLeft;
 		SDL_Rect lowerRight;
 
 		origin.x = this->myHitbox.origin.x;
 		origin.y = this->myHitbox.origin.y;
-		origin.w = 25;
-		origin.h = 25;
+		origin.w = 35;
+		origin.h = 35;
+
+		upperLeft.x = this->myHitbox.upperLeft.x;
+		upperLeft.y = this->myHitbox.upperLeft.y;
+		upperLeft.w = 25;
+		upperLeft.h = 25;
+
+
+
+
 
 
 
@@ -210,9 +227,10 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 		SDL_RenderDrawRect(Game::renderer, &upperRight);
 		SDL_RenderDrawRect(Game::renderer, &lowerLeft);
 		SDL_RenderDrawRect(Game::renderer, &lowerRight);
+		SDL_RenderDrawRect(Game::renderer, &upperLeft);
 
 
-		SDL_RenderDrawRect(Game::renderer, &temp);
+//		SDL_RenderDrawRect(Game::renderer, &temp);
 		SDL_RenderPresent(Game::renderer);
 
 //		cout<< "DrawHitboxPressed";
