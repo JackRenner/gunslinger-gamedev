@@ -16,9 +16,20 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	townScene = new Scene();
 	townScene->loadScene("./resources/scene/townScene.txt");
-
+	sheriffScene = new Scene();
+	sheriffScene->loadScene("./resources/scene/sherrifsoffice.txt");
+	storeScene = new Scene();
+	storeScene->loadScene("./resources/scene/generalstore.txt");
+	hotelScene = new Scene();
+	hotelScene->loadScene("./resources/scene/grandhotel.txt");
 	bankScene = new Scene();
 	bankScene->loadScene("./resources/scene/bank.txt");
+	postScene = new Scene();
+	postScene->loadScene("./resources/scene/postoffice.txt");
+	cantinaScene = new Scene();
+	cantinaScene->loadScene("./resources/scene/cantina.txt");
+	drugScene = new Scene();
+	drugScene->loadScene("./resources/scene/drugstore.txt");
 
 	character = new AnimatedSprite("character");
 	character->addAnimation("./resources/character/", "Run", 20, 2, true);
@@ -33,15 +44,41 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character->width = 90;
 
 	// initialize town transition points, hardcoded for now
-	vector<TransitionPoint> townPoints = { { SDL_Point{ 192, 288 }, 1 } };
+	vector<TransitionPoint> townPoints = { TransitionPoint(SDL_Point{ 192, 300 }, 1),
+	TransitionPoint(SDL_Point{550, 288}, 2),
+	TransitionPoint(SDL_Point{900, 300}, 3),
+	TransitionPoint(SDL_Point{1268, 300}, 4),
+	TransitionPoint(SDL_Point{1632, 272}, 5),
+	TransitionPoint(SDL_Point{2040, 300}, 6),
+	TransitionPoint(SDL_Point{2333, 292}, 7)
+	};
 	transitionPoints.push_back(townPoints);
 
-	vector<TransitionPoint> bankPoint = { { SDL_Point{ 500, 960 }, 0 } };
+	// initialize town interior transition points, hardcoded for now
+	vector<TransitionPoint> sheriffPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0)};
+	transitionPoints.push_back(sheriffPoint);
+	vector<TransitionPoint> storePoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0) };
+	transitionPoints.push_back(storePoint);
+	vector<TransitionPoint> hotelPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0) };
+	transitionPoints.push_back(hotelPoint);
+	vector<TransitionPoint> bankPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0)};
 	transitionPoints.push_back(bankPoint);
+	vector<TransitionPoint> postPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0) };
+	transitionPoints.push_back(postPoint);
+	vector<TransitionPoint> cantinaPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0) };
+	transitionPoints.push_back(cantinaPoint);
+	vector<TransitionPoint> drugPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0) };
+	transitionPoints.push_back(drugPoint);
 
 	// initilizing scene info
-	sceneInfo.push_back(SceneInfo{ townScene, SDL_Point{0, 0}, true, SDL_Point{0, character->height } });
-	sceneInfo.push_back(SceneInfo{ bankScene, SDL_Point{500, 900} });
+	sceneInfo.push_back(SceneInfo(townScene, SDL_Point{0, 0}, true, SDL_Point{0, character->height}));
+	sceneInfo.push_back(SceneInfo(sheriffScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
+	sceneInfo.push_back(SceneInfo(storeScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
+	sceneInfo.push_back(SceneInfo(hotelScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
+	sceneInfo.push_back(SceneInfo(bankScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
+	sceneInfo.push_back(SceneInfo(postScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
+	sceneInfo.push_back(SceneInfo(cantinaScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
+	sceneInfo.push_back(SceneInfo(drugScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
 
 	room_state = 0;
 

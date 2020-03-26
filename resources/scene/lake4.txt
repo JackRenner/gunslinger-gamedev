@@ -1,11 +1,11 @@
 {
-    "scene_id": "drugScene",
+    "scene_id": "lake4",
     "background": {
         "type": "Sprite",
-        "filepath": "./resources/sprites/DrugStore.png",
+        "filepath": "./resources/sprites/lakestill_4.png",
         "dimensions": [
-            1080,
-            1080
+            1104,
+            618
         ],
         "position": [
             0,

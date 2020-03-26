@@ -59,7 +59,13 @@ private:
 	Scene* curScene = NULL;
 
 	Scene* townScene;
+	Scene* sheriffScene;
+	Scene* storeScene;
+	Scene* hotelScene;
 	Scene* bankScene;
+	Scene* postScene;
+	Scene* cantinaScene;
+	Scene* drugScene;
 
 	AnimatedSprite* character;
 	Sprite* coin;

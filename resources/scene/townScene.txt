@@ -1,5 +1,5 @@
 {
-    "scene_id": "Default_Scene_id",
+    "scene_id": "townScene",
     "background": {
         "type": "Sprite",
         "filepath": "./resources/sprites/Town.png",

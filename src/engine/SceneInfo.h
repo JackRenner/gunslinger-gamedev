@@ -10,6 +10,13 @@ struct SceneInfo {
 	SDL_Point startPos;
 	bool saveLast = false;
 	SDL_Point offset;
+
+	SceneInfo(Scene* scenePointer, SDL_Point startPos, bool saveLast, SDL_Point offset) {
+		this->scenePointer = scenePointer;
+		this->startPos = startPos;
+		this->saveLast = saveLast;
+		this->offset = offset;
+	}
 };
 
 #endif

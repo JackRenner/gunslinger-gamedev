@@ -8,6 +8,11 @@ using namespace std;
 struct TransitionPoint {
 	SDL_Point point;
 	int newstate;
+
+	TransitionPoint(SDL_Point point, int newstate) {
+		this->point = point;
+		this->newstate = newstate;
+	}
 };
 
 #endif

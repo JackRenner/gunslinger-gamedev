@@ -1,5 +1,5 @@
 {
-    "scene_id": "Default_Scene_id",
+    "scene_id": "bankScene",
     "background": {
         "type": "Sprite",
         "filepath": "./resources/sprites/Bank.png",

@@ -1,5 +1,5 @@
 {
-    "scene_id": "Default_Scene_id",
+    "scene_id": "storeScene",
     "background": {
         "type": "Sprite",
         "filepath": "./resources/sprites/GeneralStore.png",
@@ -20,7 +20,7 @@
             1.0
         ],
         "rotation": 0.0,
-        "alpha": 330,
+        "alpha": 255,
         "visible": true,
         "parent": null
     }

@@ -1,5 +1,5 @@
 {
-    "scene_id": "Default_Scene_id",
+    "scene_id": "cantinaScene",
     "background": {
         "type": "Sprite",
         "filepath": "./resources/sprites/Cantina.png",
