@@ -11,25 +11,6 @@
 
 using namespace std;
 
-struct Hitbox{
-	SDL_Point origin;
-	SDL_Point upperRight;
-	SDL_Point lowerLeft;
-	SDL_Point lowerRight;
-	int width;
-	int height;
-
-	Hitbox(){//set default values to be 00
-		 	origin = {0,0};
-			upperRight = {0,0};
-			lowerLeft = {0,0};
-			lowerRight = {0,0};
-			width = 0;
-			height = 0;
-	}
-};
-
-
 class DisplayObject{
 
 public:
@@ -46,7 +27,7 @@ public:
 	DisplayObject(string id, string path);
 	DisplayObject(string id, int red, int green, int blue);
 	virtual ~DisplayObject();
-
+	
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
@@ -72,31 +53,16 @@ public:
 	double rotation = 0.0; // in radians
 	int alpha = 255;
 	bool facingRight = true;
-	SDL_Point transformedOrigin;
-	SDL_Point transformedURight;
-	SDL_Point transformedLRight;
-	SDL_Point transformedLLeft;
-
-
 
 	//This rect is to allow spritesheet support in AnimatedSprite.h
 	SDL_Rect* srcrect = NULL;
 
 	static Camera gameCamera;
 
-
-	struct Hitbox myHitbox;
-
-	void saveHitbox(SDL_Point transformedOrigin, SDL_Point transformedURight,	SDL_Point transformedLRight, SDL_Point transformedLLeft, int width, int height);
-	Hitbox getHitbox();
-
-	void drawHitbox();
-	bool hitboxDrawn = false;
-
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);
 	double calculateRotation(SDL_Point &origin, SDL_Point &p);
-
+	
 	SDL_Texture* texture = NULL;
 	SDL_Surface* image = NULL;
 

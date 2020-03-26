@@ -28,7 +28,7 @@ struct Animation {
 class AnimatedSprite : public Sprite{
 
 public:
-
+	
 	AnimatedSprite();
 	AnimatedSprite(string id);
 	~AnimatedSprite();
@@ -51,7 +51,7 @@ private:
 	Animation* current;
 	vector<Animation*> animations;
 	int frameCount;
-
+	
 };
 
 #endif
