@@ -1,0 +1,62 @@
+{
+    "scene_id": "Default_Scene_id",
+    "background": {
+        "type": "Sprite",
+        "filepath": "./resources/sprites/Town.png",
+        "dimensions": [
+            2000,
+            600
+        ],
+        "position": [
+            0,
+            0
+        ],
+        "pivot": [
+            50,
+            50
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    },
+    "gunslinger": {
+        "type": "AnimatedSprite",
+        "animations": {
+            "anim_0": {
+                "basepath": "./resources/sprites/gt_spritesheet.png",
+                "animName": "anim_0",
+                "fromSheet": true,
+                "xmlPath": "./resources/sprites/gt_spritesheet.xml",
+                "numFrames": 12,
+                "frameRate": 5,
+                "loop": true
+            }
+        },
+        "playing": "anim_0",
+        "dimensions": [
+            100,
+            100
+        ],
+        "position": [
+            400,
+            300
+        ],
+        "pivot": [
+            50,
+            50
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    }
+}

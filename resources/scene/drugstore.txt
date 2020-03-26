@@ -1,0 +1,27 @@
+{
+    "scene_id": "Default_Scene_id",
+    "background": {
+        "type": "Sprite",
+        "filepath": "./resources/sprites/DrugStore.png",
+        "dimensions": [
+            1000,
+            1000
+        ],
+        "position": [
+            0,
+            0
+        ],
+        "pivot": [
+            50,
+            50
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 330,
+        "visible": true,
+        "parent": null
+    }
+}
