@@ -138,7 +138,7 @@ int DisplayObject::getWidth() {
 int DisplayObject::getHeight() {
 	return this->image->h;
 }
-
+ 
 double DisplayObject::distance(SDL_Point &p1, SDL_Point &p2) {
 	return sqrt(((p2.y - p1.y)*(p2.y - p1.y)) + ((p2.x - p1.x)*(p2.x - p1.x)));
 }

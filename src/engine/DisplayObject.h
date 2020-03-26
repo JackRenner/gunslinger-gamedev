@@ -8,7 +8,7 @@
 #include "Camera.h"
 #include <string>
 #include <fstream>
-
+ 
 using namespace std;
 
 struct Hitbox{
