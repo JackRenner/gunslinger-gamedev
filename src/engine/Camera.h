@@ -11,8 +11,8 @@ public:
 
 	int x = 0;
 	int y = 0;
-	int viewportWidth = 800;
-	int viewportHeight = 600;
+	int viewportWidth = 1280;
+	int viewportHeight = 800;
 	double scale = 1.0;
 	SDL_Point zoomPoint = { 0, 0 };
 

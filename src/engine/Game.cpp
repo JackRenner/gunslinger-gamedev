@@ -25,7 +25,7 @@ Game::Game(int windowWidth, int windowHeight){
 }
 
 Game::~Game(){
-	// DisplayObjectContainer::~DisplayObjectContainer();
+	DisplayObjectContainer::~DisplayObjectContainer();
 	quitSDL();
 }
 

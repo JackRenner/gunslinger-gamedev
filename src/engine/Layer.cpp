@@ -8,9 +8,7 @@ Layer::Layer() : DisplayObjectContainer() {
 
 void Layer::draw(AffineTransform &at) {
 	applyTransformations(at);
-
 	at.translate(pivot.x, pivot.y);
-
 
 	// undo global camera modifiers
 	at.translate(gameCamera.zoomPoint.x, gameCamera.zoomPoint.y);
@@ -36,8 +34,6 @@ void Layer::draw(AffineTransform &at) {
 	at.scale(gameCamera.scale, gameCamera.scale);
 	at.translate(-gameCamera.zoomPoint.x, -gameCamera.zoomPoint.y);
 
-	// redo the parent's pivot
 	at.translate(-pivot.x, -pivot.y);
-
 	reverseTransformations(at);
 }

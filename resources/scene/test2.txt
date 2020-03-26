@@ -1,0 +1,102 @@
+{
+	"scene_id": "testScene2",
+
+	"test_sprite1": {
+		"type": "Sprite",
+		"filepath": "./resources/character/Dead_30.png",
+
+		"dimensions": [120, 100],
+		"position": [0, -400],
+		"pivot": [60, 50],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "test_doc"
+	},
+
+	"test_sprite2": {
+		"type": "Sprite",
+		"filepath": "./resources/character/Dead_30.png",
+
+		"dimensions": [120, 100],
+		"position": [0, 400],
+		"pivot": [60, 50],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "test_doc"
+	},
+
+	"test_rgb": {
+		"type": "RGB",
+		"rgb": [255, 10, 10],
+
+		"dimensions": [50, 50],
+		"position": [-400, 0],
+		"pivot": [25, 25],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "test_doc"
+	},
+
+	"test_rgb2": {
+		"type": "RGB",
+		"rgb": [255, 10, 10],
+
+		"dimensions": [50, 50],
+		"position": [400, 0],
+		"pivot": [25, 25],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": "test_doc"
+	},
+
+	"test_doc": {
+		"type": "DisplayObjectContainer",
+		
+		"position": [600, 500],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	},
+
+	"test_anim": {
+		"type": "AnimatedSprite",
+
+		"animations": {	
+			"animation1": {
+				"basepath": "./resources/character/",
+				"animName": "Dead",
+				"numFrames": 30,
+				"frameRate": 3,
+				"loop": true
+			}
+		},
+
+		"playing": "Dead",
+
+		"dimensions": [120, 100],
+		"position": [600, 500],
+		"pivot": [60, 50],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	}
+}

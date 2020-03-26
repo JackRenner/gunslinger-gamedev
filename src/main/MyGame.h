@@ -12,6 +12,8 @@
 #include "../engine/tweens/Tween.h"
 #include "../engine/tweens/TweenJuggler.h"
 #include "../engine/eventhandlers/CoinListener.h"
+#include "../engine/TransitionPoint.h"
+#include "../engine/SceneInfo.h"
 
 using namespace std;
 
@@ -31,7 +33,7 @@ struct Bound {
 	};
 };
 
-class MyGame : public Game {
+class MyGame : public Game, public EventListener {
 
 public:
 	MyGame();
@@ -42,33 +44,40 @@ public:
 
 	void setScene(Scene* scene);
 
-	bool checkInside(SDL_Rect box, DisplayObject* entity);
+	bool checkInsideBox(SDL_Rect box, DisplayObject* entity);
+	bool checkInsidePoint(SDL_Point point, DisplayObject* entity);
 
 	void addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool right);
 	void enforceCameraBounds();
+
+	void handleEvent(Event* e);
+
+	void transitionScene(TransitionPoint tp);
 
 private:
 
 	Scene* curScene = NULL;
 
-	Scene* tweenDemo;
+	Scene* townScene;
+	Scene* bankScene;
 
 	AnimatedSprite* character;
 	Sprite* coin;
 
+	DisplayObjectContainer* foreground;
+
 	bool sceneFlip = false;
 	bool keyToggle = true;
-	bool coinPickedUp = false;
 
 	vector<Bound> boundaries;
 	int room_state = -1;
 
-	Sound* gunshot;
 	Sound* music;
 
 	TweenJuggler* juggler;
 
-	CoinListener* coinListener;
+	vector<vector<TransitionPoint>> transitionPoints;
+	vector<SceneInfo> sceneInfo;
 };
 
 #endif

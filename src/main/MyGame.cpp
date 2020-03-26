@@ -11,36 +11,39 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	gameCamera = Camera();
 
-	tweenDemo = new Scene();
-	tweenDemo->loadScene("./resources/scene/tweenDemo.txt");
+	foreground = new DisplayObjectContainer();
+	foreground->id = "foreground";
+
+	townScene = new Scene();
+	townScene->loadScene("./resources/scene/townScene.txt");
+
+	bankScene = new Scene();
+	bankScene->loadScene("./resources/scene/bank.txt");
 
 	character = new AnimatedSprite("character");
 	character->addAnimation("./resources/character/", "Run", 20, 2, true);
+	foreground->addChild(character);
 
-	coin = new Sprite("coin","./resources/dollar.png");
-	coin->position = { 1000, 550 };
-	coin->width = 50;
-	coin->height = 50;
-	coin->pivot = { coin->width / 2, coin->height / 2 };
-	
-	this->setScene(tweenDemo);
-	this->addChild(character);
-	this->addChild(coin);
+	this->setScene(townScene);
+	this->addChild(foreground);
 
-	SDL_Rect room_bound = { 0, 0, 1600, 800 };
-
-	addCameraBound(room_bound, true, true, true, true);
-
-	character->position = { 800, 550 };
+	character->position = { 1500, 500 };
 	character->pivot = { character->width / 2, character->height / 2 };
 	character->play("Run");
 	character->width = 90;
 
-	room_state = 0;
+	// initialize town transition points, hardcoded for now
+	vector<TransitionPoint> townPoints = { { SDL_Point{ 192, 288 }, 1 } };
+	transitionPoints.push_back(townPoints);
 
-	gunshot = new Sound();
-	//music = new Sound();
-	//music->playMusic();
+	vector<TransitionPoint> bankPoint = { { SDL_Point{ 500, 960 }, 0 } };
+	transitionPoints.push_back(bankPoint);
+
+	// initilizing scene info
+	sceneInfo.push_back(SceneInfo{ townScene, SDL_Point{0, 0}, true, SDL_Point{0, character->height } });
+	sceneInfo.push_back(SceneInfo{ bankScene, SDL_Point{500, 900} });
+
+	room_state = 0;
 
 	juggler = TweenJuggler::getInstance();
 	Tween* characterTween = new Tween(character);
@@ -48,8 +51,6 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	characterTween->animate(TweenableParams::SCALE_X, 0, 1, 30, TweenTransitions::EASEOUTCUBIC);
 	characterTween->animate(TweenableParams::SCALE_Y, 0, 1, 30, TweenTransitions::EASEOUTCUBIC);
 	juggler->add(characterTween);
-
-	coinListener = new CoinListener(coin);
 }
 
 MyGame::~MyGame() {
@@ -59,42 +60,18 @@ MyGame::~MyGame() {
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
-	if (pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()) {
-		gunshot->playSFX();
-	}
-
 	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-		character->position.y -= 5;
+		character->position.y -= 8;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-		character->position.y += 5;
+		character->position.y += 8;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		character->position.x += 5;
+		character->position.x += 8;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-		character->position.x -= 5;
+		character->position.x -= 8;
 	}
-
-	if (!coinPickedUp && checkInside(SDL_Rect{ character->position.x - character->pivot.x, character->position.y - character->pivot.y, character->width, character->height }, coin)) {
-		coinPickedUp = true;
-		Tween* moveCoinTween = new Tween(coin);
-		moveCoinTween->animate(TweenableParams::SCALE_X, 1, 4, 30, TweenTransitions::EASEOUTCUBIC);
-		moveCoinTween->animate(TweenableParams::SCALE_Y, 1, 4, 30, TweenTransitions::EASEOUTCUBIC);
-		moveCoinTween->animate(TweenableParams::POS_X, coin->position.x, 800, 30, TweenTransitions::EASEOUTCUBIC);
-		moveCoinTween->animate(TweenableParams::POS_Y, coin->position.y, 400, 30, TweenTransitions::EASEOUTCUBIC);
-		TweenJuggler::getInstance()->add(moveCoinTween);
-
-		moveCoinTween->addEventListener(coinListener, TweenEvent::TWEEN_COMPLETE_EVENT);
-	}
-
-	/*SDL_Rect room;
-	for (int i = 0; i < boundaries.size(); i++) {
-		room = boundaries[i].bounds;
-		if (checkInside(room, character)) {
-			room_state = i;
-		}
-	}*/
 
 
 	Game::update(pressedKeys);
@@ -102,7 +79,13 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
 	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
 
-	enforceCameraBounds();
+	for (int i = 0; i < transitionPoints[room_state].size(); i++) {
+		if (checkInsidePoint(transitionPoints[room_state][i].point, character)) {
+			transitionScene(transitionPoints[room_state][i]);
+		}
+	}
+
+	//enforceCameraBounds();
 }
 
 void MyGame::draw(AffineTransform& at) {
@@ -169,9 +152,41 @@ void MyGame::enforceCameraBounds() {
 }
 
 // checks if entire entity is inside area described by box (rudimentary "collision" until engine team implements it)
-bool MyGame::checkInside(SDL_Rect box, DisplayObject* entity) {
+bool MyGame::checkInsideBox(SDL_Rect box, DisplayObject* entity) {
 	return (entity->position.x - entity->pivot.x >= box.x &&
 		entity->position.x - entity->pivot.x + entity->width <= box.x + box.w &&
 		entity->position.y - entity->pivot.y >= box.y &&
 		entity->position.y - entity->pivot.y + entity->height <= box.y + box.h);
+}
+
+bool MyGame::checkInsidePoint(SDL_Point point, DisplayObject* entity) {
+	return (point.x > entity->position.x - entity->pivot.x &&
+		point.x < entity->position.x - entity->pivot.x + entity->width &&
+		point.y > entity->position.y - entity->pivot.y &&
+		point.y < entity->position.y - entity->pivot.y + entity->height);
+}
+
+void MyGame::handleEvent(Event* e) {
+	this->unlinkImmediateChild("foreground");
+	this->setScene(sceneInfo[room_state].scenePointer);
+	this->addChild(foreground);
+
+	character->position = sceneInfo[room_state].startPos;
+
+	e->getSource()->removeEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
+	Tween* gameFade = new Tween(character);
+	gameFade->animate(TweenableParams::ALPHA, 0, 255, 30, TweenTransitions::EASEINCUBIC);
+	juggler->add(gameFade);
+}
+
+void MyGame::transitionScene(TransitionPoint tp) {
+	if (sceneInfo[room_state].saveLast)
+		sceneInfo[room_state].startPos = SDL_Point{ tp.point.x + sceneInfo[room_state].offset.x, tp.point.y + sceneInfo[room_state].offset.y };
+	room_state = tp.newstate;
+
+	Tween* gameFade = new Tween(character);
+	gameFade->animate(TweenableParams::ALPHA, 255, 0, 30, TweenTransitions::EASEINCUBIC);
+	juggler->add(gameFade);
+
+	gameFade->addEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
 }
