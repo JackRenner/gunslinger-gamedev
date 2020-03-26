@@ -4,8 +4,8 @@
         "type": "Sprite",
         "filepath": "./resources/sprites/GrandHotel.png",
         "dimensions": [
-            1000,
-            1000
+            1080,
+            1080
         ],
         "position": [
             0,

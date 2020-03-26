@@ -4,8 +4,8 @@
         "type": "Sprite",
         "filepath": "./resources/sprites/Town.png",
         "dimensions": [
-            2000,
-            600
+            3000,
+            1080
         ],
         "position": [
             0,
