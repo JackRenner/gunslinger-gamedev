@@ -86,8 +86,23 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		character->play("Walk");
 	}
 	if(pressedKeys.find(SDL_SCANCODE_Z) != pressedKeys.end()){
-		character->hitboxDrawn = true;
+
+			character->hitboxDrawn = true;
+
 	}
+
+	if(pressedKeys.find(SDL_SCANCODE_E) != pressedKeys.end()){
+
+			character->rotation += .1;
+
+	}
+
+	if(pressedKeys.find(SDL_SCANCODE_R) != pressedKeys.end()){
+
+			character->rotation -= .1;
+
+	}
+
 /*
 		if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
 			character->play("Run");
