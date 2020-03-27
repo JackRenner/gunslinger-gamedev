@@ -59,6 +59,7 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			this->position.x -= 50;
 		}
 	}
+	AnimatedSprite::update(pressedKeys);	
 	controls::update(pressedKeys);
 	if (controls::holdW()) {
 		this->position.y -= 2;
@@ -88,7 +89,6 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		this->dir = "Left";
 		this->play("FaceLeft");
 	} 
-	AnimatedSprite::update(pressedKeys);	
 }
 
 // void Player::onEnemyCollision(Enemy* enemy){

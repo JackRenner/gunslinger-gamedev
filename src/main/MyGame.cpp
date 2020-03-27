@@ -109,7 +109,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 			this->knife_throws ++;
 		} else {
-			bullet = new Projectile("up",this->position, this->gun);
+			bullet = new Projectile("down",this->position, this->gun);
 			this->addChild(bullet);
 			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		}
@@ -124,13 +124,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 			this->knife_throws ++;
 		} else {
-			bullet = new Projectile("up",this->position, this->gun);
+			bullet = new Projectile("left",this->position, this->gun);
 			this->addChild(bullet);
 			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		}
-	}
-	if (controls::pressShift()) {
-		std::cout << "this works tho\n";
 	}
 	if (controls::pressLeft()) {
 		//gunshot->playSFX();	
@@ -142,7 +139,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 			this->knife_throws ++;
 		} else {
-			bullet = new Projectile("up",this->position, this->gun);
+			bullet = new Projectile("right",this->position, this->gun);
 			this->addChild(bullet);
 			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		}
