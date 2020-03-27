@@ -15,7 +15,7 @@ class Projectile : public AnimatedSprite{
 
 public:
 	Projectile();
-    Projectile(string face, SDL_Point position);
+    Projectile(string face, SDL_Point position, int type);
 	
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -26,6 +26,7 @@ public:
 	/* Durability and Distance */
 	int durability = 1;
 	int Distance = 100;
+	int speed = 10;
 
 	/* direction */
 	string dir;

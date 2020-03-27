@@ -14,7 +14,7 @@ Projectile::Projectile() : AnimatedSprite("Projectile"){
 
 }
 
-Projectile::Projectile(string face, SDL_Point position) : AnimatedSprite("Projectile"){
+Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSprite("Projectile"){
 
 	this->type = "Projectile";
 	
@@ -27,23 +27,58 @@ Projectile::Projectile(string face, SDL_Point position) : AnimatedSprite("Projec
     this->dir = face;
     
 	this->play("bullet");
+	// no gun
+	if (type == 0){
+		this->Distance = 0;
+		
+	}
+	//knife
+	if(type == 1){
+		this->Distance = 150;
+		this->speed = 6;
+		
+	}
+	//pistol
+	if(type == 2){
+		this->Distance = 150;
+		this->speed = 8;
+		 
+	}
+	//shotgun
+	if(type == 3){
+		this->Distance = 120;
+		this->speed = 8;
+	}
+	//rifle
+	if (type == 4){
+		this->Distance = 350;
+		this->speed = 20;
+		
+	}
 }
 
 void Projectile::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	controls::update(pressedKeys);
     if(this->dir == "right"){
-        this->position.x -= 20;
+        this->position.x -= this->speed;
+		this->durability +=this->speed;
     }
     if (this->dir == "left") {
-        this->position.x += 20;
+        this->position.x += this->speed;
+		this->durability +=this->speed;
     }
     if(this->dir == "up") {
-        this->position.y -= 20;
+        this->position.y -= this->speed;
+		this->durability +=this->speed;
     }
     if(this->dir == "down") {
-        this->position.y += 20;
+        this->position.y += this->speed;
+		this->durability +=this->speed;
     }
+	if(this->durability > this->Distance) {
+		this->removeThis();
+	}
 	
 	
 

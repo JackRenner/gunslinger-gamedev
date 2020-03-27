@@ -4,6 +4,7 @@
 #include "../engine/Sprite.h"
 #include "../engine/Scene.h"
 #include "../engine/Controls.h"
+#include "../engine/Player.h"
 #include "MyGame.h"
 
 using namespace std;
@@ -11,6 +12,7 @@ using namespace std;
 Camera DisplayObject::gameCamera;
 
 MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
+	this->gun = 0;
 
 	gameCamera = Camera();
 
@@ -66,31 +68,46 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	// 	gunshot->playSFX();
 		
 	// }
+	if(controls::press1()){
+		this->gun = 0;
+	};
+	if(controls::press2()){
+		this->gun = 1;
+	};
+	if(controls::press3()){
+		this->gun = 2;
+	};
+	if(controls::press4()){
+		this->gun = 3;
+	};
+	if(controls::press5()){
+		this->gun = 4;
+	};
 
 	if (controls::pressUp()) {
-		gunshot->playSFX();
-		bullet = new Projectile("up",this->position);
+		//gunshot->playSFX();
+		bullet = new Projectile("up",this->position, this->gun);
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		
 	}
 	if (controls::pressDown()) {
-		gunshot->playSFX();
-		bullet = new Projectile("down",this->position);
+		//gunshot->playSFX();
+		bullet = new Projectile("down",this->position, this->gun);
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		
 	}
 	if (controls::pressRight()) {
-		gunshot->playSFX();		
-		bullet = new Projectile("left",this->position);
+		//gunshot->playSFX();		
+		bullet = new Projectile("left",this->position, this->gun);
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		
 	}
 	if (controls::pressLeft()) {
-		gunshot->playSFX();		
-		bullet = new Projectile("right",this->position);
+		//gunshot->playSFX();		
+		bullet = new Projectile("right",this->position, this->gun);
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		

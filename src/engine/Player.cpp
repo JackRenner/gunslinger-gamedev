@@ -24,6 +24,7 @@ Player::Player() : AnimatedSprite("Player"){
 	this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
 	
 	this->play("FaceUp");
+	holding = 0;
 }
 
 //Called automatically by collision system when something collides with the player

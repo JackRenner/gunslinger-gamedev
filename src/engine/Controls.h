@@ -14,6 +14,11 @@ namespace controls{
 	extern SDL_Scancode KEY_A;
 	extern SDL_Scancode KEY_W;
 	extern SDL_Scancode KEY_S;
+	extern SDL_Scancode KEY_1;
+	extern SDL_Scancode KEY_2;
+	extern SDL_Scancode KEY_3;
+	extern SDL_Scancode KEY_4;
+	extern SDL_Scancode KEY_5;
 
 	extern SDL_Scancode KEY_RIGHT;
 	extern SDL_Scancode KEY_LEFT;
@@ -55,6 +60,13 @@ namespace controls{
 	bool pressLeft();
 	bool pressUp();
 	bool pressDown();
+
+	//gun select
+	bool press1();
+	bool press2();
+	bool press3();
+	bool press4();
+	bool press5();
 
 	// Rolling
 	bool pressShift();

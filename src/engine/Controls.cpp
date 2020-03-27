@@ -9,6 +9,12 @@ SDL_Scancode controls::KEY_D = SDL_SCANCODE_D;
 SDL_Scancode controls::KEY_A = SDL_SCANCODE_A;
 SDL_Scancode controls::KEY_W = SDL_SCANCODE_W;
 SDL_Scancode controls::KEY_S = SDL_SCANCODE_S;
+SDL_Scancode controls::KEY_1 = SDL_SCANCODE_1;
+SDL_Scancode controls::KEY_2 = SDL_SCANCODE_2;
+SDL_Scancode controls::KEY_3 = SDL_SCANCODE_3;
+SDL_Scancode controls::KEY_4 = SDL_SCANCODE_4;
+SDL_Scancode controls::KEY_5 = SDL_SCANCODE_5;
+
 
 SDL_Scancode controls::KEY_RIGHT = SDL_SCANCODE_RIGHT;
 SDL_Scancode controls::KEY_LEFT = SDL_SCANCODE_LEFT;
@@ -47,6 +53,14 @@ bool controls::pressRight(){ return pressedKeys.count(KEY_RIGHT) == 1 && lastPre
 bool controls::pressLeft(){ return pressedKeys.count(KEY_LEFT) == 1 && lastPressedKeys.count(KEY_LEFT) != 1; }
 bool controls::pressUp(){ return pressedKeys.count(KEY_UP) == 1 && lastPressedKeys.count(KEY_UP) != 1; }
 bool controls::pressDown(){ return pressedKeys.count(KEY_DOWN) == 1 && lastPressedKeys.count(KEY_DOWN) != 1; }
+
+// gun select
+
+bool controls::press1() {return pressedKeys.count(KEY_1) == 1 && lastPressedKeys.count(KEY_1) != 1;}
+bool controls::press2() {return pressedKeys.count(KEY_2) == 1 && lastPressedKeys.count(KEY_2) != 1;}
+bool controls::press3() {return pressedKeys.count(KEY_3) == 1 && lastPressedKeys.count(KEY_3) != 1;}
+bool controls::press4() {return pressedKeys.count(KEY_4) == 1 && lastPressedKeys.count(KEY_4) != 1;}
+bool controls::press5() {return pressedKeys.count(KEY_5) == 1 && lastPressedKeys.count(KEY_5) != 1;}
 
 // Rolling
 bool controls::pressShift(){ return pressedKeys.count(KEY_SHIFT) == 1 && lastPressedKeys.count(KEY_SHIFT) != 1; }

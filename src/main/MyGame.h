@@ -42,6 +42,8 @@ public:
 
 	void setScene(Scene* scene);
 
+	int gun = 0;
+
 	bool checkInside(SDL_Rect box, DisplayObject* entity);
 
 	void addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool right);

@@ -29,6 +29,7 @@ public:
 
 	/* direction */
 	string dir;
+	int holding = 0;
 
 	//iFrames
 	bool iFrames = false;
