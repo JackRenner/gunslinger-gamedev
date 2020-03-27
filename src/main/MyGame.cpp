@@ -17,15 +17,18 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	cameraDemoScene = new Scene();
 	cameraDemoScene->loadScene("./resources/scene/cameraDemoScene.txt");
 
+	townSquareScene = new Scene();
+	townSquareScene->loadScene("./resources/scene/townsquare.txt");
+
 	// character = new AnimatedSprite("character");
 	// character->addAnimation("./resources/character/", "Run", 20, 2, true);
 	character = new Player();
 	// character->addAnimation("./resources/character/", "Down", 3, 1, true)
 
 
-	this->setScene(cameraDemoScene);
+	this->setScene(townSquareScene);
 	this->addChild(character);
-	character->position = { 300, 1100 };
+	character->position = { 50, 250 };
 	character->pivot = { character->width / 2, character->height / 2 };
 	character->scaleX = 0.5;
 	character->scaleY = 0.5;

@@ -52,6 +52,7 @@ private:
 	Scene* curScene = NULL;
 
 	Scene* cameraDemoScene;
+	Scene* townSquareScene;
 
 	AnimatedSprite* character;
 	AnimatedSprite* bullet;
