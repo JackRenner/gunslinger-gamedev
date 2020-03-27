@@ -86,31 +86,66 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 	if (controls::pressUp()) {
 		//gunshot->playSFX();
-		bullet = new Projectile("up",this->position, this->gun);
-		this->addChild(bullet);
-		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
-		
+		if (this->gun == 1 && this->knife_throws > 0) {
+
+		} else if (this->gun == 1) {
+			bullet = new Projectile("up",this->position, this->gun);
+			this->addChild(bullet);
+			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+			this->knife_throws ++;
+		} else {
+			bullet = new Projectile("up",this->position, this->gun);
+			this->addChild(bullet);
+			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		}
 	}
 	if (controls::pressDown()) {
 		//gunshot->playSFX();
-		bullet = new Projectile("down",this->position, this->gun);
-		this->addChild(bullet);
-		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
-		
+		if (this->gun == 1 && this->knife_throws > 0) {
+
+		} else if (this->gun == 1){
+			bullet = new Projectile("down",this->position, this->gun);
+			this->addChild(bullet);
+			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+			this->knife_throws ++;
+		} else {
+			bullet = new Projectile("up",this->position, this->gun);
+			this->addChild(bullet);
+			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		}
 	}
 	if (controls::pressRight()) {
-		//gunshot->playSFX();		
-		bullet = new Projectile("left",this->position, this->gun);
-		this->addChild(bullet);
-		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
-		
+		//gunshot->playSFX();	
+		if (this->gun == 1 && this->knife_throws > 0) {
+
+		} else if (this->gun == 1) {	
+			bullet = new Projectile("left",this->position, this->gun);
+			this->addChild(bullet);
+			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+			this->knife_throws ++;
+		} else {
+			bullet = new Projectile("up",this->position, this->gun);
+			this->addChild(bullet);
+			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		}
+	}
+	if (controls::pressShift()) {
+		std::cout << "this works tho\n";
 	}
 	if (controls::pressLeft()) {
-		//gunshot->playSFX();		
-		bullet = new Projectile("right",this->position, this->gun);
-		this->addChild(bullet);
-		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
-		
+		//gunshot->playSFX();	
+		if (this->gun == 1 && this->knife_throws > 0) {
+
+		} else if (this->gun == 1) {	
+			bullet = new Projectile("right",this->position, this->gun);
+			this->addChild(bullet);
+			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+			this->knife_throws ++;
+		} else {
+			bullet = new Projectile("up",this->position, this->gun);
+			this->addChild(bullet);
+			bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		}
 	}
 
 

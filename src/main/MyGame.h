@@ -58,6 +58,12 @@ private:
 
 	AnimatedSprite* character;
 	AnimatedSprite* bullet;
+	
+	/* shooting */
+	int knife_throws = 0;
+	int revolver_shots = 0;
+	int shotgun_shots = 0;
+	int rifle_shots = 0;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;

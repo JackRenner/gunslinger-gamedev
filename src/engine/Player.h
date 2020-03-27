@@ -16,7 +16,7 @@ class Player : public AnimatedSprite{
 
 public:
 	Player();
-	
+
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 

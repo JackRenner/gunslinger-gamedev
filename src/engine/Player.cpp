@@ -45,7 +45,20 @@ Player::Player() : AnimatedSprite("Player"){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
-	AnimatedSprite::update(pressedKeys);
+	if (controls::pressShift()) {
+		if (this->dir == "Up") {
+			this->position.y -= 50;
+		}
+		if (this->dir == "Down") {
+			this->position.y += 50;
+		}
+		if (this->dir == "Right") {
+			this->position.x += 50;
+		}
+		if (this->dir == "Left") {
+			this->position.x -= 50;
+		}
+	}
 	controls::update(pressedKeys);
 	if (controls::holdW()) {
 		this->position.y -= 2;
@@ -75,21 +88,7 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		this->dir = "Left";
 		this->play("FaceLeft");
 	} 
-	if (controls::pressShift()) {
-		if (this->dir == "Up") {
-			this->position.y -= 20;
-		}
-		if (this->dir == "Down") {
-			this->position.y += 20;
-		}
-		if (this->dir == "Right") {
-			this->position.x += 20;
-		}
-		if (this->dir == "Left") {
-			this->position.x -= 20;
-		}
-	}
-
+	AnimatedSprite::update(pressedKeys);	
 }
 
 // void Player::onEnemyCollision(Enemy* enemy){
