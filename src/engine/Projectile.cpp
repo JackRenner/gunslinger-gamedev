@@ -24,7 +24,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	// this->scaleY = 0.15;
 	// no gun
 	if (type == 0){
-		this->addAnimation("resources/character/", "bullet", 1, 1, true);
+		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
 		this->Distance = 0;
@@ -32,7 +32,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	}
 	//knife
 	if(type == 1){
-		this->addAnimation("resources/character/", "bullet", 1, 1, true);
+		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
 		this->Distance = 150;
@@ -41,7 +41,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	}
 	//pistol
 	if(type == 2){
-		this->addAnimation("resources/character/", "bullet", 1, 1, true);
+		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
 		this->Distance = 150;
@@ -50,7 +50,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	}
 	//shotgun
 	if(type == 3){
-		this->addAnimation("resources/character/", "bullet", 1, 1, true);
+		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
 		this->Distance = 120;
@@ -58,7 +58,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	}
 	//rifle
 	if (type == 4){
-		this->addAnimation("resources/character/", "bullet", 1, 1, true);
+		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
 		this->Distance = 350;
@@ -87,7 +87,12 @@ void Projectile::update(set<SDL_Scancode> pressedKeys){
 		this->durability +=this->speed;
     }
 	if(this->durability > this->Distance) {
-		this->removeThis();
+		if(this->speed == 4) {
+			std::cout<<"worked";
+			this->speed = 0;
+		}else{
+			this->removeThis();
+		}
 	}
 	
 	
