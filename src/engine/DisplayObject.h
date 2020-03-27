@@ -102,7 +102,7 @@ public:
 	SDL_Point setGlobalTransform(AffineTransform& toPass, SDL_Point position);
 	Hitbox getHitbox();
 	void saveHitbox();
-	void drawHitbox();
+	void drawHitbox(SDL_Point globalPosition);
 	bool hitboxDrawn = false;
 
 private:

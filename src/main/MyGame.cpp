@@ -17,9 +17,13 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	cameraDemoScene->loadScene("./resources/scene/cameraDemoScene.txt");
 
 	character = new AnimatedSprite("character");
+	character-> id = "PlayerCharacter";
 	character->addAnimation("./resources/character/", "Run", 20, 2, true);
 	character->addAnimation("./resources/character/", "Walk", 20, 2, true);
 	character->addAnimation("./resources/character/dead_spritesheet.png", "./resources/character/dead_spritesheet.xml", "Dead", 12, 5, true);
+
+	object1 = new Sprite("type1", "./resources/character/Jump_27.png");
+	object2 = new Sprite("type2", "./resources/character/Dead_15.png");
 
 	this->setScene(cameraDemoScene);
 	this->addChild(character);
@@ -27,6 +31,18 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character->pivot = { character->width / 2, character->height / 2 };
 	character->play("Run");
 	character->width = 90;
+
+	character-> addChild(object1);
+	character->addChild(object2);
+
+	object1 -> height = 50;
+	object1 -> width = 50;
+
+	object1 -> position = {100, 0};
+
+	object2 -> height = 50;
+	object2 -> width = 50;
+	object2 -> position = {-100, 0};
 
 	SDL_Rect pivot = { 0, 0, 600, 800 };
 	SDL_Rect long_hall = { 600, 0, 1000, 800 };

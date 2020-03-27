@@ -86,9 +86,11 @@ void DisplayObject::draw(AffineTransform &at){
 
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
-	//	if(this->hitboxDrawn){
-			this->drawHitbox();
-		// }
+		if(this->hitboxDrawn){
+
+
+			this->drawHitbox( setGlobalTransform(globalTransform, this->pivot) );
+		 }
 		SDL_Rect dstrect = { origin.x, origin.y, w, h };
 
 
@@ -172,18 +174,13 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	void DisplayObject :: saveHitbox(){
 			//AffineTransform myTransform = AffineTransform();
 			this->setGlobalTransform(globalTransform, this->position);
-
-
 /*
 			SDL_Point upperRight = at.transformPoint(width, 0);
 			SDL_Point lowerRight = at.transformPoint(width, height);
 			SDL_Point corner = {0, 0};
-
 			int w = (int)distance(origin, upperRight);
 			int h = (int)distance(upperRight, lowerRight);
 */
-
-
 /*
 
 		this->myHitbox.origin.x = this->position.x;
@@ -205,46 +202,49 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 
 
 		SDL_Point DisplayObject ::  setGlobalTransform( AffineTransform& toPass, SDL_Point position){
-				applyTransformations( toPass );
+			applyTransformations( toPass );
 			if(this->parent != NULL){
 				this->parent->setGlobalTransform(toPass, position);
+				reverseTransformations(toPass);
 			}
 			else{
+
+
+									applyTransformations(toPass);
+									SDL_Point myGlobalPosition = toPass.transformPoint(position.x, position.y);
+
+									cout << "globalPosition.x:  ";
+									cout << myGlobalPosition.x << endl;
+									cout << "globalPosition.y:  ";
+									cout << myGlobalPosition.y << endl;
+
+									reverseTransformations(toPass);
+									return myGlobalPosition;
+				/*
 						cout << "position x : ";
 						cout << this->position.x << endl;
 						cout << "position y: ";
 						cout << this->position.y << endl;
 
 					SDL_Point globalPosition = toPass.transformPoint(position.x, position.y);
-/*
-					this->myHitbox.globalPosition.x = globalPosition.x;
-					this->myHitbox.globalPosition.y = globalPosition.y;
-*/
+					cout << "ID: ";
+					cout << this->id <<endl;
 					cout << "Global position x: ";
 					cout << globalPosition.x <<endl;
 					cout << "Global Position y: ";
 					cout << globalPosition.y << endl;
 					reverseTransformations(toPass);
 					return globalPosition;
-
+					*/
 				}
-				reverseTransformations(toPass);
 
 
-			/*
-			else{
-//				toPass.transform =  ; // Forms the identity matrix;
-			}
-			//toPass.printMatrix();
-*/
 		}
 
 
 
 
-	void DisplayObject :: drawHitbox(){
-
-
+	void DisplayObject :: drawHitbox(SDL_Point globalPosition){
 /*
 		SDL_Rect origin;
 		origin.x = this->myHitbox.origin.x;
@@ -284,16 +284,29 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 		SDL_RenderDrawRect(Game::renderer, &lowerRight);
 		SDL_RenderDrawRect(Game::renderer, &upperLeft);
 
+		*/
+
+		/*
+		cout << "position x : ";
+		cout << this->position.x << endl;
+		cout << "position y: ";
+		cout << this->position.y << endl;
+
+		cout << "ID: ";
+		cout << this->id <<endl;
+		cout << "Global position x: ";
+		cout << globalPosition.x <<endl;
+		cout << "Global Position y: ";
+		cout << globalPosition.y << endl;
 */
 
+		SDL_Rect hitboxRect;
+		hitboxRect.x = globalPosition.x;
+		hitboxRect.y = globalPosition.y;
+		hitboxRect.w = this -> width;
+		hitboxRect.h = this -> height;
 
-		SDL_Rect globalPosition;
-		globalPosition.x = this->myHitbox.globalPosition.x;
-		globalPosition.y = this->myHitbox.globalPosition.y;
-		globalPosition.w = 50;
-		globalPosition.h = 50;
-
-		SDL_RenderDrawRect(Game::renderer, &globalPosition);
+		SDL_RenderDrawRect(Game::renderer, &hitboxRect);
 //		SDL_RenderDrawRect(Game::renderer, &temp);
 		SDL_RenderPresent(Game::renderer);
 

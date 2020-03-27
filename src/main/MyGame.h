@@ -45,6 +45,7 @@ public:
 	void addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool right);
 	void enforceCameraBounds();
 
+
 private:
 
 	Scene* curScene = NULL;
@@ -52,6 +53,8 @@ private:
 	Scene* cameraDemoScene;
 
 	AnimatedSprite* character;
+	Sprite* object1;
+	Sprite* object2;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;
