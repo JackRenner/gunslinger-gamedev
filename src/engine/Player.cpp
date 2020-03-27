@@ -22,7 +22,7 @@ Player::Player() : AnimatedSprite("Player"){
 	this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
-
+	
 	this->play("FaceUp");
 }
 
@@ -60,8 +60,7 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	}
 	if (controls::holdUp()) {
 		this->dir = "Up";
-		this->play("FaceUp");
-		
+		this->play("FaceUp");	
 	}
 	if (controls::holdDown()) {
 		this->dir = "Down";
@@ -74,7 +73,7 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	if (controls::holdLeft()) {
 		this->dir = "Left";
 		this->play("FaceLeft");
-	}
+	} 
 	if (controls::pressShift()) {
 		if (this->dir == "Up") {
 			this->position.y -= 50;

@@ -63,28 +63,33 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	// 	gunshot->playSFX();
 		
 	// }
+
 	if (controls::pressUp()) {
+		gunshot->playSFX();
 		bullet = new Projectile("up",this->position);
 		this->addChild(bullet);
-		bullet->position = character->position;
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		
 	}
 	if (controls::pressDown()) {
+		gunshot->playSFX();
 		bullet = new Projectile("down",this->position);
 		this->addChild(bullet);
-		bullet->position = character->position;
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		
 	}
 	if (controls::pressRight()) {
+		gunshot->playSFX();		
 		bullet = new Projectile("left",this->position);
 		this->addChild(bullet);
-		bullet->position = character->position;
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		
 	}
 	if (controls::pressLeft()) {
+		gunshot->playSFX();		
 		bullet = new Projectile("right",this->position);
 		this->addChild(bullet);
-		bullet->position = character->position;
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		
 	}
 
