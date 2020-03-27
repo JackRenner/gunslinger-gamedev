@@ -8,6 +8,7 @@
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Player.h"
+#include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
 
@@ -53,6 +54,7 @@ private:
 	Scene* cameraDemoScene;
 
 	AnimatedSprite* character;
+	AnimatedSprite* bullet;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;

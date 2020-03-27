@@ -59,9 +59,35 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	controls::update(pressedKeys);
 
 	// shooting sound
-	if (controls::holdDown() || controls::holdUp() || controls::holdRight() || controls::holdLeft()) {
-		gunshot->playSFX();
+	// if (controls::holdDown() || controls::holdUp() || controls::holdRight() || controls::holdLeft()) {
+	// 	gunshot->playSFX();
+		
+	// }
+	if (controls::pressUp()) {
+		bullet = new Projectile("up",this->position);
+		this->addChild(bullet);
+		bullet->position = character->position;
+		
 	}
+	if (controls::pressDown()) {
+		bullet = new Projectile("down",this->position);
+		this->addChild(bullet);
+		bullet->position = character->position;
+		
+	}
+	if (controls::pressRight()) {
+		bullet = new Projectile("left",this->position);
+		this->addChild(bullet);
+		bullet->position = character->position;
+		
+	}
+	if (controls::pressLeft()) {
+		bullet = new Projectile("right",this->position);
+		this->addChild(bullet);
+		bullet->position = character->position;
+		
+	}
+
 
 	// if (pressedKeys.find(SDL_SCANCODE_O) != pressedKeys.end()) {
 	// 	gameCamera.scale -= 0.05;

@@ -43,6 +43,10 @@ bool controls::holdRight(){ return pressedKeys.count(KEY_RIGHT) == 1; }
 bool controls::holdLeft(){ return pressedKeys.count(KEY_LEFT) == 1; }
 bool controls::holdUp(){ return pressedKeys.count(KEY_UP) == 1; }
 bool controls::holdDown(){ return pressedKeys.count(KEY_DOWN) == 1; }
+bool controls::pressRight(){ return pressedKeys.count(KEY_RIGHT) == 1 && lastPressedKeys.count(KEY_RIGHT) != 1; }
+bool controls::pressLeft(){ return pressedKeys.count(KEY_LEFT) == 1 && lastPressedKeys.count(KEY_LEFT) != 1; }
+bool controls::pressUp(){ return pressedKeys.count(KEY_UP) == 1 && lastPressedKeys.count(KEY_UP) != 1; }
+bool controls::pressDown(){ return pressedKeys.count(KEY_DOWN) == 1 && lastPressedKeys.count(KEY_DOWN) != 1; }
 
 // Rolling
 bool controls::pressShift(){ return pressedKeys.count(KEY_SHIFT) == 1 && lastPressedKeys.count(KEY_SHIFT) != 1; }

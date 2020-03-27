@@ -51,6 +51,10 @@ namespace controls{
 	bool holdLeft();
 	bool holdUp();
 	bool holdDown();
+	bool pressRight();
+	bool pressLeft();
+	bool pressUp();
+	bool pressDown();
 
 	// Rolling
 	bool pressShift();

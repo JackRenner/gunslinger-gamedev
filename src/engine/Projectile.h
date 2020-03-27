@@ -1,5 +1,5 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef PROJECTILE_H
+#define PROJECTILE_H
 
 #include <iostream>
 #include "AnimatedSprite.h"
@@ -7,15 +7,15 @@
 #include <string>
 #include <fstream>
 #include "Sprite.h"
-#include "Projectile.h"
 #include "Controls.h"
 
 using namespace std;
 
-class Player : public AnimatedSprite{
+class Projectile : public AnimatedSprite{
 
 public:
-	Player();
+	Projectile();
+    Projectile(string face, SDL_Point position);
 	
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -23,9 +23,9 @@ public:
 	//void onEnemyCollision(Enemy* enemy);
 	//virtual void onCollision(DisplayObject* other);
 
-	/* Health and such */
-	int health = 100;
-	int maxHealth = 100;
+	/* Durability and Distance */
+	int durability = 1;
+	int Distance = 100;
 
 	/* direction */
 	string dir;
@@ -35,18 +35,11 @@ public:
 	int iFrameCount = 0;
 	int numIFrames = 0;
 
-	AnimatedSprite* bullet;
 
 
-	/* Current Enemy player is engaging with*/
-	//Enemy* curEnemy = NULL;
 
 private:
-	// int oldX=0, oldY=0;
-
-	// int _jumpVel = -15;s
-
-	//void initIFrames(int numFrames);
+	
 
 };
 
