@@ -91,11 +91,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		character->saveHitbox();
 	}
 	if(pressedKeys.find(SDL_SCANCODE_Z) != pressedKeys.end()){
-
 			character->hitboxDrawn = true;
-
 	}
-
 	if(pressedKeys.find(SDL_SCANCODE_E) != pressedKeys.end()){
 
 			character->rotation += .1;
