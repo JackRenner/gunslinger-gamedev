@@ -50,9 +50,17 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	}
 	//shotgun
 	if(type == 3){
-		this->addAnimation("resources/character/", "bullet", 1, 1, true);
  		this->dir = face;
-		this->play("bullet");
+		if(this->dir == "left" || "right"){
+			this->addAnimation("resources/character/", "shotgun", 1, 1, true);
+			this->play("shotgun");
+			//wont let shotgunright - up
+		}
+		else {
+			this->addAnimation("resources/character/", "shotgun", 1, 1, true);
+			this->play("shotgun");
+			//should be shotgunup
+		}
 		this->Distance = 120;
 		this->speed = 5;
 	}
