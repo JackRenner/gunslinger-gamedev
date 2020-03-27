@@ -14,80 +14,24 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	foreground = new DisplayObjectContainer();
 	foreground->id = "foreground";
 
-	townScene = new Scene();
-	townScene->loadScene("./resources/scene/townScene.txt");
-	sheriffScene = new Scene();
-	sheriffScene->loadScene("./resources/scene/sherrifsoffice.txt");
-	storeScene = new Scene();
-	storeScene->loadScene("./resources/scene/generalstore.txt");
-	hotelScene = new Scene();
-	hotelScene->loadScene("./resources/scene/grandhotel.txt");
-	bankScene = new Scene();
-	bankScene->loadScene("./resources/scene/bank.txt");
-	postScene = new Scene();
-	postScene->loadScene("./resources/scene/postoffice.txt");
-	cantinaScene = new Scene();
-	cantinaScene->loadScene("./resources/scene/cantina.txt");
-	drugScene = new Scene();
-	drugScene->loadScene("./resources/scene/drugstore.txt");
-
 	character = new AnimatedSprite("character");
 	character->addAnimation("./resources/character/", "Run", 20, 2, true);
 	foreground->addChild(character);
-
-	this->setScene(townScene);
-	this->addChild(foreground);
 
 	character->position = { 1500, 500 };
 	character->pivot = { character->width / 2, character->height / 2 };
 	character->play("Run");
 	character->width = 90;
 
-	// initialize town transition points, hardcoded for now
-	vector<TransitionPoint> townPoints = { TransitionPoint(SDL_Point{ 192, 300 }, 1),
-	TransitionPoint(SDL_Point{550, 288}, 2),
-	TransitionPoint(SDL_Point{900, 300}, 3),
-	TransitionPoint(SDL_Point{1268, 300}, 4),
-	TransitionPoint(SDL_Point{1632, 272}, 5),
-	TransitionPoint(SDL_Point{2040, 300}, 6),
-	TransitionPoint(SDL_Point{2333, 292}, 7)
-	};
-	transitionPoints.push_back(townPoints);
+	initTown();
+	initLake();
 
-	// initialize town interior transition points, hardcoded for now
-	vector<TransitionPoint> sheriffPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0)};
-	transitionPoints.push_back(sheriffPoint);
-	vector<TransitionPoint> storePoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0) };
-	transitionPoints.push_back(storePoint);
-	vector<TransitionPoint> hotelPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0) };
-	transitionPoints.push_back(hotelPoint);
-	vector<TransitionPoint> bankPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0)};
-	transitionPoints.push_back(bankPoint);
-	vector<TransitionPoint> postPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0) };
-	transitionPoints.push_back(postPoint);
-	vector<TransitionPoint> cantinaPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0) };
-	transitionPoints.push_back(cantinaPoint);
-	vector<TransitionPoint> drugPoint = { TransitionPoint(SDL_Point{ 535, 960 }, 0) };
-	transitionPoints.push_back(drugPoint);
-
-	// initilizing scene info
-	sceneInfo.push_back(SceneInfo(townScene, SDL_Point{0, 0}, true, SDL_Point{0, character->height}));
-	sceneInfo.push_back(SceneInfo(sheriffScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
-	sceneInfo.push_back(SceneInfo(storeScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
-	sceneInfo.push_back(SceneInfo(hotelScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
-	sceneInfo.push_back(SceneInfo(bankScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
-	sceneInfo.push_back(SceneInfo(postScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
-	sceneInfo.push_back(SceneInfo(cantinaScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
-	sceneInfo.push_back(SceneInfo(drugScene, SDL_Point{ 535, 900 }, false, SDL_Point{ 0, 0 }));
+	this->setScene(townScene);
+	this->addChild(foreground);
+	
+	juggler = TweenJuggler::getInstance();
 
 	room_state = 0;
-
-	juggler = TweenJuggler::getInstance();
-	Tween* characterTween = new Tween(character);
-	characterTween->animate(TweenableParams::ALPHA, 0, 255, 30, TweenTransitions::EASEINCUBIC);
-	characterTween->animate(TweenableParams::SCALE_X, 0, 1, 30, TweenTransitions::EASEOUTCUBIC);
-	characterTween->animate(TweenableParams::SCALE_Y, 0, 1, 30, TweenTransitions::EASEOUTCUBIC);
-	juggler->add(characterTween);
 
 	blackBox = new Sprite("blackbox",0,0,0);
 	blackBox->alpha = 0;
@@ -103,34 +47,71 @@ MyGame::~MyGame() {
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
-	cout << blackBox->alpha << endl;
-
-	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-		character->position.y -= 8;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-		character->position.y += 8;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-		character->position.x += 8;
-	}
-	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-		character->position.x -= 8;
-	}
-
-
-	Game::update(pressedKeys);
-
-	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
-	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
-
-	for (int i = 0; i < transitionPoints[room_state].size(); i++) {
-		if (checkInsidePoint(transitionPoints[room_state][i].point, character)) {
-			transitionScene(transitionPoints[room_state][i]);
+	if (!transLock) {
+		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+			character->position.y -= 8;
+		}
+		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+			character->position.y += 8;
+		}
+		if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+			character->position.x += 8;
+		}
+		if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
+			character->position.x -= 8;
 		}
 	}
 
-	//enforceCameraBounds();
+		Game::update(pressedKeys);
+
+		gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
+		gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
+
+
+	if (!transLock) {
+		for (int i = 0; i < transitions[room_state].size(); i++) {
+			TransitionStruct cur = transitions[room_state][i];
+			if (cur.detection == TransitionDetection::POINT) {
+				if (checkInsidePoint(cur.point, character)) {
+					curTransition = cur;
+					transitionScene();
+					break;
+				}
+			}
+			else if (cur.detection == TransitionDetection::AXIS) {
+				if (cur.direction == Cardinal::NORTH) {
+					if (character->position.y - character->pivot.y <= cur.point.y) {
+						curTransition = cur;
+						transitionScene();
+						break;
+					}
+				}
+				else if (cur.direction == Cardinal::EAST) {
+					if (character->position.x - character->pivot.x + character->width >= cur.point.x) {
+						curTransition = cur;
+						transitionScene();
+						break;
+					}
+				}
+				else if (cur.direction == Cardinal::SOUTH) {
+					if (character->position.y - character->pivot.y + character->height >= cur.point.y) {
+						curTransition = cur;
+						transitionScene();
+						break;
+					}
+				}
+				else if (cur.direction == Cardinal::WEST) {
+					if (character->position.x - character->pivot.x <= cur.point.x) {
+						curTransition = cur;
+						transitionScene();
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	enforceCameraBounds();
 }
 
 void MyGame::draw(AffineTransform& at) {
@@ -155,15 +136,9 @@ void MyGame::setScene(Scene* scene) {
 		this->addChild(curScene);
 }
 
-// Add a camera bound given an area to enforce and bools for whether you want to enforce that cardinal direction for this bound
-void MyGame::addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool right) {
-	Bound tmp_bound = Bound(bounds, up, down, left, right);
-	boundaries.push_back(tmp_bound);
-}
-
 // Enforce camera bounds for the current room state. Does not currently account for room rotations.
 void MyGame::enforceCameraBounds() {
-	Bound room = boundaries[room_state];
+	Bound room = sceneInfo[room_state].bounds;
 
 	AffineTransform boundCalc = AffineTransform();
 
@@ -212,41 +187,174 @@ bool MyGame::checkInsidePoint(SDL_Point point, DisplayObject* entity) {
 }
 
 void MyGame::handleEvent(Event* e) {
+	room_state = curTransition.newstate;
+	character->position = curTransition.dest;
+
 	this->unlinkImmediateChild("foreground");
 	this->setScene(sceneInfo[room_state].scenePointer);
 	this->addChild(foreground);
-
-	character->position = sceneInfo[room_state].startPos;
+	
+	transLock = false;
 
 	e->getSource()->removeEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
 
-	// Tween* gameFade = new Tween(character);
-	// gameFade->animate(TweenableParams::ALPHA, 0, 255, 30, TweenTransitions::EASEINCUBIC);
-	// juggler->add(gameFade);
-
 	Tween* fadeIn = new Tween(blackBox);
-	fadeIn->animate(TweenableParams::ALPHA, 255, 0, 30, TweenTransitions::EASEOUTCUBIC);
+	fadeIn->animate(TweenableParams::ALPHA, 255, 0, 30, TweenTransitions::LINEAR);
 	juggler->add(fadeIn);
 }
 
-void MyGame::transitionScene(TransitionPoint tp) {
-	if (sceneInfo[room_state].saveLast)
-		sceneInfo[room_state].startPos = SDL_Point{ tp.point.x + sceneInfo[room_state].offset.x, tp.point.y + sceneInfo[room_state].offset.y };
-	room_state = tp.newstate;
-
+void MyGame::transitionScene() {
+	transLock = true;
 	//Center blackbox at character
-	blackBox->position.x = character->position.x-blackBox->width/2;
-	blackBox->position.y = character->position.y-blackBox->height/2;
+	blackBox->position.x = character->position.x - blackBox->width / 2;
+	blackBox->position.y = character->position.y - blackBox->height / 2;
 
 	Tween* fadeOut = new Tween(blackBox);
-	fadeOut->animate(TweenableParams::ALPHA, 0, 255, 30, TweenTransitions::EASEOUTCUBIC);
+	fadeOut->animate(TweenableParams::ALPHA, 0, 255, 30, TweenTransitions::LINEAR);
 	juggler->add(fadeOut);
 	fadeOut->addEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
+}
 
-	// Tween* gameFade = new Tween(character);
-	// gameFade->animate(TweenableParams::ALPHA, 255, 0, 30, TweenTransitions::EASEINCUBIC);
-	// juggler->add(gameFade);
-	// gameFade->addEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
+void MyGame::initTown() {
+	townScene = new Scene();
+	townScene->loadScene("./resources/scene/townScene.txt");
+	sheriffScene = new Scene();
+	sheriffScene->loadScene("./resources/scene/sherrifsoffice.txt");
+	storeScene = new Scene();
+	storeScene->loadScene("./resources/scene/generalstore.txt");
+	hotelScene = new Scene();
+	hotelScene->loadScene("./resources/scene/grandhotel.txt");
+	bankScene = new Scene();
+	bankScene->loadScene("./resources/scene/bank.txt");
+	postScene = new Scene();
+	postScene->loadScene("./resources/scene/postoffice.txt");
+	cantinaScene = new Scene();
+	cantinaScene->loadScene("./resources/scene/cantina.txt");
+	drugScene = new Scene();
+	drugScene->loadScene("./resources/scene/drugstore.txt");
 
+	// initialize town transition points, hardcoded for now
+	vector<TransitionStruct> townPoints = {
+	TransitionStruct(SDL_Point{ 192, 300 }, SDL_Point{ 535, 900 }, 1),
+	TransitionStruct(SDL_Point{550, 288}, SDL_Point{ 535, 900 }, 2),
+	TransitionStruct(SDL_Point{900, 300}, SDL_Point{ 535, 900 }, 3),
+	TransitionStruct(SDL_Point{1268, 300}, SDL_Point{ 535, 900 }, 4),
+	TransitionStruct(SDL_Point{1632, 272}, SDL_Point{ 535, 900 }, 5),
+	TransitionStruct(SDL_Point{2040, 300}, SDL_Point{ 535, 900 }, 6),
+	TransitionStruct(SDL_Point{2333, 292}, SDL_Point{ 535, 900 }, 7),
+	TransitionStruct(SDL_Point{636, 964}, SDL_Point{ 550, 80 }, 8)
+	};
+	transitions.push_back(townPoints);
 
+	// initialize town interior transition points, hardcoded for now
+	vector<TransitionStruct> sheriffPoint = { TransitionStruct(SDL_Point{ 535, 960 }, SDL_Point{ 192, 360 }, 0) };
+	transitions.push_back(sheriffPoint);
+	vector<TransitionStruct> storePoint = { TransitionStruct(SDL_Point{ 535, 960 }, SDL_Point{550, 360}, 0) };
+	transitions.push_back(storePoint);
+	vector<TransitionStruct> hotelPoint = { TransitionStruct(SDL_Point{ 535, 960 }, SDL_Point{900, 360}, 0) };
+	transitions.push_back(hotelPoint);
+	vector<TransitionStruct> bankPoint = { TransitionStruct(SDL_Point{ 535, 960 }, SDL_Point{1268, 360}, 0) };
+	transitions.push_back(bankPoint);
+	vector<TransitionStruct> postPoint = { TransitionStruct(SDL_Point{ 535, 960 }, SDL_Point{1632, 360}, 0) };
+	transitions.push_back(postPoint);
+	vector<TransitionStruct> cantinaPoint = { TransitionStruct(SDL_Point{ 535, 960 }, SDL_Point{2040, 360}, 0) };
+	transitions.push_back(cantinaPoint);
+	vector<TransitionStruct> drugPoint = { TransitionStruct(SDL_Point{ 535, 960 }, SDL_Point{2333, 360}, 0) };
+	transitions.push_back(drugPoint);
+
+	// initilizing scene info
+	sceneInfo.push_back(SceneInfo(townScene, SDL_Rect{ 0, 0, 3000, 1080 })); // 0
+	sceneInfo.push_back(SceneInfo(sheriffScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 1
+	sceneInfo.push_back(SceneInfo(storeScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 2
+	sceneInfo.push_back(SceneInfo(hotelScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 3
+	sceneInfo.push_back(SceneInfo(bankScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 4
+	sceneInfo.push_back(SceneInfo(postScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 5
+	sceneInfo.push_back(SceneInfo(cantinaScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 6
+	sceneInfo.push_back(SceneInfo(drugScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 7
+}
+
+void MyGame::initLake() {
+
+	lake1 = new Scene();
+	lake1->loadScene("./resources/scene/lake1.txt");
+	lake2 = new Scene();
+	lake2->loadScene("./resources/scene/lake2.txt");
+	lake3 = new Scene();
+	lake3->loadScene("./resources/scene/lake3.txt");
+	lake4 = new Scene();
+	lake4->loadScene("./resources/scene/lake4.txt");
+	lake5 = new Scene();
+	lake5->loadScene("./resources/scene/lake5.txt");
+	lake6 = new Scene();
+	lake6->loadScene("./resources/scene/lake6.txt");
+	lake7 = new Scene();
+	lake7->loadScene("./resources/scene/lake7.txt");
+	lake8 = new Scene();
+	lake8->loadScene("./resources/scene/lake8.txt");
+	lake9 = new Scene();
+	lake9->loadScene("./resources/scene/lake9.txt");
+
+	// initialize lake transitions
+	vector<TransitionStruct> lake1Points = {
+	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{720, 964}, 0, TransitionDetection::AXIS, Cardinal::NORTH),
+	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 9, TransitionDetection::AXIS, Cardinal::EAST),
+	TransitionStruct(SDL_Point{ 0, 595 }, SDL_Point{ 550, 80 }, 11, TransitionDetection::AXIS, Cardinal::SOUTH) };
+	transitions.push_back(lake1Points);
+
+	vector<TransitionStruct> lake2Points = {
+	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 10, TransitionDetection::AXIS, Cardinal::EAST),
+	TransitionStruct(SDL_Point{ 0, 595}, SDL_Point{ 550, 80 }, 12, TransitionDetection::AXIS, Cardinal::SOUTH),
+	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 8, TransitionDetection::AXIS, Cardinal::WEST) };
+	transitions.push_back(lake2Points);
+
+	vector<TransitionStruct> lake3Points = {
+	TransitionStruct(SDL_Point{ 0, 595 }, SDL_Point{ 550, 80 }, 13, TransitionDetection::AXIS, Cardinal::SOUTH),
+	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 9, TransitionDetection::AXIS, Cardinal::WEST) };
+	transitions.push_back(lake3Points);
+
+	vector<TransitionStruct> lake4Points = {
+	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 8, TransitionDetection::AXIS, Cardinal::NORTH),
+	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 12, TransitionDetection::AXIS, Cardinal::EAST),
+	TransitionStruct(SDL_Point{ 0, 595 }, SDL_Point{ 550, 80 }, 14, TransitionDetection::AXIS, Cardinal::SOUTH) };
+	transitions.push_back(lake4Points);
+
+	vector<TransitionStruct> lake5Points = {
+	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 9, TransitionDetection::AXIS, Cardinal::NORTH),
+	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 13, TransitionDetection::AXIS, Cardinal::EAST),
+	TransitionStruct(SDL_Point{ 0, 595 }, SDL_Point{ 550, 80 }, 15, TransitionDetection::AXIS, Cardinal::SOUTH),
+	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 11, TransitionDetection::AXIS, Cardinal::WEST) };
+	transitions.push_back(lake5Points);
+
+	vector<TransitionStruct> lake6Points = {
+	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 10, TransitionDetection::AXIS, Cardinal::NORTH),
+	TransitionStruct(SDL_Point{ 0, 595}, SDL_Point{ 550, 80 }, 16, TransitionDetection::AXIS, Cardinal::SOUTH),
+	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 12, TransitionDetection::AXIS, Cardinal::WEST) };
+	transitions.push_back(lake6Points);
+
+	vector<TransitionStruct> lake7Points = {
+	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 11, TransitionDetection::AXIS, Cardinal::NORTH),
+	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 15, TransitionDetection::AXIS, Cardinal::EAST) };
+	transitions.push_back(lake7Points);
+
+	vector<TransitionStruct> lake8Points = {
+	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 12, TransitionDetection::AXIS, Cardinal::NORTH),
+	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 16, TransitionDetection::AXIS, Cardinal::EAST),
+	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 14, TransitionDetection::AXIS, Cardinal::WEST) };
+	transitions.push_back(lake8Points);
+
+	vector<TransitionStruct> lake9Points = {
+	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 13, TransitionDetection::AXIS, Cardinal::NORTH),
+	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 15, TransitionDetection::AXIS, Cardinal::WEST) };
+	transitions.push_back(lake9Points);
+
+	// initialize scene info
+	sceneInfo.push_back(SceneInfo(lake1, SDL_Rect{ 0, 0, 1100, 610 })); // 8
+	sceneInfo.push_back(SceneInfo(lake2, SDL_Rect{ 0, 0, 1100, 610 })); // 9
+	sceneInfo.push_back(SceneInfo(lake3, SDL_Rect{ 0, 0, 1100, 610 })); // 10
+	sceneInfo.push_back(SceneInfo(lake4, SDL_Rect{ 0, 0, 1100, 610 })); // 11
+	sceneInfo.push_back(SceneInfo(lake5, SDL_Rect{ 0, 0, 1100, 610 })); // 12
+	sceneInfo.push_back(SceneInfo(lake6, SDL_Rect{ 0, 0, 1100, 610 })); // 13
+	sceneInfo.push_back(SceneInfo(lake7, SDL_Rect{ 0, 0, 1100, 610 })); // 14
+	sceneInfo.push_back(SceneInfo(lake8, SDL_Rect{ 0, 0, 1100, 610 })); // 15
+	sceneInfo.push_back(SceneInfo(lake9, SDL_Rect{ 0, 0, 1100, 610 })); // 16
 }

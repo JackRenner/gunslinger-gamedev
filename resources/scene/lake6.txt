@@ -5,7 +5,7 @@
         "filepath": "./resources/sprites/lakestill_6.png",
         "dimensions": [
             1100,
-            616
+            610
         ],
         "position": [
             0,

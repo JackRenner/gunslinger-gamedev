@@ -12,26 +12,10 @@
 #include "../engine/tweens/Tween.h"
 #include "../engine/tweens/TweenJuggler.h"
 #include "../engine/eventhandlers/CoinListener.h"
-#include "../engine/TransitionPoint.h"
+#include "../engine/TransitionStruct.h"
 #include "../engine/SceneInfo.h"
 
 using namespace std;
-
-struct Bound {
-	SDL_Rect bounds;
-	bool check_up = true;
-	bool check_down = true;
-	bool check_left = true;
-	bool check_right = true;
-
-	Bound(SDL_Rect bounds, bool up, bool down, bool left, bool right) {
-		this->bounds = bounds;
-		this->check_up = up;
-		this->check_down = down;
-		this->check_left = left;
-		this->check_right = right;
-	};
-};
 
 class MyGame : public Game, public EventListener {
 
@@ -47,12 +31,14 @@ public:
 	bool checkInsideBox(SDL_Rect box, DisplayObject* entity);
 	bool checkInsidePoint(SDL_Point point, DisplayObject* entity);
 
-	void addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool right);
 	void enforceCameraBounds();
 
 	void handleEvent(Event* e);
 
-	void transitionScene(TransitionPoint tp);
+	void transitionScene();
+
+	void initTown();
+	void initLake();
 
 private:
 
@@ -67,23 +53,34 @@ private:
 	Scene* cantinaScene;
 	Scene* drugScene;
 
+	Scene* lake1;
+	Scene* lake2;
+	Scene* lake3;
+	Scene* lake4;
+	Scene* lake5;
+	Scene* lake6;
+	Scene* lake7;
+	Scene* lake8;
+	Scene* lake9;
+
 	AnimatedSprite* character;
-	Sprite* coin;
 	Sprite* blackBox;
 
 	DisplayObjectContainer* foreground;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;
+	bool transLock = false;
 
-	vector<Bound> boundaries;
+	TransitionStruct curTransition;
+
 	int room_state = -1;
 
 	Sound* music;
 
 	TweenJuggler* juggler;
 
-	vector<vector<TransitionPoint>> transitionPoints;
+	vector<vector<TransitionStruct>> transitions;
 	vector<SceneInfo> sceneInfo;
 };
 

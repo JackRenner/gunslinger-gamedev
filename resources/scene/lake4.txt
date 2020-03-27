@@ -4,8 +4,8 @@
         "type": "Sprite",
         "filepath": "./resources/sprites/lakestill_4.png",
         "dimensions": [
-            1104,
-            618
+            1100,
+            610
         ],
         "position": [
             0,

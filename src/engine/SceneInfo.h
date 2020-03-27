@@ -5,17 +5,42 @@
 
 using namespace std;
 
-struct SceneInfo {
-	Scene* scenePointer;
-	SDL_Point startPos;
-	bool saveLast = false;
-	SDL_Point offset;
+struct Bound {
+	SDL_Rect bounds;
+	bool check_up = true;
+	bool check_down = true;
+	bool check_left = true;
+	bool check_right = true;
 
-	SceneInfo(Scene* scenePointer, SDL_Point startPos, bool saveLast, SDL_Point offset) {
+	Bound() {
+		this->bounds = SDL_Rect{ 0, 0, 0, 0 };
+	}
+
+	Bound(SDL_Rect rect) {
+		this->bounds = rect;
+	}
+
+	Bound(SDL_Rect bounds, bool up, bool down, bool left, bool right) {
+		this->bounds = bounds;
+		this->check_up = up;
+		this->check_down = down;
+		this->check_left = left;
+		this->check_right = right;
+	};
+};
+
+struct SceneInfo {
+	Scene* scenePointer = NULL;
+	Bound bounds;
+
+	SceneInfo(Scene* scenePointer, SDL_Rect rect) {
 		this->scenePointer = scenePointer;
-		this->startPos = startPos;
-		this->saveLast = saveLast;
-		this->offset = offset;
+		this->bounds = Bound(rect);
+	}
+
+	SceneInfo(Scene* scenePointer, Bound bounds) {
+		this->scenePointer = scenePointer;
+		this->bounds = bounds;
 	}
 };
 
