@@ -48,16 +48,16 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	controls::update(pressedKeys);
 	if (controls::holdW()) {
-		this->position.y -= 5;
+		this->position.y -= 2;
 	}
 	if (controls::holdS()) {
-		this->position.y += 5;
+		this->position.y += 2;
 	}
 	if (controls::holdD()) {
-		this->position.x += 5;
+		this->position.x += 2;
 	}
 	if (controls::holdA()) {
-		this->position.x -= 5;
+		this->position.x -= 2;
 	}
 	if (controls::holdUp()) {
 		this->dir = "Up";
@@ -77,16 +77,16 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	} 
 	if (controls::pressShift()) {
 		if (this->dir == "Up") {
-			this->position.y -= 50;
+			this->position.y -= 20;
 		}
 		if (this->dir == "Down") {
-			this->position.y += 50;
+			this->position.y += 20;
 		}
 		if (this->dir == "Right") {
-			this->position.x += 50;
+			this->position.x += 20;
 		}
 		if (this->dir == "Left") {
-			this->position.x -= 50;
+			this->position.x -= 20;
 		}
 	}
 
