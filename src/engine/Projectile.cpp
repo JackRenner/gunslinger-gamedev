@@ -32,9 +32,11 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	}
 	//knife
 	if(type == 1){
-		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
+		this->addAnimation("resources/weapons/", "knife", 1, 1, true);
+		this->width = 30;
+		this->height = 30;
  		this->dir = face;
-		this->play("bullet");
+		this->play("knife");
 		this->Distance = 150;
 		this->speed = 4;
 		
@@ -44,15 +46,23 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
-		this->Distance = 150;
+		this->Distance = 160;
 		this->speed = 8;
 		 
 	}
 	//shotgun
 	if(type == 3){
-		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
-		this->play("bullet");
+		if(this->dir == "left" || "right"){
+			this->addAnimation("resources/weapons/", "shotgun", 1, 1, true);
+			this->play("shotgun");
+			//wont let shotgunright - up
+		}
+		else {
+			this->addAnimation("resources/weapons/", "shotgun", 1, 1, true);
+			this->play("shotgun");
+			//should be shotgunup
+		}
 		this->Distance = 120;
 		this->speed = 5;
 	}
@@ -87,9 +97,9 @@ void Projectile::update(set<SDL_Scancode> pressedKeys){
 		this->durability +=this->speed;
     }
 	if(this->durability > this->Distance) {
-		if(this->speed == 4) {
-			std::cout<<"worked";
+		if(this->Distance == 150) {
 			this->speed = 0;
+			this->position = this->position;
 		}else{
 			this->removeThis();
 		}
