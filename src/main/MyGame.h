@@ -49,6 +49,9 @@ public:
 	void addCameraBound(SDL_Rect bounds, bool up, bool down, bool left, bool right);
 	void enforceCameraBounds();
 
+	void playerShooting(int gun, string dir);
+	void reloadGun(int gun);
+
 private:
 
 	Scene* curScene = NULL;

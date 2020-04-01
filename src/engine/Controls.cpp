@@ -20,6 +20,7 @@ SDL_Scancode controls::KEY_RIGHT = SDL_SCANCODE_RIGHT;
 SDL_Scancode controls::KEY_LEFT = SDL_SCANCODE_LEFT;
 SDL_Scancode controls::KEY_UP = SDL_SCANCODE_UP;
 SDL_Scancode controls::KEY_DOWN = SDL_SCANCODE_DOWN;
+SDL_Scancode controls::KEY_R = SDL_SCANCODE_R;
 
 SDL_Scancode controls::KEY_SHIFT = SDL_SCANCODE_RSHIFT;
 
@@ -53,6 +54,7 @@ bool controls::pressRight(){ return pressedKeys.count(KEY_RIGHT) == 1 && lastPre
 bool controls::pressLeft(){ return pressedKeys.count(KEY_LEFT) == 1 && lastPressedKeys.count(KEY_LEFT) != 1; }
 bool controls::pressUp(){ return pressedKeys.count(KEY_UP) == 1 && lastPressedKeys.count(KEY_UP) != 1; }
 bool controls::pressDown(){ return pressedKeys.count(KEY_DOWN) == 1 && lastPressedKeys.count(KEY_DOWN) != 1; }
+bool controls::pressR(){ return pressedKeys.count(KEY_R) == 1 && lastPressedKeys.count(KEY_R) != 1; }
 
 // gun select
 
