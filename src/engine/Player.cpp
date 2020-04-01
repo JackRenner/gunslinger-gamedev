@@ -120,6 +120,16 @@ void Player::hitByMelee(string enemy){
 	}
 }
 
+void Player::healPlayer(string method){
+	if (method == "bed") {
+		this->health = 100;
+	} else if (method == "whiskey") {
+		this->health += 10;
+	} else if (method == "food") {
+		this->health += 20;
+	}
+}
+
 // void Player::onEnemyCollision(Enemy* enemy){
 // 	this->health -= enemy->damage;
 // 	this->initIFrames(120);

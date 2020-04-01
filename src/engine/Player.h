@@ -32,6 +32,8 @@ public:
 	void hitByProjectile(string gun);
 	void hitByMelee(string enemy);
 
+	void healPlayer(string method);
+
 	/* direction */
 	string dir;
 	int holding = 0;
