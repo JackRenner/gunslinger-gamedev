@@ -26,6 +26,11 @@ public:
 	/* Health and such */
 	int health = 100;
 	int maxHealth = 100;
+	bool poisoned = false;
+	int poisonedTime = 10;
+
+	void hitByProjectile(string gun);
+	void hitByMelee(string enemy);
 
 	/* direction */
 	string dir;

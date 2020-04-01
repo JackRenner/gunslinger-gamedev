@@ -45,6 +45,10 @@ Player::Player() : AnimatedSprite("Player"){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
+	if (this->poisonedTime > 0) {
+		this->health -= 5;
+		this->poisonedTime -= 1;
+	}
 	if (controls::pressShift()) {
 		if (this->dir == "Up") {
 			this->position.y -= 50;
@@ -89,6 +93,31 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		this->dir = "Left";
 		this->play("FaceLeft");
 	} 
+}
+
+// do not include attacks from bosses yet
+void Player::hitByProjectile(string gun){
+	if (gun == "poison") {
+		this->poisoned = true;
+		this->poisonedTime = 10;
+	} else if (gun == "bow") {
+		this->health -= 10;
+	} else if (gun == "revolver") {
+		this->health -= 15;
+	} else if (gun == "shotgun") {
+		this->health -= 25;
+	} else if (gun == "rifle") {
+		this->health -= 20;
+	}
+}
+
+// do not include attacks from bosses yet
+void Player::hitByMelee(string enemy){
+	if (enemy == "scorpion") {
+		this->health -= 5;
+	} else if (enemy == "wolf") {
+		this->health -= 5;
+	}
 }
 
 // void Player::onEnemyCollision(Enemy* enemy){
