@@ -1,6 +1,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include "../engine/Sprite.h"
+#include "../engine/Scene.h"
+#include "../engine/Controls.h"
+#include "../engine/Player.h"
 #include "MyGame.h"
 
 using namespace std;
@@ -8,19 +12,21 @@ using namespace std;
 Camera DisplayObject::gameCamera;
 
 MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
+	this->gun = 0;
 
 	gameCamera = Camera();
 
 	foreground = new DisplayObjectContainer();
 	foreground->id = "foreground";
 
-	character = new AnimatedSprite("character");
-	character->addAnimation("./resources/character/", "Run", 20, 2, true);
+    character = new Player();
 	foreground->addChild(character);
 
 	character->position = { 1500, 500 };
+	
 	character->pivot = { character->width / 2, character->height / 2 };
-	character->play("Run");
+	character->scaleX = 0.5;
+	character->scaleY = 0.5;
 	character->width = 90;
 
 	initTown();
@@ -46,11 +52,49 @@ MyGame::~MyGame() {
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
+	controls::update(pressedKeys);
+if (!transLock) {
+	// gun select
+	if(controls::press1()){
+		this->gun = 0;
+	};
+	if(controls::press2()){
+		this->gun = 1;
+	};
+	if(controls::press3()){
+		this->gun = 2;
+	};
+	if(controls::press4()){
+		this->gun = 3;
+	};
+	if(controls::press5()){
+		this->gun = 4;
+	};
+	// shooting
+	if (controls::pressUp()) {
+		//gunshot->playSFX();
+		this->playerShooting(this->gun, "up");
+	}
+	if (controls::pressDown()) {
+		//gunshot->playSFX();
+		this->playerShooting(this->gun, "down");
+	}
+	if (controls::pressRight()) {
+		//gunshot->playSFX();	
+		this->playerShooting(this->gun, "left");
+	}
+	if (controls::pressLeft()) {
+		//gunshot->playSFX();	
+		this->playerShooting(this->gun, "right");
+	}
+	// there isn't any delay from reloading yet
+	if (controls::pressR()) {
+		this->reloadGun(this->gun);
+	}
 
-	if (!transLock) {
 		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
 			character->position.y -= 8;
-		}
+        }
 		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
 			character->position.y += 8;
 		}
@@ -357,4 +401,41 @@ void MyGame::initLake() {
 	sceneInfo.push_back(SceneInfo(lake7, SDL_Rect{ 0, 0, 1100, 610 })); // 14
 	sceneInfo.push_back(SceneInfo(lake8, SDL_Rect{ 0, 0, 1100, 610 })); // 15
 	sceneInfo.push_back(SceneInfo(lake9, SDL_Rect{ 0, 0, 1100, 610 })); // 16
+}
+
+void MyGame::playerShooting(int gun, string dir){
+	if (gun == 1 && this->knife_throws > 0) {
+	} else if (gun == 1) {
+		bullet = new Projectile(dir,this->position, gun);
+		this->addChild(bullet);
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		this->knife_throws ++;
+	} else if (this->gun == 2 && this->revolver_shots > 5) {
+	} else if (this->gun == 2) {
+		bullet = new Projectile(dir,this->position, this->gun);
+		this->addChild(bullet);
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		this->revolver_shots ++;
+	} else if (this->gun == 3 && this->shotgun_shots > 1) {
+	} else if (this->gun == 3) {
+		bullet = new Projectile(dir,character->position, gun);
+		this->addChild(bullet);
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		this->shotgun_shots ++;
+	} else if (this->gun == 4 && this->rifle_shots > 4) {
+	} else if (this->gun == 4) {
+		bullet = new Projectile(dir,character->position, gun);
+		this->addChild(bullet);
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		this->rifle_shots ++;
+	}
+}
+void MyGame::reloadGun(int gun) {
+	if (gun == 2) {
+		this->revolver_shots = 0;
+	} else if (gun == 3) {
+		this->shotgun_shots = 0;
+	} else if (gun == 4) {
+		this->rifle_shots = 0;
+	}
 }

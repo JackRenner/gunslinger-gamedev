@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Controls.h"
 
 using namespace std;
 

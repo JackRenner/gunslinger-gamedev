@@ -2,6 +2,7 @@
 #include "AffineTransform.h"
 #include <vector>
 #include <string>
+#include "Controls.h"
 
 using namespace std;
 

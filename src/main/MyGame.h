@@ -7,6 +7,8 @@
 #include "../engine/Game.h"
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
+#include "../engine/Player.h"
+#include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
 #include "../engine/tweens/Tween.h"
@@ -30,6 +32,7 @@ public:
 
 	bool checkInsideBox(SDL_Rect box, DisplayObject* entity);
 	bool checkInsidePoint(SDL_Point point, DisplayObject* entity);
+	int gun = 0;
 
 	void enforceCameraBounds();
 
@@ -39,6 +42,9 @@ public:
 
 	void initTown();
 	void initLake();
+
+	void playerShooting(int gun, string dir);
+	void reloadGun(int gun);
 
 private:
 
@@ -64,6 +70,13 @@ private:
 	Scene* lake9;
 
 	AnimatedSprite* character;
+	AnimatedSprite* bullet;
+	
+	/* shooting */
+	int knife_throws = 0;
+	int revolver_shots = 0;
+	int shotgun_shots = 0;
+	int rifle_shots = 0;
 	Sprite* blackBox;
 
 	DisplayObjectContainer* foreground;

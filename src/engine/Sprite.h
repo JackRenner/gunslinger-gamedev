@@ -2,6 +2,7 @@
 #define SPRITE_H
 
 #include "DisplayObjectContainer.h"
+#include "Controls.h"
 
 using namespace std;
 

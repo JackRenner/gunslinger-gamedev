@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include <string>
 #include <fstream>
+#include "Controls.h"
 
 using namespace std;
 
