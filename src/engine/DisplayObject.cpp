@@ -16,7 +16,7 @@ DisplayObject::DisplayObject(){
 
 //
  this->myHitbox =  Hitbox();
-
+ this->MyGlobalHitbox = new SDL_Point[4];
 }
 
 DisplayObject::DisplayObject(string id, string filepath){
@@ -26,6 +26,8 @@ DisplayObject::DisplayObject(string id, string filepath){
 	loadTexture(filepath);
 
 	this->myHitbox =  Hitbox();
+
+	this->MyGlobalHitbox = new SDL_Point[4];
 }
 
 DisplayObject::DisplayObject(string id, int red, int green, int blue){
@@ -37,12 +39,17 @@ DisplayObject::DisplayObject(string id, int red, int green, int blue){
 	this->green = green;
 
 	this->loadRGBTexture(red, green, blue);
+
+	this->MyGlobalHitbox = new SDL_Point[4];
 }
 
 DisplayObject::~DisplayObject(){
 	//TODO: Get this freeing working
 	if(image != NULL) SDL_FreeSurface(image);
 	if(texture != NULL) SDL_DestroyTexture(texture);
+	if(MyGlobalHitbox!= NULL){
+		free(MyGlobalHitbox);
+	}
 }
 
 void DisplayObject::loadTexture(string filepath){
@@ -89,7 +96,7 @@ void DisplayObject::draw(AffineTransform &at){
 		if(this->hitboxDrawn){
 
 
-			this->drawHitbox( setGlobalTransform(globalTransform, this->pivot) );
+//			this->drawHitbox( setGlobalTransform(globalTransform, this->pivot) );
 		 }
 		SDL_Rect dstrect = { origin.x, origin.y, w, h };
 
@@ -173,7 +180,7 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 
 	void DisplayObject :: saveHitbox(){
 			//AffineTransform myTransform = AffineTransform();
-			this->setGlobalTransform(globalTransform, this->position);
+	//		this->setGlobalTransform(globalTransform, this->position);
 /*
 			SDL_Point upperRight = at.transformPoint(width, 0);
 			SDL_Point lowerRight = at.transformPoint(width, height);
@@ -199,48 +206,41 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 
 
 
+//Fixed
+//Matrix multiplication is not communative. As a result it needs to be done in order.
+		AffineTransform* DisplayObject ::  getGlobalTransform(){
 
 
-		SDL_Point DisplayObject ::  setGlobalTransform( AffineTransform& toPass, SDL_Point position){
-			applyTransformations( toPass );
+			AffineTransform* finalGlobalTransform;
+
 			if(this->parent != NULL){
-				this->parent->setGlobalTransform(toPass, position);
-				reverseTransformations(toPass);
+				finalGlobalTransform = this->parent->getGlobalTransform();
+				finalGlobalTransform->translate(this->parent->pivot.x, this->parent->pivot.y);
+				applyTransformations(*finalGlobalTransform);
+
 			}
 			else{
-
-
-									applyTransformations(toPass);
-									SDL_Point myGlobalPosition = toPass.transformPoint(position.x, position.y);
-
-									cout << "globalPosition.x:  ";
-									cout << myGlobalPosition.x << endl;
-									cout << "globalPosition.y:  ";
-									cout << myGlobalPosition.y << endl;
-
-									reverseTransformations(toPass);
-									return myGlobalPosition;
-				/*
-						cout << "position x : ";
-						cout << this->position.x << endl;
-						cout << "position y: ";
-						cout << this->position.y << endl;
-
-					SDL_Point globalPosition = toPass.transformPoint(position.x, position.y);
-					cout << "ID: ";
-					cout << this->id <<endl;
-					cout << "Global position x: ";
-					cout << globalPosition.x <<endl;
-					cout << "Global Position y: ";
-					cout << globalPosition.y << endl;
-					reverseTransformations(toPass);
-					return globalPosition;
-					*/
+					finalGlobalTransform = new AffineTransform();
+							applyTransformations(*finalGlobalTransform);
 				}
-
-
+				return finalGlobalTransform;
 		}
 
+
+		SDL_Point* DisplayObject :: getGlobalHitbox(){
+			//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+			AffineTransform* temp = this->getGlobalTransform();
+			this->MyGlobalHitbox[0] = temp->transformPoint(0,0);
+			this->MyGlobalHitbox[1] = temp->transformPoint(this->width, 0);
+			this->MyGlobalHitbox[2] = temp->transformPoint(0, this->height);
+			this->MyGlobalHitbox[3] = temp->transformPoint(this->width, this->height);
+			return this->MyGlobalHitbox;
+		}
+
+
+		void DisplayObject :: onCollision(DisplayObject * otherObject){
+
+		}//Use this to specify what happens on hit with another object
 
 
 

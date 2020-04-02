@@ -4,9 +4,11 @@
 #include <vector>
 #include "DisplayObject.h"
 #include "AffineTransform.h"
-// #include "Event.h"
+//#include "Event.h"
+#include "EventDispatcher.h"
 #include <string>
 #include <fstream>
+
 
 using namespace std;
 
@@ -37,6 +39,22 @@ public:
 	virtual void draw(AffineTransform& at);
 
 	vector<DisplayObject*> children;
+
+	EventDispatcher* MyEventDispatcher; //Create an EventDispatcher for DOC when built.
+	//Then we can call it for all
+
+//	void addEventListener(CollisionSystem &ourCollisionSystem, string eventType);
+
+
+	//Call an Event on add and remove children
+	//notify subtree Change
+	//this->dispatchEvents
+	// if the the parent is not null, it dispatches the event for the parent.
+
+	//The event called has three parameters, the event Name, "This" or the current object,
+	// and the child that was added or removed.
+	// So we need to create another class and make it a child of the event Class
+	// It will contain an objects collide.
 private:
 
 

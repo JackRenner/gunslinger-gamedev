@@ -44,7 +44,6 @@ public:
 	string imgPath = "";
 	int red, green, blue;
 	string type = "DisplayObject";
-
 	DisplayObject* parent = NULL;
 
 	bool isRGB = false;
@@ -90,20 +89,39 @@ public:
 	SDL_Rect* srcrect = NULL;
 
 	static Camera gameCamera;
-
-
 	struct Hitbox myHitbox;
 
 //	void saveHitbox(SDL_Point transformedOrigin, SDL_Point transformedURight,	SDL_Point transformedLRight, SDL_Point transformedLLeft, int width, int height);
 
 
 //		AffineTransform myTransform;
+
+
 	AffineTransform globalTransform = AffineTransform();
-	SDL_Point setGlobalTransform(AffineTransform& toPass, SDL_Point position);
+	AffineTransform passAffineTransform(AffineTransform& toPass);
+
+	SDL_Point* MyGlobalHitbox;
+
+
+	AffineTransform* getGlobalTransform();
+	SDL_Point* getGlobalHitbox(); // Specified that its put into the DisplayObject	/
+	//In C++, this can return an array of points.
+	//These points will be the four corners.
+	//AffineTransform = getGlobalTransform
+	//Use Transformpoint to on 0,0
+	//0, width,
+	//o height,
+	//width, height
+	//THen free the affine Transform.
+
+
+
 	Hitbox getHitbox();
 	void saveHitbox();
 	void drawHitbox(SDL_Point globalPosition);
 	bool hitboxDrawn = false;
+	virtual void onCollision(DisplayObject * otherObject);
+
 
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);

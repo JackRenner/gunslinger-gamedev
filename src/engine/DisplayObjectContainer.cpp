@@ -3,19 +3,23 @@
 #include <vector>
 #include <string>
 
+
 using namespace std;
 
 
 DisplayObjectContainer::DisplayObjectContainer() : DisplayObject() {
     this->type = "DisplayObjectContainer";
+    this->MyEventDispatcher = new EventDispatcher();
 }
 
 DisplayObjectContainer::DisplayObjectContainer(string id, string filepath) : DisplayObject(id, filepath) {
     this->type = "DisplayObjectContainer";
+    this->MyEventDispatcher = new EventDispatcher();
 }
 
 DisplayObjectContainer::DisplayObjectContainer(string id, int red, int green, int blue) : DisplayObject(id, red, green, blue) {
     this->type = "DisplayObjectContainer";
+    this->MyEventDispatcher = new EventDispatcher();
 }
 
 DisplayObjectContainer::~DisplayObjectContainer() {
@@ -119,6 +123,8 @@ void DisplayObjectContainer::update(set<SDL_Scancode> pressedKeys) {
         children[i]->update(pressedKeys);
     }
 }
+
+
 
 void DisplayObjectContainer::draw(AffineTransform& at) {
     DisplayObject::draw(at);

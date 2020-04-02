@@ -7,7 +7,8 @@
 #include "EventListener.h"
 #include "Event.h"
 #include "map"
-
+#include "vector"
+#include "utility"
 using namespace std;
 
 class CollisionSystem : public EventListener{
@@ -26,6 +27,18 @@ public:
 	//This system watches the game's display tree and is notified whenever a display object is placed onto
 	//or taken off of the tree. Thus, the collision system always knows what DOs are in the game at any moment automatically.
 	void handleEvent(Event* e);
+	//THis  works with DisplayObject Container. We need ot modify the add and remove child
+	//Add a line that has calls dispatchEvent.
+	//
+	//Add this to Game.addEventListener within the Game file.
+
+	//So I need to call notifySubtree event all the way up the ladder
+//
+
+//Event categories. THis
+
+
+
 	//This function asks the collision system to start checking for collisions between all pairs
 	//of DOs of a given type (e.g., player vs platform). The system will begin to check all player objects
 	//against all platform objects that are in the current scene.
@@ -40,13 +53,23 @@ public:
 	//xDelta1 and yDelta1 are the amount d moved before causing the collision.
 	//xDelta2 and yDelta2 are the amount other moved before causing the collision.
 	void resolveCollision(DisplayObject* d, DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2);
+	//Move these the difference between the two.
 
 
-	DisplayObjectContainer* ObjectTree;
+
+	//DisplayObjectContainer* ObjectTree;
+	std:: map<string, vector<DisplayObject*>*> ObjectsOfEachType;
 	std :: map<string, vector<string> > watchedForCollisions;
+	std:: map< pair <string, string>, bool > collisionMap;  //This got cleared.
+
+	vector< pair<string, string> > objectsCollide;
+
 	vector<string> CollisionIds;
 
-	
+
+
+
+//In the player Object Class onCollision
 
 
 private:

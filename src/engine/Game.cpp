@@ -7,6 +7,7 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include <SDL2/SDL_mixer.h>
+#include "CollisionSystem.h"
 
 using namespace std;
 
@@ -19,12 +20,14 @@ Game::Game(int windowWidth, int windowHeight){
 
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
-
 	initSDL();
 	TTF_Init();
 
-
-
+/*
+	CollisionSystem* ourCollisionSystem = new CollisionSystem();
+	this->MyEventDispatcher.addEventListener(ourCollisionSystem, "addObject");
+	this->MyEventDispatcher.addEventListener(ourCollisionSystem, "removeObject");
+*/
 }
 
 Game::~Game(){
@@ -36,7 +39,6 @@ void Game::quitSDL(){
 	cout << "Quitting sdl" << endl;
 	SDL_DestroyRenderer(Game::renderer);
 	SDL_DestroyWindow(window);
-
 	IMG_Quit();
 	SDL_Quit();
 }
