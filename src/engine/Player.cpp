@@ -46,7 +46,7 @@ Player::Player() : AnimatedSprite("Player"){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
-	if (this->poisonedTime > 0) {
+	if (this->poisonedTime > 0 && this->poisoned) {
 		this->health -= 5;
 		this->poisonedTime -= 1;
 	}

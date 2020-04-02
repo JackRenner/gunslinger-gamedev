@@ -62,8 +62,7 @@ MyGame::~MyGame() {
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	controls::update(pressedKeys);
 
-	cout << character->health << ", " << playerHealth->currVal << ", " << playerHealth->scaleX << endl;
-
+	//Demo trigger for taking damage to show health bar depletion
 	if(controls::holdD()){
 		character->takeDamage(1);
 	}
