@@ -43,6 +43,15 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->width = 5000;
 	blackBox->height = 5000;
 	foreground->addChild(blackBox);
+
+	healthBackground = new Sprite("blackbox",255,0,0);
+	healthBackground->position = {-50,-65};
+    healthBackground->width = 100;
+    healthBackground->height = 20;
+	playerHealth = new HealthBar(character,0,100);
+	character->addChild(healthBackground);
+	character->addChild(playerHealth);
+
 }
 
 MyGame::~MyGame() {
@@ -52,6 +61,12 @@ MyGame::~MyGame() {
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	controls::update(pressedKeys);
+
+	cout << character->health << ", " << playerHealth->currVal << ", " << playerHealth->scaleX << endl;
+
+	if(controls::holdD()){
+		character->takeDamage(1);
+	}
 
 	if (!transLock) {
 		// gun select

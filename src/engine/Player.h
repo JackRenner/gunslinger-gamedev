@@ -9,12 +9,16 @@
 #include "Sprite.h"
 #include "Projectile.h"
 #include "Controls.h"
+#include "EventDispatcher.h"
+#include "HealthEvent.h"
 
 using namespace std;
 
 extern bool transLock;
 
-class Player : public AnimatedSprite{
+class HealthEvent;
+
+class Player : public AnimatedSprite, public EventDispatcher{
 
 public:
 	Player();
@@ -29,7 +33,7 @@ public:
 	int health = 100;
 	int maxHealth = 100;
 	bool poisoned = false;
-	int poisonedTime = 10;
+	int poisonedTime = 0;
 
 	int gun = 0;
 
@@ -44,6 +48,8 @@ public:
 
 	void healPlayer(string method);
 
+	void takeDamage(int damage);
+
 	/* direction */
 	string dir;
 	int holding = 0;
@@ -54,6 +60,8 @@ public:
 	int numIFrames = 0;
 
 	AnimatedSprite* bullet;
+
+	HealthEvent * healthChangeEvent;
 
 
 	/* Current Enemy player is engaging with*/

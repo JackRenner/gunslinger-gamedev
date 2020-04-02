@@ -16,6 +16,7 @@
 #include "../engine/eventhandlers/CoinListener.h"
 #include "../engine/TransitionStruct.h"
 #include "../engine/SceneInfo.h"
+#include "HealthBar.h"
 
 using namespace std;
 
@@ -72,8 +73,11 @@ private:
 
 	Player* character;
 	AnimatedSprite* bullet;
+
+	HealthBar* playerHealth;
 	
 	Sprite* blackBox;
+	Sprite* healthBackground;
 
 	DisplayObjectContainer* foreground;
 

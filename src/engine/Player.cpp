@@ -21,6 +21,8 @@ Player::Player() : AnimatedSprite("Player"){
 	this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
+
+	healthChangeEvent = new HealthEvent(HealthEvent::HEALTH_CHANGE_EVENT, this);
 	
 	this->play("FaceUp");
 	holding = 0;
@@ -132,6 +134,13 @@ void Player::healPlayer(string method){
 	}
 }
 
+void Player::takeDamage(int damage){
+	if(this->health > 0){
+		this->health -= damage;
+		dispatchEvent(healthChangeEvent);
+	}
+}
+
 // void Player::onEnemyCollision(Enemy* enemy){
 // 	this->health -= enemy->damage;
 // 	this->initIFrames(120);
@@ -146,3 +155,4 @@ void Player::healPlayer(string method){
 void Player::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
 }
+
