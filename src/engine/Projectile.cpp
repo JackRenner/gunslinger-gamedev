@@ -80,6 +80,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 void Projectile::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	controls::update(pressedKeys);
+
     if(this->dir == "right"){
         this->position.x -= this->speed;
 		this->durability +=this->speed;

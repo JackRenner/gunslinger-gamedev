@@ -19,6 +19,8 @@
 
 using namespace std;
 
+extern bool transLock;
+
 class MyGame : public Game, public EventListener {
 
 public:
@@ -77,7 +79,6 @@ private:
 
 	bool sceneFlip = false;
 	bool keyToggle = true;
-	bool transLock = false;
 
 	TransitionStruct curTransition;
 

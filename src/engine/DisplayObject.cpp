@@ -10,6 +10,8 @@
 
 #define PI 3.14159265
 
+bool transLock = false;
+
 DisplayObject::DisplayObject(){
 	image = NULL;
 	texture = NULL;

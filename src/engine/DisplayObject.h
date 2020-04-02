@@ -12,6 +12,8 @@
 
 using namespace std;
 
+extern bool transLock;
+
 class DisplayObject {
 
 public:

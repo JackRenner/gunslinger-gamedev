@@ -8,7 +8,6 @@
 
 using namespace std;
 
-
 Player::Player() : AnimatedSprite("Player"){
 
 	this->type = "Player";
@@ -66,35 +65,36 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);	
 	controls::update(pressedKeys);
 
-
-	if (controls::holdW()) {
-		this->position.y -= 8;
+	if (!transLock) {
+		if (controls::holdW()) {
+			this->position.y -= 8;
+		}
+		if (controls::holdS()) {
+			this->position.y += 8;
+		}
+		if (controls::holdD()) {
+			this->position.x += 8;
+		}
+		if (controls::holdA()) {
+			this->position.x -= 8;
+		}
+		if (controls::holdUp()) {
+			this->dir = "Up";
+			this->play("FaceUp");
+		}
+		if (controls::holdDown()) {
+			this->dir = "Down";
+			this->play("FaceDown");
+		}
+		if (controls::holdRight()) {
+			this->dir = "Right";
+			this->play("FaceRight");
+		}
+		if (controls::holdLeft()) {
+			this->dir = "Left";
+			this->play("FaceLeft");
+		}
 	}
-	if (controls::holdS()) {
-		this->position.y += 8;
-	}
-	if (controls::holdD()) {
-		this->position.x += 8;
-	}
-	if (controls::holdA()) {
-		this->position.x -= 8;
-	}
-	if (controls::holdUp()) {
-		this->dir = "Up";
-		this->play("FaceUp");	
-	}
-	if (controls::holdDown()) {
-		this->dir = "Down";
-		this->play("FaceDown");
-	}
-	if (controls::holdRight()) {
-		this->dir = "Right";
-		this->play("FaceRight");
-	}
-	if (controls::holdLeft()) {
-		this->dir = "Left";
-		this->play("FaceLeft");
-	} 
 }
 
 // do not include attacks from bosses yet
