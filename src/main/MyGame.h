@@ -32,7 +32,6 @@ public:
 
 	bool checkInsideBox(SDL_Rect box, DisplayObject* entity);
 	bool checkInsidePoint(SDL_Point point, DisplayObject* entity);
-	int gun = 0;
 
 	void enforceCameraBounds();
 
@@ -69,14 +68,9 @@ private:
 	Scene* lake8;
 	Scene* lake9;
 
-	AnimatedSprite* character;
+	Player* character;
 	AnimatedSprite* bullet;
 	
-	/* shooting */
-	int knife_throws = 0;
-	int revolver_shots = 0;
-	int shotgun_shots = 0;
-	int rifle_shots = 0;
 	Sprite* blackBox;
 
 	DisplayObjectContainer* foreground;

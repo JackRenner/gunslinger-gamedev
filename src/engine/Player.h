@@ -29,6 +29,14 @@ public:
 	bool poisoned = false;
 	int poisonedTime = 10;
 
+	int gun = 0;
+
+	/* shooting */
+	int knife_throws = 0;
+	int revolver_shots = 0;
+	int shotgun_shots = 0;
+	int rifle_shots = 0;
+
 	void hitByProjectile(string gun);
 	void hitByMelee(string enemy);
 
