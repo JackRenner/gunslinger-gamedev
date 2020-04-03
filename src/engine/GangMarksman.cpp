@@ -1,4 +1,4 @@
-#include "Mark.h"
+#include "GangMarksman.h"
 #include "Player.h"
 #include "AnimatedSprite.h"
 #include "Benemy.h"
@@ -11,15 +11,15 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-Mark::Mark(Player* sayu) : AnimatedSprite("Mark"){
-	this->type = "Mark";
+GangMarksman::GangMarksman(Player* sayu) : AnimatedSprite("GangMarksman"){
+	this->type = "GangMarksman";
 	this->sayu = sayu;
 	this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
 }
 
-void Mark::update(set<SDL_Scancode> pressedKeys){
+void GangMarksman::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
 	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
@@ -37,15 +37,15 @@ void Mark::update(set<SDL_Scancode> pressedKeys){
     // if the difference in north/south is greater than east/west
     if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
         if (this->position.x - sayu->position.x > 0) {
-            this->play("MarkLeft");
+            this->play("GangMarksmanLeft");
         } else {
-            this->play("MarkRight");
+            this->play("GangMarksmanRight");
         }
     } else {
         if (this->position.y - sayu->position.y > 0) {
-            this->play("MarkUp");
+            this->play("GangMarksmanUp");
         } else {
-            this->play("MarkDown");
+            this->play("GangMarksmanDown");
         }
     }
 	//everything else controlled by state machine
@@ -101,18 +101,18 @@ void Mark::update(set<SDL_Scancode> pressedKeys){
 	}
 }
 
-void Mark::onMeleeStrike(){
+void GangMarksman::onMeleeStrike(){
 	this->health -= 10;
 	if(this->health < 0) this->health = 0;
 }
 
-// void Mark::onEssenceStrike(Weapon* w){
+// void GangMarksman::onEssenceStrike(Weapon* w){
 
 // 	if(this->shield <= 0) this->health -= w->damage;
 // 	if(this->health < 0) this->health = 0;
 // }
 
-// void Mark::onCollision(DisplayObject* other){
+// void GangMarksman::onCollision(DisplayObject* other){
 // 	if(other->type == "Weapon"){
 // 		if(controls::pressSpecial()) 
 // 			onEssenceStrike((Weapon*)other);
@@ -123,25 +123,25 @@ void Mark::onMeleeStrike(){
 // 	}
 // }
 
-void Mark::draw(AffineTransform &at){
+void GangMarksman::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
 	//this->drawHitbox();
 }
 
-void Mark::save(ofstream &out){
+void GangMarksman::save(ofstream &out){
 	//Sprite::save(out);
-	//TODO: ADD THIS TO SAVE Mark DATA
+	//TODO: ADD THIS TO SAVE GangMarksman DATA
 }
 
 
-void Mark::setPatrolRange(){
+void GangMarksman::setPatrolRange(){
 	this->minPatX = this->position.x-120;
 	this->maxPatX = this->position.x+120;
 	this->minPatY = this->position.y-120;
 	this->maxPatY = this->position.y+120;
 }
 
-void Mark::patrol(){
+void GangMarksman::patrol(){
 	//if close to target, set a new one
 	
 	if(isTargetReached() && pauseCount == 119){
@@ -162,7 +162,7 @@ void Mark::patrol(){
 	}
 }
 
-void Mark::moveToTarget(){
+void GangMarksman::moveToTarget(){
 
 	//increase velocity by accel
 	this->vel = std::min(this->vel+this->acc, this->maxVel);
@@ -179,11 +179,11 @@ void Mark::moveToTarget(){
 	fire();
 }
 
-bool Mark::isTargetReached(){
+bool GangMarksman::isTargetReached(){
 	return std::abs(this->position.x-this->targX) <= 6 && std::abs(this->position.y-this->targY) <= 6;
 }
 
-int Mark::fire() {
+int GangMarksman::fire() {
 	this->shoot += 1;
 	return shoot;
 }

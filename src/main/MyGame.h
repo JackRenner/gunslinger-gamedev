@@ -11,7 +11,7 @@
 #include "../engine/Player.h"
 #include "../engine/Wolf.h"
 #include "../engine/GangThug.h"
-#include "../engine/Mark.h"
+#include "../engine/GangMarksman.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
@@ -86,8 +86,8 @@ private:
 	Wolf* wolf1LakeStill1;
 	Wolf* wolf2LakeStill1;
 	GangThug* thug1LakeStill2;
-	Mark* mark1;
-	Arrow* arrow1;
+	GangMarksman* mark1LakeStill3;
+	Arrow* arrow1LakeStill4;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;

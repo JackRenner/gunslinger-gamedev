@@ -1,5 +1,5 @@
-#ifndef Mark_H
-#define Mark_H
+#ifndef GANGMARKSMAN_H
+#define GANGMARKSMAN_H
 
 #include <iostream>
 #include "AnimatedSprite.h"
@@ -14,18 +14,18 @@
 
 using namespace std;
 
-class Mark : public AnimatedSprite{
+class GangMarksman : public AnimatedSprite{
 
 public:
-	Mark(Player* sayu);
+	GangMarksman(Player* sayu);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
     void onMeleeStrike();
     
-    // void Mark::onEssenceStrike(Weapon* w);
-    // void Mark::onCollision(DisplayObject* other);
+    // void GangMarksman::onEssenceStrike(Weapon* w);
+    // void GangMarksman::onCollision(DisplayObject* other);
 
     void save(ofstream &out);
 
