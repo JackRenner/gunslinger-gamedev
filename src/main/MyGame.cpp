@@ -63,18 +63,8 @@ MyGame::~MyGame() {
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	controls::update(pressedKeys);
 
-	cout << "START" << endl;
-	cout << character->health << endl;
-	cout << blackBox->position.x << endl;
-	cout << blackBox->position.y << endl;
-	cout << blackBox->alpha << endl;
-	cout << blackBox->pivot.x << endl;
-	cout << blackBox->pivot.y << endl;
-	cout << blackBox->scaleX << endl;
-	cout << blackBox->scaleY << endl;
-
 	//Demo trigger for taking damage to show health bar depletion
-	if(controls::holdD()){
+	if(controls::holdSpace()){
 		character->takeDamage(1);
 	}
 

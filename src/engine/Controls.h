@@ -92,6 +92,9 @@ namespace controls{
 	bool alphaDown();
 	bool toggleVisibility();
 
+	// Demo
+	bool holdSpace();
+
 	// Controller Button Inputs
 	bool pressA();
 	bool pressB();

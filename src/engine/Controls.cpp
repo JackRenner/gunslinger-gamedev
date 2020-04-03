@@ -39,6 +39,8 @@ SDL_Scancode controls::KEY_ALPHA_UP = SDL_SCANCODE_Z;
 SDL_Scancode controls::KEY_ALPHA_DOWN = SDL_SCANCODE_X;
 SDL_Scancode controls::KEY_VISIBILITY = SDL_SCANCODE_P;
 
+SDL_Scancode controls::KEY_SPACE = SDL_SCANCODE_SPACE;
+
 // Position
 bool controls::holdD(){ return pressedKeys.count(KEY_D) == 1; }
 bool controls::holdA(){ return pressedKeys.count(KEY_A) == 1; }
@@ -85,6 +87,9 @@ bool controls::pivotDown(){ return pressedKeys.count(KEY_PIVOT_DOWN) == 1; }
 bool controls::alphaUp(){ return pressedKeys.count(KEY_ALPHA_UP) == 1; }
 bool controls::alphaDown(){ return pressedKeys.count(KEY_ALPHA_DOWN) == 1; }
 bool controls::toggleVisibility(){ return pressedKeys.count(KEY_VISIBILITY) == 1 && lastPressedKeys.count(KEY_VISIBILITY) != 1; }
+
+// Demo
+bool controls::holdSpace(){return pressedKeys.count(KEY_SPACE) == 1;}
 
 // // Controller Button inputs
 // bool controls::pressA(){ return pressedButtons.count(BUTTON_A) == 1 && lastPressedButtons.count(BUTTON_A) != 1; }
