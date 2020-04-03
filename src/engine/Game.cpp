@@ -24,10 +24,10 @@ Game::Game(int windowWidth, int windowHeight){
 	TTF_Init();
 }
 
-Game::~Game(){
-	DisplayObjectContainer::~DisplayObjectContainer();
-	quitSDL();
-}
+// Game::~Game(){
+// 	DisplayObjectContainer::~DisplayObjectContainer();
+// 	quitSDL();
+// }
 
 void Game::quitSDL(){
 	cout << "Quitting sdl" << endl;

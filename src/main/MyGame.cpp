@@ -97,6 +97,27 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			thug1LakeStill2->shots_fired ++;
 		}
 	}
+	// if(mark1->shoot > 0) {
+	// 	benemy2 = new Benemy((AnimatedSprite*)mark1, character->position.x, character->position.y, 5);
+	// 	benemy2->distance = 20;
+	// 	this->addChild(benemy2);
+	// 	benemy2->position = {mark1->position.x, mark1->position.y };
+	// 	benemy2->pivot = { benemy2->width / 2, benemy2->height / 2 };
+	// 	benemy2->scaleX = 1;
+	// 	benemy2->scaleY = 1;
+	// 	mark1->shoot -= 80;
+	// }
+	// if(arrow1->shoot > 0) {
+	// 	benemy3 = new Benemy((AnimatedSprite*)arrow1, character->position.x, character->position.y, 5);
+	// 	benemy3->distance = 20;
+	// 	this->addChild(benemy3);
+	// 	benemy3->position = {arrow1->position.x, arrow1->position.y };
+	// 	benemy3->pivot = { benemy3->width / 2, benemy3->height / 2 };
+	// 	benemy3->scaleX = 1;
+	// 	benemy3->scaleY = 1;
+	// 	arrow1->shoot -= 80;
+	// }
+	
 
 	
 

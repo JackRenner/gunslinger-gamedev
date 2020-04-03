@@ -5,11 +5,13 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include "../engine/Game.h"
+#include "../engine/Arrow.h"
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Player.h"
 #include "../engine/Wolf.h"
 #include "../engine/GangThug.h"
+#include "../engine/Mark.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
@@ -84,9 +86,13 @@ private:
 	Wolf* wolf1LakeStill1;
 	Wolf* wolf2LakeStill1;
 	GangThug* thug1LakeStill2;
+	Mark* mark1;
+	Arrow* arrow1;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;
+	Benemy* benemy2;
+	Benemy* benemy3;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;
