@@ -23,6 +23,12 @@ Player::Player() : AnimatedSprite("Player"){
 	this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
 
 	healthChangeEvent = new HealthEvent(HealthEvent::HEALTH_CHANGE_EVENT, this);
+
+	selectFist = new WeaponSelectEvent(WeaponSelectEvent::SELECT_FIST_EVENT, this);
+	selectKnife = new WeaponSelectEvent(WeaponSelectEvent::SELECT_KNIFE_EVENT, this);
+	selectPistol = new WeaponSelectEvent(WeaponSelectEvent::SELECT_PISTOL_EVENT, this);
+	selectShotgun = new WeaponSelectEvent(WeaponSelectEvent::SELECT_SHOTGUN_EVENT, this);
+	selectRifle = new WeaponSelectEvent(WeaponSelectEvent::SELECT_RIFLE_EVENT, this);
 	
 	this->play("FaceUp");
 	holding = 0;
@@ -156,3 +162,24 @@ void Player::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
 }
 
+
+void Player::selectWeapon(int gun) {
+	this->gun = gun;
+	switch (gun) {
+	case 0:
+		this->dispatchEvent(selectFist);
+		break;
+	case 1:
+		this->dispatchEvent(selectKnife);
+		break;
+	case 2:
+		this->dispatchEvent(selectPistol);
+		break;
+	case 3:
+		this->dispatchEvent(selectShotgun);
+		break;
+	case 4:
+		this->dispatchEvent(selectRifle);
+		break;
+	}
+}

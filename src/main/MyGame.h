@@ -18,6 +18,7 @@
 #include "../engine/SceneInfo.h"
 #include "../engine/ui/TextBox.h"
 #include "../engine/ui/HealthBar.h"
+#include "../engine/ui/WeaponSelect.h"
 
 using namespace std;
 
@@ -78,6 +79,7 @@ private:
 	AnimatedSprite* bullet;
 	
 	HealthBar* playerHealth;
+	WeaponSelect* selection;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;

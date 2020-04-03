@@ -105,9 +105,6 @@ void Projectile::update(set<SDL_Scancode> pressedKeys){
 			this->removeThis();
 		}
 	}
-	
-	
-
 }
 
 void Projectile::draw(AffineTransform &at){

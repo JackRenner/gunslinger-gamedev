@@ -19,7 +19,6 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	foreground->id = "foreground";
 
     character = new Player();
-	foreground->addChild(character);
 
 	character->position = { 1500, 500 };
 	character->scaleX = 0.8;
@@ -42,7 +41,6 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->alpha = 0;
 	blackBox->width = 5000;
 	blackBox->height = 5000;
-	foreground->addChild(blackBox);
 
 	test = new TextBox(SDL_Point{ 1500, 500 }, 300, 200);
 
@@ -50,12 +48,13 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	test->addTextLine("./resources/fonts/arial.ttf", testText, 18, SDL_Color{ 255, 255, 255 });
 	string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
 	test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
-	string testText3 = "Deus volt";
+	string testText3 = "Deus vult";
 	test->addTextLine("./resources/fonts/arial.ttf", testText3, 18, SDL_Color{ 50, 50, 255 });
 	string testText4 = "Lorem ipsum.";
 	test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
 
-	foreground->addChild(test);
+	selection = new WeaponSelect();
+	selection->position = { character->position.x - (gameCamera.viewportWidth / 2) + 10, (character->position.y - gameCamera.viewportHeight / 2 + 10)};
 
 	healthBackground = new Sprite("blackbox", 255, 0, 0);
 	healthBackground->id = "healthbackground";
@@ -63,8 +62,19 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	healthBackground->width = 100;
 	healthBackground->height = 20;
 	playerHealth = new HealthBar(character, 0, 100);
+
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_FIST_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_KNIFE_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_PISTOL_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_SHOTGUN_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_RIFLE_EVENT);
+
+	foreground->addChild(character);
 	character->addChild(healthBackground);
 	character->addChild(playerHealth);
+	foreground->addChild(selection);
+	foreground->addChild(test);
+	foreground->addChild(blackBox);
 }
 
 MyGame::~MyGame() {
@@ -75,27 +85,26 @@ MyGame::~MyGame() {
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	controls::update(pressedKeys);
 
-	//Demo trigger for taking damage to show health bar depletion
-	if(controls::holdSpace()){
+	if (controls::holdSpace()) {
 		character->takeDamage(1);
 	}
 
 	if (!transLock) {
 		// gun select
 		if (controls::press1()) {
-			character->gun = 0;
+			character->selectWeapon(0);
 		};
 		if (controls::press2()) {
-			character->gun = 1;
+			character->selectWeapon(1);
 		};
 		if (controls::press3()) {
-			character->gun = 2;
+			character->selectWeapon(2);
 		};
 		if (controls::press4()) {
-			character->gun = 3;
+			character->selectWeapon(3);
 		};
 		if (controls::press5()) {
-			character->gun = 4;
+			character->selectWeapon(4);
 		};
 		// shooting
 		if (controls::pressUp()) {
@@ -128,12 +137,12 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 				test->drawNextLine();
 		}
 	}
-	
+
 	Game::update(pressedKeys);
-	controls::update(pressedKeys);
 
 	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
 	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
+
 	test->position = { character->position.x - test->background->width / 2, character->position.y - 300 };
 
 	if (!transLock) {
@@ -181,6 +190,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 
 	enforceCameraBounds();
+
+	selection->position = { gameCamera.x + 10, gameCamera.y + 10 };
 }
 
 void MyGame::draw(AffineTransform& at) {
@@ -259,7 +270,7 @@ void MyGame::handleEvent(Event* e) {
 	room_state = curTransition.newstate;
 	character->position = curTransition.dest;
 
-	this->unlinkImmediateChild("foreground");
+	this->unlinkImmediateChild(foreground);
 	this->setScene(sceneInfo[room_state].scenePointer);
 	this->addChild(foreground);
 	
@@ -274,7 +285,6 @@ void MyGame::handleEvent(Event* e) {
 
 void MyGame::transitionScene() {
 	transLock = true;
-
 	//Center blackbox at character
 	blackBox->position.x = character->position.x - blackBox->width / 2;
 	blackBox->position.y = character->position.y - blackBox->height / 2;
@@ -433,25 +443,25 @@ void MyGame::playerShooting(int gun, string dir){
 	if (gun == 1 && character->knife_throws > 0) {
 	} else if (gun == 1) {
 		bullet = new Projectile(dir,this->position, gun);
-		this->addChild(bullet);
+		foreground->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->knife_throws ++;
 	} else if (character->gun == 2 && character->revolver_shots > 5) {
 	} else if (character->gun == 2) {
 		bullet = new Projectile(dir,this->position, character->gun);
-		this->addChild(bullet);
+		foreground->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->revolver_shots ++;
 	} else if (character->gun == 3 && character->shotgun_shots > 1) {
 	} else if (character->gun == 3) {
 		bullet = new Projectile(dir,character->position, gun);
-		this->addChild(bullet);
+		foreground->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->shotgun_shots ++;
 	} else if (character->gun == 4 && character->rifle_shots > 4) {
 	} else if (character->gun == 4) {
 		bullet = new Projectile(dir,character->position, gun);
-		this->addChild(bullet);
+		foreground->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->rifle_shots ++;
 	}
