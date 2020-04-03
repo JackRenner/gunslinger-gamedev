@@ -75,7 +75,8 @@ MyGame::~MyGame() {
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	controls::update(pressedKeys);
 
-	if (controls::holdSpace()) {
+	//Demo trigger for taking damage to show health bar depletion
+	if(controls::holdSpace()){
 		character->takeDamage(1);
 	}
 
@@ -274,6 +275,7 @@ void MyGame::handleEvent(Event* e) {
 
 void MyGame::transitionScene() {
 	transLock = true;
+
 	//Center blackbox at character
 	blackBox->position.x = character->position.x - blackBox->width / 2;
 	blackBox->position.y = character->position.y - blackBox->height / 2;
