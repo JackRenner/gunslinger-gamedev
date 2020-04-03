@@ -1,9 +1,9 @@
 #ifndef HEALTHEVENT_H
 #define HEALTHEVENT_H
 
-#include "Player.h"
-#include "Event.h"
-#include "Tween.h"
+#include "../Player.h"
+#include "../events/Event.h"
+#include "../tweens/Tween.h"
 
 using namespace std;
 

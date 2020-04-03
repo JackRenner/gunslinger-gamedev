@@ -44,14 +44,27 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->height = 5000;
 	foreground->addChild(blackBox);
 
-	healthBackground = new Sprite("blackbox",255,0,0);
-	healthBackground->position = {-50,-65};
-    healthBackground->width = 100;
-    healthBackground->height = 20;
-	playerHealth = new HealthBar(character,0,100);
+	test = new TextBox(SDL_Point{ 1500, 500 }, 300, 200);
+
+	string testText = "This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text.";
+	test->addTextLine("./resources/fonts/arial.ttf", testText, 18, SDL_Color{ 255, 255, 255 });
+	string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
+	test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
+	string testText3 = "Deus volt";
+	test->addTextLine("./resources/fonts/arial.ttf", testText3, 18, SDL_Color{ 50, 50, 255 });
+	string testText4 = "Lorem ipsum.";
+	test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
+
+	foreground->addChild(test);
+
+	healthBackground = new Sprite("blackbox", 255, 0, 0);
+	healthBackground->id = "healthbackground";
+	healthBackground->position = { -50,-65 };
+	healthBackground->width = 100;
+	healthBackground->height = 20;
+	playerHealth = new HealthBar(character, 0, 100);
 	character->addChild(healthBackground);
 	character->addChild(playerHealth);
-
 }
 
 MyGame::~MyGame() {
@@ -62,26 +75,25 @@ MyGame::~MyGame() {
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	controls::update(pressedKeys);
 
-	//Demo trigger for taking damage to show health bar depletion
-	if(controls::holdD()){
+	if (controls::holdSpace()) {
 		character->takeDamage(1);
 	}
 
 	if (!transLock) {
 		// gun select
-		if(controls::press1()){
+		if (controls::press1()) {
 			character->gun = 0;
 		};
-		if(controls::press2()){
+		if (controls::press2()) {
 			character->gun = 1;
 		};
-		if(controls::press3()){
+		if (controls::press3()) {
 			character->gun = 2;
 		};
-		if(controls::press4()){
+		if (controls::press4()) {
 			character->gun = 3;
 		};
-		if(controls::press5()){
+		if (controls::press5()) {
 			character->gun = 4;
 		};
 		// shooting
@@ -105,13 +117,24 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		if (controls::pressR()) {
 			this->reloadGun(character->gun);
 		}
+
+		if (controls::toggleVisibility() && !test->textLock) {
+			if (test->nextLine == 0)
+				test->initBox();
+			else if (test->nextLine == test->maxLine)
+				test->closeBox();
+			else
+				test->drawNextLine();
+		}
 	}
+	
+	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
+	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
 
-		Game::update(pressedKeys);
+	test->position = { character->position.x - test->background->width / 2, character->position.y - 300 };
 
-		gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
-		gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
-
+	Game::update(pressedKeys);
+	controls::update(pressedKeys);
 
 	if (!transLock) {
 		for (int i = 0; i < transitions[room_state].size(); i++) {
@@ -155,6 +178,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			}
 		}
 	}
+
 
 	enforceCameraBounds();
 }

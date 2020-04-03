@@ -9,8 +9,8 @@
 #include "Sprite.h"
 #include "Projectile.h"
 #include "Controls.h"
-#include "EventDispatcher.h"
-#include "HealthEvent.h"
+#include "events/EventDispatcher.h"
+#include "ui/HealthEvent.h"
 
 using namespace std;
 

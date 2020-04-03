@@ -16,7 +16,8 @@
 #include "../engine/eventhandlers/CoinListener.h"
 #include "../engine/TransitionStruct.h"
 #include "../engine/SceneInfo.h"
-#include "HealthBar.h"
+#include "../engine/ui/TextBox.h"
+#include "../engine/ui/HealthBar.h"
 
 using namespace std;
 
@@ -52,6 +53,8 @@ private:
 
 	Scene* curScene = NULL;
 
+	TextBox* test;
+
 	Scene* townScene;
 	Scene* sheriffScene;
 	Scene* storeScene;
@@ -73,9 +76,9 @@ private:
 
 	Player* character;
 	AnimatedSprite* bullet;
-
-	HealthBar* playerHealth;
 	
+	HealthBar* playerHealth;
+
 	Sprite* blackBox;
 	Sprite* healthBackground;
 

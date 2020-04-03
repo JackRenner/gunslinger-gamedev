@@ -1,12 +1,12 @@
 #ifndef HEALTHBAR_H
 #define HEALTHBAR_H
 
-#include "EventListener.h"
-#include "AnimatedSprite.h"
-#include "Sprite.h"
-#include "Player.h"
+#include "../events/EventListener.h"
+#include "../AnimatedSprite.h"
+#include "../Sprite.h"
+#include "../Player.h"
 #include "HealthEvent.h"
-#include "Game.h"
+#include "../Game.h"
 
 using namespace std;
 

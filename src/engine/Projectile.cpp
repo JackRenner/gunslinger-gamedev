@@ -24,7 +24,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	// this->scaleY = 0.15;
 	// no gun
 	if (type == 0){
-		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
+		this->addAnimation("./resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
 		this->Distance = 0;
@@ -32,7 +32,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	}
 	//knife
 	if(type == 1){
-		this->addAnimation("resources/weapons/", "knife", 1, 1, true);
+		this->addAnimation("./resources/weapons/", "knife", 1, 1, true);
 		this->width = 30;
 		this->height = 30;
  		this->dir = face;
@@ -43,7 +43,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	}
 	//pistol
 	if(type == 2){
-		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
+		this->addAnimation("./resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
 		this->Distance = 160;
@@ -54,12 +54,12 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	if(type == 3){
  		this->dir = face;
 		if(this->dir == "left" || "right"){
-			this->addAnimation("resources/weapons/", "shotgun", 1, 1, true);
+			this->addAnimation("./resources/weapons/", "shotgun", 1, 1, true);
 			this->play("shotgun");
 			//wont let shotgunright - up
 		}
 		else {
-			this->addAnimation("resources/weapons/", "shotgun", 1, 1, true);
+			this->addAnimation("./resources/weapons/", "shotgun", 1, 1, true);
 			this->play("shotgun");
 			//should be shotgunup
 		}
@@ -68,7 +68,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	}
 	//rifle
 	if (type == 4){
-		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
+		this->addAnimation("./resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
 		this->Distance = 350;
