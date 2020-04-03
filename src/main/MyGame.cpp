@@ -81,16 +81,21 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if(controls::holdSpace()){
 		character->takeDamage(1);
 	}
-	if(wolf1LakeStill1->shoot > 0) {
-		benemy = new Benemy((AnimatedSprite*)wolf1LakeStill1, character->position.x, character->position.y, 5);
+	if(thug1LakeStill2->shoot > 0) {
+		benemy = new Benemy((AnimatedSprite*)thug1LakeStill2, character->position.x, character->position.y, 5);
 		benemy->distance = 20;
 		this->addChild(benemy);
-		benemy->position = {wolf1LakeStill1->position.x, wolf1LakeStill1->position.y };
+		benemy->position = {thug1LakeStill2->position.x, thug1LakeStill2->position.y };
 		benemy->pivot = { benemy->width / 2, benemy->height / 2 };
 		benemy->scaleX = 1;
 		benemy->scaleY = 1;
-		printf("yes");
-		wolf1LakeStill1->shoot -= 120;
+		if (thug1LakeStill2->shots_fired == 5) {
+			thug1LakeStill2->shoot -= 120;
+			thug1LakeStill2->shots_fired = 0;
+		} else{
+			thug1LakeStill2->shoot -= 60;
+			thug1LakeStill2->shots_fired ++;
+		}
 	}
 
 	
@@ -456,6 +461,32 @@ void MyGame::initLake() {
 	wolf1LakeStill1->scaleY = 0.5;
 	wolf1LakeStill1->width = 90;
 	wolf1LakeStill1->play("WolfLeft");
+
+	wolf2LakeStill1 = new Wolf((Player*)character);	// Adding wolf sprites
+	wolf2LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+	wolf2LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+	wolf2LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+	wolf2LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+	lake1->addChild(wolf2LakeStill1);
+	wolf2LakeStill1->position = { 700, 500 };
+	wolf2LakeStill1->pivot = { wolf2LakeStill1->width / 2, wolf2LakeStill1->height / 2 };
+	wolf2LakeStill1->scaleX = 0.5;
+	wolf2LakeStill1->scaleY = 0.5;
+	wolf2LakeStill1->width = 50;
+	wolf2LakeStill1->play("WolfLeft");
+
+	thug1LakeStill2 = new GangThug((Player*)character);	// Adding wolf sprites
+	thug1LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+	thug1LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+	thug1LakeStill2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+	thug1LakeStill2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+	lake2->addChild(thug1LakeStill2);
+	thug1LakeStill2->position = { 500, 500 };
+	thug1LakeStill2->pivot = { thug1LakeStill2->width / 2, thug1LakeStill2->height / 2 };
+	thug1LakeStill2->scaleX = 0.5;
+	thug1LakeStill2->scaleY = 0.5;
+	thug1LakeStill2->width = 90;
+	thug1LakeStill2->play("GangThugLeft");
 }
 
 void MyGame::playerShooting(int gun, string dir){

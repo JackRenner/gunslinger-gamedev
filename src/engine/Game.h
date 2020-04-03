@@ -29,7 +29,7 @@ public:
 	static unsigned int frameCounter;
 
 	Game(int windowWidth, int windowHeight);
-	//virtual ~Game();
+	virtual ~Game();
 	void start();
 
 	virtual void update(set<SDL_Scancode> pressedKeys);

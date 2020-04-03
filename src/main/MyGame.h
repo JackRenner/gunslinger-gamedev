@@ -9,6 +9,7 @@
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Player.h"
 #include "../engine/Wolf.h"
+#include "../engine/GangThug.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
@@ -81,7 +82,10 @@ private:
 	HealthBar* playerHealth;
 
 	Wolf* wolf1LakeStill1;
-	AnimatedSprite* wolf;
+	Wolf* wolf2LakeStill1;
+	GangThug* thug1LakeStill2;
+
+	//AnimatedSprite* wolf;
 	Benemy* benemy;
 
 	Sprite* blackBox;
