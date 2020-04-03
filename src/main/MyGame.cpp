@@ -129,13 +129,12 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		}
 	}
 	
-	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
-	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
-
-	test->position = { character->position.x - test->background->width / 2, character->position.y - 300 };
-
 	Game::update(pressedKeys);
 	controls::update(pressedKeys);
+
+	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
+	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
+	test->position = { character->position.x - test->background->width / 2, character->position.y - 300 };
 
 	if (!transLock) {
 		for (int i = 0; i < transitions[room_state].size(); i++) {

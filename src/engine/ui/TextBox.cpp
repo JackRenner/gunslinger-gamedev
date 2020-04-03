@@ -3,6 +3,7 @@
 using namespace std;
 
 TextBox::TextBox(SDL_Point position, int width, int height) {
+	this->id = "textbackground";
 	this->position = position;
 	background = new Sprite("textbox", 20, 20, 20);
 	background->width = width;
