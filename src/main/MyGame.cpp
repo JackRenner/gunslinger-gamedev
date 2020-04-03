@@ -128,7 +128,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 				test->drawNextLine();
 		}
 	}
-	
 	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
 	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
 
@@ -428,6 +427,21 @@ void MyGame::initLake() {
 	sceneInfo.push_back(SceneInfo(lake7, SDL_Rect{ 0, 0, 1100, 610 })); // 14
 	sceneInfo.push_back(SceneInfo(lake8, SDL_Rect{ 0, 0, 1100, 610 })); // 15
 	sceneInfo.push_back(SceneInfo(lake9, SDL_Rect{ 0, 0, 1100, 610 })); // 16
+
+	// initialize lake still enemies
+	wolf1LakeStill1 = new Wolf((Player*)character);
+	// Adding wolf sprites
+	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+	lake1->addChild(wolf1LakeStill1);
+	wolf1LakeStill1->position = { 500, 500 };
+	wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
+	wolf1LakeStill1->scaleX = 0.5;
+	wolf1LakeStill1->scaleY = 0.5;
+	wolf1LakeStill1->width = 90;
+	wolf1LakeStill1->play("WolfLeft");
 }
 
 void MyGame::playerShooting(int gun, string dir){

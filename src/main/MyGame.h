@@ -8,6 +8,7 @@
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Player.h"
+#include "../engine/Wolf.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
@@ -78,6 +79,8 @@ private:
 	AnimatedSprite* bullet;
 	
 	HealthBar* playerHealth;
+
+	AnimatedSprite* wolf1LakeStill1;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;

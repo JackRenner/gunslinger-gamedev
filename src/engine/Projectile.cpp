@@ -17,22 +17,18 @@ Projectile::Projectile() : AnimatedSprite("Projectile"){
 Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSprite("Projectile"){
 
 	this->type = "Projectile";
-	
-	// this->width = 416;
-	// this->height = 454;
-	// this->scaleX = 0.15;
-	// this->scaleY = 0.15;
+
 	// no gun
 	if (type == 0){
-		this->addAnimation("./resources/weapons/", "bullet", 1, 1, true);
+		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
 		this->Distance = 0;
-		
 	}
 	//knife
 	if(type == 1){
-		this->addAnimation("./resources/weapons/", "knife", 1, 1, true);
+		std::cout << "worked\n";
+		this->addAnimation("resources/weapons/", "knife", 1, 1, true);
 		this->width = 30;
 		this->height = 30;
  		this->dir = face;
