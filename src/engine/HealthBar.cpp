@@ -2,6 +2,7 @@
 
 HealthBar::HealthBar(Player* player, int minVal, int maxVal){
     player->addEventListener(this,HealthEvent::HEALTH_CHANGE_EVENT);
+    this->id = "healthbar";
     this->minVal = minVal;
     this->maxVal = maxVal;
     this->currVal = maxVal;

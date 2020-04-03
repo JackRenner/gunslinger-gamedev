@@ -135,7 +135,7 @@ void Player::healPlayer(string method){
 }
 
 void Player::takeDamage(int damage){
-	if(this->health > 0){
+	if(this->health > 1){
 		this->health -= damage;
 		dispatchEvent(healthChangeEvent);
 	}
