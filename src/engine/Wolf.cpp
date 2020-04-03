@@ -1,6 +1,7 @@
 #include "Wolf.h"
 #include "Player.h"
 #include "AnimatedSprite.h"
+#include "Benemy.h"
 #include "Sprite.h"
 #include "DisplayObjectContainer.h"
 #include "Controls.h"
@@ -205,8 +206,14 @@ void Wolf::moveToTarget(){
 
     this->position.x += xComp;
     this->position.y += yComp;
+	fire();
 }
 
 bool Wolf::isTargetReached(){
 	return std::abs(this->position.x-this->targX) <= 6 && std::abs(this->position.y-this->targY) <= 6;
+}
+
+int Wolf::fire() {
+	this->shoot += 1;
+	return shoot;
 }

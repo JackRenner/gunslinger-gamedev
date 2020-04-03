@@ -80,7 +80,9 @@ private:
 	
 	HealthBar* playerHealth;
 
-	AnimatedSprite* wolf1LakeStill1;
+	Wolf* wolf1LakeStill1;
+	AnimatedSprite* wolf;
+	Benemy* benemy;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;

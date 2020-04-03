@@ -1,5 +1,5 @@
-#ifndef WOLF_H
-#define WOLF_H
+#ifndef BENEMY_H
+#define BENEMY_H
 
 #include <iostream>
 #include "AnimatedSprite.h"
@@ -10,69 +10,50 @@
 #include "Projectile.h"
 #include "Controls.h"
 #include "Player.h"
-#include "Benemy.h"
 
 using namespace std;
 
-class Wolf : public AnimatedSprite{
+class Benemy : public AnimatedSprite{
 
 public:
-	Wolf(Player* sayu);
+	Benemy(AnimatedSprite* sayu, int x, int y, int velocity);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
-    void onMeleeStrike();
     
     // void Wolf::onEssenceStrike(Weapon* w);
     // void Wolf::onCollision(DisplayObject* other);
 
     void save(ofstream &out);
-    
-    void charge();
 
-    void prepareCharge();
-
-    void setPatrolRange();
-
-    void patrol();
-
-    void moveToTarget();
+    void fire();
 
     bool isTargetReached();
 
-    int fire();
-
-
-	int shoot = 0;
+    bool distanceReached();
+	
 	/* Health and such */
-	int health = 100;
-	int maxHealth = 100;
 
 	//iFrames
 	bool iFrames = false;
 	int iFrameCount = 0;
 	int numIFrames = 0;
-
+    int distance = 20;
 private:
-    Player* sayu;
-    Benemy* dirt;
+    AnimatedSprite* sayu;
     bool clean = false;
     int state = 0;
 
     int targX = 0;
     int targY = 0;
 
-    int maxPatX = 0;
-    int maxPatY = 0;
-    int minPatX = 0;
-    int minPatY = 0;
+
+    SDL_Point initial;
+
 
     double vel = 4;
     double maxVel = 20;
-    double acc = 2;
-    double rotVel = 2;
-    double rotAcc = 2;
     double maxRotVel = 20;
 
     int pauseCount = 0;

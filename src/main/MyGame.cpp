@@ -5,6 +5,7 @@
 #include "../engine/Scene.h"
 #include "../engine/Controls.h"
 #include "../engine/Player.h"
+#include "../engine/Benemy.h"
 #include "MyGame.h"
 
 using namespace std;
@@ -65,6 +66,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	playerHealth = new HealthBar(character, 0, 100);
 	character->addChild(healthBackground);
 	character->addChild(playerHealth);
+	
 }
 
 MyGame::~MyGame() {
@@ -79,6 +81,19 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if(controls::holdSpace()){
 		character->takeDamage(1);
 	}
+	if(wolf1LakeStill1->shoot > 0) {
+		benemy = new Benemy((AnimatedSprite*)wolf1LakeStill1, character->position.x, character->position.y, 5);
+		benemy->distance = 20;
+		this->addChild(benemy);
+		benemy->position = {wolf1LakeStill1->position.x, wolf1LakeStill1->position.y };
+		benemy->pivot = { benemy->width / 2, benemy->height / 2 };
+		benemy->scaleX = 1;
+		benemy->scaleY = 1;
+		printf("yes");
+		wolf1LakeStill1->shoot -= 120;
+	}
+
+	
 
 	if (!transLock) {
 		// gun select
@@ -429,8 +444,7 @@ void MyGame::initLake() {
 	sceneInfo.push_back(SceneInfo(lake9, SDL_Rect{ 0, 0, 1100, 610 })); // 16
 
 	// initialize lake still enemies
-	wolf1LakeStill1 = new Wolf((Player*)character);
-	// Adding wolf sprites
+	wolf1LakeStill1 = new Wolf((Player*)character);	// Adding wolf sprites
 	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
