@@ -108,11 +108,11 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	else if(this->state == 3){
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
         if(dist < 250){
-			this->state = 4;
+			this->state = 2;
 			this->rotation = 0;
 			this->rotVel = 0;
 			this->targX = this->position.x;
-			this->targY = this->position.y - 100;
+			this->targY = this->position.y;
 		}
 	}
 }
