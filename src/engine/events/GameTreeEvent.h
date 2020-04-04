@@ -1,3 +1,5 @@
+#ifndef GAMETREEEVENT_H
+#define GAMETREEEVENT_H
 #include "Event.h"
 #include "EventDispatcher.h"
 #include <string>
@@ -10,3 +12,5 @@ class GameTreeEvent : public  Event{
   GameTreeEvent(string type, EventDispatcher* source, DisplayObject* modifiedObject);
   DisplayObject* getModifiedObject();
 };
+
+#endif

@@ -22,18 +22,28 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character->addAnimation("./resources/character/", "Walk", 20, 2, true);
 	character->addAnimation("./resources/character/dead_spritesheet.png", "./resources/character/dead_spritesheet.xml", "Dead", 12, 5, true);
 
-	object1 = new Sprite("type1", "./resources/character/Jump_27.png");
-	object2 = new Sprite("type2", "./resources/character/Dead_15.png");
+	object1 = new Sprite("type1", "./resources/coloredSquare/redSquare.png");
+	object2 = new Sprite("type2", "./resources/coloredSquare/blueSquare.jpg");
 
 	this->setScene(cameraDemoScene);
 	this->addChild(character);
+
+
+
 	character->position = { 300, 1100 };
 	character->pivot = { character->width / 2, character->height / 2 };
 	character->play("Run");
 	character->width = 90;
 
 	character-> addChild(object1);
-	character->addChild(object2);
+	character-> addChild(object2);
+
+/*
+//Used to test the remove code.
+	character->removeImmediateChild(object1);
+
+	object2->removeThis();
+*/
 
 	object1 -> height = 50;
 	object1 -> width = 50;
@@ -73,19 +83,19 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		gunshot->playSFX();
 	}
 
-	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {
 
 		character->position.y -= 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_S) != pressedKeys.end()) {
 
 		character->position.y += 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_D) != pressedKeys.end()) {
 
 		character->position.x += 5;
 	}
-	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
+	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
 
 		character->position.x -= 5;
 	}
@@ -101,25 +111,99 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if(pressedKeys.find(SDL_SCANCODE_Y) != pressedKeys.end()){
 		character->play("Walk");
 	}
-	if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()){
-//		character->globalTransform =
-		//character->setGlobalTransform(myAffineTransform);
-		character->saveHitbox();
-	}
+
+	/*
 	if(pressedKeys.find(SDL_SCANCODE_Z) != pressedKeys.end()){
 			character->hitboxDrawn = true;
 	}
+	*/
 	if(pressedKeys.find(SDL_SCANCODE_E) != pressedKeys.end()){
-
 			character->rotation += .1;
-
 	}
-
 	if(pressedKeys.find(SDL_SCANCODE_R) != pressedKeys.end()){
-
 			character->rotation -= .1;
-
 	}
+	if(pressedKeys.find(SDL_SCANCODE_F) != pressedKeys.end()){
+
+					character->scaleX += .1;
+					character->scaleY += .1;
+	}
+	if(pressedKeys.find(SDL_SCANCODE_G) != pressedKeys.end()){
+
+			character->scaleX -= .1;
+			character->scaleY -= .1;
+	}
+
+
+
+
+
+		if (pressedKeys.find(SDL_SCANCODE_I) != pressedKeys.end()) {
+			object1->position.y -= 5;
+		}
+		if (pressedKeys.find(SDL_SCANCODE_K) != pressedKeys.end()) {
+			object1->position.y += 5;
+		}
+		if (pressedKeys.find(SDL_SCANCODE_L) != pressedKeys.end()) {
+			object1->position.x += 5;
+		}
+		if (pressedKeys.find(SDL_SCANCODE_J) != pressedKeys.end()) {
+			object1->position.x -= 5;
+		}
+		if(pressedKeys.find(SDL_SCANCODE_N) != pressedKeys.end()){
+
+						object1->scaleX += .1;
+						object1->scaleY += .1;
+		}
+		if(pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()){
+
+				object1->scaleX -= .1;
+				object1->scaleY -= .1;
+		}
+
+		if(pressedKeys.find(SDL_SCANCODE_O) != pressedKeys.end()){
+				object1->rotation += .1;
+		}
+		if(pressedKeys.find(SDL_SCANCODE_P) != pressedKeys.end()){
+				object1->rotation -= .1;
+		}
+	if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
+
+		object2->position.y -= 5;
+	}
+	if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
+
+		object2->position.y += 5;
+	}
+	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
+
+		object2->position.x += 5;
+	}
+	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
+
+		object2->position.x -= 5;
+	}
+
+	if(pressedKeys.find(SDL_SCANCODE_X) != pressedKeys.end()){
+
+					object2->scaleX += .1;
+					object2->scaleY += .1;
+	}
+	if(pressedKeys.find(SDL_SCANCODE_C) != pressedKeys.end()){
+
+			object2->scaleX -= .1;
+			object2->scaleY -= .1;
+	}
+
+	if(pressedKeys.find(SDL_SCANCODE_V) != pressedKeys.end()){
+			object2->rotation += .1;
+	}
+	if(pressedKeys.find(SDL_SCANCODE_B) != pressedKeys.end()){
+			object2->rotation -= .1;
+	}
+
+
+
 
 /*
 		if (pressedKeys.find(SDL_SCANCODE_W) != pressedKeys.end()) {

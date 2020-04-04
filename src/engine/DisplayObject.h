@@ -9,6 +9,9 @@
 #include <string>
 #include <fstream>
 
+#include "EventDispatcher.h"
+#include "Event.h"
+
 using namespace std;
 
 struct Hitbox{
@@ -52,10 +55,8 @@ public:
 	DisplayObject(string id, string path);
 	DisplayObject(string id, int red, int green, int blue);
 	virtual ~DisplayObject();
-
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
-
 	void loadTexture(string filepath);
 	void loadRGBTexture(int red, int green, int blue);
 	void setTexture(SDL_Texture* t);
@@ -83,6 +84,9 @@ public:
 	SDL_Point transformedLRight;
 	SDL_Point transformedLLeft;
 
+	int oldX;
+	int oldY;
+
 
 
 	//This rect is to allow spritesheet support in AnimatedSprite.h
@@ -109,19 +113,28 @@ public:
 	//These points will be the four corners.
 	//AffineTransform = getGlobalTransform
 	//Use Transformpoint to on 0,0
-	//0, width,
+	//width,0,
 	//o height,
 	//width, height
 	//THen free the affine Transform.
 
 
 
-	Hitbox getHitbox();
-	void saveHitbox();
+
 	void drawHitbox(SDL_Point globalPosition);
 	bool hitboxDrawn = false;
 	virtual void onCollision(DisplayObject * otherObject);
 
+
+
+	EventDispatcher* MyEventDispatcher; //Create an EventDispatcher for DOC when built.
+	//Then we can call it for all
+
+
+/*
+	virtual void callAddChildEvent(DisplayObject* ChildToAdd);
+	virtual void callRemoveChildEvent(DisplayObject* ChildToRemove);
+*/
 
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);

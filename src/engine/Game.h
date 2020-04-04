@@ -9,6 +9,7 @@
 #include <set>
 #include <SDL2/SDL_mixer.h>
 #include <map>
+#include "CollisionSystem.h"
 
 
 using namespace std;
@@ -40,6 +41,8 @@ public:
 
 	SDL_Joystick* joystick = NULL;
 	SDL_GameController *controller = NULL;
+
+	CollisionSystem* ourCollisionSystem;
 
 //	map<SDL_JoystickID , vector<uint8> > controllerButtonMap;
 	//map<SDL_JoystickID, int > ControllerDirection;

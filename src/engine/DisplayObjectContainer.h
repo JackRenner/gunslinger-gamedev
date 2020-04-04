@@ -5,7 +5,7 @@
 #include "DisplayObject.h"
 #include "AffineTransform.h"
 //#include "Event.h"
-#include "EventDispatcher.h"
+#include "GameTreeEvent.h"
 #include <string>
 #include <fstream>
 
@@ -40,12 +40,28 @@ public:
 
 	vector<DisplayObject*> children;
 
-	EventDispatcher* MyEventDispatcher; //Create an EventDispatcher for DOC when built.
-	//Then we can call it for all
+
+	//Parents pass down their eventDispatcher to their children, so all eventDispatchers will
+	//eventually link back to the Game if the objects are children of the game.
+	//However, this also means that if we switch scenes we need to disconnect all Event Dispatchers.
+	void swapEventDispatcher(EventDispatcher* mainEventDispatcher);
+	void addParentEventDispatcher();//Add the EventDispatcher possessed by the parent;
+	void setChildEventDispatcher(DisplayObject* myChild);
+
+
+
+
+
+
+	//Two approaches. The first is Floryan's approach which passes up the event to the parent.
+	//Second approach is to
+	void callAddChildEvent(DisplayObject* ChildToAdd);
+	void callRemoveChildEvent(DisplayObject* ChildToRemove);
+
+
+
 
 //	void addEventListener(CollisionSystem &ourCollisionSystem, string eventType);
-
-
 	//Call an Event on add and remove children
 	//notify subtree Change
 	//this->dispatchEvents

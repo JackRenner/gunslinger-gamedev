@@ -8,7 +8,12 @@
 #include "Event.h"
 #include "map"
 #include "vector"
+#include "set"
 #include "utility"
+#include "GameTreeEvent.h"
+#include "string"
+#include "iostream"
+#include <climits>
 using namespace std;
 
 class CollisionSystem : public EventListener{
@@ -56,18 +61,30 @@ public:
 	//Move these the difference between the two.
 
 
+	void resolveCollision(DisplayObject* obj1, DisplayObject* obj2);
+
+
+
+	void handleAddDisplayObject(GameTreeEvent* e);
+	void handleRemoveDisplayObject(GameTreeEvent* e);
+
+
+
 
 	//DisplayObjectContainer* ObjectTree;
 	std:: map<string, vector<DisplayObject*>*> ObjectsOfEachType;
-	std :: map<string, vector<string> > watchedForCollisions;
-	std:: map< pair <string, string>, bool > collisionMap;  //This got cleared.
+
+	std:: map< pair <string, string>, int > collisionTypeMap; //Eventually, replace objectsCollide with this to optimize
+	//But for the time being, I think that it may be a good idea to set it up this way.
 
 	vector< pair<string, string> > objectsCollide;
 
-	vector<string> CollisionIds;
+	//vector<string> CollisionIds;
+	bool IntersectChecker(SDL_Point* obj1, SDL_Point* obj2);
+	bool twoLineChecker(SDL_Point o1p1, SDL_Point o1p2, SDL_Point o2p1, SDL_Point o2p2 );
+	int orientationChecker(SDL_Point p1, SDL_Point p2, SDL_Point p3);
 
-
-
+	void setSpecialCollisionType(string type1, string type2, int);
 
 //In the player Object Class onCollision
 

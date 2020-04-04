@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cmath>
 
+
 #define PI 3.14159265
 
 DisplayObject::DisplayObject(){
@@ -14,9 +15,15 @@ DisplayObject::DisplayObject(){
 	texture = NULL;
 	curTexture = NULL;
 
-//
- this->myHitbox =  Hitbox();
  this->MyGlobalHitbox = new SDL_Point[4];
+
+ EventDispatcher* myEventDispatcher = new EventDispatcher();
+ this->MyEventDispatcher = myEventDispatcher;
+
+
+ 	SDL_Point* temp = this->getGlobalHitbox();
+ 	this->oldX = temp[3].x;
+ 	this->oldY = temp[3].y;
 }
 
 DisplayObject::DisplayObject(string id, string filepath){
@@ -25,9 +32,16 @@ DisplayObject::DisplayObject(string id, string filepath){
 
 	loadTexture(filepath);
 
-	this->myHitbox =  Hitbox();
 
 	this->MyGlobalHitbox = new SDL_Point[4];
+
+	EventDispatcher* myEventDispatcher = new EventDispatcher();
+	this->MyEventDispatcher = myEventDispatcher;
+
+		SDL_Point* temp = this->getGlobalHitbox();
+		this->oldX = temp[3].x;
+		this->oldY = temp[3].y;
+
 }
 
 DisplayObject::DisplayObject(string id, int red, int green, int blue){
@@ -41,6 +55,14 @@ DisplayObject::DisplayObject(string id, int red, int green, int blue){
 	this->loadRGBTexture(red, green, blue);
 
 	this->MyGlobalHitbox = new SDL_Point[4];
+
+	SDL_Point* temp = this->getGlobalHitbox();
+	this->oldX = temp[3].x;
+	this->oldY = temp[3].y;
+
+	EventDispatcher* myEventDispatcher = new EventDispatcher();
+	this->MyEventDispatcher = myEventDispatcher;
+
 }
 
 DisplayObject::~DisplayObject(){
@@ -50,6 +72,7 @@ DisplayObject::~DisplayObject(){
 	if(MyGlobalHitbox!= NULL){
 		free(MyGlobalHitbox);
 	}
+	free(MyEventDispatcher);
 }
 
 void DisplayObject::loadTexture(string filepath){
@@ -71,7 +94,10 @@ void DisplayObject::setTexture(SDL_Texture* t){
 }
 
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
-	this->saveHitbox();
+	//this->saveHitbox();
+		SDL_Point* temp = this->getGlobalHitbox();
+		this->oldX = temp[3].x;
+		this->oldY = temp[3].y;
 }
 
 void DisplayObject::setSourceRect(SDL_Rect* srcrect){
@@ -94,8 +120,11 @@ void DisplayObject::draw(AffineTransform &at){
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
 		if(this->hitboxDrawn){
-
-
+			this->getGlobalHitbox();
+			cout << this->MyGlobalHitbox[0].x << endl;
+			cout << this->MyGlobalHitbox[0].y <<endl;
+			cout << this->MyGlobalHitbox[3].x << endl;
+			cout << this->MyGlobalHitbox[3].y <<endl;
 //			this->drawHitbox( setGlobalTransform(globalTransform, this->pivot) );
 		 }
 		SDL_Rect dstrect = { origin.x, origin.y, w, h };
@@ -173,35 +202,6 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	}
 */
 
-	Hitbox DisplayObject:: getHitbox(){
-		return this->myHitbox;
-	}
-
-
-	void DisplayObject :: saveHitbox(){
-			//AffineTransform myTransform = AffineTransform();
-	//		this->setGlobalTransform(globalTransform, this->position);
-/*
-			SDL_Point upperRight = at.transformPoint(width, 0);
-			SDL_Point lowerRight = at.transformPoint(width, height);
-			SDL_Point corner = {0, 0};
-			int w = (int)distance(origin, upperRight);
-			int h = (int)distance(upperRight, lowerRight);
-*/
-/*
-
-		this->myHitbox.origin.x = this->position.x;
-		this->myHitbox.origin.y = this->position.y;
-		this->myHitbox.upperRight.x = this->pivot.x;
-		this->myHitbox.upperRight.y = this->pivot.y;
-		this->myHitbox.upperRight.x = transformedURight.x;
-		this->myHitbox.upperRight.y = transformedURight.x;
-		this->myHitbox.lowerLeft.x = transformedLLeft.x;
-		this->myHitbox.lowerLeft.y = transformedLLeft.y;
-		this->myHitbox.lowerRight.x = transformedLRight.x;
-		this->myHitbox.lowerRight.y = transformedLRight.y;
-*/
-	}
 
 
 
@@ -217,7 +217,6 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 				finalGlobalTransform = this->parent->getGlobalTransform();
 				finalGlobalTransform->translate(this->parent->pivot.x, this->parent->pivot.y);
 				applyTransformations(*finalGlobalTransform);
-
 			}
 			else{
 					finalGlobalTransform = new AffineTransform();
@@ -239,10 +238,17 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 
 
 		void DisplayObject :: onCollision(DisplayObject * otherObject){
-
 		}//Use this to specify what happens on hit with another object
 
+/*
+		void DisplayObject:: callAddChildEvent(DisplayObject* ChildToAdd){
+			cout << "ERROR: DO callAddChildEvent, This should never be called";
+		}
+		void DisplayObject:: callRemoveChildEvent(DisplayObject* ChildToRemove){
+			cout << "ERROR: DO called callRemoveChildEvent This should never be called";
+		}
 
+*/
 
 	void DisplayObject :: drawHitbox(SDL_Point globalPosition){
 /*

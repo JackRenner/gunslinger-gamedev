@@ -23,11 +23,12 @@ Game::Game(int windowWidth, int windowHeight){
 	initSDL();
 	TTF_Init();
 
-/*
-	CollisionSystem* ourCollisionSystem = new CollisionSystem();
-	this->MyEventDispatcher.addEventListener(ourCollisionSystem, "addObject");
-	this->MyEventDispatcher.addEventListener(ourCollisionSystem, "removeObject");
-*/
+ 	ourCollisionSystem = new CollisionSystem();
+
+	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "addObject");
+	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "removeObject");
+	ourCollisionSystem->watchForCollisions("Sprite", "Sprite");
+	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 
 Game::~Game(){
@@ -257,6 +258,8 @@ void Game::start(){
 void Game::update(set<SDL_Scancode> pressedKeys){
 	frameCounter++;
 	DisplayObjectContainer::update(pressedKeys);
+
+	this->ourCollisionSystem->update();
 }
 
 void Game::draw(AffineTransform &at){

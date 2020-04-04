@@ -8,7 +8,7 @@
 using namespace std;
 
 EventDispatcher::EventDispatcher(){
-	listeners = new unordered_map<string, vector<EventListener*>*>(); 
+	listeners = new unordered_map<string, vector<EventListener*>*>();
 }
 
 EventDispatcher::~EventDispatcher(){
