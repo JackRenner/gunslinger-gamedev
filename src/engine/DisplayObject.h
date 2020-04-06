@@ -84,8 +84,12 @@ public:
 	SDL_Point transformedLRight;
 	SDL_Point transformedLLeft;
 
-	int oldX;
-	int oldY;
+
+	int oldMinX;
+	int oldMaxX;
+	int oldMinY;
+	int oldMaxY;
+
 
 
 

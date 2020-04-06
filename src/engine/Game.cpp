@@ -24,10 +24,9 @@ Game::Game(int windowWidth, int windowHeight){
 	TTF_Init();
 
  	ourCollisionSystem = new CollisionSystem();
-
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "addObject");
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "removeObject");
-	ourCollisionSystem->watchForCollisions("Sprite", "Sprite");
+	ourCollisionSystem->watchForCollisions("MyObject", "MyObject");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 

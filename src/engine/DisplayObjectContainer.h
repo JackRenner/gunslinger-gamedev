@@ -40,6 +40,8 @@ public:
 
 	vector<DisplayObject*> children;
 
+	
+
 
 	//Parents pass down their eventDispatcher to their children, so all eventDispatchers will
 	//eventually link back to the Game if the objects are children of the game.

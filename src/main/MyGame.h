@@ -9,6 +9,7 @@
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
+#include "MyObject.h"
 
 
 using namespace std;
@@ -53,8 +54,8 @@ private:
 	Scene* cameraDemoScene;
 
 	AnimatedSprite* character;
-	Sprite* object1;
-	Sprite* object2;
+	MyObject* object1;
+	MyObject* object2;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;

@@ -27,7 +27,7 @@ void CollisionSystem:: update(){
               cout<< OneObject->position.x;
               OneObject->onCollision(SecondObject);
               SecondObject->onCollision(OneObject);
-              resolveCollision(OneObject, SecondObject);
+
           }
         }
       }
@@ -290,9 +290,11 @@ void CollisionSystem :: setSpecialCollisionType(string type1, string type2, int 
 
 void CollisionSystem :: resolveCollision(DisplayObject* obj1, DisplayObject* obj2){
 //  cout << "OLD VS NEW: ";
+/*
   if(obj1->oldX != (obj1->getGlobalHitbox())[3].x) {
     cout << "OLD VS NEW: " << obj1->oldX << " : " << (obj1->getGlobalHitbox())[3].x <<endl;
    }
+   */
 }
 
 
@@ -304,7 +306,11 @@ void CollisionSystem :: resolveCollision(DisplayObject* obj1, DisplayObject* obj
 //xDelta1 and yDelta1 are the amount d moved before causing the collision.
 //xDelta2 and yDelta2 are the amount other moved before causing the collision.
 void CollisionSystem :: resolveCollision(DisplayObject* d, DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
-
-
+  cout << "COLLISION SYSTEM's resolve Collision is being called."<<endl;
+  cout << "XDELTA: " << xDelta1 << " : YDelta: " << yDelta1 <<endl;
+  d->position.x -= xDelta1;
+  d->position.y -= yDelta1;
+  other->position.x -= xDelta2;
+  other->position.y -= yDelta2;
 
 }

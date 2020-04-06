@@ -21,9 +21,7 @@ DisplayObject::DisplayObject(){
  this->MyEventDispatcher = myEventDispatcher;
 
 
- 	SDL_Point* temp = this->getGlobalHitbox();
- 	this->oldX = temp[3].x;
- 	this->oldY = temp[3].y;
+
 }
 
 DisplayObject::DisplayObject(string id, string filepath){
@@ -37,10 +35,6 @@ DisplayObject::DisplayObject(string id, string filepath){
 
 	EventDispatcher* myEventDispatcher = new EventDispatcher();
 	this->MyEventDispatcher = myEventDispatcher;
-
-		SDL_Point* temp = this->getGlobalHitbox();
-		this->oldX = temp[3].x;
-		this->oldY = temp[3].y;
 
 }
 
@@ -56,9 +50,6 @@ DisplayObject::DisplayObject(string id, int red, int green, int blue){
 
 	this->MyGlobalHitbox = new SDL_Point[4];
 
-	SDL_Point* temp = this->getGlobalHitbox();
-	this->oldX = temp[3].x;
-	this->oldY = temp[3].y;
 
 	EventDispatcher* myEventDispatcher = new EventDispatcher();
 	this->MyEventDispatcher = myEventDispatcher;
@@ -94,10 +85,8 @@ void DisplayObject::setTexture(SDL_Texture* t){
 }
 
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
-	//this->saveHitbox();
 		SDL_Point* temp = this->getGlobalHitbox();
-		this->oldX = temp[3].x;
-		this->oldY = temp[3].y;
+
 }
 
 void DisplayObject::setSourceRect(SDL_Rect* srcrect){

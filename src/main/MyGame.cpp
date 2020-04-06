@@ -22,8 +22,8 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character->addAnimation("./resources/character/", "Walk", 20, 2, true);
 	character->addAnimation("./resources/character/dead_spritesheet.png", "./resources/character/dead_spritesheet.xml", "Dead", 12, 5, true);
 
-	object1 = new Sprite("type1", "./resources/coloredSquare/redSquare.png");
-	object2 = new Sprite("type2", "./resources/coloredSquare/blueSquare.jpg");
+	object1 = new MyObject("type1", "./resources/coloredSquare/redSquare.png");
+	object2 = new MyObject("type2", "./resources/coloredSquare/blueSquare.jpg");
 
 	this->setScene(cameraDemoScene);
 	this->addChild(character);
@@ -79,6 +79,8 @@ MyGame::~MyGame() {
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
+	object1->savePosition();
+	object2->savePosition();
 	if (pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()) {
 		gunshot->playSFX();
 	}
@@ -96,7 +98,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		character->position.x += 5;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_A) != pressedKeys.end()) {
-
 		character->position.x -= 5;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_Q) != pressedKeys.end()) {
@@ -133,7 +134,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			character->scaleX -= .1;
 			character->scaleY -= .1;
 	}
-
 
 
 
@@ -201,6 +201,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if(pressedKeys.find(SDL_SCANCODE_B) != pressedKeys.end()){
 			object2->rotation -= .1;
 	}
+
 
 
 
