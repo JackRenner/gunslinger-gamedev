@@ -163,6 +163,8 @@ void AnimatedSprite::update(set<SDL_Scancode> pressedKeys) {
             DisplayObject::setTexture(current->frames[current->curFrame]->texture);
             if(current->fromSheet) {
                 DisplayObject::setSourceRect(current->rects[current->curFrame]);
+            } else {
+                DisplayObject::setSourceRect(NULL);
             }
         }
 
