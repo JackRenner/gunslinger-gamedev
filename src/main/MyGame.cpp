@@ -19,8 +19,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character = new AnimatedSprite("character");
 	character->addAnimation("./resources/character/", "Run", 20, 2, true);
 	character->addAnimation("./resources/character/", "Walk", 20, 2, true);
-	character->addAnimation("./resources/character/dead_spritesheet.png", "./resources/character/dead_spritesheet.xml", "Dead", 12, 5, true);
-
+	character->addAnimation("./resources/character/", "Dead", 30, 2, true);
 	this->setScene(cameraDemoScene);
 	this->addChild(character);
 	character->position = { 300, 1100 };
