@@ -55,13 +55,11 @@ public:
 
 
 	set<Uint8> GameButtonUp;
-
-
-
 	set<SDL_ControllerButtonEvent> GameButtonDown;
 //	set<SDL_cbutton> GameButtonDown;
-
 	set <SDL_JoyAxisEvent> JoyStickMovement;
+	//virtual void saveAllPositions();
+
 
 private:
 

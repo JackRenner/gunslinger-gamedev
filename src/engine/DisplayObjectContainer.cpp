@@ -197,3 +197,10 @@ void DisplayObjectContainer :: callRemoveChildEvent(DisplayObject* ChildToRemove
     free(removeEvent);
   }
 }
+
+ void DisplayObjectContainer :: saveAllPositions(){
+  DisplayObject::savePosition();
+  for (int i = 0; i < children.size(); i++) {
+      children[i]-> saveAllPositions();
+  }
+}

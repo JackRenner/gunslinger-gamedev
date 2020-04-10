@@ -79,8 +79,9 @@ MyGame::~MyGame() {
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
-	object1->savePosition();
-	object2->savePosition();
+	//object1->savePosition();
+	//object2->savePosition();
+	this->saveAllPositions();
 	if (pressedKeys.find(SDL_SCANCODE_M) != pressedKeys.end()) {
 		gunshot->playSFX();
 	}
@@ -177,7 +178,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	}
 	if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
 
-		object2->position.x += 5;
+		object2->position.x += 10;
 	}
 	if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
 

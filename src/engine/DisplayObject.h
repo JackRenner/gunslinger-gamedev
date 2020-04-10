@@ -128,17 +128,14 @@ public:
 	void drawHitbox(SDL_Point globalPosition);
 	bool hitboxDrawn = false;
 	virtual void onCollision(DisplayObject * otherObject);
-
+	virtual void savePosition();
+	virtual void saveAllPositions();
+	int oldX;
+	int oldY;
 
 
 	EventDispatcher* MyEventDispatcher; //Create an EventDispatcher for DOC when built.
 	//Then we can call it for all
-
-
-/*
-	virtual void callAddChildEvent(DisplayObject* ChildToAdd);
-	virtual void callRemoveChildEvent(DisplayObject* ChildToRemove);
-*/
 
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);

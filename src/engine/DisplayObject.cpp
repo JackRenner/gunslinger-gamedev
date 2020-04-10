@@ -169,32 +169,6 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	return (atan2(y, x) * 180 / PI);
 }
 
-/*
-	void DisplayObject:: saveHitbox(SDL_Point transformedOrigin, SDL_Point transformedURight,	SDL_Point transformedLRight, SDL_Point transformedLLeft, int width, int height){
-			this->myHitbox.origin.x = transformedOrigin.x;
-			this->myHitbox.origin.y = transformedOrigin.x;
-
-			this->myHitbox.upperRight.x = transformedURight.x;
-			this->myHitbox.upperRight.y = transformedURight.x;
-			this->myHitbox.lowerLeft.x = transformedLLeft.x;
-			this->myHitbox.lowerLeft.y = transformedLLeft.y;
-			this->myHitbox.lowerRight.x = transformedLRight.x;
-			this->myHitbox.lowerRight.y = transformedLRight.y;
-
-//The upper Left has the same triangle relationship.
-			this->myHitbox.upperLeft.x = transformedLLeft.x - (  transformedLRight.x - transformedLLeft.x);
-			this->myHitbox.upperLeft.y = transformedURight.y - (transformedLRight.y - transformedLLeft.y );
-
-
-			this->myHitbox.width =  width;
-			this->myHitbox.height = height;
-	}
-*/
-
-
-
-
-
 //Fixed
 //Matrix multiplication is not communative. As a result it needs to be done in order.
 		AffineTransform* DisplayObject ::  getGlobalTransform(){
@@ -227,17 +201,10 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 
 
 		void DisplayObject :: onCollision(DisplayObject * otherObject){
+			cout << "DisplayObjects onCollision is being called." <<endl;
+		    Game::instance->ourCollisionSystem->resolveCollision(this, otherObject , this->position.x - oldX, this->position.y-oldY, 0, 0);
+
 		}//Use this to specify what happens on hit with another object
-
-/*
-		void DisplayObject:: callAddChildEvent(DisplayObject* ChildToAdd){
-			cout << "ERROR: DO callAddChildEvent, This should never be called";
-		}
-		void DisplayObject:: callRemoveChildEvent(DisplayObject* ChildToRemove){
-			cout << "ERROR: DO called callRemoveChildEvent This should never be called";
-		}
-
-*/
 
 	void DisplayObject :: drawHitbox(SDL_Point globalPosition){
 /*
@@ -307,5 +274,14 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 
 //		cout<< "DrawHitboxPressed";
 //		SDL_RenderCopyEx(Game::renderer, curTexture, srcrect, &dstrect, calculateRotation(origin, upperRight), &corner, flip);
-
 	};
+
+	void DisplayObject :: savePosition(){
+		//cout << "DO savePosition called" <<endl;
+		this->oldX = position.x;
+	  this->oldY = position.y;
+	};
+	void DisplayObject:: saveAllPositions(){
+		cout << "Display Object's Save all Positions Called";
+		this-> savePosition();
+	}

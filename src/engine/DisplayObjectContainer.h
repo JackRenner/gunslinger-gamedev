@@ -40,7 +40,7 @@ public:
 
 	vector<DisplayObject*> children;
 
-	
+
 
 
 	//Parents pass down their eventDispatcher to their children, so all eventDispatchers will
@@ -51,6 +51,7 @@ public:
 	void setChildEventDispatcher(DisplayObject* myChild);
 
 
+	virtual void saveAllPositions();
 
 
 

@@ -61,8 +61,6 @@ public:
 	//Move these the difference between the two.
 
 
-	void resolveCollision(DisplayObject* obj1, DisplayObject* obj2);
-
 
 
 	void handleAddDisplayObject(GameTreeEvent* e);
@@ -85,6 +83,8 @@ public:
 	int orientationChecker(SDL_Point p1, SDL_Point p2, SDL_Point p3);
 
 	void setSpecialCollisionType(string type1, string type2, int);
+	void binaryXChecker(DisplayObject* d, DisplayObject* other, int xDelta1, int xDelta2 );
+	void binaryYChecker(DisplayObject* d, DisplayObject* other, int yDelta1, int yDelta2);
 
 //In the player Object Class onCollision
 

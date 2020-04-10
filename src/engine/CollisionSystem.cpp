@@ -214,15 +214,19 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 //Third Set of obj1
 
     else if( twoLineChecker(obj1[1], obj1[3], obj2[0],obj2[1]) ){
+      //cout <<"131" <<endl;
       return true;
     }
     else if( twoLineChecker(obj1[1], obj1[3], obj2[0],obj2[2])){
+    //  cout <<"132" <<endl;
       return true;
     }
     else if( twoLineChecker(obj1[1], obj1[3], obj2[1],obj2[3])){
+      //cout <<"133" <<endl;
       return true;
     }
     else if( twoLineChecker(obj1[1], obj1[3], obj2[2], obj2[3])){
+      //cout <<"134"<<endl;
       return true;
     }
 //Set 4
@@ -247,7 +251,6 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
     int o2 = orientationChecker(o1p1, o1p2, o2p2);
     int o3 = orientationChecker(o2p1, o2p2, o1p1);
     int o4 = orientationChecker(o2p1, o2p2, o1p2);
-
     if(o1 != o2 && o3 != o4){
         return true;
     }
@@ -259,8 +262,8 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 
   int CollisionSystem :: orientationChecker(SDL_Point p1, SDL_Point p2, SDL_Point p3){
     //https://www.geeksforgeeks.org/orientation-3-ordered-points/
-    int slopeP1P2 = (p2.y - p1.y) *(p3.x - p2.x); // Multiplying instead of dividing removes floating point execption
-    int slopeP2P3 = (p3.y - p2.y) *  (p2.x - p1.x); //Multiplying instead of dividing removes floatign point execption.
+    float slopeP1P2 = (p2.y - p1.y) *(p3.x - p2.x); // Multiplying instead of dividing removes floating point execption
+    float slopeP2P3 = (p3.y - p2.y) * (p2.x - p1.x); //Multiplying instead of dividing removes floatign point execption.
     //Equivalent of cross multiplication dy1/dx1 - dy2/dx2 = ?
     //dy1 / dx1 = ? + dy2/dx2
     //dy1 dx2 - dy2 dx1 = ?*dx1*dx2
@@ -288,14 +291,6 @@ void CollisionSystem :: setSpecialCollisionType(string type1, string type2, int 
 
 }
 
-void CollisionSystem :: resolveCollision(DisplayObject* obj1, DisplayObject* obj2){
-//  cout << "OLD VS NEW: ";
-/*
-  if(obj1->oldX != (obj1->getGlobalHitbox())[3].x) {
-    cout << "OLD VS NEW: " << obj1->oldX << " : " << (obj1->getGlobalHitbox())[3].x <<endl;
-   }
-   */
-}
 
 
 
@@ -312,5 +307,124 @@ void CollisionSystem :: resolveCollision(DisplayObject* d, DisplayObject* other,
   d->position.y -= yDelta1;
   other->position.x -= xDelta2;
   other->position.y -= yDelta2;
+  //Positions have been reset to pre-collision.
 
+  binaryXChecker(d, other, xDelta1/2, xDelta2/2);
+  binaryYChecker(d, other, yDelta1/2, yDelta2/2);
+
+}
+/*
+void CollisionSystem:: binaryXChecker(DisplayObject* d, DisplayObject* other, int xDelta1, int xDelta2){
+  cout << "BinaryXCheckerCalled x :" << xDelta1 << " : " << xDelta2 <<endl;
+  int ShrinkByX1 = xDelta1/2;
+  int ShrinkByX2 = xDelta2/2;
+  int maxDeltaX1 = 0;
+  int maxDeltaX2 = 0;
+  maxDeltaX1 += ShrinkByX1;
+  maxDeltaX2 += ShrinkByX2;
+
+
+  if (ShrinkByX1 < 1 && ShrinkByX1 > -1 ) {
+    ShrinkByX1 = 0;
+    maxDeltaX1 = 0;
+  }
+  if (ShrinkByX2 < 1 && ShrinkByX2 > -1 ) {
+      ShrinkByX2 = 0;
+      maxDeltaX2 = 0;
+  }
+  if( (ShrinkByX1 < 1) && (ShrinkByX1 > -1) && (ShrinkByX2 < 1)  && (ShrinkByX2 > -1)){
+    cout << "finished"<<endl;
+
+
+    return;
+  }else{
+      d->position.x += maxDeltaX1;
+      other->position.x += maxDeltaX2;
+
+      if( collidesWith(d, other) ){
+        d->position.x -= maxDeltaX1;
+        other->position.x -= maxDeltaX2;
+        ShrinkByX1 = ShrinkByX1/2;
+        ShrinkByX2 = ShrinkByX2/2;
+        binaryXChecker(d, other, ShrinkByX1, ShrinkByX2);
+      }
+      else{
+        ShrinkByX1 = ShrinkByX1/2;
+        ShrinkByX2 = ShrinkByX2/2;
+        binaryXChecker(d, other, ShrinkByX1, ShrinkByX2);
+      }
+
+  }
+}
+
+*/
+
+
+void CollisionSystem:: binaryXChecker(DisplayObject* d, DisplayObject* other, int xDelta1, int xDelta2){
+  cout << "BinaryXCheckerCalled Y :" << xDelta1 << " : " << xDelta2 <<endl;
+
+  int ShrinkByX1 = xDelta1;
+  int ShrinkByX2 = xDelta2;
+  int maxDeltaX1 = 0;
+  int maxDeltaX2 = 0;
+  maxDeltaX1 += ShrinkByX1;
+  maxDeltaX2 += ShrinkByX2;
+
+  d->position.x += maxDeltaX1;
+  other->position.x += maxDeltaX2;
+  if( collidesWith(d, other) ){
+    d->position.x -= maxDeltaX1;
+    other->position.x -= maxDeltaX2;
+    ShrinkByX1 = ShrinkByX1/2;
+    ShrinkByX2 = ShrinkByX2/2;
+    if( (ShrinkByX1 == 0) && (ShrinkByX2 == 0) ){
+      cout << "finished"<<endl;
+      return;
+    }
+    binaryXChecker(d, other, ShrinkByX1, ShrinkByX2);
+  }
+  else{
+    ShrinkByX1 = ShrinkByX1/2;
+    ShrinkByX2 = ShrinkByX2/2;
+      if( (ShrinkByX1 == 0) && (ShrinkByX2 == 0) ){
+        cout << "finished"<<endl;
+        return;
+      }
+    binaryXChecker(d, other, ShrinkByX1, ShrinkByX2);
+  }
+}
+
+
+void CollisionSystem :: binaryYChecker(DisplayObject* d, DisplayObject* other, int yDelta1, int yDelta2){
+  cout << "BinaryYCheckerCalled Y :" << yDelta1 << " : " << yDelta2 <<endl;
+
+  int ShrinkByY1 = yDelta1;
+  int ShrinkByY2 = yDelta2;
+  int maxDeltaY1 = 0;
+  int maxDeltaY2 = 0;
+  maxDeltaY1 += ShrinkByY1;
+  maxDeltaY2 += ShrinkByY2;
+
+  d->position.y += maxDeltaY1;
+  other->position.y += maxDeltaY2;
+  if( collidesWith(d, other) ){
+    d->position.y -= maxDeltaY1;
+    other->position.y -= maxDeltaY2;
+    ShrinkByY1 = ShrinkByY1/2;
+    ShrinkByY2 = ShrinkByY2/2;
+    if( (ShrinkByY1 == 0) && (ShrinkByY2 == 0) ){
+      cout << "finished"<<endl;
+      return;
+    }
+    binaryYChecker(d, other, ShrinkByY1, ShrinkByY2);
+  }
+  else{
+    ShrinkByY1 = ShrinkByY1/2;
+    ShrinkByY2 = ShrinkByY2/2;
+      if( (ShrinkByY1 == 0) && (ShrinkByY2 == 0) ){
+        cout << "finished"<<endl;
+        return;
+      }
+    binaryYChecker(d, other, ShrinkByY1, ShrinkByY2);
+  }
 }
