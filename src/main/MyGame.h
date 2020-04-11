@@ -22,6 +22,8 @@
 #include "../engine/SceneInfo.h"
 #include "../engine/ui/TextBox.h"
 #include "../engine/ui/HealthBar.h"
+#include "MyObject.h"
+
 
 using namespace std;
 
@@ -102,6 +104,10 @@ private:
 	Sprite* healthBackground;
 
 	DisplayObjectContainer* foreground;
+	Scene* cameraDemoScene;
+
+	MyObject* object1;
+	MyObject* object2;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;

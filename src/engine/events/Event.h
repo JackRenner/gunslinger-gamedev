@@ -20,7 +20,7 @@ public:
 private:
 	string eventType = "";
 	EventDispatcher* source;
-	
+
 };
 
 #endif

@@ -70,7 +70,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 }
 
 MyGame::~MyGame() {
-	
+
 }
 
 
@@ -97,7 +97,9 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			thug1LakeStill2->shoot -= 40;
 			thug1LakeStill2->shots_fired ++;
 		}
-	}
+	
+	this->saveAllPositions();
+	
 	if(mark1LakeStill3->shoot > 0) {
 		benemy2 = new Benemy((AnimatedSprite*)mark1LakeStill3, character->position.x, character->position.y, 5, "bullet");
 		benemy2->distance = 20;
@@ -259,7 +261,7 @@ void MyGame::enforceCameraBounds() {
 
 	SDL_Point upper_left = boundCalc.transformPoint(room.bounds.x, room.bounds.y);
 	SDL_Point lower_right = boundCalc.transformPoint(room.bounds.x + room.bounds.w, room.bounds.y + room.bounds.h);
-	
+
 	// check right bound
 	if (room.check_right) {
 		if (gameCamera.x + gameCamera.viewportWidth > lower_right.x)
