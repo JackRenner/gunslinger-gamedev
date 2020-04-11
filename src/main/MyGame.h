@@ -5,7 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include "../engine/Game.h"
-#include "../engine/Arrow.h"
+#include "../engine/ArrowGuy.h"
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Player.h"
@@ -59,6 +59,7 @@ private:
 
 	TextBox* test;
 
+	// TOWN SCENES
 	Scene* townScene;
 	Scene* sheriffScene;
 	Scene* storeScene;
@@ -67,6 +68,9 @@ private:
 	Scene* postScene;
 	Scene* cantinaScene;
 	Scene* drugScene;
+
+	// TOWN NPCS
+	DisplayObject* storekeeper;
 
 	Scene* lake1;
 	Scene* lake2;
@@ -87,7 +91,7 @@ private:
 	Wolf* wolf2LakeStill1;
 	GangThug* thug1LakeStill2;
 	GangMarksman* mark1LakeStill3;
-	Arrow* arrow1LakeStill4;
+	ArrowGuy* arrow1LakeStill4;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;

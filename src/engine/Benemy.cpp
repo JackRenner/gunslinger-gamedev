@@ -8,14 +8,14 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-Benemy::Benemy(AnimatedSprite* sayu, int x, int y, int velocity) : AnimatedSprite("Benemy"){
+Benemy::Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon) : AnimatedSprite("Benemy"){
 	this->type = "Benemy";
 	this->sayu = sayu;
 	this->targX = x;
 	this->width = 100;
 	this->height = 100;
-	this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
-	this->play("bullet");
+	this->addAnimation("resources/weapons/", weapon, 1, 1, true);
+	this->play(weapon);
 	this->targY = y;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;

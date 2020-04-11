@@ -83,7 +83,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	}
 	// Demo for enemies
 	if(thug1LakeStill2->shoot > 0) {
-		benemy = new Benemy((AnimatedSprite*)thug1LakeStill2, character->position.x, character->position.y, 5);
+		benemy = new Benemy((AnimatedSprite*)thug1LakeStill2, character->position.x, character->position.y, 5, "bullet");
 		benemy->distance = 20;
 		this->addChild(benemy);
 		benemy->position = {thug1LakeStill2->position.x, thug1LakeStill2->position.y };
@@ -99,7 +99,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		}
 	}
 	if(mark1LakeStill3->shoot > 0) {
-		benemy2 = new Benemy((AnimatedSprite*)mark1LakeStill3, character->position.x, character->position.y, 5);
+		benemy2 = new Benemy((AnimatedSprite*)mark1LakeStill3, character->position.x, character->position.y, 5, "bullet");
 		benemy2->distance = 20;
 		this->addChild(benemy2);
 		benemy2->position = {mark1LakeStill3->position.x, mark1LakeStill3->position.y };
@@ -109,7 +109,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		mark1LakeStill3->shoot -= 80;
 	}
 	if(arrow1LakeStill4->shoot > 0) {
-		benemy3 = new Benemy((AnimatedSprite*)arrow1LakeStill4, character->position.x, character->position.y, 5);
+		benemy3 = new Benemy((AnimatedSprite*)arrow1LakeStill4, character->position.x, character->position.y, 5, "Arrow90");
 		benemy3->distance = 20;
 		this->addChild(benemy3);
 		benemy3->position = {arrow1LakeStill4->position.x, arrow1LakeStill4->position.y };
@@ -383,6 +383,12 @@ void MyGame::initTown() {
 	sceneInfo.push_back(SceneInfo(postScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 5
 	sceneInfo.push_back(SceneInfo(cantinaScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 6
 	sceneInfo.push_back(SceneInfo(drugScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 7
+
+	// add friendly NPCs to Town
+	storekeeper = new DisplayObject("storekeeper", "./resources/friendlies/storekeeper.png");
+	storeScene->addChild(storekeeper);
+	storekeeper->position.x = 500;
+	storekeeper->position.y = 500;
 }
 
 void MyGame::initLake() {
@@ -523,7 +529,7 @@ void MyGame::initLake() {
 	mark1LakeStill3->width = 90;
 	mark1LakeStill3->play("GangMarksmanLeft");
 
-	arrow1LakeStill4 = new Arrow((Player*)character);
+	arrow1LakeStill4 = new ArrowGuy((Player*)character);
 	arrow1LakeStill4->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
 	lake4->addChild(arrow1LakeStill4);
 	arrow1LakeStill4->position = { 900, 150 };

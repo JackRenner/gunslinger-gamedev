@@ -16,7 +16,7 @@ using namespace std;
 class Benemy : public AnimatedSprite{
 
 public:
-	Benemy(AnimatedSprite* sayu, int x, int y, int velocity);
+	Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
