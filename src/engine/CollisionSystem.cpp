@@ -11,9 +11,23 @@ CollisionSystem :: ~CollisionSystem(){
 void CollisionSystem:: update(){
 // Take the list of collision types and the display tree and check each object against each other.
 // Only check types within the list.
-//
+  bool FirstObjectNotFound = false;
+  bool SecondObjectNotFound = false;
   for(pair<string,string> collisionPair : objectsCollide){
     //cout<< "UPDATE IS CALLED" <<endl;
+
+
+    if(ObjectsOfEachType.find(collisionPair.first) == ObjectsOfEachType.end() ){
+      //First Object Type not Found
+    }
+    else if( ObjectsOfEachType.find(collisionPair.first) == ObjectsOfEachType.end()  ){
+      //Second Object Type Not Found
+    }
+    else{
+
+
+
+
     for(DisplayObject* OneObject : *ObjectsOfEachType[collisionPair.first] ){
       //cout << OneObject->id;
       for(DisplayObject* SecondObject : *ObjectsOfEachType[collisionPair.second] ){
@@ -36,7 +50,7 @@ void CollisionSystem:: update(){
     }
 
 
-
+  }
   }
 
 }
