@@ -5,6 +5,7 @@
 #include "AnimatedSprite.h"
 #include "Sprite.h"
 #include "Controls.h"
+#include "CollisionSystem.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ Player::Player() : AnimatedSprite("Player"){
 	// this->height = 454;
 	// this->scaleX = 0.15;
 	// this->scaleY = 0.15;
-
+	
 	this->addAnimation("resources/character/", "FaceUp", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceRight", 1, 1, true);

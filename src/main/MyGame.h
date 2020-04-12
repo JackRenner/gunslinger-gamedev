@@ -55,6 +55,8 @@ public:
 	void playerShooting(int gun, string dir);
 	void reloadGun(int gun);
 
+	map<Benemy*, GangThug*> thug_benemies;
+
 private:
 
 	Scene* curScene = NULL;
@@ -88,6 +90,8 @@ private:
 	AnimatedSprite* bullet;
 	
 	HealthBar* playerHealth;
+
+	vector<GangThug*> gang_thugs;
 
 	Wolf* wolf1LakeStill1;
 	Wolf* wolf2LakeStill1;

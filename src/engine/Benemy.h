@@ -40,9 +40,11 @@ public:
 	int iFrameCount = 0;
 	int numIFrames = 0;
     int distance = 20;
+
+    bool clean = false;
 private:
     AnimatedSprite* sayu;
-    bool clean = false;
+    
     int state = 0;
 
     int targX = 0;
@@ -52,8 +54,8 @@ private:
     SDL_Point initial;
 
 
-    double vel = 4;
-    double maxVel = 20;
+    double vel = 2;
+    double maxVel = 10;
     double maxRotVel = 20;
 
     int pauseCount = 0;

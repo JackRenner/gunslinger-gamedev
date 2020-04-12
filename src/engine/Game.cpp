@@ -26,21 +26,14 @@ Game::Game(int windowWidth, int windowHeight){
  	ourCollisionSystem = new CollisionSystem();
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "addObject");
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "removeObject");
-	ourCollisionSystem->watchForCollisions("MyObject", "MyObject");
+	// ourCollisionSystem->watchForCollisions("MyObject", "MyObject");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 
-<<<<<<< HEAD
-// Game::~Game(){
-// 	DisplayObjectContainer::~DisplayObjectContainer();
-// 	quitSDL();
-// }
-=======
 Game::~Game(){
 	// DisplayObjectContainer::~DisplayObjectContainer ();
 	quitSDL();
 }
->>>>>>> collisionSystem2
 
 void Game::quitSDL(){
 	cout << "Quitting sdl" << endl;
@@ -264,11 +257,8 @@ void Game::start(){
 void Game::update(set<SDL_Scancode> pressedKeys){
 	frameCounter++;
 	DisplayObjectContainer::update(pressedKeys);
-<<<<<<< HEAD
 	TweenJuggler::getInstance()->nextFrame();
-=======
 	this->ourCollisionSystem->update();
->>>>>>> collisionSystem2
 }
 
 

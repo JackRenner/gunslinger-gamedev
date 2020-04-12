@@ -77,29 +77,37 @@ MyGame::~MyGame() {
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	controls::update(pressedKeys);
 
+	this->saveAllPositions();
+
 	//Demo trigger for taking damage to show health bar depletion
 	if(controls::holdSpace()){
 		character->takeDamage(1);
 	}
 	// Demo for enemies
-	if(thug1LakeStill2->shoot > 0) {
-		benemy = new Benemy((AnimatedSprite*)thug1LakeStill2, character->position.x, character->position.y, 5, "bullet");
-		benemy->distance = 20;
-		this->addChild(benemy);
-		benemy->position = {thug1LakeStill2->position.x, thug1LakeStill2->position.y };
-		benemy->pivot = { benemy->width / 2, benemy->height / 2 };
-		benemy->scaleX = 1;
-		benemy->scaleY = 1;
-		if (thug1LakeStill2->shots_fired == 5) {
-			thug1LakeStill2->shoot -= 120;
-			thug1LakeStill2->shots_fired = 0;
-		} else{
-			thug1LakeStill2->shoot -= 40;
-			thug1LakeStill2->shots_fired ++;
+
+	// need to make these for loops that loop through for each type of enemy
+
+	// GANG THUG LOOP
+	for (GangThug* thug: gang_thugs) {
+		if(thug->shoot > 0) {
+			benemy = new Benemy((AnimatedSprite*)thug, character->position.x, character->position.y, 6, "bullet");
+			benemy->distance = 20;
+			this->addChild(benemy);
+			benemy->position = {thug->position.x, thug->position.y };
+			benemy->pivot = { benemy->width / 2, benemy->height / 2 };
+			benemy->scaleX = 1;
+			benemy->scaleY = 1;
+			if (thug->shots_fired == 5) {
+				thug->shoot -= 120;
+				thug->shots_fired = 0;
+			} else{
+				thug->shoot -= 40;
+				thug->shots_fired ++;
+			}
+			thug_benemies[benemy] = thug;
 		}
-	
-	this->saveAllPositions();
-	
+	}
+		
 	if(mark1LakeStill3->shoot > 0) {
 		benemy2 = new Benemy((AnimatedSprite*)mark1LakeStill3, character->position.x, character->position.y, 5, "bullet");
 		benemy2->distance = 20;
@@ -121,8 +129,19 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		arrow1LakeStill4->shoot -= 80;
 	}
 	
-
-	
+	for (std::map<Benemy*, GangThug*>::iterator it=thug_benemies.begin(); it!=thug_benemies.end(); ++it) {
+		std::cout<<"right before calling it\n";
+		if (it->first->clean != true) {
+			if (this->ourCollisionSystem->collidesWith(it->first, character)) {
+				character->takeDamage(1);
+			}
+		} else {
+			std::cout << "ERASING\n";
+			thug_benemies.erase(it->first);
+			std::cout << "AFTER ERASING\n";
+			break;
+		}
+	}
 
 	if (!transLock) {
 		// gun select
@@ -222,8 +241,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			}
 		}
 	}
-
-
+	this->ourCollisionSystem->update();
 	enforceCameraBounds();
 }
 
@@ -505,6 +523,7 @@ void MyGame::initLake() {
 	// wolf2LakeStill1->width = 50;
 	// wolf2LakeStill1->play("WolfLeft");
 
+	// adding gang thugs...
 	thug1LakeStill2 = new GangThug((Player*)character);	
 	thug1LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 	thug1LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -513,10 +532,11 @@ void MyGame::initLake() {
 	lake2->addChild(thug1LakeStill2);
 	thug1LakeStill2->position = { 500, 500 };
 	thug1LakeStill2->pivot = { thug1LakeStill2->width / 2, thug1LakeStill2->height / 2 };
-	thug1LakeStill2->scaleX = 0.5;
-	thug1LakeStill2->scaleY = 0.5;
+	thug1LakeStill2->scaleX = 1.0;
+	thug1LakeStill2->scaleY = 1.0;
 	thug1LakeStill2->width = 90;
 	thug1LakeStill2->play("GangThugLeft");
+	gang_thugs.push_back(thug1LakeStill2);
 
 	mark1LakeStill3 = new GangMarksman((Player*)character);	
 	mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);

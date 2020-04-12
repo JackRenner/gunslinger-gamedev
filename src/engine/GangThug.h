@@ -45,7 +45,6 @@ public:
 
     int fire();
 
-
 	int shoot = 0;
 	/* Health and such */
 	int health = 100;

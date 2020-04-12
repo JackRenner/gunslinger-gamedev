@@ -138,6 +138,12 @@ public:
 	int oldX;
 	int oldY;
 
+	SDL_Texture* texture = NULL;
+	SDL_Surface* image = NULL;
+
+	/* Texture currently being drawn. Equal to texture for normal DO */
+	SDL_Texture* curTexture;
+
 
 	EventDispatcher* MyEventDispatcher; //Create an EventDispatcher for DOC when built.
 	//Then we can call it for all
@@ -145,12 +151,6 @@ public:
 private:
 	double distance(SDL_Point &p1, SDL_Point &p2);
 	double calculateRotation(SDL_Point &origin, SDL_Point &p);
-
-	SDL_Texture* texture = NULL;
-	SDL_Surface* image = NULL;
-
-	/* Texture currently being drawn. Equal to texture for normal DO */
-	SDL_Texture* curTexture;
 
 };
 

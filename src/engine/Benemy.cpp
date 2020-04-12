@@ -12,10 +12,10 @@ Benemy::Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon) 
 	this->type = "Benemy";
 	this->sayu = sayu;
 	this->targX = x;
-	this->width = 100;
-	this->height = 100;
 	this->addAnimation("resources/weapons/", weapon, 1, 1, true);
 	this->play(weapon);
+	this->width = 100;
+	this->height = 100;
 	this->targY = y;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
@@ -27,19 +27,20 @@ void Benemy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	fire();
 	if(isTargetReached()){
+		clean = true;
+		AnimatedSprite::update(pressedKeys);
+		std::cout << "right before it's removed\n";
 		this->removeThis();
 	}
 	// if(!distanceReached()){
 	// 	this->removeThis();
 	// }
 	
-	
 }
 	
 
 void Benemy::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
-	//this->drawHitbox();
 }
 
 void Benemy::save(ofstream &out){
