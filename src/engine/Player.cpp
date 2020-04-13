@@ -29,22 +29,6 @@ Player::Player() : AnimatedSprite("Player"){
 	holding = 0;
 }
 
-//Called automatically by collision system when something collides with the player
-//our job is to simply react to that collision.
-// void Player::onCollision(DisplayObject* other){
-// 	if(other->type == "Platform"){
-// 		Game::instance->collisionSystem.resolveCollision(this, other, this->x - oldX, this->y - oldY);	
-// 		_yVel = 0;
-// 		_standing=true;
-// 	}
-// 	else if(other->type == "Enemy"){
-// 		if(!this->iFrames){
-// 			this->onEnemyCollision((Enemy*)other);
-// 		}
-// 	}
-
-// }
-
 
 void Player::update(set<SDL_Scancode> pressedKeys){
 	if (this->poisonedTime > 0 && this->poisoned) {
@@ -70,16 +54,24 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 
 	if (!transLock) {
 		if (controls::holdW()) {
-			this->position.y -= 8;
+			this->dir = "Up";
+			this->play("FaceUp");
+			this->position.y -= 4;
 		}
 		if (controls::holdS()) {
-			this->position.y += 8;
+			this->dir = "Down";
+			this->play("FaceDown");
+			this->position.y += 4;
 		}
 		if (controls::holdD()) {
-			this->position.x += 8;
+			this->dir = "Right";
+			this->play("FaceRight");
+			this->position.x += 4;
 		}
 		if (controls::holdA()) {
-			this->position.x -= 8;
+			this->dir = "Left";
+			this->play("FaceLeft");
+			this->position.x -= 4;
 		}
 		if (controls::holdUp()) {
 			this->dir = "Up";
@@ -106,14 +98,32 @@ void Player::hitByProjectile(string gun){
 		this->poisoned = true;
 		this->poisonedTime = 10;
 	} else if (gun == "bow") {
-		this->health -= 10;
+		takeDamage(10);
 	} else if (gun == "revolver") {
-		this->health -= 15;
+		takeDamage(15);
 	} else if (gun == "shotgun") {
-		this->health -= 25;
+		takeDamage(25);
 	} else if (gun == "rifle") {
-		this->health -= 20;
+		takeDamage(15);
 	}
+}
+
+//Called automatically by collision system when something collides with the player
+//our job is to simply react to that collision.
+void Player::onCollision(DisplayObject* other){
+	std::cout << "Player collision" << endl;
+	hitByProjectile("revolver");
+	// if(other->type == "Platform"){
+	// 	Game::instance->collisionSystem.resolveCollision(this, other, this->x - oldX, this->y - oldY);	
+	// 	_yVel = 0;
+	// 	_standing=true;
+	// }
+	// else if(other->type == "Enemy"){
+	// 	if(!this->iFrames){
+	// 		this->onEnemyCollision((Enemy*)other);
+	// 	}
+	// }
+
 }
 
 // do not include attacks from bosses yet
@@ -136,8 +146,9 @@ void Player::healPlayer(string method){
 }
 
 void Player::takeDamage(int damage){
-	if(this->health > 1){
+	if(this->health > 0){
 		this->health -= damage;
+		if (this->health < 0) {this->health = 0;}
 		dispatchEvent(healthChangeEvent);
 	}
 }

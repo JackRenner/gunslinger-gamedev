@@ -58,6 +58,7 @@ public:
 	void reloadGun(int gun);
 
 	//map<Benemy*, GangThug*> thug_benemies;
+	std::map<GangThug*,int> gang_thugs;
 
 private:
 
@@ -97,7 +98,7 @@ private:
 	Wolf* wolf2LakeStill1;
 	
 	GangThug* thug1LakeStill2;
-	vector<GangThug*> gang_thugs;
+	
 
 	GangMarksman* mark1LakeStill3;
 

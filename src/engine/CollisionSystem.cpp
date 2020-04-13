@@ -22,7 +22,7 @@ void CollisionSystem:: update(){
         //First Object Type not Found
     }
     else if( ObjectsOfEachType.find(collisionPair.second) == ObjectsOfEachType.end()  ){
-        // std::cout << "second not found\n";
+        //std::cout << "second not found\n";
         //Second Object Type Not Found
     }
     else{
@@ -147,8 +147,7 @@ void CollisionSystem :: watchForCollisions(string type1, string type2){
 bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
   SDL_Point* obj1Points = obj1->getGlobalHitbox();
   SDL_Point* obj2Points = obj2->getGlobalHitbox();
-  std::cout << obj1->type << endl;
-  std::cout << obj2->type << endl;
+
   if (obj1->type == "GangThug") {
     SDL_Point* obj1Points = ((GangThug*)obj1)->getGlobalHitbox();
   }

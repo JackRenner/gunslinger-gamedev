@@ -21,6 +21,8 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
     character = new Player();
 	foreground->addChild(character);
+	this->addChild(character);
+	//this->removeImmediateChild(character);
 
 	character->position = { 1500, 500 };
 	character->scaleX = 0.8;
@@ -30,11 +32,10 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character->gun = 0;
 
 	initTown();
+	initLake();
 
 	this->setScene(townScene);
 	this->addChild(foreground);
-
-	initLake();
 	
 	juggler = TweenJuggler::getInstance();
 
@@ -80,30 +81,36 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 	this->saveAllPositions();
 
-	//Demo trigger for taking damage to show health bar depletion
-	if(controls::holdSpace()){
-		character->takeDamage(1);
+	if (character->health == 0) {
+		// add in code to reset to town
+		character->health = 100;
 	}
 	// Demo for enemies
 
 	// need to make these for loops that loop through for each type of enemy
 
 	// GANG THUG LOOP
-	for (GangThug* thug: gang_thugs) {
-		if(thug->shoot > 0) {
-			benemy = new Benemy((AnimatedSprite*)thug, character->position.x, character->position.y, 6, "bullet");
+	//std::cout << "before loop" << endl;
+	for (std::map<GangThug*, int>::iterator it=gang_thugs.begin(); it!=gang_thugs.end(); ++it) {
+		//std::cout << "in loop" << endl;
+		if (it->first->clean) {
+			gang_thugs.erase(it->first);
+			continue;
+		}
+		if(it->first->shoot > 0) {
+			benemy = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "bullet");
 			benemy->distance = 20;
 			this->addChild(benemy);
-			benemy->position = {thug->position.x, thug->position.y };
+			benemy->position = {it->first->position.x, it->first->position.y };
 			benemy->pivot = { benemy->width / 2, benemy->height / 2 };
 			benemy->scaleX = 1;
 			benemy->scaleY = 1;
-			if (thug->shots_fired == 5) {
-				thug->shoot -= 120;
-				thug->shots_fired = 0;
+			if (it->first->shots_fired == 5) {
+				it->first->shoot -= 120;
+				it->first->shots_fired = 0;
 			} else{
-				thug->shoot -= 40;
-				thug->shots_fired ++;
+				it->first->shoot -= 40;
+				it->first->shots_fired ++;
 			}
 		}
 	}
@@ -458,7 +465,7 @@ void MyGame::initLake() {
 
 	vector<TransitionStruct> lake2Points = {
 	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 10, TransitionDetection::AXIS, Cardinal::EAST),
-	TransitionStruct(SDL_Point{ 0, 595}, SDL_Point{ 550, 80 }, 12, TransitionDetection::AXIS, Cardinal::SOUTH),
+	//TransitionStruct(SDL_Point{ 0, 595}, SDL_Point{ 550, 80 }, 12, TransitionDetection::AXIS, Cardinal::SOUTH),
 	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 8, TransitionDetection::AXIS, Cardinal::WEST) };
 	transitions.push_back(lake2Points);
 
@@ -580,7 +587,7 @@ void MyGame::initEnemies(Scene* s) {
 		// thug1LakeStill2->scaleY = 1.0;
 		//thug1LakeStill2->width = 90;
 		thug1LakeStill2->play("GangThugLeft");
-		gang_thugs.push_back(thug1LakeStill2);
+		gang_thugs[thug1LakeStill2] = 1;
 		s->enemiesAdded = true;
 	}
 }

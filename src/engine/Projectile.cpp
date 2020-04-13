@@ -36,6 +36,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->play("knife");
 		this->Distance = 150;
 		this->speed = 4;
+		this->gun = "knife";
 	}
 	//pistol
 	if(type == 2){
@@ -44,6 +45,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->play("bullet");
 		this->Distance = 300;
 		this->speed = 8;
+		this->gun = "revolver";
 
 	}
 	//shotgun
@@ -61,6 +63,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		}
 		this->Distance = 120;
 		this->speed = 5;
+		this->gun = "shotgun";
 	}
 	//rifle
 	if (type == 4){
@@ -69,12 +72,12 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->play("bullet");
 		this->Distance = 350;
 		this->speed = 15;
+		this->gun = "rifle";
 		
 	}
 }
 
 void Projectile::onCollision(DisplayObject* other) {
-	std::cout << "PROJECTILE COLLISION\n";
 	this->removeThis();
 }
 

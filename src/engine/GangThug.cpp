@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "DisplayObjectContainer.h"
 #include "Controls.h"
+#include "MyGame.h"
 #include <cstdlib>
 #include <math.h>
 
@@ -23,15 +24,19 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
 	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
+
+	//do the actual cleaning if necessary
+	if(this->clean){
+		std::cout << "removing" << endl;
+		//MyGame::gang_thugs.erase(this);
+		this->removeThis();
+		std::cout << "wait what" << endl;
+		//delete this;
+	}
 	//enemy is dead so clean it up
 	if(this->health == 0){
 		this->clean = true; //scene will clean it up
 		AnimatedSprite::update(pressedKeys);
-	}
-	//do the actual cleaning if necessary
-	if(this->clean){
-		this->removeThis();
-		delete this;
 	}
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
@@ -130,7 +135,14 @@ void GangThug::onMeleeStrike(){
 // }
 
 void GangThug::onCollision(DisplayObject* other){
-	std::cout << "COLLISION IN GANG THUG!\n";
+	if (other->type == "Projectile") {
+		Projectile *temp = (Projectile*)other;
+		if (temp->gun == "revolver") {
+			this->health -= 20;
+			this->alpha -= 40;
+			if(this->health < 0) this->health = 0;
+		}
+	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
 	// 		onEssenceStrike((Weapon*)other);

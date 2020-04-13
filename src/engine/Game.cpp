@@ -27,6 +27,7 @@ Game::Game(int windowWidth, int windowHeight){
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "addObject");
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "removeObject");
 	ourCollisionSystem->watchForCollisions("Projectile", "GangThug");
+	ourCollisionSystem->watchForCollisions("Benemy", "Player");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 

@@ -31,15 +31,15 @@ void Benemy::update(set<SDL_Scancode> pressedKeys){
 		AnimatedSprite::update(pressedKeys);
 		this->removeThis();
 	}
-	// if(!distanceReached()){
-	// 	this->removeThis();
-	// }
-	
 }
 	
 
 void Benemy::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
+}
+
+void Benemy::onCollision(DisplayObject *other) {
+	this->removeThis();
 }
 
 void Benemy::save(ofstream &out){

@@ -23,7 +23,7 @@ public:
 
     
     // void Wolf::onEssenceStrike(Weapon* w);
-    // void Wolf::onCollision(DisplayObject* other);
+    virtual void onCollision(DisplayObject* other);
 
     void save(ofstream &out);
 

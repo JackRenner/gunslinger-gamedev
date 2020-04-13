@@ -33,6 +33,10 @@ public:
 	/* direction */
 	string dir;
 
+
+	/* type of weapon */
+	string gun;
+	
 	//iFrames
 	bool iFrames = false;
 	int iFrameCount = 0;
