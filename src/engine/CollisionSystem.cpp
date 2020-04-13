@@ -1,4 +1,6 @@
 #include "CollisionSystem.h"
+#include "GangThug.h"
+#include "Projectile.h"
 
 
 CollisionSystem :: CollisionSystem(){
@@ -12,31 +14,38 @@ void CollisionSystem:: update(){
 // Take the list of collision types and the display tree and check each object against each other.
 // Only check types within the list.
 //
+  bool FirstObjectNotFound = false;
+  bool SecondObjectNotFound = false;
   for(pair<string,string> collisionPair : objectsCollide){
-    //cout<< "UPDATE IS CALLED" <<endl;
-    for(DisplayObject* OneObject : *ObjectsOfEachType[collisionPair.first] ){
-      //cout << OneObject->id;
-      for(DisplayObject* SecondObject : *ObjectsOfEachType[collisionPair.second] ){
+    if (ObjectsOfEachType.find(collisionPair.first) == ObjectsOfEachType.end() ){
+        //std::cout << "first not found\n";
+        //First Object Type not Found
+    }
+    else if( ObjectsOfEachType.find(collisionPair.second) == ObjectsOfEachType.end()  ){
+        // std::cout << "second not found\n";
+        //Second Object Type Not Found
+    }
+    else{
+      // std::cout<< "UPDATE IS CALLED" <<endl;
+      for(DisplayObject* OneObject : *ObjectsOfEachType[collisionPair.first] ){
         //cout << OneObject->id;
-        if(OneObject != SecondObject){
-          if(collidesWith(OneObject, SecondObject)){
-              cout << "Detected Collision between ";
-              cout << OneObject->id;
-              cout << " And ";
-              cout << SecondObject->id << endl;
-              cout<< OneObject->position.x;
-              OneObject->onCollision(SecondObject);
-              SecondObject->onCollision(OneObject);
+        for(DisplayObject* SecondObject : *ObjectsOfEachType[collisionPair.second] ){
+          //cout << OneObject->id;
+          if(OneObject != SecondObject){
+            if(collidesWith(OneObject, SecondObject)){
+                std::cout << "Detected Collision between ";
+                std::cout << OneObject->id;
+                std::cout << " And ";
+                std::cout << SecondObject->id << endl;
+                std::cout<< OneObject->position.x;
+                OneObject->onCollision(SecondObject);
+                SecondObject->onCollision(OneObject);
 
+            }
           }
         }
       }
-
-
     }
-
-
-
   }
 
 }
@@ -87,17 +96,17 @@ void CollisionSystem :: handleAddDisplayObject(GameTreeEvent*e){
 
 
 void CollisionSystem :: handleRemoveDisplayObject(GameTreeEvent*e){
-  cout << "handleRemoveDisplayObjectIsCalled"<<endl;
+  //cout << "handleRemoveDisplayObjectIsCalled"<<endl;
     if(ObjectsOfEachType.find(e->getModifiedObject()->type) ==  ObjectsOfEachType.end()){
-      cout << "Keytype has not been added yet. There is nothing to remove"<<endl;
+      //cout << "Keytype has not been added yet. There is nothing to remove"<<endl;
     }
     else{
       auto iter = ObjectsOfEachType[e->getModifiedObject()->type]->begin(); //Create iterator for forloop, starts with the beginning
       for(iter; iter !=  ObjectsOfEachType[e->getModifiedObject()->type]->end(); iter++ ){
-          cout << "Erase Iter" <<endl;
-          cout << (*iter)->id <<endl;
+          //cout << "Erase Iter" <<endl;
+          //cout << (*iter)->id <<endl;
           if( (*iter)->id == e->getModifiedObject()->id){
-            cout <<"Equal to Target"<<endl;
+            //cout <<"Equal to Target"<<endl;
             ObjectsOfEachType[e->getModifiedObject()->type]->erase(iter--);
           }
       }
@@ -284,10 +293,10 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
 
 void CollisionSystem :: setSpecialCollisionType(string type1, string type2, int CollisionStyle){
   pair<string, string> Order1 = make_pair (type1, type2);
-  cout << "setSpecialCollisionType";
-  cout << this->collisionTypeMap.at(Order1)<<endl;
+  //cout << "setSpecialCollisionType";
+  //cout << this->collisionTypeMap.at(Order1)<<endl;
   this->collisionTypeMap[Order1] = CollisionStyle;
-  cout << this->collisionTypeMap.at(Order1)<<endl;
+  //cout << this->collisionTypeMap.at(Order1)<<endl;
 
 }
 
@@ -301,8 +310,8 @@ void CollisionSystem :: setSpecialCollisionType(string type1, string type2, int 
 //xDelta1 and yDelta1 are the amount d moved before causing the collision.
 //xDelta2 and yDelta2 are the amount other moved before causing the collision.
 void CollisionSystem :: resolveCollision(DisplayObject* d, DisplayObject* other, int xDelta1, int yDelta1, int xDelta2, int yDelta2){
-  cout << "COLLISION SYSTEM's resolve Collision is being called."<<endl;
-  cout << "XDELTA: " << xDelta1 << " : YDelta: " << yDelta1 <<endl;
+  //cout << "COLLISION SYSTEM's resolve Collision is being called."<<endl;
+  //cout << "XDELTA: " << xDelta1 << " : YDelta: " << yDelta1 <<endl;
   d->position.x -= xDelta1;
   d->position.y -= yDelta1;
   other->position.x -= xDelta2;
@@ -361,7 +370,7 @@ void CollisionSystem:: binaryXChecker(DisplayObject* d, DisplayObject* other, in
 
 
 void CollisionSystem:: binaryXChecker(DisplayObject* d, DisplayObject* other, int xDelta1, int xDelta2){
-  cout << "BinaryXCheckerCalled Y :" << xDelta1 << " : " << xDelta2 <<endl;
+  //cout << "BinaryXCheckerCalled Y :" << xDelta1 << " : " << xDelta2 <<endl;
 
   int ShrinkByX1 = xDelta1;
   int ShrinkByX2 = xDelta2;
@@ -378,7 +387,7 @@ void CollisionSystem:: binaryXChecker(DisplayObject* d, DisplayObject* other, in
     ShrinkByX1 = ShrinkByX1/2;
     ShrinkByX2 = ShrinkByX2/2;
     if( (ShrinkByX1 == 0) && (ShrinkByX2 == 0) ){
-      cout << "finished"<<endl;
+      //cout << "finished"<<endl;
       return;
     }
     binaryXChecker(d, other, ShrinkByX1, ShrinkByX2);
@@ -387,7 +396,7 @@ void CollisionSystem:: binaryXChecker(DisplayObject* d, DisplayObject* other, in
     ShrinkByX1 = ShrinkByX1/2;
     ShrinkByX2 = ShrinkByX2/2;
       if( (ShrinkByX1 == 0) && (ShrinkByX2 == 0) ){
-        cout << "finished"<<endl;
+        //cout << "finished"<<endl;
         return;
       }
     binaryXChecker(d, other, ShrinkByX1, ShrinkByX2);
@@ -396,7 +405,7 @@ void CollisionSystem:: binaryXChecker(DisplayObject* d, DisplayObject* other, in
 
 
 void CollisionSystem :: binaryYChecker(DisplayObject* d, DisplayObject* other, int yDelta1, int yDelta2){
-  cout << "BinaryYCheckerCalled Y :" << yDelta1 << " : " << yDelta2 <<endl;
+  //cout << "BinaryYCheckerCalled Y :" << yDelta1 << " : " << yDelta2 <<endl;
 
   int ShrinkByY1 = yDelta1;
   int ShrinkByY2 = yDelta2;
@@ -413,7 +422,7 @@ void CollisionSystem :: binaryYChecker(DisplayObject* d, DisplayObject* other, i
     ShrinkByY1 = ShrinkByY1/2;
     ShrinkByY2 = ShrinkByY2/2;
     if( (ShrinkByY1 == 0) && (ShrinkByY2 == 0) ){
-      cout << "finished"<<endl;
+      //cout << "finished"<<endl;
       return;
     }
     binaryYChecker(d, other, ShrinkByY1, ShrinkByY2);
@@ -422,7 +431,7 @@ void CollisionSystem :: binaryYChecker(DisplayObject* d, DisplayObject* other, i
     ShrinkByY1 = ShrinkByY1/2;
     ShrinkByY2 = ShrinkByY2/2;
       if( (ShrinkByY1 == 0) && (ShrinkByY2 == 0) ){
-        cout << "finished"<<endl;
+        //cout << "finished"<<endl;
         return;
       }
     binaryYChecker(d, other, ShrinkByY1, ShrinkByY2);

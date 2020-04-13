@@ -30,10 +30,11 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character->gun = 0;
 
 	initTown();
-	initLake();
 
 	this->setScene(townScene);
 	this->addChild(foreground);
+
+	initLake();
 	
 	juggler = TweenJuggler::getInstance();
 
@@ -45,18 +46,18 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->height = 5000;
 	foreground->addChild(blackBox);
 
-	test = new TextBox(SDL_Point{ 1500, 500 }, 300, 200);
+	// test = new TextBox(SDL_Point{ 1500, 500 }, 300, 200);
 
-	string testText = "This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text.";
-	test->addTextLine("./resources/fonts/arial.ttf", testText, 18, SDL_Color{ 255, 255, 255 });
-	string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
-	test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
-	string testText3 = "Deus volt";
-	test->addTextLine("./resources/fonts/arial.ttf", testText3, 18, SDL_Color{ 50, 50, 255 });
-	string testText4 = "Lorem ipsum.";
-	test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
+	// string testText = "This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text.";
+	// test->addTextLine("./resources/fonts/arial.ttf", testText, 18, SDL_Color{ 255, 255, 255 });
+	// string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
+	// test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
+	// string testText3 = "Deus volt";
+	// test->addTextLine("./resources/fonts/arial.ttf", testText3, 18, SDL_Color{ 50, 50, 255 });
+	// string testText4 = "Lorem ipsum.";
+	// test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
 
-	foreground->addChild(test);
+	// foreground->addChild(test);
 
 	healthBackground = new Sprite("blackbox", 255, 0, 0);
 	healthBackground->id = "healthbackground";
@@ -104,7 +105,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 				thug->shoot -= 40;
 				thug->shots_fired ++;
 			}
-			thug_benemies[benemy] = thug;
 		}
 	}
 		
@@ -129,19 +129,16 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		arrow1LakeStill4->shoot -= 80;
 	}
 	
-	for (std::map<Benemy*, GangThug*>::iterator it=thug_benemies.begin(); it!=thug_benemies.end(); ++it) {
-		std::cout<<"right before calling it\n";
-		if (it->first->clean != true) {
-			if (this->ourCollisionSystem->collidesWith(it->first, character)) {
-				character->takeDamage(1);
-			}
-		} else {
-			std::cout << "ERASING\n";
-			thug_benemies.erase(it->first);
-			std::cout << "AFTER ERASING\n";
-			break;
-		}
-	}
+	// for (std::map<Benemy*, GangThug*>::iterator it=thug_benemies.begin(); it!=thug_benemies.end(); ++it) {
+	// 	if (it->first->clean != true) {
+	// 		if (this->ourCollisionSystem->collidesWith(it->first, character)) {
+	// 			character->takeDamage(1);
+	// 		}
+	// 	} else {
+	// 		thug_benemies.erase(it->first);
+	// 		break;
+	// 	}
+	// }
 
 	if (!transLock) {
 		// gun select
@@ -182,19 +179,19 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			this->reloadGun(character->gun);
 		}
 
-		if (controls::toggleVisibility() && !test->textLock) {
-			if (test->nextLine == 0)
-				test->initBox();
-			else if (test->nextLine == test->maxLine)
-				test->closeBox();
-			else
-				test->drawNextLine();
-		}
+		// if (controls::toggleVisibility() && !test->textLock) {
+		// 	if (test->nextLine == 0)
+		// 		test->initBox();
+		// 	else if (test->nextLine == test->maxLine)
+		// 		test->closeBox();
+		// 	else
+		// 		test->drawNextLine();
+		// }
 	}
 	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
 	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
 
-	test->position = { character->position.x - test->background->width / 2, character->position.y - 300 };
+	//test->position = { character->position.x - test->background->width / 2, character->position.y - 300 };
 
 	Game::update(pressedKeys);
 	controls::update(pressedKeys);
@@ -241,6 +238,14 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			}
 		}
 	}
+	// need to write code for sending player back to town
+	if (character->health <= 0) {
+		// character->position = { 1500, 500 };
+		// this->setScene(townScene);
+		// character->health = 100;
+		// initLake();
+		// initTown();
+	}
 	this->ourCollisionSystem->update();
 	enforceCameraBounds();
 }
@@ -260,11 +265,14 @@ void MyGame::draw(AffineTransform& at) {
 // sets the current scene and adds as child to game and unlinks the old scene from game (does not destroy it)
 // we can tweak this to destroy the scene for memory reasons (or add a new method to destroy), but left it like this for now
 void MyGame::setScene(Scene* scene) {
+	std::cout << "SCENE CHANGEEEEEE\n";
 	if (curScene != NULL)
 		this->unlinkImmediateChild(curScene->id);
 	this->curScene = scene;
-	if (curScene != NULL)
+	if (curScene != NULL) {
 		this->addChild(curScene);
+		initEnemies(scene);
+	}
 }
 
 // Enforce camera bounds for the current room state. Does not currently account for room rotations.
@@ -415,22 +423,31 @@ void MyGame::initLake() {
 
 	lake1 = new Scene();
 	lake1->loadScene("./resources/scene/lake1.txt");
+	//this->addChild(lake1);
 	lake2 = new Scene();
 	lake2->loadScene("./resources/scene/lake2.txt");
+	//foreground->addChild(lake2);
 	lake3 = new Scene();
 	lake3->loadScene("./resources/scene/lake3.txt");
+	//this->addChild(lake3);
 	lake4 = new Scene();
 	lake4->loadScene("./resources/scene/lake4.txt");
+	//this->addChild(lake4);	
 	lake5 = new Scene();
 	lake5->loadScene("./resources/scene/lake5.txt");
+	//this->addChild(lake5);	
 	lake6 = new Scene();
 	lake6->loadScene("./resources/scene/lake6.txt");
+	//this->addChild(lake6);	
 	lake7 = new Scene();
 	lake7->loadScene("./resources/scene/lake7.txt");
+	//this->addChild(lake7);	
 	lake8 = new Scene();
 	lake8->loadScene("./resources/scene/lake8.txt");
+	//this->addChild(lake8);	
 	lake9 = new Scene();
 	lake9->loadScene("./resources/scene/lake9.txt");
+	//this->addChild(lake9);	
 
 	// initialize lake transitions
 	vector<TransitionStruct> lake1Points = {
@@ -523,21 +540,6 @@ void MyGame::initLake() {
 	// wolf2LakeStill1->width = 50;
 	// wolf2LakeStill1->play("WolfLeft");
 
-	// adding gang thugs...
-	thug1LakeStill2 = new GangThug((Player*)character);	
-	thug1LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
-	thug1LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
-	thug1LakeStill2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
-	thug1LakeStill2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
-	lake2->addChild(thug1LakeStill2);
-	thug1LakeStill2->position = { 500, 500 };
-	thug1LakeStill2->pivot = { thug1LakeStill2->width / 2, thug1LakeStill2->height / 2 };
-	thug1LakeStill2->scaleX = 1.0;
-	thug1LakeStill2->scaleY = 1.0;
-	thug1LakeStill2->width = 90;
-	thug1LakeStill2->play("GangThugLeft");
-	gang_thugs.push_back(thug1LakeStill2);
-
 	mark1LakeStill3 = new GangMarksman((Player*)character);	
 	mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 	mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -563,6 +565,25 @@ void MyGame::initLake() {
 	arrow1LakeStill4->play("Arrow");
 }
 
+void MyGame::initEnemies(Scene* s) {
+	if (s->id == "lake2") {
+		std::cout << "CORRECTLY WORKING\n";
+		thug1LakeStill2 = new GangThug((Player*)character);	
+		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		lake2->addChild(thug1LakeStill2);
+		thug1LakeStill2->position = { 500, 500 };
+		thug1LakeStill2->pivot = { thug1LakeStill2->width / 2, thug1LakeStill2->height / 2 };
+		thug1LakeStill2->scaleX = 1.0;
+		thug1LakeStill2->scaleY = 1.0;
+		thug1LakeStill2->width = 90;
+		thug1LakeStill2->play("GangThugLeft");
+		gang_thugs.push_back(thug1LakeStill2);
+	}
+}
+
 void MyGame::playerShooting(int gun, string dir){
 	if (gun == 1 && character->knife_throws > 0) {
 	} else if (gun == 1) {
@@ -576,6 +597,20 @@ void MyGame::playerShooting(int gun, string dir){
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->revolver_shots ++;
+		// for (std::map<GangThug*, int>::iterator it=gang_thugs.begin(); it!=gang_thugs.end(); ++it) {
+		// 	if (it->first->clean != true) {
+		// 		std::cout<< "BEFORE DETECTION\n";
+		// 		if (this->ourCollisionSystem->collidesWith(bullet, it->first)) {
+		// 			it->first->health -= 1;
+		// 			std::cout << "thug health: " << it->first->health << "\n";
+		// 		}
+		// 	} else {
+		// 		std::cout << "ERASING\n";
+		// 		gang_thugs.erase(it->first);
+		// 		std::cout << "AFTER ERASING\n";
+		// 		break;
+		// 	}
+		// }
 	} else if (character->gun == 3 && character->shotgun_shots > 1) {
 	} else if (character->gun == 3) {
 		bullet = new Projectile(dir,character->position, gun);

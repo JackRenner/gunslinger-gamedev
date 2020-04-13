@@ -26,6 +26,7 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	//enemy is dead so clean it up
 	if(this->health == 0){
 		this->clean = true; //scene will clean it up
+		AnimatedSprite::update(pressedKeys);
 	}
 	//do the actual cleaning if necessary
 	if(this->clean){
@@ -128,16 +129,17 @@ void GangThug::onMeleeStrike(){
 // 	if(this->health < 0) this->health = 0;
 // }
 
-// void GangThug::onCollision(DisplayObject* other){
-// 	if(other->type == "Weapon"){
-// 		if(controls::pressSpecial()) 
-// 			onEssenceStrike((Weapon*)other);
-// 	}
-// 	else if(other->type == "Blast"){
-// 		if(controls::pressAttack())
-// 			onMeleeStrike();
-// 	}
-// }
+void GangThug::onCollision(DisplayObject* other){
+	std::cout << "COLLISION IN GANG THUG!\n";
+	// if(other->type == "Weapon"){
+	// 	if(controls::pressSpecial()) 
+	// 		onEssenceStrike((Weapon*)other);
+	// }
+	// else if(other->type == "Blast"){
+	// 	if(controls::pressAttack())
+	// 		onMeleeStrike();
+	// }
+}
 
 void GangThug::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);

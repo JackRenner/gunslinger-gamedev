@@ -25,7 +25,7 @@ public:
     void onMeleeStrike();
     
     // void GangThug::onEssenceStrike(Weapon* w);
-    // void GangThug::onCollision(DisplayObject* other);
+    virtual void onCollision(DisplayObject* other);
 
     void save(ofstream &out);
     
@@ -56,12 +56,13 @@ public:
 	int numIFrames = 0;
 
     int shots_fired = 0;
+    bool clean = false;
 
 
 private:
     Player* sayu;
     Benemy* dirt;
-    bool clean = false;
+    
     int state = 0;
 
     int targX = 0;

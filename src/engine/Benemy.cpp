@@ -29,7 +29,6 @@ void Benemy::update(set<SDL_Scancode> pressedKeys){
 	if(isTargetReached()){
 		clean = true;
 		AnimatedSprite::update(pressedKeys);
-		std::cout << "right before it's removed\n";
 		this->removeThis();
 	}
 	// if(!distanceReached()){

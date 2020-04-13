@@ -4,6 +4,7 @@
 #include "AnimatedSprite.h"
 #include "Sprite.h"
 #include "Controls.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -35,7 +36,6 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->play("knife");
 		this->Distance = 150;
 		this->speed = 4;
-		
 	}
 	//pistol
 	if(type == 2){
@@ -44,7 +44,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->play("bullet");
 		this->Distance = 160;
 		this->speed = 8;
-		 
+
 	}
 	//shotgun
 	if(type == 3){
@@ -71,6 +71,10 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->speed = 15;
 		
 	}
+}
+
+void Projectile::onCollision(DisplayObject* other) {
+	std::cout << "PROJECTILE COLLISION\n";
 }
 
 void Projectile::update(set<SDL_Scancode> pressedKeys){
@@ -101,9 +105,7 @@ void Projectile::update(set<SDL_Scancode> pressedKeys){
 			this->removeThis();
 		}
 	}
-	
-	
-
+	//Game::instance->ourCollisionSystem->collidesWith()
 }
 
 void Projectile::draw(AffineTransform &at){

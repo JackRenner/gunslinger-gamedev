@@ -52,10 +52,12 @@ public:
 	void initTown();
 	void initLake();
 
+	void initEnemies(Scene* s);
+
 	void playerShooting(int gun, string dir);
 	void reloadGun(int gun);
 
-	map<Benemy*, GangThug*> thug_benemies;
+	//map<Benemy*, GangThug*> thug_benemies;
 
 private:
 
@@ -87,16 +89,18 @@ private:
 	Scene* lake9;
 
 	Player* character;
-	AnimatedSprite* bullet;
+	Projectile* bullet;
 	
 	HealthBar* playerHealth;
 
-	vector<GangThug*> gang_thugs;
-
 	Wolf* wolf1LakeStill1;
 	Wolf* wolf2LakeStill1;
+	
 	GangThug* thug1LakeStill2;
+	vector<GangThug*> gang_thugs;
+
 	GangMarksman* mark1LakeStill3;
+
 	ArrowGuy* arrow1LakeStill4;
 
 	//AnimatedSprite* wolf;

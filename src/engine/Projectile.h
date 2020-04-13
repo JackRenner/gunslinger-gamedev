@@ -7,6 +7,7 @@
 #include <string>
 #include <fstream>
 #include "Sprite.h"
+#include "CollisionSystem.h"
 #include "Controls.h"
 
 using namespace std;
@@ -21,7 +22,7 @@ public:
 	virtual void draw(AffineTransform &at);
 
 	//void onEnemyCollision(Enemy* enemy);
-	//virtual void onCollision(DisplayObject* other);
+	virtual void onCollision(DisplayObject* other);
 
 	/* Durability and Distance */
 	int durability = 1;
@@ -35,7 +36,6 @@ public:
 	bool iFrames = false;
 	int iFrameCount = 0;
 	int numIFrames = 0;
-
 
 
 
