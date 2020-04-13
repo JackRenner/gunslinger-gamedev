@@ -566,8 +566,7 @@ void MyGame::initLake() {
 }
 
 void MyGame::initEnemies(Scene* s) {
-	if (s->id == "lake2") {
-		std::cout << "CORRECTLY WORKING\n";
+	if (s->id == "lake2" && !s->enemiesAdded) {
 		thug1LakeStill2 = new GangThug((Player*)character);	
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -575,12 +574,14 @@ void MyGame::initEnemies(Scene* s) {
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
 		lake2->addChild(thug1LakeStill2);
 		thug1LakeStill2->position = { 500, 500 };
-		thug1LakeStill2->pivot = { thug1LakeStill2->width / 2, thug1LakeStill2->height / 2 };
-		thug1LakeStill2->scaleX = 1.0;
-		thug1LakeStill2->scaleY = 1.0;
-		thug1LakeStill2->width = 90;
+		//std::cout << thug1LakeStill2->width << " " << thug1LakeStill2->height << "\n";
+		//thug1LakeStill2->pivot = { thug1LakeStill2->width / 2, thug1LakeStill2->height / 2 };
+		// thug1LakeStill2->scaleX = 1.0;
+		// thug1LakeStill2->scaleY = 1.0;
+		//thug1LakeStill2->width = 90;
 		thug1LakeStill2->play("GangThugLeft");
 		gang_thugs.push_back(thug1LakeStill2);
+		s->enemiesAdded = true;
 	}
 }
 

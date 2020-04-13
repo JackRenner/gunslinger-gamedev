@@ -88,7 +88,7 @@ void DisplayObject::setTexture(SDL_Texture* t){
 }
 
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
-		SDL_Point* temp = this->getGlobalHitbox();
+	SDL_Point* temp = this->getGlobalHitbox();
 
 }
 

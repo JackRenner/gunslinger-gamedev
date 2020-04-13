@@ -141,9 +141,19 @@ void GangThug::onCollision(DisplayObject* other){
 	// }
 }
 
+SDL_Point* GangThug::getGlobalHitbox(){
+	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+	AffineTransform* temp = this->getGlobalTransform();
+	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/2, -this->height/2);
+	this->MyGlobalHitbox[1] = temp->transformPoint(this->width/2, -this->height/2);
+	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/2, this->height/2);
+	this->MyGlobalHitbox[3] = temp->transformPoint(this->width/2, this->height/2);
+	return this->MyGlobalHitbox;
+}
+
 void GangThug::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
-	//this->drawHitbox();
+	//this->drawHitbox(position);
 }
 
 void GangThug::save(ofstream &out){

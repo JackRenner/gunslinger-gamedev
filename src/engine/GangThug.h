@@ -26,6 +26,7 @@ public:
     
     // void GangThug::onEssenceStrike(Weapon* w);
     virtual void onCollision(DisplayObject* other);
+    virtual SDL_Point* getGlobalHitbox();
 
     void save(ofstream &out);
     

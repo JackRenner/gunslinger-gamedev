@@ -42,7 +42,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->addAnimation("./resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
-		this->Distance = 160;
+		this->Distance = 300;
 		this->speed = 8;
 
 	}
@@ -75,6 +75,17 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 
 void Projectile::onCollision(DisplayObject* other) {
 	std::cout << "PROJECTILE COLLISION\n";
+	this->removeThis();
+}
+
+SDL_Point* Projectile::getGlobalHitbox(){
+	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+	AffineTransform* temp = this->getGlobalTransform();
+	this->MyGlobalHitbox[0] = temp->transformPoint(0,0);
+	this->MyGlobalHitbox[1] = temp->transformPoint(10, 0);
+	this->MyGlobalHitbox[2] = temp->transformPoint(0, 10);
+	this->MyGlobalHitbox[3] = temp->transformPoint(10, 10);
+	return this->MyGlobalHitbox;
 }
 
 void Projectile::update(set<SDL_Scancode> pressedKeys){

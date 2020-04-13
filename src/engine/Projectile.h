@@ -23,6 +23,7 @@ public:
 
 	//void onEnemyCollision(Enemy* enemy);
 	virtual void onCollision(DisplayObject* other);
+	virtual SDL_Point* getGlobalHitbox();
 
 	/* Durability and Distance */
 	int durability = 1;
