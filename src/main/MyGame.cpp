@@ -521,18 +521,6 @@ void MyGame::initLake() {
 	sceneInfo.push_back(SceneInfo(lake9, SDL_Rect{ 0, 0, 1100, 610 })); // 16
 
 	// initialize lake still enemies
-	wolf1LakeStill1 = new Wolf((Player*)character);	// Adding wolf sprites
-	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
-	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
-	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
-	wolf1LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
-	lake1->addChild(wolf1LakeStill1);
-	wolf1LakeStill1->position = { 500, 500 };
-	wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
-	wolf1LakeStill1->scaleX = 0.5;
-	wolf1LakeStill1->scaleY = 0.5;
-	wolf1LakeStill1->width = 90;
-	wolf1LakeStill1->play("WolfLeft");
 
 	// wolf2LakeStill1 = new Wolf((Player*)character);	
 	// wolf2LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
@@ -573,7 +561,37 @@ void MyGame::initLake() {
 }
 
 void MyGame::initEnemies(Scene* s) {
+	if (s->id == "lake1" && !s->enemiesAdded) {
+		// wolves
+		wolf1LakeStill1 = new Wolf((Player*)character);	// Adding wolf sprites
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		lake1->addChild(wolf1LakeStill1);
+		wolf1LakeStill1->position = { 500, 500 };
+		//wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
+		wolf1LakeStill1->scaleX = 0.75;
+		wolf1LakeStill1->scaleY = 0.75;
+		//wolf1LakeStill1->width = 90;
+		wolf1LakeStill1->play("WolfLeft");
+
+		wolf2LakeStill1 = new Wolf((Player*)character);	// Adding wolf sprites
+		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		lake1->addChild(wolf2LakeStill1);
+		wolf2LakeStill1->position = { 700, 500 };
+		//wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
+		wolf2LakeStill1->scaleX = 0.75;
+		wolf2LakeStill1->scaleY = 0.75;
+		//wolf1LakeStill1->width = 90;
+		wolf2LakeStill1->play("WolfLeft");
+		s->enemiesAdded = true;
+	}
 	if (s->id == "lake2" && !s->enemiesAdded) {
+
 		thug1LakeStill2 = new GangThug((Player*)character);	
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -581,13 +599,9 @@ void MyGame::initEnemies(Scene* s) {
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
 		lake2->addChild(thug1LakeStill2);
 		thug1LakeStill2->position = { 500, 500 };
-		//std::cout << thug1LakeStill2->width << " " << thug1LakeStill2->height << "\n";
-		//thug1LakeStill2->pivot = { thug1LakeStill2->width / 2, thug1LakeStill2->height / 2 };
-		// thug1LakeStill2->scaleX = 1.0;
-		// thug1LakeStill2->scaleY = 1.0;
-		//thug1LakeStill2->width = 90;
 		thug1LakeStill2->play("GangThugLeft");
 		gang_thugs[thug1LakeStill2] = 1;
+		
 		s->enemiesAdded = true;
 	}
 }

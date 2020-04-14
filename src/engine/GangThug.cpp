@@ -142,6 +142,8 @@ void GangThug::onCollision(DisplayObject* other){
 			this->alpha -= 40;
 			if(this->health < 0) this->health = 0;
 		}
+	}else{
+		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 

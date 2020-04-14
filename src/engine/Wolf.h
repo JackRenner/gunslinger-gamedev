@@ -25,7 +25,8 @@ public:
     void onMeleeStrike();
     
     // void Wolf::onEssenceStrike(Weapon* w);
-    // void Wolf::onCollision(DisplayObject* other);
+    virtual void onCollision(DisplayObject* other);
+    virtual SDL_Point* getGlobalHitbox();
 
     void save(ofstream &out);
     

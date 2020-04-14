@@ -7,6 +7,7 @@
 #include "Controls.h"
 #include <cstdlib>
 #include <math.h>
+#include <Game.h>
 
 using namespace std;
 
@@ -135,16 +136,21 @@ void Wolf::onMeleeStrike(){
 // 	if(this->health < 0) this->health = 0;
 // }
 
-// void Wolf::onCollision(DisplayObject* other){
-// 	if(other->type == "Weapon"){
-// 		if(controls::pressSpecial()) 
-// 			onEssenceStrike((Weapon*)other);
-// 	}
-// 	else if(other->type == "Blast"){
-// 		if(controls::pressAttack())
-// 			onMeleeStrike();
-// 	}
-// }
+void Wolf::onCollision(DisplayObject* other){
+	Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+	this->targX += (rand() % 100) - 50;
+	this->targY += (rand() % 100) - 50;
+
+	//this->state = 1;
+	// if(other->type == "Weapon"){
+	// 	if(controls::pressSpecial()) 
+	// 		onEssenceStrike((Weapon*)other);
+	// }
+	// else if(other->type == "Blast"){
+	// 	if(controls::pressAttack())
+	// 		onMeleeStrike();
+	// }
+}
 
 void Wolf::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
@@ -154,6 +160,16 @@ void Wolf::draw(AffineTransform &at){
 void Wolf::save(ofstream &out){
 	//Sprite::save(out);
 	//TODO: ADD THIS TO SAVE Wolf DATA
+}
+
+SDL_Point* Wolf::getGlobalHitbox(){
+	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+	AffineTransform* temp = this->getGlobalTransform();
+	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/2, -this->height/2);
+	this->MyGlobalHitbox[1] = temp->transformPoint(this->width/2, -this->height/2);
+	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/2, this->height/2);
+	this->MyGlobalHitbox[3] = temp->transformPoint(this->width/2, this->height/2);
+	return this->MyGlobalHitbox;
 }
 
 void Wolf::charge(){

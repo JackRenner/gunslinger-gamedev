@@ -28,6 +28,7 @@ Game::Game(int windowWidth, int windowHeight){
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "removeObject");
 	ourCollisionSystem->watchForCollisions("Projectile", "GangThug");
 	ourCollisionSystem->watchForCollisions("Benemy", "Player");
+	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 
