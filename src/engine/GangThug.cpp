@@ -34,10 +34,10 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 		//delete this;
 	}
 	//enemy is dead so clean it up
-	if(this->health == 0){
-		this->clean = true; //scene will clean it up
-		AnimatedSprite::update(pressedKeys);
-	}
+	// if(this->health == 0){
+	// 	//this->clean = true; //scene will clean it up
+	// 	AnimatedSprite::update(pressedKeys);
+	// }
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
     // if the difference in north/south is greater than east/west
@@ -71,9 +71,6 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 		fire();
 	}
 	else if(this->state == 3){
-        //std::cout << "charging\n";
-		// this->targX = sayu->x;
-		// this->targY = sayu->y;
 		charge();
 	}
 
@@ -88,7 +85,7 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	else if(this->state == 1){
 		//if player is close, start to prepare charge
 		int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-		if(dist<250){
+		if(dist<200){
 			this->state = 2;
 			this->vel = 0;
 			this->maxVel = 4;
@@ -100,7 +97,7 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	}
 	else if(this->state == 2){
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-        if (dist>250) {
+        if (dist>100) {
             this->state = 3;
             this->targX = this->sayu->position.x;
 			this->targY = this->sayu->position.y;
@@ -113,7 +110,7 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	}
 	else if(this->state == 3){
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-        if(dist < 250){
+        if(dist < 100){
 			this->state = 2;
 			this->rotation = 0;
 			this->rotVel = 0;

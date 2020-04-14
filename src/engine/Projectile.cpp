@@ -78,7 +78,8 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 }
 
 void Projectile::onCollision(DisplayObject* other) {
-	this->removeThis();
+	if (this->thrown)
+		this->removeThis();
 }
 
 SDL_Point* Projectile::getGlobalHitbox(){
@@ -113,6 +114,7 @@ void Projectile::update(set<SDL_Scancode> pressedKeys){
     }
 	if(this->durability > this->Distance) {
 		if(this->Distance == 150) {
+			this->thrown = true;
 			this->speed = 0;
 			this->position = this->position;
 		}else{

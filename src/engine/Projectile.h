@@ -33,9 +33,9 @@ public:
 	/* direction */
 	string dir;
 
-
 	/* type of weapon */
 	string gun;
+	bool thrown = false;
 	
 	//iFrames
 	bool iFrames = false;

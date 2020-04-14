@@ -52,10 +52,9 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
 	//everything else controlled by state machine
 	//state 0 = one time state to kick things off
 	//state 1 = patrolling
-	//state 2 = readying a charge
+	//state 2 = nothing
 	//state 3 = charging
-	//state 4 = post-charge movement
-	//state 5 = stunned
+	//state 4 = moving
 	
 	if(this->state == 0){
         //std::cout << "init\n";
@@ -104,8 +103,8 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
 	else if(this->state == 2){
 		//if(abs(this->rotVel - this->maxRotVel) < 1){
 			this->state = 3;
-			this->targX = this->sayu->position.x;
-			this->targY = this->sayu->position.y;
+			this->targX = this->sayu->position.x + (rand() % 20) - 10;
+			this->targY = this->sayu->position.y + (rand() % 20) - 10;
 		//}
 	}
 	else if(this->state == 3){
@@ -114,7 +113,7 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
 			this->rotation = 0;
 			this->rotVel = 0;
 			this->targX = this->position.x;
-			this->targY = this->position.y - 100;
+			this->targY = this->position.y - (rand() % 200) - 100;
 		}
 	}
 	else if(this->state == 4){
@@ -137,11 +136,8 @@ void Wolf::onMeleeStrike(){
 // }
 
 void Wolf::onCollision(DisplayObject* other){
-	Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
-	this->targX += (rand() % 100) - 50;
-	this->targY += (rand() % 100) - 50;
+	//Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX + (rand() % 50) - 25, this->position.y-oldY + (rand() % 50) - 25, 0, 0);
 
-	//this->state = 1;
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
 	// 		onEssenceStrike((Weapon*)other);

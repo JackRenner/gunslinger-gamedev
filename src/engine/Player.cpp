@@ -111,8 +111,15 @@ void Player::hitByProjectile(string gun){
 //Called automatically by collision system when something collides with the player
 //our job is to simply react to that collision.
 void Player::onCollision(DisplayObject* other){
-	std::cout << "Player collision" << endl;
-	hitByProjectile("revolver");
+	if (other->type == "Benemy") {
+		hitByProjectile("revolver");
+	} else if (other->type == "Projectile") {
+		Projectile *temp = (Projectile*) other;
+		if (temp->gun == "knife" && temp->thrown) {
+			// picking up knife
+			this->knife_throws = 0;
+		}
+	}
 	// if(other->type == "Platform"){
 	// 	Game::instance->collisionSystem.resolveCollision(this, other, this->x - oldX, this->y - oldY);	
 	// 	_yVel = 0;

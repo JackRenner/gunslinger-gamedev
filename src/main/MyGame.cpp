@@ -90,12 +90,11 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	// need to make these for loops that loop through for each type of enemy
 
 	// GANG THUG LOOP
-	//std::cout << "before loop" << endl;
 	for (std::map<GangThug*, int>::iterator it=gang_thugs.begin(); it!=gang_thugs.end(); ++it) {
-		//std::cout << "in loop" << endl;
-		if (it->first->clean) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
 			gang_thugs.erase(it->first);
-			continue;
+			break;
 		}
 		if(it->first->shoot > 0) {
 			benemy = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "bullet");
