@@ -7,11 +7,12 @@
 #include "Controls.h"
 #include <cstdlib>
 #include <math.h>
+#include "Game.h"
 
 using namespace std;
 
 //Here, "Sayu" is the player character
-GangMarksman::GangMarksman(Player* sayu) : AnimatedSprite("GangMarksman"){
+GangMarksman::GangMarksman(Player* sayu, string id) : AnimatedSprite(id){
 	this->type = "GangMarksman";
 	this->sayu = sayu;
 	this->width = 80; this->height = 100;
@@ -22,17 +23,10 @@ GangMarksman::GangMarksman(Player* sayu) : AnimatedSprite("GangMarksman"){
 void GangMarksman::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
-	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
 	//enemy is dead so clean it up
-	if(this->health == 0){
-		this->clean = true; //scene will clean it up
-	}
-	//do the actual cleaning if necessary
 	if(this->clean){
 		this->removeThis();
-		delete this;
 	}
-
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
     // if the difference in north/south is greater than east/west
     if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
@@ -101,27 +95,41 @@ void GangMarksman::update(set<SDL_Scancode> pressedKeys){
 	}
 }
 
-void GangMarksman::onMeleeStrike(){
-	this->health -= 10;
-	if(this->health < 0) this->health = 0;
+void GangMarksman::onCollision(DisplayObject* other){
+	if (other->type == "Projectile") {
+		Projectile *temp = (Projectile*)other;
+		if (temp->gun == "revolver") {
+			this->health -= 20;
+			this->alpha -= 40;
+			if(this->health < 0) this->health = 0;
+		} else if (temp->gun == "knife") {
+			this->health -= 50;
+			this->alpha -= 100;
+			if(this->health < 0) this->health = 0;
+			sayu->knife_throws = 0;
+		} else if (temp->gun == "shotgun") {
+			this->health -= 40;
+			this->alpha -= 80;
+			if(this->health < 0) this->health = 0;
+		} else if (temp->gun == "rifle") {
+			this->health -= 30;
+			this->alpha -= 60;
+			if(this->health < 0) this->health = 0;
+		}
+	}else{
+		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+	}
 }
 
-// void GangMarksman::onEssenceStrike(Weapon* w){
-
-// 	if(this->shield <= 0) this->health -= w->damage;
-// 	if(this->health < 0) this->health = 0;
-// }
-
-// void GangMarksman::onCollision(DisplayObject* other){
-// 	if(other->type == "Weapon"){
-// 		if(controls::pressSpecial()) 
-// 			onEssenceStrike((Weapon*)other);
-// 	}
-// 	else if(other->type == "Blast"){
-// 		if(controls::pressAttack())
-// 			onMeleeStrike();
-// 	}
-// }
+SDL_Point* GangMarksman::getGlobalHitbox(){
+	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+	AffineTransform* temp = this->getGlobalTransform();
+	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/2, -this->height/2);
+	this->MyGlobalHitbox[1] = temp->transformPoint(this->width/2, -this->height/2);
+	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/2, this->height/2);
+	this->MyGlobalHitbox[3] = temp->transformPoint(this->width/2, this->height/2);
+	return this->MyGlobalHitbox;
+}
 
 void GangMarksman::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);

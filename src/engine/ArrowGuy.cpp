@@ -11,7 +11,7 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-ArrowGuy::ArrowGuy(Player* sayu) : AnimatedSprite("ArrowGuy"){
+ArrowGuy::ArrowGuy(Player* sayu, string id) : AnimatedSprite(id){
 	this->type = "ArrowGuy";
 	this->sayu = sayu;
 	this->width = 80; this->height = 100;

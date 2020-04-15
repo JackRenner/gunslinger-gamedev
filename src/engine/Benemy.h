@@ -33,7 +33,7 @@ public:
 
     bool distanceReached();
 	
-	/* Health and such */
+    string source = "";
 
 	//iFrames
 	bool iFrames = false;

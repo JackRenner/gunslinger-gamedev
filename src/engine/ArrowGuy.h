@@ -17,7 +17,7 @@ using namespace std;
 class ArrowGuy : public AnimatedSprite{
 
 public:
-	ArrowGuy(Player* sayu);
+	ArrowGuy(Player* sayu, string id);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);

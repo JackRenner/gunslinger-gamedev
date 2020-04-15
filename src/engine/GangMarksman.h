@@ -17,7 +17,7 @@ using namespace std;
 class GangMarksman : public AnimatedSprite{
 
 public:
-	GangMarksman(Player* sayu);
+	GangMarksman(Player* sayu, string id);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -25,7 +25,8 @@ public:
     void onMeleeStrike();
     
     // void GangMarksman::onEssenceStrike(Weapon* w);
-    // void GangMarksman::onCollision(DisplayObject* other);
+    virtual void onCollision(DisplayObject* other);
+    virtual SDL_Point* getGlobalHitbox();
 
     void save(ofstream &out);
 
@@ -44,6 +45,7 @@ public:
 	/* Health and such */
 	int health = 100;
 	int maxHealth = 100;
+    bool clean = false;
 
 	//iFrames
 	bool iFrames = false;
@@ -53,7 +55,6 @@ public:
 private:
     Player* sayu;
     Benemy* dirt;
-    bool clean = false;
     int state = 0;
 
     int targX = 0;

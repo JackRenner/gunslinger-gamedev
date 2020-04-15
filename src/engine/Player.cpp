@@ -6,6 +6,7 @@
 #include "Sprite.h"
 #include "Controls.h"
 #include "CollisionSystem.h"
+#include "Benemy.h"
 
 using namespace std;
 
@@ -97,14 +98,14 @@ void Player::hitByProjectile(string gun){
 	if (gun == "poison") {
 		this->poisoned = true;
 		this->poisonedTime = 10;
-	} else if (gun == "bow") {
+	} else if (gun == "arrow") {
 		takeDamage(10);
 	} else if (gun == "revolver") {
 		takeDamage(15);
 	} else if (gun == "shotgun") {
-		takeDamage(25);
+		takeDamage(50);
 	} else if (gun == "rifle") {
-		takeDamage(15);
+		takeDamage(25);
 	}
 }
 
@@ -112,7 +113,8 @@ void Player::hitByProjectile(string gun){
 //our job is to simply react to that collision.
 void Player::onCollision(DisplayObject* other){
 	if (other->type == "Benemy") {
-		hitByProjectile("revolver");
+		Benemy *temp = (Benemy*) other;
+		hitByProjectile(temp->source);
 	} else if (other->type == "Projectile") {
 		Projectile *temp = (Projectile*) other;
 		if (temp->gun == "knife" && temp->thrown) {
