@@ -25,9 +25,11 @@ public:
     void onMeleeStrike();
     
     // void ArrowGuy::onEssenceStrike(Weapon* w);
-    // void ArrowGuy::onCollision(DisplayObject* other);
+    virtual void onCollision(DisplayObject* other);
 
-    void save(ofstream &out);
+    virtual SDL_Point* getGlobalHitbox();
+
+    void save();
 
     void setPatrolRange();
 
@@ -50,10 +52,12 @@ public:
 	int iFrameCount = 0;
 	int numIFrames = 0;
 
+    bool clean = false;
+
+
 private:
     Player* sayu;
     Benemy* dirt;
-    bool clean = false;
     int state = 0;
 
     int targX = 0;

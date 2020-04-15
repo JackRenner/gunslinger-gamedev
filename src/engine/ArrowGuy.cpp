@@ -24,13 +24,8 @@ void ArrowGuy::update(set<SDL_Scancode> pressedKeys){
 	
 	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
 	//enemy is dead so clean it up
-	if(this->health == 0){
-		this->clean = true; //scene will clean it up
-	}
-	//do the actual cleaning if necessary
 	if(this->clean){
 		this->removeThis();
-		delete this;
 	}
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
@@ -99,6 +94,7 @@ void ArrowGuy::update(set<SDL_Scancode> pressedKeys){
 			this->setPatrolRange();
 		}
 	}
+	this->save();
 }
 
 void ArrowGuy::onMeleeStrike(){
@@ -112,25 +108,49 @@ void ArrowGuy::onMeleeStrike(){
 // 	if(this->health < 0) this->health = 0;
 // }
 
-// void ArrowGuy::onCollision(DisplayObject* other){
-// 	if(other->type == "Weapon"){
-// 		if(controls::pressSpecial()) 
-// 			onEssenceStrike((Weapon*)other);
-// 	}
-// 	else if(other->type == "Blast"){
-// 		if(controls::pressAttack())
-// 			onMeleeStrike();
-// 	}
-// }
+void ArrowGuy::onCollision(DisplayObject* other){
+	if (other->type == "Projectile") {
+		Projectile *temp = (Projectile*)other;
+		if (temp->gun == "revolver") {
+			this->health -= 20;
+			this->alpha -= 40;
+			if(this->health < 0) this->health = 0;
+		} else if (temp->gun == "knife") {
+			this->health -= 50;
+			this->alpha -= 100;
+			if(this->health < 0) this->health = 0;
+			sayu->knife_throws = 0;
+		} else if (temp->gun == "shotgun") {
+			this->health -= 40;
+			this->alpha -= 80;
+			if(this->health < 0) this->health = 0;
+		} else if (temp->gun == "rifle") {
+			this->health -= 30;
+			this->alpha -= 60;
+			if(this->health < 0) this->health = 0;
+		}
+	}
+}
 
 void ArrowGuy::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
 	//this->drawHitbox();
 }
 
-void ArrowGuy::save(ofstream &out){
-	//Sprite::save(out);
+void ArrowGuy::save(){
+	this->oldX = position.x;
+	this->oldY = position.y;	//Sprite::save(out);
 	//TODO: ADD THIS TO SAVE ArrowGuy DATA
+}
+
+SDL_Point* ArrowGuy::getGlobalHitbox(){
+	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+	AffineTransform* temp = this->getGlobalTransform();
+	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/2, -this->height/2);
+	this->MyGlobalHitbox[1] = temp->transformPoint(this->width/2, -this->height/2);
+	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/2, this->height/2);
+	this->MyGlobalHitbox[3] = temp->transformPoint(this->width/2, this->height/2);
+	return this->MyGlobalHitbox;
 }
 
 

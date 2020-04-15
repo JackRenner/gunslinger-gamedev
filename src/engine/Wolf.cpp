@@ -124,6 +124,8 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
 			this->setPatrolRange();
 		}
 	}
+	this->save();
+
 }
 
 void Wolf::onMeleeStrike(){
@@ -160,10 +162,8 @@ void Wolf::onCollision(DisplayObject* other){
 			if(this->health < 0) this->health = 0;
 		}
 	}else if (other->type == "Wolf"){
-		this->save();
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX, this->position.y-this->oldY, 0, 0);
 	} else if (other->type == "Player"){
-		this->save();
 		if (this->position.x > this->oldX && this->position.y > this->oldY)
 		{
 			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX - 10, this->position.y-this->oldY - 10, 0, 0);

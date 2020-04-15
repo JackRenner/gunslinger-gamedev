@@ -3,6 +3,7 @@
 #include "Creeper.h"
 #include "Wolf.h"
 #include "Projectile.h"
+#include "ArrowGuy.h"
 
 
 CollisionSystem :: CollisionSystem(){
@@ -35,11 +36,11 @@ void CollisionSystem:: update(){
           //cout << SecondObject->id;
           if(OneObject != SecondObject){
             if(collidesWith(OneObject, SecondObject)){
-                // std::cout << "Detected Collision between ";
-                // std::cout << OneObject->id;
-                // std::cout << " And ";
-                // std::cout << SecondObject->id << endl;
-                // std::cout<< OneObject->position.x;
+                std::cout << "Detected Collision between ";
+                std::cout << OneObject->id;
+                std::cout << " And ";
+                std::cout << SecondObject->id << endl;
+                std::cout<< OneObject->position.x;
                 OneObject->onCollision(SecondObject);
                 SecondObject->onCollision(OneObject);
 
@@ -167,6 +168,12 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
   }
   if (obj2->type == "Wolf") {
     SDL_Point* obj2Points = ((Wolf*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "ArrowGuy") {
+    SDL_Point* obj1Points = ((ArrowGuy*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "ArrowGuy") {
+    SDL_Point* obj2Points = ((ArrowGuy*)obj2)->getGlobalHitbox();
   }
 
   int minX = INT_MAX;

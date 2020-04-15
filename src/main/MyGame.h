@@ -60,6 +60,7 @@ public:
 
 	//map<Benemy*, GangThug*> thug_benemies;
 	std::map<GangThug*,int> gang_thugs;
+	std::map<ArrowGuy*,int> arrow_guys;
 
 private:
 

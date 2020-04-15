@@ -124,15 +124,22 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		benemy2->scaleY = 1;
 		mark1LakeStill3->shoot -= 80;
 	}
-	if(arrow1LakeStill4->shoot > 0) {
-		benemy3 = new Benemy((AnimatedSprite*)arrow1LakeStill4, character->position.x, character->position.y, 5, "Arrow90");
-		benemy3->distance = 20;
-		this->addChild(benemy3);
-		benemy3->position = {arrow1LakeStill4->position.x, arrow1LakeStill4->position.y };
-		benemy3->pivot = { benemy3->width / 2, benemy3->height / 2 };
-		benemy3->scaleX = 1;
-		benemy3->scaleY = 1;
-		arrow1LakeStill4->shoot -= 80;
+	for (std::map<ArrowGuy*, int>::iterator it=arrow_guys.begin(); it!=arrow_guys.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			arrow_guys.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "Arrow90");
+			benemy3->distance = 20;
+			this->addChild(benemy3);
+			benemy3->position = {it->first->position.x, it->first->position.y };
+			benemy3->pivot = { benemy3->width / 2, benemy3->height / 2 };
+			benemy3->scaleX = 1;
+			benemy3->scaleY = 1;
+			it->first->shoot -= 80;
+		}
 	}
 	
 	// for (std::map<Benemy*, GangThug*>::iterator it=thug_benemies.begin(); it!=thug_benemies.end(); ++it) {
@@ -475,7 +482,7 @@ void MyGame::initLake() {
 
 	vector<TransitionStruct> lake4Points = {
 	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 8, TransitionDetection::AXIS, Cardinal::NORTH),
-	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 12, TransitionDetection::AXIS, Cardinal::EAST),
+	//TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 12, TransitionDetection::AXIS, Cardinal::EAST),
 	TransitionStruct(SDL_Point{ 0, 595 }, SDL_Point{ 550, 80 }, 14, TransitionDetection::AXIS, Cardinal::SOUTH) };
 	transitions.push_back(lake4Points);
 
@@ -489,7 +496,8 @@ void MyGame::initLake() {
 	vector<TransitionStruct> lake6Points = {
 	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 10, TransitionDetection::AXIS, Cardinal::NORTH),
 	TransitionStruct(SDL_Point{ 0, 595}, SDL_Point{ 550, 80 }, 16, TransitionDetection::AXIS, Cardinal::SOUTH),
-	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 12, TransitionDetection::AXIS, Cardinal::WEST) };
+	//TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 12, TransitionDetection::AXIS, Cardinal::WEST) 
+	};
 	transitions.push_back(lake6Points);
 
 	vector<TransitionStruct> lake7Points = {
@@ -547,16 +555,6 @@ void MyGame::initLake() {
 	mark1LakeStill3->width = 90;
 	mark1LakeStill3->play("GangMarksmanLeft");
 
-	arrow1LakeStill4 = new ArrowGuy((Player*)character);
-	arrow1LakeStill4->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
-	lake4->addChild(arrow1LakeStill4);
-	arrow1LakeStill4->position = { 900, 150 };
-	arrow1LakeStill4->pivot = { arrow1LakeStill4->width / 2, arrow1LakeStill4->height / 2 };
-	arrow1LakeStill4->scaleX = 0.5;
-	arrow1LakeStill4->scaleY = 0.5;
-	arrow1LakeStill4->height = 400;
-	arrow1LakeStill4->width = 250;
-	arrow1LakeStill4->play("Arrow");
 }
 
 void MyGame::initEnemies(Scene* s) {
@@ -603,6 +601,21 @@ void MyGame::initEnemies(Scene* s) {
 		
 		s->enemiesAdded = true;
 
+	}
+	if (s->id == "lake4" && !s->enemiesAdded) {
+		arrow1LakeStill4 = new ArrowGuy((Player*)character);
+		arrow1LakeStill4->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
+		lake4->addChild(arrow1LakeStill4);
+		arrow1LakeStill4->position = { 900, 150 };
+		arrow1LakeStill4->pivot = { arrow1LakeStill4->width / 2, arrow1LakeStill4->height / 2 };
+		arrow1LakeStill4->scaleX = 0.5;
+		arrow1LakeStill4->scaleY = 0.5;
+		arrow1LakeStill4->height = 400;
+		arrow1LakeStill4->width = 250;
+		arrow1LakeStill4->play("Arrow");
+		arrow_guys[arrow1LakeStill4] = 1;
+
+		s->enemiesAdded = true;
 	}
 	if (s->id == "lake7" && !s->enemiesAdded) {
 		creeper1LakeStill7 = new Creeper(character);
