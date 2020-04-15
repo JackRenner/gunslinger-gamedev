@@ -37,12 +37,14 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
     // if the difference in north/south is greater than east/west
     if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
+		this->up = true;
         if (this->position.x - sayu->position.x > 0) {
             this->play("WolfLeft");
         } else {
             this->play("WolfRight");
         }
     } else {
+		this->up = false;
         if (this->position.y - sayu->position.y > 0) {
             this->play("WolfUp");
         } else {
@@ -143,10 +145,41 @@ void Wolf::onCollision(DisplayObject* other){
 			this->health -= 20;
 			this->alpha -= 40;
 			if(this->health < 0) this->health = 0;
+		} else if (temp->gun == "knife") {
+			this->health -= 50;
+			this->alpha -= 100;
+			if(this->health < 0) this->health = 0;
+			sayu->knife_throws = 0;
+		} else if (temp->gun == "shotgun") {
+			this->health -= 40;
+			this->alpha -= 80;
+			if(this->health < 0) this->health = 0;
+		} else if (temp->gun == "rifle") {
+			this->health -= 30;
+			this->alpha -= 60;
+			if(this->health < 0) this->health = 0;
 		}
-	}else if (other->type == "Player" || other->type == "Wolf"){
+	}else if (other->type == "Wolf"){
 		this->save();
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX, this->position.y-this->oldY, 0, 0);
+	} else if (other->type == "Player"){
+		this->save();
+		if (this->position.x > this->oldX && this->position.y > this->oldY)
+		{
+			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX - 10, this->position.y-this->oldY - 10, 0, 0);
+		}
+		else if (this->position.x < this->oldX && this->position.y < this->oldY)
+		{
+			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX + 10, this->position.y-this->oldY + 10, 0, 0);
+		}
+		else if (this->position.x < this->oldX)
+		{
+			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX + 10, this->position.y-this->oldY - 10, 0, 0);
+		} else 
+		{
+			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX - 10, this->position.y-this->oldY + 10, 0, 0);
+		}
+		
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
@@ -171,12 +204,23 @@ void Wolf::save(){
 }
 
 SDL_Point* Wolf::getGlobalHitbox(){
-	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
 	AffineTransform* temp = this->getGlobalTransform();
-	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/4, -this->height/4);
-	this->MyGlobalHitbox[1] = temp->transformPoint(this->width/4, -this->height/4);
-	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/4, this->height/4);
-	this->MyGlobalHitbox[3] = temp->transformPoint(this->width/4, this->height/4);
+	if (this->up) {
+		this->MyGlobalHitbox[0] = temp->transformPoint(-this->height/4, -this->width/4);
+		this->MyGlobalHitbox[1] = temp->transformPoint(this->height/4, -this->width/4);
+		this->MyGlobalHitbox[2] = temp->transformPoint(-this->height/4, this->width/4);
+		this->MyGlobalHitbox[3] = temp->transformPoint(this->height/4, this->width/4);
+	} else {
+		this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/4, -this->height/4);
+		this->MyGlobalHitbox[1] = temp->transformPoint(this->width/4, -this->height/4);
+		this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/4, this->height/4);
+		this->MyGlobalHitbox[3] = temp->transformPoint(this->width/4, this->height/4);
+	}
+	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+	// this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/4, -this->height/4);
+	// this->MyGlobalHitbox[1] = temp->transformPoint(this->width/4, -this->height/4);
+	// this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/4, this->height/4);
+	// this->MyGlobalHitbox[3] = temp->transformPoint(this->width/4, this->height/4);
 	return this->MyGlobalHitbox;
 }
 

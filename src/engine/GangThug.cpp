@@ -138,6 +138,19 @@ void GangThug::onCollision(DisplayObject* other){
 			this->health -= 20;
 			this->alpha -= 40;
 			if(this->health < 0) this->health = 0;
+		} else if (temp->gun == "knife") {
+			this->health -= 50;
+			this->alpha -= 100;
+			if(this->health < 0) this->health = 0;
+			sayu->knife_throws = 0;
+		} else if (temp->gun == "shotgun") {
+			this->health -= 40;
+			this->alpha -= 80;
+			if(this->health < 0) this->health = 0;
+		} else if (temp->gun == "rifle") {
+			this->health -= 30;
+			this->alpha -= 60;
+			if(this->health < 0) this->health = 0;
 		}
 	}else{
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);

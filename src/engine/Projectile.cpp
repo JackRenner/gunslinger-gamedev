@@ -28,7 +28,6 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 	}
 	//knife
 	if(type == 1){
-		std::cout << "worked\n";
 		this->addAnimation("resources/weapons/", "knife", 1, 1, true);
 		this->width = 30;
 		this->height = 30;
@@ -62,7 +61,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 			//should be shotgunup
 		}
 		this->Distance = 120;
-		this->speed = 5;
+		this->speed = 10;
 		this->gun = "shotgun";
 	}
 	//rifle
