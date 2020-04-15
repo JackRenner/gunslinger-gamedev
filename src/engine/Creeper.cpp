@@ -25,35 +25,17 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 	
 	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
 
-	//do the actual cleaning if necessary
-	if(this->clean){
-		std::cout << "removing" << endl;
-		//MyGame::gang_thugs.erase(this);
-		this->removeThis();
-		std::cout << "wait what" << endl;
-		//delete this;
-	}
-	//enemy is dead so clean it up
 	if(this->health == 0){
 		this->clean = true; //scene will clean it up
-		AnimatedSprite::update(pressedKeys);
+	}
+	//do the actual cleaning if necessary
+	if(this->clean){
+		//MyGame::gang_thugs.erase(this);
+		this->removeThis();
+		//delete this;
 	}
 
-    // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
-    // if the difference in north/south is greater than east/west
-    if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
-        if (this->position.x - sayu->position.x > 0) {
-            this->play("GangThugLeft");
-        } else {
-            this->play("GangThugRight");
-        }
-    } else {
-        if (this->position.y - sayu->position.y > 0) {
-            this->play("GangThugUp");
-        } else {
-            this->play("GangThugDown");
-        }
-    }
+
 	//everything else controlled by state machine
 	//state 0 = one time state to kick things off
 	//state 1 = patrolling
@@ -89,6 +71,21 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 		this->maxVel = 4;
 	}
 	else if(this->state == 1){
+		    // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
+		// if the difference in north/south is greater than east/west
+		if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
+			if (this->position.x - sayu->position.x > 0) {
+				this->play("GangThugLeft");
+			} else {
+				this->play("GangThugRight");
+			}
+		} else {
+			if (this->position.y - sayu->position.y > 0) {
+				this->play("GangThugUp");
+			} else {
+				this->play("GangThugDown");
+			}
+		}
 		//if player is close, start to prepare charge
 		int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
 		if(dist<400){
@@ -104,6 +101,21 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 		}
 	}
 	else if(this->state == 2){
+		    // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
+		// if the difference in north/south is greater than east/west
+		if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
+			if (this->position.x - sayu->position.x > 0) {
+				this->play("GangThugLeft");
+			} else {
+				this->play("GangThugRight");
+			}
+		} else {
+			if (this->position.y - sayu->position.y > 0) {
+				this->play("GangThugUp");
+			} else {
+				this->play("GangThugDown");
+			}
+		}
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
         if(dist < 50){
 			this->state = 3;
@@ -111,6 +123,9 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 			//this->rotVel = 0;
 			this->targX = this->position.x;
 			this->targY = this->position.y;
+			Sound* new_sound = new Sound();
+			new_sound->playSFX();
+			this->play("Explode");
 		}
 	}
 }
@@ -221,9 +236,7 @@ bool Creeper::isTargetReached(){
 }
 
 void Creeper::explode(){
-	Sound* new_sound = new Sound();
-	new_sound->playSFX();
-	this->play("Explode");
-	this->health = 0;
-	this->state = 4;
+	if (this->waitToDelete > 100)
+		this->health = 0;
+	this->waitToDelete ++;
 }

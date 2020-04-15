@@ -82,6 +82,7 @@ private:
     double maxRotVel = 20;
 
     int pauseCount = 0;
+    int waitToDelete = 0;
 
 	// int oldX=0, oldY=0;
 
