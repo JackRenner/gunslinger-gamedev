@@ -29,7 +29,9 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("Projectile", "GangThug");
 	ourCollisionSystem->watchForCollisions("Benemy", "Player");
 	ourCollisionSystem->watchForCollisions("Projectile", "Player");
-	//ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
+	ourCollisionSystem->watchForCollisions("Wolf", "Projectile");
+	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
+	ourCollisionSystem->watchForCollisions("Wolf", "Player");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 

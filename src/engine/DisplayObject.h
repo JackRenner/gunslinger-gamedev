@@ -144,7 +144,6 @@ public:
 	/* Texture currently being drawn. Equal to texture for normal DO */
 	SDL_Texture* curTexture;
 
-
 	EventDispatcher* MyEventDispatcher; //Create an EventDispatcher for DOC when built.
 	//Then we can call it for all
 

@@ -11,6 +11,7 @@
 #include "../engine/Player.h"
 #include "../engine/Wolf.h"
 #include "../engine/GangThug.h"
+#include "../engine/Creeper.h"
 #include "../engine/GangMarksman.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
@@ -98,11 +99,12 @@ private:
 	Wolf* wolf2LakeStill1;
 	
 	GangThug* thug1LakeStill2;
-	
 
 	GangMarksman* mark1LakeStill3;
 
 	ArrowGuy* arrow1LakeStill4;
+
+	Creeper* creeper1LakeStill7;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;

@@ -56,22 +56,22 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		if (controls::holdW()) {
 			this->dir = "Up";
 			this->play("FaceUp");
-			this->position.y -= 4;
+			this->position.y -= 2;
 		}
 		if (controls::holdS()) {
 			this->dir = "Down";
 			this->play("FaceDown");
-			this->position.y += 4;
+			this->position.y += 2;
 		}
 		if (controls::holdD()) {
 			this->dir = "Right";
 			this->play("FaceRight");
-			this->position.x += 4;
+			this->position.x += 2;
 		}
 		if (controls::holdA()) {
 			this->dir = "Left";
 			this->play("FaceLeft");
-			this->position.x -= 4;
+			this->position.x -= 2;
 		}
 		if (controls::holdUp()) {
 			this->dir = "Up";
@@ -119,6 +119,8 @@ void Player::onCollision(DisplayObject* other){
 			// picking up knife
 			this->knife_throws = 0;
 		}
+	} else if (other->type == "Wolf") {
+		hitByMelee("wolf");
 	}
 	// if(other->type == "Platform"){
 	// 	Game::instance->collisionSystem.resolveCollision(this, other, this->x - oldX, this->y - oldY);	
@@ -136,9 +138,9 @@ void Player::onCollision(DisplayObject* other){
 // do not include attacks from bosses yet
 void Player::hitByMelee(string enemy){
 	if (enemy == "scorpion") {
-		this->health -= 5;
+		takeDamage(5);
 	} else if (enemy == "wolf") {
-		this->health -= 5;
+		takeDamage(1);
 	}
 }
 

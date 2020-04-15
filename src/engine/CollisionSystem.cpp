@@ -1,5 +1,7 @@
 #include "CollisionSystem.h"
 #include "GangThug.h"
+#include "Creeper.h"
+#include "Wolf.h"
 #include "Projectile.h"
 
 
@@ -30,7 +32,7 @@ void CollisionSystem:: update(){
       for(DisplayObject* OneObject : *ObjectsOfEachType[collisionPair.first] ){
         //cout << OneObject->id;
         for(DisplayObject* SecondObject : *ObjectsOfEachType[collisionPair.second] ){
-          //cout << OneObject->id;
+          //cout << SecondObject->id;
           if(OneObject != SecondObject){
             if(collidesWith(OneObject, SecondObject)){
                 std::cout << "Detected Collision between ";
@@ -96,18 +98,18 @@ void CollisionSystem :: handleAddDisplayObject(GameTreeEvent*e){
 
 
 void CollisionSystem :: handleRemoveDisplayObject(GameTreeEvent*e){
-  //cout << "handleRemoveDisplayObjectIsCalled"<<endl;
+  cout << "handleRemoveDisplayObjectIsCalled"<<endl;
     if(ObjectsOfEachType.find(e->getModifiedObject()->type) ==  ObjectsOfEachType.end()){
       //cout << "Keytype has not been added yet. There is nothing to remove"<<endl;
     }
     else{
       auto iter = ObjectsOfEachType[e->getModifiedObject()->type]->begin(); //Create iterator for forloop, starts with the beginning
       for(iter; iter !=  ObjectsOfEachType[e->getModifiedObject()->type]->end(); iter++ ){
-          //cout << "Erase Iter" <<endl;
-          //cout << (*iter)->id <<endl;
+          cout << "Erase Iter" <<endl;
+          cout << (*iter)->id <<endl;
           if( (*iter)->id == e->getModifiedObject()->id){
-            //cout <<"Equal to Target"<<endl;
-            ObjectsOfEachType[e->getModifiedObject()->type]->erase(iter--);
+              cout <<"Equal to Target"<<endl;
+              ObjectsOfEachType[e->getModifiedObject()->type]->erase(iter--);
           }
       }
     }
@@ -158,7 +160,13 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
     SDL_Point* obj1Points = ((Projectile*)obj1)->getGlobalHitbox();
   }
   if (obj2->type == "Projectile") {
-    SDL_Point* obj2Points = ((Projectile*)obj1)->getGlobalHitbox();
+    SDL_Point* obj2Points = ((Projectile*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "Wolf") {
+    SDL_Point* obj1Points = ((Wolf*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "Wolf") {
+    SDL_Point* obj2Points = ((Wolf*)obj2)->getGlobalHitbox();
   }
 
   int minX = INT_MAX;

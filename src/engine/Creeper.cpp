@@ -65,16 +65,19 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 		setPatrolRange();
 	}
 	else if(this->state == 1){
+		std::cout << "setting state 1" << endl;
 		patrol();
 	}
 	else if(this->state == 2){
-		charge();
-	}
-	else if(this->state == 3){
-        //std::cout << "charging\n";
+        std::cout << "charging\n";
 		// this->targX = sayu->x;
 		// this->targY = sayu->y;
 		charge();
+	}
+	else if(this->state == 3){
+		std::cout << "explode" << endl;
+		// blow up
+		explode();
 	}
 
 	//state transitions
@@ -88,35 +91,24 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 	else if(this->state == 1){
 		//if player is close, start to prepare charge
 		int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-		if(dist<250){
+		if(dist<400){
 			this->state = 2;
 			this->vel = 0;
 			this->maxVel = 4;
 			this->acc = 0.5;
-			this->rotVel = 0;
-			this->rotAcc = 0.4;
-			this->maxRotVel = 20;
+			this->targX = this->sayu->position.x;
+			this->targY = this->sayu->position.y;
+			// this->rotVel = 0;
+			// this->rotAcc = 0.4;
+			// this->maxRotVel = 20;
 		}
 	}
 	else if(this->state == 2){
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-        if (dist>250) {
-            this->state = 3;
-            this->targX = this->sayu->position.x;
-			this->targY = this->sayu->position.y;
-        }
-		// //if(abs(this->rotVel - this->maxRotVel) < 1){
-		// 	this->state = 3;
-		// 	this->targX = this->sayu->position.x;
-		// 	this->targY = this->sayu->position.y;
-		// //}
-	}
-	else if(this->state == 3){
-        int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-        if(dist < 250){
-			this->state = 2;
-			this->rotation = 0;
-			this->rotVel = 0;
+        if(dist < 50){
+			this->state = 3;
+			//this->rotation = 0;
+			//this->rotVel = 0;
 			this->targX = this->position.x;
 			this->targY = this->position.y;
 		}
@@ -176,7 +168,7 @@ void Creeper::save(ofstream &out){
 }
 
 void Creeper::charge(){
-	this->rotation += this->rotVel;
+	//this->rotation += this->rotVel;
 	moveToTarget();
 }
 
@@ -194,7 +186,6 @@ void Creeper::setPatrolRange(){
 
 void Creeper::patrol(){
 	//if close to target, set a new one
-	
 	if(isTargetReached() && pauseCount == 119){
 		this->targX = std::rand()%(this->maxPatX-this->minPatX) + this->minPatX;
 		this->targY = std::rand()%(this->maxPatY-this->minPatY) + this->minPatY;
@@ -212,29 +203,27 @@ void Creeper::patrol(){
 }
 
 void Creeper::moveToTarget(){
-
 	//increase velocity by accel
 	this->vel = std::min(this->vel+this->acc, this->maxVel);
-
 	//use unit vector to determine percent that goes into x and y 
 	double theta = atan2(std::abs(this->targY - this->position.y),std::abs(this->targX - this->position.x));
 	double xComp = this->vel*cos(theta);
 	double yComp = this->vel*sin(theta);
 	if(this->targX - this->position.x < 0) xComp *= -1;
 	if(this->targY - this->position.y < 0) yComp *= -1;
-
     this->position.x += xComp;
     this->position.y += yComp;
-	moveToTarget();
+	//moveToTarget();
 }
 
 bool Creeper::isTargetReached(){
 	return std::abs(this->position.x-this->targX) <= 6 && std::abs(this->position.y-this->targY) <= 6;
 }
 
-int Creeper::fire() {
-    // shoot six shots at a time with pauses between
-	this->shoot += 1;
-	return shoot;
+void Creeper::explode(){
+	Sound* new_sound = new Sound();
+	new_sound->playSFX();
+	this->play("Explode");
+	this->health = 0;
+	this->state = 4;
 }
-

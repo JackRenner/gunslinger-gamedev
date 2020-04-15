@@ -12,7 +12,7 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-Wolf::Wolf(Player* sayu) : AnimatedSprite("Wolf"){
+Wolf::Wolf(Player* sayu, string id) : AnimatedSprite(id){
 	this->type = "Wolf";
 	this->sayu = sayu;
 	this->width = 80; this->height = 100;
@@ -31,7 +31,7 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
 	//do the actual cleaning if necessary
 	if(this->clean){
 		this->removeThis();
-		delete this;
+		//delete this;
 	}
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
@@ -90,7 +90,7 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
 	else if(this->state == 1){
 		//if player is close, start to prepare charge
 		int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-		if(dist<250){
+		if(dist<400){
 			this->state = 2;
 			this->vel = 0;
 			this->maxVel = 4;
@@ -137,7 +137,17 @@ void Wolf::onMeleeStrike(){
 
 void Wolf::onCollision(DisplayObject* other){
 	//Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX + (rand() % 50) - 25, this->position.y-oldY + (rand() % 50) - 25, 0, 0);
-
+	if (other->type == "Projectile") {
+		Projectile *temp = (Projectile*)other;
+		if (temp->gun == "revolver") {
+			this->health -= 20;
+			this->alpha -= 40;
+			if(this->health < 0) this->health = 0;
+		}
+	}else if (other->type == "Player" || other->type == "Wolf"){
+		this->save();
+		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX, this->position.y-this->oldY, 0, 0);
+	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
 	// 		onEssenceStrike((Weapon*)other);
@@ -150,10 +160,12 @@ void Wolf::onCollision(DisplayObject* other){
 
 void Wolf::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
-	//this->drawHitbox();
+	//this->drawHitbox(*MyGlobalHitbox);
 }
 
-void Wolf::save(ofstream &out){
+void Wolf::save(){
+	this->oldX = position.x;
+	this->oldY = position.y;
 	//Sprite::save(out);
 	//TODO: ADD THIS TO SAVE Wolf DATA
 }
@@ -161,10 +173,10 @@ void Wolf::save(ofstream &out){
 SDL_Point* Wolf::getGlobalHitbox(){
 	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
 	AffineTransform* temp = this->getGlobalTransform();
-	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/2, -this->height/2);
-	this->MyGlobalHitbox[1] = temp->transformPoint(this->width/2, -this->height/2);
-	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/2, this->height/2);
-	this->MyGlobalHitbox[3] = temp->transformPoint(this->width/2, this->height/2);
+	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/4, -this->height/4);
+	this->MyGlobalHitbox[1] = temp->transformPoint(this->width/4, -this->height/4);
+	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/4, this->height/4);
+	this->MyGlobalHitbox[3] = temp->transformPoint(this->width/4, this->height/4);
 	return this->MyGlobalHitbox;
 }
 
@@ -218,14 +230,14 @@ void Wolf::moveToTarget(){
 
     this->position.x += xComp;
     this->position.y += yComp;
-	fire();
+	//fire();
 }
 
 bool Wolf::isTargetReached(){
 	return std::abs(this->position.x-this->targX) <= 6 && std::abs(this->position.y-this->targY) <= 6;
 }
 
-int Wolf::fire() {
-	this->shoot += 1;
-	return shoot;
-}
+// int Wolf::fire() {
+// 	this->shoot += 1;
+// 	return shoot;
+// }

@@ -44,7 +44,7 @@ public:
 
     void reload();
 
-    int fire();
+    void explode();
 
 	int shoot = 0;
 	/* Health and such */

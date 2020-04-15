@@ -17,7 +17,7 @@ using namespace std;
 class Wolf : public AnimatedSprite{
 
 public:
-	Wolf(Player* sayu);
+	Wolf(Player* sayu, string id);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -28,7 +28,7 @@ public:
     virtual void onCollision(DisplayObject* other);
     virtual SDL_Point* getGlobalHitbox();
 
-    void save(ofstream &out);
+    void save();
     
     void charge();
 
@@ -79,7 +79,7 @@ private:
     int pauseCount = 0;
 
 
-	// int oldX=0, oldY=0;
+	int oldX=0, oldY=0;
 
 	// int _jumpVel = -15;s
 

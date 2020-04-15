@@ -562,7 +562,7 @@ void MyGame::initLake() {
 void MyGame::initEnemies(Scene* s) {
 	if (s->id == "lake1" && !s->enemiesAdded) {
 		// wolves
-		wolf1LakeStill1 = new Wolf((Player*)character);	// Adding wolf sprites
+		wolf1LakeStill1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
 		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
@@ -575,7 +575,7 @@ void MyGame::initEnemies(Scene* s) {
 		//wolf1LakeStill1->width = 90;
 		wolf1LakeStill1->play("WolfLeft");
 
-		wolf2LakeStill1 = new Wolf((Player*)character);	// Adding wolf sprites
+		wolf2LakeStill1 = new Wolf((Player*)character, "Wolf2");	// Adding wolf sprites
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
@@ -602,6 +602,23 @@ void MyGame::initEnemies(Scene* s) {
 		gang_thugs[thug1LakeStill2] = 1;
 		
 		s->enemiesAdded = true;
+
+	}
+	if (s->id == "lake7" && !s->enemiesAdded) {
+		creeper1LakeStill7 = new Creeper(character);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "Explode", 16, 1, true);
+		std::cout << creeper1LakeStill7->getAnimation("Explode") << endl;
+		lake7->addChild(creeper1LakeStill7);
+		creeper1LakeStill7->position = { 500, 500 };
+		creeper1LakeStill7->play("GangThugLeft");
+		//gang_thugs[creeper1LakeStill7] = 1;
+		
+		s->enemiesAdded = true;
+
 	}
 }
 
@@ -610,6 +627,7 @@ void MyGame::playerShooting(int gun, string dir){
 	} else if (gun == 1) {
 		bullet = new Projectile(dir,this->position, gun);
 		this->addChild(bullet);
+		bullet->speed += 5;
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->knife_throws ++;
 	} else if (character->gun == 2 && character->revolver_shots > 5) {
@@ -618,20 +636,6 @@ void MyGame::playerShooting(int gun, string dir){
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->revolver_shots ++;
-		// for (std::map<GangThug*, int>::iterator it=gang_thugs.begin(); it!=gang_thugs.end(); ++it) {
-		// 	if (it->first->clean != true) {
-		// 		std::cout<< "BEFORE DETECTION\n";
-		// 		if (this->ourCollisionSystem->collidesWith(bullet, it->first)) {
-		// 			it->first->health -= 1;
-		// 			std::cout << "thug health: " << it->first->health << "\n";
-		// 		}
-		// 	} else {
-		// 		std::cout << "ERASING\n";
-		// 		gang_thugs.erase(it->first);
-		// 		std::cout << "AFTER ERASING\n";
-		// 		break;
-		// 	}
-		// }
 	} else if (character->gun == 3 && character->shotgun_shots > 1) {
 	} else if (character->gun == 3) {
 		bullet = new Projectile(dir,character->position, gun);
