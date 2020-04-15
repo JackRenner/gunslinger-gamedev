@@ -121,6 +121,8 @@ void Player::onCollision(DisplayObject* other){
 		}
 	} else if (other->type == "Wolf") {
 		hitByMelee("wolf");
+	} else if (other->type == "Creeper") {
+		hitByMelee("creeper");
 	}
 	// if(other->type == "Platform"){
 	// 	Game::instance->collisionSystem.resolveCollision(this, other, this->x - oldX, this->y - oldY);	
@@ -137,8 +139,8 @@ void Player::onCollision(DisplayObject* other){
 
 // do not include attacks from bosses yet
 void Player::hitByMelee(string enemy){
-	if (enemy == "scorpion") {
-		takeDamage(5);
+	if (enemy == "creeper") {
+		takeDamage(500);
 	} else if (enemy == "wolf") {
 		takeDamage(1);
 	}

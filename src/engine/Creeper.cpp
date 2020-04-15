@@ -12,7 +12,7 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-Creeper::Creeper(Player* sayu) : AnimatedSprite("Creeper"){
+Creeper::Creeper(Player* sayu, string id) : AnimatedSprite(id){
 	this->type = "Creeper";
 	this->sayu = sayu;
 	this->width = 80; this->height = 100;
@@ -75,15 +75,15 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 		// if the difference in north/south is greater than east/west
 		if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
 			if (this->position.x - sayu->position.x > 0) {
-				this->play("GangThugLeft");
+				this->play("CreeperLeft");
 			} else {
-				this->play("GangThugRight");
+				this->play("CreeperRight");
 			}
 		} else {
 			if (this->position.y - sayu->position.y > 0) {
-				this->play("GangThugUp");
+				this->play("CreeperUp");
 			} else {
-				this->play("GangThugDown");
+				this->play("CreeperDown");
 			}
 		}
 		//if player is close, start to prepare charge
@@ -105,19 +105,19 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 		// if the difference in north/south is greater than east/west
 		if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
 			if (this->position.x - sayu->position.x > 0) {
-				this->play("GangThugLeft");
+				this->play("CreeperLeft");
 			} else {
-				this->play("GangThugRight");
+				this->play("CreeperRight");
 			}
 		} else {
 			if (this->position.y - sayu->position.y > 0) {
-				this->play("GangThugUp");
+				this->play("CreeperUp");
 			} else {
-				this->play("GangThugDown");
+				this->play("CreeperDown");
 			}
 		}
-        int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-        if(dist < 50){
+        int dist = std::max(std::abs(this->position.x-this->targX),std::abs(this->position.y-this->targY));
+        if(dist < 100){
 			this->state = 3;
 			//this->rotation = 0;
 			//this->rotVel = 0;
@@ -130,11 +130,6 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 	}
 }
 
-void Creeper::onMeleeStrike(){
-	this->health -= 10;
-	if(this->health < 0) this->health = 0;
-}
-
 // void Creeper::onEssenceStrike(Weapon* w){
 
 // 	if(this->shield <= 0) this->health -= w->damage;
@@ -143,14 +138,7 @@ void Creeper::onMeleeStrike(){
 
 void Creeper::onCollision(DisplayObject* other){
 	if (other->type == "Projectile") {
-		Projectile *temp = (Projectile*)other;
-		if (temp->gun == "revolver") {
-			this->health -= 20;
-			this->alpha -= 40;
-			if(this->health < 0) this->health = 0;
-		}
-	}else{
-		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+		this->health = 0;
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
@@ -165,10 +153,10 @@ void Creeper::onCollision(DisplayObject* other){
 SDL_Point* Creeper::getGlobalHitbox(){
 	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
 	AffineTransform* temp = this->getGlobalTransform();
-	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/2, -this->height/2);
-	this->MyGlobalHitbox[1] = temp->transformPoint(this->width/2, -this->height/2);
-	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/2, this->height/2);
-	this->MyGlobalHitbox[3] = temp->transformPoint(this->width/2, this->height/2);
+	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width, -this->height);
+	this->MyGlobalHitbox[1] = temp->transformPoint(this->width, -this->height);
+	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width, this->height);
+	this->MyGlobalHitbox[3] = temp->transformPoint(this->width, this->height);
 	return this->MyGlobalHitbox;
 }
 

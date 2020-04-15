@@ -106,6 +106,7 @@ private:
 	ArrowGuy* arrow1LakeStill4;
 
 	Creeper* creeper1LakeStill7;
+	Creeper* creeper2LakeStill7;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;

@@ -30,7 +30,7 @@ public:
 	virtual void onCollision(DisplayObject* other);
 
 	/* Health and such */
-	int health = 100;
+	int health = 500;
 	int maxHealth = 100;
 	bool poisoned = false;
 	int poisonedTime = 0;

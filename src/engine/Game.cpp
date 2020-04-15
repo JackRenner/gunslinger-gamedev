@@ -33,6 +33,8 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
 	ourCollisionSystem->watchForCollisions("Wolf", "Player");
 	ourCollisionSystem->watchForCollisions("Projectile", "ArrowGuy");
+	ourCollisionSystem->watchForCollisions("Projectile", "Creeper");
+	ourCollisionSystem->watchForCollisions("Creeper", "Player");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 

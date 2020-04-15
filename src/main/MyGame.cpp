@@ -65,7 +65,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	healthBackground->position = { -50,-65 };
 	healthBackground->width = 100;
 	healthBackground->height = 20;
-	playerHealth = new HealthBar(character, 0, 100);
+	playerHealth = new HealthBar(character, 0, 500);
 	character->addChild(healthBackground);
 	character->addChild(playerHealth);
 	
@@ -131,7 +131,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			break;
 		}
 		if(it->first->shoot > 0) {
-			benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "Arrow90");
+			benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "bullet");
 			benemy3->distance = 20;
 			this->addChild(benemy3);
 			benemy3->position = {it->first->position.x, it->first->position.y };
@@ -618,17 +618,25 @@ void MyGame::initEnemies(Scene* s) {
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake7" && !s->enemiesAdded) {
-		creeper1LakeStill7 = new Creeper(character);
-		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
-		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
-		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
-		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		creeper1LakeStill7 = new Creeper(character, "Creeper1");
+		creeper1LakeStill7->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
 		creeper1LakeStill7->addAnimation("resources/enemies/", "Explode", 16, 1, true);
-		std::cout << creeper1LakeStill7->getAnimation("Explode") << endl;
 		lake7->addChild(creeper1LakeStill7);
-		creeper1LakeStill7->position = { 500, 500 };
-		creeper1LakeStill7->play("GangThugLeft");
-		//gang_thugs[creeper1LakeStill7] = 1;
+		creeper1LakeStill7->position = { 300, 700 };
+		creeper1LakeStill7->play("CreeperUp");
+
+		creeper2LakeStill7 = new Creeper(character, "Creeper2");
+		creeper2LakeStill7->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
+		creeper2LakeStill7->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
+		creeper2LakeStill7->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
+		creeper2LakeStill7->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper2LakeStill7->addAnimation("resources/enemies/", "Explode", 16, 1, true);
+		lake7->addChild(creeper2LakeStill7);
+		creeper2LakeStill7->position = { 700, 500 };
+		creeper2LakeStill7->play("CreeperUp");
 		
 		s->enemiesAdded = true;
 
