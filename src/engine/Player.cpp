@@ -126,17 +126,16 @@ void Player::onCollision(DisplayObject* other){
 	} else if (other->type == "Creeper") {
 		hitByMelee("creeper");
 	}
-	// if(other->type == "Platform"){
-	// 	Game::instance->collisionSystem.resolveCollision(this, other, this->x - oldX, this->y - oldY);	
-	// 	_yVel = 0;
-	// 	_standing=true;
-	// }
-	// else if(other->type == "Enemy"){
-	// 	if(!this->iFrames){
-	// 		this->onEnemyCollision((Enemy*)other);
-	// 	}
-	// }
+}
 
+SDL_Point* Player::getGlobalHitbox(){
+	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+	AffineTransform* temp = this->getGlobalTransform();
+	this->MyGlobalHitbox[0] = temp->transformPoint(25, 25);
+	this->MyGlobalHitbox[1] = temp->transformPoint(75, 25);
+	this->MyGlobalHitbox[2] = temp->transformPoint(25, 50);
+	this->MyGlobalHitbox[3] = temp->transformPoint(75, 50);
+	return this->MyGlobalHitbox;
 }
 
 // do not include attacks from bosses yet

@@ -28,6 +28,7 @@ public:
 
 	//void onEnemyCollision(Enemy* enemy);
 	virtual void onCollision(DisplayObject* other);
+	virtual SDL_Point* getGlobalHitbox();
 
 	/* Health and such */
 	int health = 500;

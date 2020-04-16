@@ -6,6 +6,7 @@
 #include "ArrowGuy.h"
 #include "Creeper.h"
 #include "GangMarksman.h"
+#include "Player.h"
 
 
 CollisionSystem :: CollisionSystem(){
@@ -188,6 +189,18 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
   }
   if (obj2->type == "GangMarksman") {
     SDL_Point* obj2Points = ((GangMarksman*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "Player") {
+    SDL_Point* obj1Points = ((Player*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "Player") {
+    SDL_Point* obj2Points = ((Player*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "Benemy") {
+    SDL_Point* obj1Points = ((Benemy*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "Benemy") {
+    SDL_Point* obj2Points = ((Benemy*)obj2)->getGlobalHitbox();
   }
 
   int minX = INT_MAX;

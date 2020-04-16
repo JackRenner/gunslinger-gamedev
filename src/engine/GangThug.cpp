@@ -59,7 +59,6 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	//state 1 = patrolling
 	//state 2 = engaged
 	//state 3 = not in distance
-	//state 4 = hiding and reloading
 	
 	if(this->state == 0){
 		setPatrolRange();
@@ -72,6 +71,8 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	}
 	else if(this->state == 3){
 		charge();
+		this->targX = this->sayu->position.x;
+		this->targY = this->sayu->position.y;
 	}
 
 	//state transitions
@@ -85,7 +86,7 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	else if(this->state == 1){
 		//if player is close, start to prepare charge
 		int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-		if(dist<200){
+		if(dist<300){
 			this->state = 2;
 			this->vel = 0;
 			this->maxVel = 4;
@@ -97,7 +98,7 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	}
 	else if(this->state == 2){
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-        if (dist>100) {
+        if (dist > 200) {
             this->state = 3;
             this->targX = this->sayu->position.x;
 			this->targY = this->sayu->position.y;
@@ -110,13 +111,14 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	}
 	else if(this->state == 3){
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-        if(dist < 100){
+        if(dist < 200){
 			this->state = 2;
 			this->rotation = 0;
 			this->rotVel = 0;
 			this->targX = this->position.x;
 			this->targY = this->position.y;
 		}
+		std::cout << dist << endl;
 	}
 }
 
@@ -186,7 +188,7 @@ void GangThug::save(ofstream &out){
 }
 
 void GangThug::charge(){
-	this->rotation += this->rotVel;
+	//this->rotation += this->rotVel;
 	moveToTarget();
 }
 

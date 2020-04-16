@@ -43,6 +43,16 @@ void Benemy::onCollision(DisplayObject *other) {
 	this->removeThis();
 }
 
+SDL_Point* Benemy::getGlobalHitbox(){
+	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+	AffineTransform* temp = this->getGlobalTransform();
+	this->MyGlobalHitbox[0] = temp->transformPoint(0, 0);
+	this->MyGlobalHitbox[1] = temp->transformPoint(40, 0);
+	this->MyGlobalHitbox[2] = temp->transformPoint(0, 40);
+	this->MyGlobalHitbox[3] = temp->transformPoint(40, 40);
+	return this->MyGlobalHitbox;
+}
+
 void Benemy::save(ofstream &out){
 	//Sprite::save(out);
 	//TODO: ADD THIS TO SAVE Wolf DATA

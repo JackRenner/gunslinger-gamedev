@@ -274,7 +274,6 @@ void Wolf::moveToTarget(){
 
     this->position.x += xComp;
     this->position.y += yComp;
-	//fire();
 }
 
 bool Wolf::isTargetReached(){
