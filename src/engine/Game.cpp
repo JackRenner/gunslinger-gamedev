@@ -36,11 +36,13 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("Wolf", "Projectile");
 	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
 	ourCollisionSystem->watchForCollisions("Wolf", "Player");
-	// 
-	ourCollisionSystem->watchForCollisions("Projectile", "ArrowGuy");
-	ourCollisionSystem->watchForCollisions("Projectile", "Creeper");
+	// arrow collision
+	ourCollisionSystem->watchForCollisions("ArrowGuy", "Projectile");
+	// creeper collision
+	ourCollisionSystem->watchForCollisions("Creeper", "Projectile");
 	ourCollisionSystem->watchForCollisions("Creeper", "Player");
-	ourCollisionSystem->watchForCollisions("Projectile", "GangMarksman");
+	// marksman collision
+	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 

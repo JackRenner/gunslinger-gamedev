@@ -93,6 +93,7 @@ void GangMarksman::update(set<SDL_Scancode> pressedKeys){
 			this->setPatrolRange();
 		}
 	}
+	this->save();
 }
 
 void GangMarksman::onCollision(DisplayObject* other){
@@ -137,7 +138,9 @@ void GangMarksman::draw(AffineTransform &at){
 	//this->drawHitbox();
 }
 
-void GangMarksman::save(ofstream &out){
+void GangMarksman::save(){
+	this->oldX = position.x;
+	this->oldY = position.y;
 	//Sprite::save(out);
 	//TODO: ADD THIS TO SAVE GangMarksman DATA
 }

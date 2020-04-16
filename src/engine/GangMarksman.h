@@ -28,7 +28,7 @@ public:
     virtual void onCollision(DisplayObject* other);
     virtual SDL_Point* getGlobalHitbox();
 
-    void save(ofstream &out);
+    void save();
 
     void setPatrolRange();
 

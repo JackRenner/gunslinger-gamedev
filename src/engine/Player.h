@@ -31,7 +31,7 @@ public:
 	virtual SDL_Point* getGlobalHitbox();
 
 	/* Health and such */
-	int health = 500;
+	int health = 300;
 	int maxHealth = 100;
 	bool poisoned = false;
 	int poisonedTime = 0;

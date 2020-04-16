@@ -104,8 +104,10 @@ private:
 	GangThug* thug2LakeStill2;
 
 	GangMarksman* mark1LakeStill3;
+	GangMarksman* mark2LakeStill3;
 
 	ArrowGuy* arrow1LakeStill4;
+	ArrowGuy* arrow2LakeStill4;
 
 	Creeper* creeper1LakeStill7;
 	Creeper* creeper2LakeStill7;

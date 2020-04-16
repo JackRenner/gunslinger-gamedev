@@ -603,6 +603,18 @@ void MyGame::initEnemies(Scene* s) {
 		mark1LakeStill3->play("GangMarksmanLeft");
 		gang_marksmans[mark1LakeStill3] = 1;
 
+		mark2LakeStill3 = new GangMarksman((Player*)character, "GangMarksman2");	
+		mark2LakeStill3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
+		mark2LakeStill3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
+		mark2LakeStill3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
+		mark2LakeStill3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
+		lake3->addChild(mark2LakeStill3);
+		mark2LakeStill3->position = { 300, 400 };
+		mark2LakeStill3->scaleX = 0.75;
+		mark2LakeStill3->scaleY = 0.75;
+		mark2LakeStill3->play("GangMarksmanLeft");
+		gang_marksmans[mark2LakeStill3] = 1;
+
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake4" && !s->enemiesAdded) {
@@ -617,6 +629,19 @@ void MyGame::initEnemies(Scene* s) {
 		arrow1LakeStill4->width = 250;
 		arrow1LakeStill4->play("Arrow");
 		arrow_guys[arrow1LakeStill4] = 1;
+
+		arrow2LakeStill4 = new ArrowGuy((Player*)character, "Arrow2");
+		arrow2LakeStill4->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
+		lake4->addChild(arrow2LakeStill4);
+		arrow2LakeStill4->position = { 300, 300 };
+		arrow2LakeStill4->pivot = { arrow2LakeStill4->width / 2, arrow2LakeStill4->height / 2 };
+		arrow2LakeStill4->scaleX = 0.5;
+		arrow2LakeStill4->scaleY = 0.5;
+		arrow2LakeStill4->height = 400;
+		arrow2LakeStill4->width = 250;
+		arrow2LakeStill4->play("Arrow");
+		arrow_guys[arrow2LakeStill4] = 1;
+
 
 		s->enemiesAdded = true;
 	}
