@@ -26,12 +26,17 @@ Game::Game(int windowWidth, int windowHeight){
  	ourCollisionSystem = new CollisionSystem();
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "addObject");
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "removeObject");
-	ourCollisionSystem->watchForCollisions("Projectile", "GangThug");
+	// player + bullet collision
 	ourCollisionSystem->watchForCollisions("Benemy", "Player");
 	ourCollisionSystem->watchForCollisions("Projectile", "Player");
+	// gang thug collisions
+	ourCollisionSystem->watchForCollisions("GangThug", "GangThug");
+	ourCollisionSystem->watchForCollisions("GangThug", "Projectile");
+	// wolf collisions
 	ourCollisionSystem->watchForCollisions("Wolf", "Projectile");
 	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
 	ourCollisionSystem->watchForCollisions("Wolf", "Player");
+	// 
 	ourCollisionSystem->watchForCollisions("Projectile", "ArrowGuy");
 	ourCollisionSystem->watchForCollisions("Projectile", "Creeper");
 	ourCollisionSystem->watchForCollisions("Creeper", "Player");

@@ -138,7 +138,11 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 
 void Creeper::onCollision(DisplayObject* other){
 	if (other->type == "Projectile") {
-		this->health = 0;
+		Projectile *temp = (Projectile*)other;
+		if (temp->gun == "knife" && temp->thrown) {
+		}else{
+			this->health = 0;
+		}
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
@@ -153,10 +157,10 @@ void Creeper::onCollision(DisplayObject* other){
 SDL_Point* Creeper::getGlobalHitbox(){
 	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
 	AffineTransform* temp = this->getGlobalTransform();
-	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width, -this->height);
-	this->MyGlobalHitbox[1] = temp->transformPoint(this->width, -this->height);
-	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width, this->height);
-	this->MyGlobalHitbox[3] = temp->transformPoint(this->width, this->height);
+	this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/2, -this->height/2);
+	this->MyGlobalHitbox[1] = temp->transformPoint(this->width/2, -this->height/2);
+	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/2, this->height/2);
+	this->MyGlobalHitbox[3] = temp->transformPoint(this->width/2, this->height/2);
 	return this->MyGlobalHitbox;
 }
 

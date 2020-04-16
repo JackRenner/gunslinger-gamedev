@@ -102,7 +102,8 @@ void GangMarksman::onCollision(DisplayObject* other){
 			this->health -= 20;
 			this->alpha -= 40;
 			if(this->health < 0) this->health = 0;
-		} else if (temp->gun == "knife") {
+		} else if (temp->gun == "knife" && temp->thrown) {
+		} else if(temp->gun == "knife") {
 			this->health -= 50;
 			this->alpha -= 100;
 			if(this->health < 0) this->health = 0;

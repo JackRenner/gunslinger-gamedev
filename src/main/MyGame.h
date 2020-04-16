@@ -101,6 +101,7 @@ private:
 	Wolf* wolf2LakeStill1;
 	
 	GangThug* thug1LakeStill2;
+	GangThug* thug2LakeStill2;
 
 	GangMarksman* mark1LakeStill3;
 

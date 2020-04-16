@@ -573,9 +573,19 @@ void MyGame::initEnemies(Scene* s) {
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
 		lake2->addChild(thug1LakeStill2);
-		thug1LakeStill2->position = { 500, 500 };
+		thug1LakeStill2->position = { 700, 500 };
 		thug1LakeStill2->play("GangThugLeft");
 		gang_thugs[thug1LakeStill2] = 1;
+
+		thug2LakeStill2 = new GangThug((Player*)character, "GangThug2");	
+		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		lake2->addChild(thug2LakeStill2);
+		thug2LakeStill2->position = { 700, 300 };
+		thug2LakeStill2->play("GangThugLeft");
+		gang_thugs[thug2LakeStill2] = 1;
 		
 		s->enemiesAdded = true;
 

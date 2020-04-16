@@ -120,6 +120,7 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 		}
 		std::cout << dist << endl;
 	}
+	this->save();
 }
 
 void GangThug::onMeleeStrike(){
@@ -140,7 +141,8 @@ void GangThug::onCollision(DisplayObject* other){
 			this->health -= 20;
 			this->alpha -= 40;
 			if(this->health < 0) this->health = 0;
-		} else if (temp->gun == "knife") {
+		}else if (temp->gun == "knife" && temp->thrown) {
+		} else if(temp->gun == "knife") {
 			this->health -= 50;
 			this->alpha -= 100;
 			if(this->health < 0) this->health = 0;
@@ -182,9 +184,9 @@ void GangThug::draw(AffineTransform &at){
 	//this->drawHitbox(position);
 }
 
-void GangThug::save(ofstream &out){
-	//Sprite::save(out);
-	//TODO: ADD THIS TO SAVE GangThug DATA
+void GangThug::save(){
+	this->oldX = position.x;
+	this->oldY = position.y;	//TODO: ADD THIS TO SAVE GangThug DATA
 }
 
 void GangThug::charge(){

@@ -103,9 +103,9 @@ void Player::hitByProjectile(string gun){
 	} else if (gun == "revolver") {
 		takeDamage(15);
 	} else if (gun == "shotgun") {
-		takeDamage(50);
+		takeDamage(60);
 	} else if (gun == "rifle") {
-		takeDamage(25);
+		takeDamage(40);
 	}
 }
 
@@ -141,9 +141,9 @@ SDL_Point* Player::getGlobalHitbox(){
 // do not include attacks from bosses yet
 void Player::hitByMelee(string enemy){
 	if (enemy == "creeper") {
-		takeDamage(500);
+		takeDamage(this->health/2);
 	} else if (enemy == "wolf") {
-		takeDamage(1);
+		takeDamage(10);
 	}
 }
 
