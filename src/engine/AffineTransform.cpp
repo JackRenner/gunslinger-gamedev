@@ -6,7 +6,7 @@
 
 /**
  * Affine Transforms
- * 
+ *
  * */
 AffineTransform::AffineTransform()
 {
@@ -22,7 +22,7 @@ void AffineTransform::cleanMatrix(double **m)
 {
 	for (int i = 0; i < 3; i++)
 		delete m[i];
-	delete m;
+	//delete m;
 }
 
 /* Returns the identity matrix as an array */
@@ -125,4 +125,19 @@ double AffineTransform::getScaleY()
 {
 	//TODO in future assignment
 	return transform[1][1];
+}
+
+void  AffineTransform:: printMatrix(){
+	for (int i = 0; i < 3; ++i)
+	    {
+	        for (int j = 0; j < 3; ++j)
+	        {
+	            std::cout << transform[i][j] << ' ';
+	        }
+	        std::cout << std::endl;
+
+	    }
+
+			std::cout << std::endl;
+
 }

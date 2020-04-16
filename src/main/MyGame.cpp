@@ -1,6 +1,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include "../engine/Sprite.h"
+#include "../engine/Scene.h"
+#include "../engine/Controls.h"
+#include "../engine/Player.h"
+#include "../engine/Benemy.h"
 #include "MyGame.h"
 
 using namespace std;
@@ -14,14 +19,15 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	foreground = new DisplayObjectContainer();
 	foreground->id = "foreground";
 
-	character = new AnimatedSprite("character");
-	character->addAnimation("./resources/character/", "Run", 20, 2, true);
-	foreground->addChild(character);
+    character = new Player();
+	//this->removeImmediateChild(character);
 
 	character->position = { 1500, 500 };
+	character->scaleX = 0.8;
+	character->scaleY = 0.8;
 	character->pivot = { character->width / 2, character->height / 2 };
-	character->play("Run");
-	character->width = 90;
+
+	character->gun = 0;
 
 	initTown();
 	initLake();
@@ -38,80 +44,189 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->width = 5000;
 	blackBox->height = 5000;
 	foreground->addChild(blackBox);
+
+	// test = new TextBox(SDL_Point{ 1500, 500 }, 300, 200);
+
+	// string testText = "This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text.";
+	// test->addTextLine("./resources/fonts/arial.ttf", testText, 18, SDL_Color{ 255, 255, 255 });
+	// string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
+	// test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
+	// string testText3 = "Deus volt";
+	// test->addTextLine("./resources/fonts/arial.ttf", testText3, 18, SDL_Color{ 50, 50, 255 });
+	// string testText4 = "Lorem ipsum.";
+	// test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
+
+	// foreground->addChild(test);
+	
+	selection = new WeaponSelect();
+	selection->position = { character->position.x - (gameCamera.viewportWidth / 2) + 10, (character->position.y - gameCamera.viewportHeight / 2 + 10) };
+
+	healthBackground = new Sprite("blackbox", 255, 0, 0);
+	healthBackground->id = "healthbackground";
+	healthBackground->position = { -50,-65 };
+	healthBackground->width = 100;
+	healthBackground->height = 20;
+	playerHealth = new HealthBar(character, 0, 100);
+
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_FIST_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_KNIFE_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_PISTOL_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_SHOTGUN_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_RIFLE_EVENT);
+
+	foreground->addChild(character);
+	character->addChild(healthBackground);
+	character->addChild(playerHealth);
+	foreground->addChild(selection);
+	//foreground->addChild(test);
+	foreground->addChild(blackBox);
 }
 
 MyGame::~MyGame() {
-	
+
 }
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
+	controls::update(pressedKeys);
 
-	if (!transLock) {
-		if (pressedKeys.find(SDL_SCANCODE_UP) != pressedKeys.end()) {
-			character->position.y -= 8;
-		}
-		if (pressedKeys.find(SDL_SCANCODE_DOWN) != pressedKeys.end()) {
-			character->position.y += 8;
-		}
-		if (pressedKeys.find(SDL_SCANCODE_RIGHT) != pressedKeys.end()) {
-			character->position.x += 8;
-		}
-		if (pressedKeys.find(SDL_SCANCODE_LEFT) != pressedKeys.end()) {
-			character->position.x -= 8;
-		}
+	this->saveAllPositions();
+
+	if (character->health == 0) {
+		// add in code to reset to town
+		character->health = 100;
 	}
+	// Demo for enemies
 
-		Game::update(pressedKeys);
+	// need to make these for loops that loop through for each type of enemy
 
-		gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
-		gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
-
-
-	if (!transLock) {
-		for (int i = 0; i < transitions[room_state].size(); i++) {
-			TransitionStruct cur = transitions[room_state][i];
-			if (cur.detection == TransitionDetection::POINT) {
-				if (checkInsidePoint(cur.point, character)) {
-					curTransition = cur;
-					transitionScene();
-					break;
-				}
-			}
-			else if (cur.detection == TransitionDetection::AXIS) {
-				if (cur.direction == Cardinal::NORTH) {
-					if (character->position.y - character->pivot.y <= cur.point.y) {
-						curTransition = cur;
-						transitionScene();
-						break;
-					}
-				}
-				else if (cur.direction == Cardinal::EAST) {
-					if (character->position.x - character->pivot.x + character->width >= cur.point.x) {
-						curTransition = cur;
-						transitionScene();
-						break;
-					}
-				}
-				else if (cur.direction == Cardinal::SOUTH) {
-					if (character->position.y - character->pivot.y + character->height >= cur.point.y) {
-						curTransition = cur;
-						transitionScene();
-						break;
-					}
-				}
-				else if (cur.direction == Cardinal::WEST) {
-					if (character->position.x - character->pivot.x <= cur.point.x) {
-						curTransition = cur;
-						transitionScene();
-						break;
-					}
-				}
+	// GANG THUG LOOP
+	for (std::map<GangThug*, int>::iterator it=gang_thugs.begin(); it!=gang_thugs.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			gang_thugs.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemy = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "bullet");
+			benemy->distance = 20;
+			this->addChild(benemy);
+			benemy->position = {it->first->position.x, it->first->position.y };
+			benemy->pivot = { benemy->width / 2, benemy->height / 2 };
+			benemy->scaleX = 1;
+			benemy->scaleY = 1;
+			if (it->first->shots_fired == 5) {
+				it->first->shoot -= 120;
+				it->first->shots_fired = 0;
+			} else{
+				it->first->shoot -= 40;
+				it->first->shots_fired ++;
 			}
 		}
 	}
+		
+	if(mark1LakeStill3->shoot > 0) {
+		benemy2 = new Benemy((AnimatedSprite*)mark1LakeStill3, character->position.x, character->position.y, 5, "bullet");
+		benemy2->distance = 20;
+		this->addChild(benemy2);
+		benemy2->position = {mark1LakeStill3->position.x, mark1LakeStill3->position.y };
+		benemy2->pivot = { benemy2->width / 2, benemy2->height / 2 };
+		benemy2->scaleX = 1;
+		benemy2->scaleY = 1;
+		mark1LakeStill3->shoot -= 80;
+	}
+	if(arrow1LakeStill4->shoot > 0) {
+		benemy3 = new Benemy((AnimatedSprite*)arrow1LakeStill4, character->position.x, character->position.y, 5, "Arrow90");
+		benemy3->distance = 20;
+		this->addChild(benemy3);
+		benemy3->position = {arrow1LakeStill4->position.x, arrow1LakeStill4->position.y };
+		benemy3->pivot = { benemy3->width / 2, benemy3->height / 2 };
+		benemy3->scaleX = 1;
+		benemy3->scaleY = 1;
+		arrow1LakeStill4->shoot -= 80;
+	}
+	
+	// for (std::map<Benemy*, GangThug*>::iterator it=thug_benemies.begin(); it!=thug_benemies.end(); ++it) {
+	// 	if (it->first->clean != true) {
+	// 		if (this->ourCollisionSystem->collidesWith(it->first, character)) {
+	// 			character->takeDamage(1);
+	// 		}
+	// 	} else {
+	// 		thug_benemies.erase(it->first);
+	// 		break;
+	// 	}
+	// }
 
+	if (!transLock) {
+		// gun select
+		if (controls::press1()) {
+			character->selectWeapon(0);
+		};
+		if (controls::press2()) {
+			character->selectWeapon(1);
+		};
+		if (controls::press3()) {
+			character->selectWeapon(2);
+		};
+		if (controls::press4()) {
+			character->selectWeapon(3);
+		};
+		if (controls::press5()) {
+			character->selectWeapon(4);
+		};
+		// shooting
+		if (controls::pressUp()) {
+			//gunshot->playSFX();
+			this->playerShooting(character->gun, "up");
+		}
+		if (controls::pressDown()) {
+			//gunshot->playSFX();
+			this->playerShooting(character->gun, "down");
+		}
+		if (controls::pressRight()) {
+			//gunshot->playSFX();	
+			this->playerShooting(character->gun, "left");
+		}
+		if (controls::pressLeft()) {
+			//gunshot->playSFX();	
+			this->playerShooting(character->gun, "right");
+		}
+		// there isn't any delay from reloading yet
+		if (controls::pressR()) {
+			this->reloadGun(character->gun);
+		}
+
+		// if (controls::toggleVisibility() && !test->textLock) {
+		// 	if (test->nextLine == 0)
+		// 		test->initBox();
+		// 	else if (test->nextLine == test->maxLine)
+		// 		test->closeBox();
+		// 	else
+		// 		test->drawNextLine();
+		// }
+	}
+	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
+	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
+
+	//test->position = { character->position.x - test->background->width / 2, character->position.y - 300 };
+
+	Game::update(pressedKeys);
+	controls::update(pressedKeys);
+
+	if (!transLock) {
+		checkTransition();
+	}
+	// need to write code for sending player back to town
+	if (character->health <= 0) {
+		// character->position = { 1500, 500 };
+		// this->setScene(townScene);
+		// character->health = 100;
+		// initLake();
+		// initTown();
+	}
+	this->ourCollisionSystem->update();
 	enforceCameraBounds();
+	selection->position = { gameCamera.x + 10, gameCamera.y + 10 };
 }
 
 void MyGame::draw(AffineTransform& at) {
@@ -129,11 +244,14 @@ void MyGame::draw(AffineTransform& at) {
 // sets the current scene and adds as child to game and unlinks the old scene from game (does not destroy it)
 // we can tweak this to destroy the scene for memory reasons (or add a new method to destroy), but left it like this for now
 void MyGame::setScene(Scene* scene) {
+	std::cout << "SCENE CHANGEEEEEE\n";
 	if (curScene != NULL)
 		this->unlinkImmediateChild(curScene->id);
 	this->curScene = scene;
-	if (curScene != NULL)
+	if (curScene != NULL) {
 		this->addChild(curScene);
+		initEnemies(scene);
+	}
 }
 
 // Enforce camera bounds for the current room state. Does not currently account for room rotations.
@@ -148,7 +266,7 @@ void MyGame::enforceCameraBounds() {
 
 	SDL_Point upper_left = boundCalc.transformPoint(room.bounds.x, room.bounds.y);
 	SDL_Point lower_right = boundCalc.transformPoint(room.bounds.x + room.bounds.w, room.bounds.y + room.bounds.h);
-	
+
 	// check right bound
 	if (room.check_right) {
 		if (gameCamera.x + gameCamera.viewportWidth > lower_right.x)
@@ -205,6 +323,7 @@ void MyGame::handleEvent(Event* e) {
 
 void MyGame::transitionScene() {
 	transLock = true;
+
 	//Center blackbox at character
 	blackBox->position.x = character->position.x - blackBox->width / 2;
 	blackBox->position.y = character->position.y - blackBox->height / 2;
@@ -271,28 +390,43 @@ void MyGame::initTown() {
 	sceneInfo.push_back(SceneInfo(postScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 5
 	sceneInfo.push_back(SceneInfo(cantinaScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 6
 	sceneInfo.push_back(SceneInfo(drugScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 7
+
+	// add friendly NPCs to Town
+	storekeeper = new DisplayObject("storekeeper", "./resources/friendlies/storekeeper.png");
+	storeScene->addChild(storekeeper);
+	storekeeper->position.x = 500;
+	storekeeper->position.y = 500;
 }
 
 void MyGame::initLake() {
 
 	lake1 = new Scene();
 	lake1->loadScene("./resources/scene/lake1.txt");
+	//this->addChild(lake1);
 	lake2 = new Scene();
 	lake2->loadScene("./resources/scene/lake2.txt");
+	//foreground->addChild(lake2);
 	lake3 = new Scene();
 	lake3->loadScene("./resources/scene/lake3.txt");
+	//this->addChild(lake3);
 	lake4 = new Scene();
 	lake4->loadScene("./resources/scene/lake4.txt");
+	//this->addChild(lake4);	
 	lake5 = new Scene();
 	lake5->loadScene("./resources/scene/lake5.txt");
+	//this->addChild(lake5);	
 	lake6 = new Scene();
 	lake6->loadScene("./resources/scene/lake6.txt");
+	//this->addChild(lake6);	
 	lake7 = new Scene();
 	lake7->loadScene("./resources/scene/lake7.txt");
+	//this->addChild(lake7);	
 	lake8 = new Scene();
 	lake8->loadScene("./resources/scene/lake8.txt");
+	//this->addChild(lake8);	
 	lake9 = new Scene();
 	lake9->loadScene("./resources/scene/lake9.txt");
+	//this->addChild(lake9);	
 
 	// initialize lake transitions
 	vector<TransitionStruct> lake1Points = {
@@ -303,7 +437,7 @@ void MyGame::initLake() {
 
 	vector<TransitionStruct> lake2Points = {
 	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 10, TransitionDetection::AXIS, Cardinal::EAST),
-	TransitionStruct(SDL_Point{ 0, 595}, SDL_Point{ 550, 80 }, 12, TransitionDetection::AXIS, Cardinal::SOUTH),
+	//TransitionStruct(SDL_Point{ 0, 595}, SDL_Point{ 550, 80 }, 12, TransitionDetection::AXIS, Cardinal::SOUTH),
 	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 8, TransitionDetection::AXIS, Cardinal::WEST) };
 	transitions.push_back(lake2Points);
 
@@ -357,4 +491,187 @@ void MyGame::initLake() {
 	sceneInfo.push_back(SceneInfo(lake7, SDL_Rect{ 0, 0, 1100, 610 })); // 14
 	sceneInfo.push_back(SceneInfo(lake8, SDL_Rect{ 0, 0, 1100, 610 })); // 15
 	sceneInfo.push_back(SceneInfo(lake9, SDL_Rect{ 0, 0, 1100, 610 })); // 16
+
+	// initialize lake still enemies
+
+	// wolf2LakeStill1 = new Wolf((Player*)character);	
+	// wolf2LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+	// wolf2LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+	// wolf2LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+	// wolf2LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+	// lake1->addChild(wolf2LakeStill1);
+	// wolf2LakeStill1->position = { 700, 500 };
+	// wolf2LakeStill1->pivot = { wolf2LakeStill1->width / 2, wolf2LakeStill1->height / 2 };
+	// wolf2LakeStill1->scaleX = 0.5;
+	// wolf2LakeStill1->scaleY = 0.5;
+	// wolf2LakeStill1->width = 50;
+	// wolf2LakeStill1->play("WolfLeft");
+
+	mark1LakeStill3 = new GangMarksman((Player*)character);	
+	mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
+	mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
+	mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
+	mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
+	lake3->addChild(mark1LakeStill3);
+	mark1LakeStill3->position = { 500, 400 };
+	mark1LakeStill3->pivot = { mark1LakeStill3->width / 2, mark1LakeStill3->height / 2 };
+	mark1LakeStill3->scaleX = 0.5;
+	mark1LakeStill3->scaleY = 0.5;
+	mark1LakeStill3->width = 90;
+	mark1LakeStill3->play("GangMarksmanLeft");
+
+	arrow1LakeStill4 = new ArrowGuy((Player*)character);
+	arrow1LakeStill4->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
+	lake4->addChild(arrow1LakeStill4);
+	arrow1LakeStill4->position = { 900, 150 };
+	arrow1LakeStill4->pivot = { arrow1LakeStill4->width / 2, arrow1LakeStill4->height / 2 };
+	arrow1LakeStill4->scaleX = 0.5;
+	arrow1LakeStill4->scaleY = 0.5;
+	arrow1LakeStill4->height = 400;
+	arrow1LakeStill4->width = 250;
+	arrow1LakeStill4->play("Arrow");
+}
+
+void MyGame::initEnemies(Scene* s) {
+	if (s->id == "lake1" && !s->enemiesAdded) {
+		// wolves
+		wolf1LakeStill1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		lake1->addChild(wolf1LakeStill1);
+		wolf1LakeStill1->position = { 500, 500 };
+		//wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
+		wolf1LakeStill1->scaleX = 0.75;
+		wolf1LakeStill1->scaleY = 0.75;
+		//wolf1LakeStill1->width = 90;
+		wolf1LakeStill1->play("WolfLeft");
+
+		wolf2LakeStill1 = new Wolf((Player*)character, "Wolf2");	// Adding wolf sprites
+		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		lake1->addChild(wolf2LakeStill1);
+		wolf2LakeStill1->position = { 700, 500 };
+		//wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
+		wolf2LakeStill1->scaleX = 0.75;
+		wolf2LakeStill1->scaleY = 0.75;
+		//wolf1LakeStill1->width = 90;
+		wolf2LakeStill1->play("WolfLeft");
+		s->enemiesAdded = true;
+	}
+	if (s->id == "lake2" && !s->enemiesAdded) {
+
+		thug1LakeStill2 = new GangThug((Player*)character);	
+		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		lake2->addChild(thug1LakeStill2);
+		thug1LakeStill2->position = { 500, 500 };
+		thug1LakeStill2->play("GangThugLeft");
+		gang_thugs[thug1LakeStill2] = 1;
+		
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "lake7" && !s->enemiesAdded) {
+		creeper1LakeStill7 = new Creeper(character);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		creeper1LakeStill7->addAnimation("resources/enemies/", "Explode", 16, 1, true);
+		std::cout << creeper1LakeStill7->getAnimation("Explode") << endl;
+		lake7->addChild(creeper1LakeStill7);
+		creeper1LakeStill7->position = { 500, 500 };
+		creeper1LakeStill7->play("GangThugLeft");
+		//gang_thugs[creeper1LakeStill7] = 1;
+		
+		s->enemiesAdded = true;
+
+	}
+}
+
+void MyGame::playerShooting(int gun, string dir){
+	if (gun == 1 && character->knife_throws > 0) {
+	} else if (gun == 1) {
+		bullet = new Projectile(dir,this->position, gun);
+		this->addChild(bullet);
+		bullet->speed += 5;
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		character->knife_throws ++;
+	} else if (character->gun == 2 && character->revolver_shots > 5) {
+	} else if (character->gun == 2) {
+		bullet = new Projectile(dir,this->position, character->gun);
+		this->addChild(bullet);
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		character->revolver_shots ++;
+	} else if (character->gun == 3 && character->shotgun_shots > 1) {
+	} else if (character->gun == 3) {
+		bullet = new Projectile(dir,character->position, gun);
+		this->addChild(bullet);
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		character->shotgun_shots ++;
+	} else if (character->gun == 4 && character->rifle_shots > 4) {
+	} else if (character->gun == 4) {
+		bullet = new Projectile(dir,character->position, gun);
+		this->addChild(bullet);
+		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
+		character->rifle_shots ++;
+	}
+}
+void MyGame::reloadGun(int gun) {
+	if (gun == 2) {
+		character->revolver_shots = 0;
+	} else if (gun == 3) {
+		character->shotgun_shots = 0;
+	} else if (gun == 4) {
+		character->rifle_shots = 0;
+	}
+}
+
+void MyGame::checkTransition() {
+	for (int i = 0; i < transitions[room_state].size(); i++) {
+		TransitionStruct cur = transitions[room_state][i];
+		if (cur.detection == TransitionDetection::POINT) {
+			if (checkInsidePoint(cur.point, character)) {
+				curTransition = cur;
+				transitionScene();
+				break;
+			}
+		}
+		else if (cur.detection == TransitionDetection::AXIS) {
+			if (cur.direction == Cardinal::NORTH) {
+				if (character->position.y - character->pivot.y <= cur.point.y) {
+					curTransition = cur;
+					transitionScene();
+					break;
+				}
+			}
+			else if (cur.direction == Cardinal::EAST) {
+				if (character->position.x - character->pivot.x + character->width >= cur.point.x) {
+					curTransition = cur;
+					transitionScene();
+					break;
+				}
+			}
+			else if (cur.direction == Cardinal::SOUTH) {
+				if (character->position.y - character->pivot.y + character->height >= cur.point.y) {
+					curTransition = cur;
+					transitionScene();
+					break;
+				}
+			}
+			else if (cur.direction == Cardinal::WEST) {
+				if (character->position.x - character->pivot.x <= cur.point.x) {
+					curTransition = cur;
+					transitionScene();
+					break;
+				}
+			}
+		}
+	}
 }

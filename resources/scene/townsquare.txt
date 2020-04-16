@@ -1,0 +1,27 @@
+{
+    "scene_id": "Default_Scene_id",
+    "new_sprite_0": {
+        "type": "Sprite",
+        "filepath": "./resources/sprites/Town.png",
+        "dimensions": [
+            1250,
+            500
+        ],
+        "position": [
+            50,
+            155
+        ],
+        "pivot": [
+            50,
+            50
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    }
+}

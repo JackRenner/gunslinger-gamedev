@@ -6,6 +6,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "Controls.h"
 
 using namespace std;
 
@@ -21,22 +22,26 @@ struct Animation {
 	int frameRate;
 	bool loop;
 	int curFrame;
+	bool fromSheet;
+	SDL_Rect** rects;
 };
 
 class AnimatedSprite : public Sprite{
 
 public:
-	
+
 	AnimatedSprite();
 	AnimatedSprite(string id);
 	~AnimatedSprite();
 
 	void addAnimation(string basepath, string animName, int numFrames, int frameRate, bool loop);
+	void addAnimation(string spriteSheet, string xml, string animName, int numFrames, int frameRate, bool loop);
 	Animation* getAnimation(string animName);
 
 	void play(string animName);
 	void replay();
 	void stop();
+	vector<string> parseXML(string spriteSheet, string xml);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -47,7 +52,7 @@ private:
 	Animation* current;
 	vector<Animation*> animations;
 	int frameCount;
-	
+
 };
 
 #endif

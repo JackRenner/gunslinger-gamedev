@@ -36,6 +36,7 @@ struct SceneInfo {
 	SceneInfo(Scene* scenePointer, SDL_Rect rect) {
 		this->scenePointer = scenePointer;
 		this->bounds = Bound(rect);
+
 	}
 
 	SceneInfo(Scene* scenePointer, Bound bounds) {

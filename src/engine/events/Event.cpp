@@ -6,9 +6,12 @@ Event::Event(string type, EventDispatcher* source){
 	this->source = source;
 }
 
+
 string Event::getType(){
 	return this->eventType;
 }
+
+
 
 EventDispatcher* Event::getSource(){
 	return this->source;

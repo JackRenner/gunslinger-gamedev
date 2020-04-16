@@ -5,8 +5,15 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include "../engine/Game.h"
+#include "../engine/ArrowGuy.h"
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
+#include "../engine/Player.h"
+#include "../engine/Wolf.h"
+#include "../engine/GangThug.h"
+#include "../engine/Creeper.h"
+#include "../engine/GangMarksman.h"
+#include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
 #include "../engine/tweens/Tween.h"
@@ -14,8 +21,15 @@
 #include "../engine/eventhandlers/CoinListener.h"
 #include "../engine/TransitionStruct.h"
 #include "../engine/SceneInfo.h"
+#include "../engine/ui/TextBox.h"
+#include "../engine/ui/HealthBar.h"
+#include "../engine/ui/WeaponSelect.h"
+//#include "MyObject.h"
+
 
 using namespace std;
+
+extern bool transLock;
 
 class MyGame : public Game, public EventListener {
 
@@ -35,15 +49,27 @@ public:
 
 	void handleEvent(Event* e);
 
+	void checkTransition();
 	void transitionScene();
 
 	void initTown();
 	void initLake();
 
+	void initEnemies(Scene* s);
+
+	void playerShooting(int gun, string dir);
+	void reloadGun(int gun);
+
+	//map<Benemy*, GangThug*> thug_benemies;
+	std::map<GangThug*,int> gang_thugs;
+
 private:
 
 	Scene* curScene = NULL;
 
+	TextBox* test;
+
+	// TOWN SCENES
 	Scene* townScene;
 	Scene* sheriffScene;
 	Scene* storeScene;
@@ -52,6 +78,9 @@ private:
 	Scene* postScene;
 	Scene* cantinaScene;
 	Scene* drugScene;
+
+	// TOWN NPCS
+	DisplayObject* storekeeper;
 
 	Scene* lake1;
 	Scene* lake2;
@@ -62,15 +91,39 @@ private:
 	Scene* lake7;
 	Scene* lake8;
 	Scene* lake9;
+	WeaponSelect* selection;
+	Player* character;
+	Projectile* bullet;
+	
+	HealthBar* playerHealth;
 
-	AnimatedSprite* character;
+	Wolf* wolf1LakeStill1;
+	Wolf* wolf2LakeStill1;
+	
+	GangThug* thug1LakeStill2;
+
+	GangMarksman* mark1LakeStill3;
+
+	ArrowGuy* arrow1LakeStill4;
+
+	Creeper* creeper1LakeStill7;
+
+	//AnimatedSprite* wolf;
+	Benemy* benemy;
+	Benemy* benemy2;
+	Benemy* benemy3;
+
 	Sprite* blackBox;
+	Sprite* healthBackground;
 
 	DisplayObjectContainer* foreground;
+	Scene* cameraDemoScene;
+
+	//MyObject* object1;
+	//MyObject* object2;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;
-	bool transLock = false;
 
 	TransitionStruct curTransition;
 
