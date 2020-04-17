@@ -32,11 +32,12 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("Wolf", "Projectile");
 	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
 	ourCollisionSystem->watchForCollisions("Wolf", "Player");
+	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 
 Game::~Game(){
-	// DisplayObjectContainer::~DisplayObjectContainer ();
+	//DisplayObjectContainer::~DisplayObjectContainer ();
 	quitSDL();
 }
 
