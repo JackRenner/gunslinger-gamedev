@@ -54,6 +54,7 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
 	//projectile and obstacle for particle effect
 	ourCollisionSystem->watchForCollisions("Projectile", "Obstacle");
+	ourCollisionSystem->watchForCollisions("River", "Player");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 

@@ -104,8 +104,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 	if (character->health == 0) {
 		curTransition = transitions[0][0];
-		character->health = 100;
 		transitionScene();
+		character->health = 500;
 	}
 	// Demo for enemies
 
@@ -832,28 +832,28 @@ void MyGame::initObstacles() {
 
 	if (scenePointer == lake2){
 		DisplayObjectContainer* river1 = new DisplayObjectContainer();
-		river1->type = "Obstacle";
+		river1->type = "River";
 		river1->width = 60;
 		river1->height = 110;
 		river1->position = {500,0};
 		scenePointer->addChild(river1);
 
 		DisplayObjectContainer* river2 = new DisplayObjectContainer();
-		river2->type = "Obstacle";
+		river2->type = "River";
 		river2->width = 60;
 		river2->height = 350;
 		river2->position = {500,250};
 		scenePointer->addChild(river2);
 
 		DisplayObjectContainer* river3 = new DisplayObjectContainer();
-		river3->type = "Obstacle";
+		river3->type = "River";
 		river3->width = 60;
 		river3->height = 300;
 		river3->position = {450,350};
 		scenePointer->addChild(river3);
 
 		DisplayObjectContainer* river4 = new DisplayObjectContainer();
-		river4->type = "Obstacle";
+		river4->type = "River";
 		river4->width = 60;
 		river4->height = 250;
 		river4->position = {400,400};

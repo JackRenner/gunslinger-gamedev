@@ -171,6 +171,8 @@ void Player::onCollision(DisplayObject* other){
 	}
 	else if (other->type == "Obstacle") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
+	} else if (other->type == "River") {
+		this->health = 0;
 	}
 }
 
