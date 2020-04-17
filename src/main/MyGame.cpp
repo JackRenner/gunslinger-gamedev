@@ -93,8 +93,9 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	this->saveAllPositions();
 
 	if (character->health == 0) {
-		// add in code to reset to town
+		curTransition = transitions[0][0];
 		character->health = 100;
+		transitionScene();
 	}
 	// Demo for enemies
 
@@ -355,6 +356,7 @@ void MyGame::initTown() {
 
 	// initialize town transition points, hardcoded for now
 	vector<TransitionStruct> townPoints = {
+	TransitionStruct(SDL_Point{-1,-1}, SDL_Point{535, 960}, 0),
 	TransitionStruct(SDL_Point{ 192, 300 }, SDL_Point{ 535, 900 }, 1),
 	TransitionStruct(SDL_Point{550, 288}, SDL_Point{ 535, 900 }, 2),
 	TransitionStruct(SDL_Point{900, 300}, SDL_Point{ 535, 900 }, 3),
