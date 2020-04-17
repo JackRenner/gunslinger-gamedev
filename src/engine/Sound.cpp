@@ -9,7 +9,9 @@ using namespace std;
 // }   
 
 Sound::Sound(){
-    music = Mix_LoadMUS("./resources/music/MoodyLoop.wav");
+    town_music = Mix_LoadMUS("./resources/music/MoodyLoop.wav");
+    lakestill_music = Mix_LoadMUS("./resources/music/lakestill_music.mp3");
+    //this->cur_music = "town";
 }
 
 Sound::~Sound(){
@@ -24,6 +26,13 @@ void Sound::playSFX(){
     SDL_PauseAudioDevice(deviceId, 0);
 }
 
-void Sound::playMusic(){
-    Mix_PlayMusic(music, -1);
+void Sound::playMusic(std::string area){
+    if (area == "town") {
+        Mix_PlayMusic(town_music, -1);
+        //this->cur_music = "town";
+    }
+    if (area == "lakestill") {
+        Mix_PlayMusic(lakestill_music, -1);
+        //this->cur_music = "lakestill";
+    }
 }

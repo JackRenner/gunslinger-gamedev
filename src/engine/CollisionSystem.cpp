@@ -4,6 +4,7 @@
 #include "KnifeGuy.h"
 #include "Wolf.h"
 #include "Projectile.h"
+#include "GangShot.h"
 #include "ArrowGuy.h"
 #include "Creeper.h"
 #include "GangMarksman.h"
@@ -160,6 +161,12 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
   }
   if (obj2->type == "GangThug") {
     SDL_Point* obj2Points = ((GangThug*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "GangShot") {
+    SDL_Point* obj1Points = ((GangShot*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "GangShot") {
+    SDL_Point* obj2Points = ((GangShot*)obj2)->getGlobalHitbox();
   }
   if (obj1->type == "Projectile") {
     SDL_Point* obj1Points = ((Projectile*)obj1)->getGlobalHitbox();

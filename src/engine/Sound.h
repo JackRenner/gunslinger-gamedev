@@ -14,14 +14,17 @@ public:
 	~Sound();
 
 	void playSFX();
-	void playMusic();
+	void playMusic(std::string area);
+
+	//std::string cur_music = "town";
 
 private:
     SDL_AudioSpec wavSpec;
     Uint32 wavLength;
     Uint8 *wavBuffer;
 	SDL_AudioDeviceID deviceId;
-	Mix_Music * music;
+	Mix_Music * town_music;
+	Mix_Music * lakestill_music;
 };
 
 #endif

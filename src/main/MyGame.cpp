@@ -19,6 +19,10 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	foreground = new DisplayObjectContainer();
 	foreground->id = "foreground";
 
+	// Sound* music = new Sound();
+	// music->playMusic("town");
+	//music->cur_music = "town";
+
     character = new Player();
 	foreground->addChild(character);
 	this->addChild(character);
@@ -47,18 +51,22 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->height = 5000;
 	foreground->addChild(blackBox);
 
-	// test = new TextBox(SDL_Point{ 1500, 500 }, 300, 200);
+	test = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
 
-	// string testText = "This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text.";
-	// test->addTextLine("./resources/fonts/arial.ttf", testText, 18, SDL_Color{ 255, 255, 255 });
-	// string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
-	// test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
-	// string testText3 = "Deus volt";
-	// test->addTextLine("./resources/fonts/arial.ttf", testText3, 18, SDL_Color{ 50, 50, 255 });
-	// string testText4 = "Lorem ipsum.";
-	// test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
+	string testText = "The man in black fled across the desert, and the gunslinger followed. \n -Stephen King, The Gunslinger";
+	test->addTextLine("./resources/fonts/west.otf", testText, 24, SDL_Color{ 255, 255, 255 });
+	string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
+	test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
+	string testText3 = "Deus volt";
+	test->addTextLine("./resources/fonts/arial.ttf", testText3, 18, SDL_Color{ 50, 50, 255 });
+	string testText4 = "Lorem ipsum.";
+	test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
 
-	// foreground->addChild(test);
+
+	//foreground->addChild(test);
+	// this->addChild(test);
+	// test->position = { 300, 400 };
+
 
 	healthBackground = new Sprite("blackbox", 255, 0, 0);
 	healthBackground->id = "healthbackground";
@@ -109,6 +117,29 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 				it->first->shots_fired = 0;
 			} else{
 				it->first->shoot -= 40;
+				it->first->shots_fired ++;
+			}
+		}
+	}
+	for (std::map<GangShot*, int>::iterator it=gang_shot.begin(); it!=gang_shot.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			gang_shot.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemya = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun");
+			benemya->distance = 20;
+			this->addChild(benemya);
+			benemya->position = {it->first->position.x, it->first->position.y };
+			benemya->pivot = { benemya->width / 2, benemya->height / 2 };
+			benemya->scaleX = 1;
+			benemya->scaleY = 1;
+			if (it->first->shots_fired == 1) {
+				it->first->shoot -= 300;
+				it->first->shots_fired = 0;
+			} else{
+				it->first->shoot -= 100;
 				it->first->shots_fired ++;
 			}
 		}
@@ -284,7 +315,6 @@ void MyGame::draw(AffineTransform& at) {
 // sets the current scene and adds as child to game and unlinks the old scene from game (does not destroy it)
 // we can tweak this to destroy the scene for memory reasons (or add a new method to destroy), but left it like this for now
 void MyGame::setScene(Scene* scene) {
-	std::cout << "SCENE CHANGEEEEEE\n";
 	if (curScene != NULL)
 		this->unlinkImmediateChild(curScene->id);
 	this->curScene = scene;
@@ -642,6 +672,15 @@ void MyGame::initEnemies(Scene* s) {
 		arrow2LakeStill4->play("Arrow");
 		arrow_guys[arrow2LakeStill4] = 1;
 
+		shot1LakeStill = new GangShot((Player*)character, "GangShot1");	
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		lake4->addChild(shot1LakeStill);
+		shot1LakeStill->position = { 700, 300 };
+		shot1LakeStill->play("GangShotLeft");
+		gang_shot[shot1LakeStill] = 1;
 
 		s->enemiesAdded = true;
 	}
@@ -690,6 +729,7 @@ void MyGame::playerShooting(int gun, string dir){
 	if (gun == 1 && character->knife_throws > 0) {
 	} else if (gun == 1) {
 		bullet = new Projectile(dir,this->position, gun);
+		//foreground->addChild(bullet);
 		this->addChild(bullet);
 		bullet->speed += 5;
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
@@ -697,6 +737,7 @@ void MyGame::playerShooting(int gun, string dir){
 	} else if (character->gun == 2 && character->revolver_shots > 5) {
 	} else if (character->gun == 2) {
 		bullet = new Projectile(dir,this->position, character->gun);
+		//foreground->addChild(bullet);
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->revolver_shots ++;
