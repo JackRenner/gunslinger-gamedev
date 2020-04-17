@@ -19,8 +19,8 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	foreground = new DisplayObjectContainer();
 	foreground->id = "foreground";
 
-	Sound* music = new Sound();
-	music->playMusic("town");
+	// Sound* music = new Sound();
+	// music->playMusic("town");
 	//music->cur_music = "town";
 
     character = new Player();
@@ -51,10 +51,10 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->height = 5000;
 	foreground->addChild(blackBox);
 
-	test = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
+	// test = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
 
-	string testText = "The man in black fled across the desert, and the gunslinger followed. \n -Stephen King, The Gunslinger";
-	test->addTextLine("./resources/fonts/west.otf", testText, 24, SDL_Color{ 255, 255, 255 });
+	// string testText = "The man in black fled across the desert, and the gunslinger followed. \n -Stephen King, The Gunslinger";
+	// test->addTextLine("./resources/fonts/west.otf", testText, 24, SDL_Color{ 255, 255, 255 });
 	// string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
 	// test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
 	// string testText3 = "Deus volt";
@@ -62,8 +62,8 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	// string testText4 = "Lorem ipsum.";
 	// test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
 
-	foreground->addChild(test);
-	test->position = { 300, 400 };
+	// foreground->addChild(test);
+	// test->position = { 300, 400 };
 
 
 	healthBackground = new Sprite("blackbox", 255, 0, 0);
@@ -227,14 +227,14 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			this->reloadGun(character->gun);
 		}
 
-		if (controls::toggleVisibility() && !test->textLock) {
-			if (test->nextLine == 0)
-				test->initBox();
-			else if (test->nextLine == test->maxLine)
-				test->closeBox();
-			else
-				test->drawNextLine();
-		}
+		// if (controls::toggleVisibility() && !test->textLock) {
+		// 	if (test->nextLine == 0)
+		// 		test->initBox();
+		// 	else if (test->nextLine == test->maxLine)
+		// 		test->closeBox();
+		// 	else
+		// 		test->drawNextLine();
+		// }
 	}
 	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
 	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
@@ -679,9 +679,6 @@ void MyGame::initEnemies(Scene* s) {
 		shot1LakeStill->position = { 700, 300 };
 		shot1LakeStill->play("GangShotLeft");
 		gang_shot[shot1LakeStill] = 1;
-		
-		s->enemiesAdded = true;
-
 
 		s->enemiesAdded = true;
 	}
