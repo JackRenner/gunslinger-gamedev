@@ -117,12 +117,20 @@ void Player::hitByProjectile(string gun){
 
 // do not include attacks from bosses yet
 void Player::hitByMelee(string enemy){
+	std::cout << this->wolfWaitToDamage << endl;
 	if (enemy == "creeper") {
 		takeDamage(this->health);
+	} else if (enemy == "wolf" && this->wolfWaitToDamage > 40) {
+		takeDamage(15);
+		this->wolfWaitToDamage = 0;
 	} else if (enemy == "wolf") {
-		takeDamage(5);
+		this->wolfWaitToDamage ++;
+	}
+	else if (enemy == "knife" && this->knifeWaitToDamage > 40) {
+		takeDamage(30);
+		this->knifeWaitToDamage = 0;
 	} else if (enemy == "knife") {
-		takeDamage(10);
+		this->knifeWaitToDamage ++;
 	}
 }
 

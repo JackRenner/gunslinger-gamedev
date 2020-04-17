@@ -117,7 +117,7 @@ void KnifeGuy::update(set<SDL_Scancode> pressedKeys){
 			}
 		}
         int dist = std::max(std::abs(this->position.x-this->targX),std::abs(this->position.y-this->targY));
-        if(dist < 50){
+        if(dist < 20){
 			this->state = 3;
 			//this->rotation = 0;
 			//this->rotVel = 0;

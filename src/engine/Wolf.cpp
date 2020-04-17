@@ -180,8 +180,7 @@ void Wolf::onCollision(DisplayObject* other){
 		} else 
 		{
 			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX - 10, this->position.y-this->oldY + 10, 0, 0);
-		}
-		
+		}		
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
@@ -208,10 +207,10 @@ void Wolf::save(){
 SDL_Point* Wolf::getGlobalHitbox(){
 	AffineTransform* temp = this->getGlobalTransform();
 	if (this->up) {
-		this->MyGlobalHitbox[0] = temp->transformPoint(-this->height/4, -this->width/4);
-		this->MyGlobalHitbox[1] = temp->transformPoint(this->height/4, -this->width/4);
-		this->MyGlobalHitbox[2] = temp->transformPoint(-this->height/4, this->width/4);
-		this->MyGlobalHitbox[3] = temp->transformPoint(this->height/4, this->width/4);
+		this->MyGlobalHitbox[0] = temp->transformPoint(-this->height * 2, -this->width/4);
+		this->MyGlobalHitbox[1] = temp->transformPoint(this->height * 2, -this->width/4);
+		this->MyGlobalHitbox[2] = temp->transformPoint(-this->height * 2, this->width/4);
+		this->MyGlobalHitbox[3] = temp->transformPoint(this->height * 2, this->width/4);
 	} else {
 		this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/4, -this->height/4);
 		this->MyGlobalHitbox[1] = temp->transformPoint(this->width/4, -this->height/4);

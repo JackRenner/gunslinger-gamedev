@@ -82,6 +82,8 @@ private:
 	// int oldX=0, oldY=0;
 
 	// int _jumpVel = -15;s
+	int wolfWaitToDamage = 0;
+	int knifeWaitToDamage = 0;
 
 	//void initIFrames(int numFrames);
 

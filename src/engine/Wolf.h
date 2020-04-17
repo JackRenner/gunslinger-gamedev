@@ -82,6 +82,7 @@ private:
 	int oldX=0, oldY=0;
 
     bool up = false;
+    bool justCollided = false;
 	//void initIFrames(int numFrames);
 
 };
