@@ -24,6 +24,7 @@ struct Animation {
 	int curFrame;
 	bool fromSheet;
 	SDL_Rect** rects;
+	bool whenDoneRemove = false; //removes object when animation plays through
 };
 
 class AnimatedSprite : public Sprite{
@@ -41,6 +42,7 @@ public:
 	void play(string animName);
 	void replay();
 	void stop();
+	void whenDoneRemove(string animName);
 	vector<string> parseXML(string spriteSheet, string xml);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
@@ -52,6 +54,7 @@ private:
 	Animation* current;
 	vector<Animation*> animations;
 	int frameCount;
+	bool removed = false; //to prevent seg fault
 
 };
 

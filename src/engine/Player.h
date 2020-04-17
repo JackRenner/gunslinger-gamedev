@@ -65,7 +65,8 @@ public:
 	int iFrameCount = 0;
 	int numIFrames = 0;
 
-	AnimatedSprite* bullet;
+	//AnimatedSprite* bullet;
+	AnimatedSprite* bloodSplatter;
 
 	HealthEvent * healthChangeEvent;
 

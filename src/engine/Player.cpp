@@ -34,6 +34,16 @@ Player::Player() : AnimatedSprite("Player"){
 	
 	this->play("FaceUp");
 	holding = 0;
+
+	//add blood splatter effect if player is hit
+	bloodSplatter = new AnimatedSprite("bs");
+	bloodSplatter->addAnimation("./resources/weapons/", "blood_splatter", 14, 1, false);
+	bloodSplatter->position.x = bloodSplatter->position.x - (0.5 * this->height);
+	bloodSplatter->position.y = bloodSplatter->position.y - (0.25 * this->width);
+	bloodSplatter->alpha = 0;
+	bloodSplatter->play("blood_splatter");
+
+	this->addChild(bloodSplatter);
 }
 
 
@@ -97,6 +107,16 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			this->play("FaceLeft");
 		}
 	}
+
+	//Allows wolves to nip
+	this->wolfWaitToDamage++;
+	if(this->wolfWaitToDamage > 10000){//arbitrary number so doesn't cause memory issues at all with too big int
+		this->wolfWaitToDamage = 900;
+	}
+	this->knifeWaitToDamage++;
+	if(this->knifeWaitToDamage > 10000){
+		this->knifeWaitToDamage = 900;
+	}
 }
 
 // do not include attacks from bosses yet
@@ -123,14 +143,10 @@ void Player::hitByMelee(string enemy){
 	} else if (enemy == "wolf" && this->wolfWaitToDamage > 40) {
 		takeDamage(15);
 		this->wolfWaitToDamage = 0;
-	} else if (enemy == "wolf") {
-		this->wolfWaitToDamage ++;
 	}
 	else if (enemy == "knife" && this->knifeWaitToDamage > 40) {
 		takeDamage(30);
 		this->knifeWaitToDamage = 0;
-	} else if (enemy == "knife") {
-		this->knifeWaitToDamage ++;
 	}
 }
 
@@ -179,6 +195,8 @@ void Player::healPlayer(string method){
 }
 
 void Player::takeDamage(int damage){
+	this->bloodSplatter->alpha = 255;
+	this->bloodSplatter->replay();
 	if(this->health > 0){
 		this->health -= damage;
 		if (this->health < 0) {this->health = 0;}

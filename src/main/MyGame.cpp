@@ -371,6 +371,9 @@ void MyGame::handleEvent(Event* e) {
 void MyGame::transitionScene() {
 	transLock = true;
 
+	//stops blood animation if transitioning scene
+	character->bloodSplatter->alpha = 0;
+
 	//Center blackbox at character
 	blackBox->position.x = character->position.x - blackBox->width / 2;
 	blackBox->position.y = character->position.y - blackBox->height / 2;

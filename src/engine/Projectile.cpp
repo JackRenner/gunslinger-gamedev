@@ -19,6 +19,10 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 
 	this->type = "Projectile";
 
+	//code for blood splatter effect
+	this->addAnimation("./resources/weapons/", "blood_splatter", 14, 1, false);
+	this->addAnimation("./resources/weapons/", "wood_chip", 16, 1, false);
+
 	// no gun
 	if (type == 0){
 		this->addAnimation("resources/weapons/", "bullet", 1, 1, true);
@@ -74,13 +78,25 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->gun = "rifle";
 		
 	}
+
+	if(type != 1){
+		this->whenDoneRemove("blood_splatter");
+		this->whenDoneRemove("wood_chip");
+	}
+
 }
 
 void Projectile::onCollision(DisplayObject* other) {
-	if (this->thrown && other->type=="Player") 
-		this->removeThis();		
-	else if (other->type!="Player" && !this->thrown)
+	if (this->thrown && other->type=="Player"){
 		this->removeThis();
+	} else if (other->type!="Player"){
+		if(other->type == "ArrowGuy" || other->type == "Obstacle"){ //add an or here once collision detection with wall is feasible
+			this->play("wood_chip");
+		} else {
+			this->play("blood_splatter");
+		}
+		hitSomething = true;
+	}
 }
 
 SDL_Point* Projectile::getGlobalHitbox(){
@@ -96,32 +112,50 @@ SDL_Point* Projectile::getGlobalHitbox(){
 void Projectile::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	controls::update(pressedKeys);
-
-    if(this->dir == "right"){
-        this->position.x -= this->speed;
+	if(this->dir == "right"){
+		if(!hitSomething){
+			this->position.x -= this->speed;
+		} else{
+			this->position.x -= this->speed / 8; //kinda looks cool idk, fades as bullet hits an object
+		}
 		this->durability +=this->speed;
-    }
-    if (this->dir == "left") {
-        this->position.x += this->speed;
+	}
+	if (this->dir == "left") {
+		if(!hitSomething){
+			this->position.x += this->speed;
+		} else {
+			this->position.x += this->speed / 8;
+		}
 		this->durability +=this->speed;
-    }
-    if(this->dir == "up") {
-        this->position.y -= this->speed;
+	}
+	if(this->dir == "up") {
+		if(!hitSomething){
+			this->position.y -= this->speed;
+		} else {
+			this->position.y -= this->speed / 8;
+		}
 		this->durability +=this->speed;
-    }
-    if(this->dir == "down") {
-        this->position.y += this->speed;
+	}
+	if(this->dir == "down") {
+		if(!hitSomething){
+			this->position.y += this->speed;
+		} else {
+			this->position.y += this->speed / 8;
+		}
 		this->durability +=this->speed;
-    }
+	}
 	if(this->durability > this->Distance) {
 		if(this->Distance == 150) {
 			this->thrown = true;
 			this->speed = 0;
 			this->position = this->position;
+			this->stop();
+			this->play("knife");
 		}else{
 			this->removeThis();
 		}
 	}
+	
 	//Game::instance->ourCollisionSystem->collidesWith()
 }
 

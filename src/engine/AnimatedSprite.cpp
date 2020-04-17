@@ -145,6 +145,13 @@ void AnimatedSprite::stop() {
     this->playing = false;
 }
 
+void AnimatedSprite::whenDoneRemove(string animName){
+    Animation* anim = getAnimation(animName);
+    if(anim != NULL) {
+        anim->whenDoneRemove = true;
+    }
+}
+
 void AnimatedSprite::update(set<SDL_Scancode> pressedKeys) {
     Sprite::update(pressedKeys);
     if (playing) {
@@ -159,13 +166,19 @@ void AnimatedSprite::update(set<SDL_Scancode> pressedKeys) {
                 // check for looping
                 if (!current->loop) {
                     stop();
+                    if(current->whenDoneRemove){
+                        this->removeThis();
+                        removed = true;
+                    }
                 }
             }
-            DisplayObject::setTexture(current->frames[current->curFrame]->texture);
-            if(current->fromSheet) {
-                DisplayObject::setSourceRect(current->rects[current->curFrame]);
-            } else {
-                DisplayObject::setSourceRect(NULL);
+            if(!removed){
+                DisplayObject::setTexture(current->frames[current->curFrame]->texture);
+                if(current->fromSheet) {
+                    DisplayObject::setSourceRect(current->rects[current->curFrame]);
+                } else {
+                    DisplayObject::setSourceRect(NULL);
+                }
             }
         }
 

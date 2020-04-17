@@ -42,6 +42,7 @@ public:
 	int iFrameCount = 0;
 	int numIFrames = 0;
 
+	bool hitSomething = false; //stops bullet from moving once it's hit something
 
 
 private:
