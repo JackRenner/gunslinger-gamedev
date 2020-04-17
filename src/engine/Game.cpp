@@ -52,6 +52,7 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
 	// obstacle collision
 	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
+	ourCollisionSystem->watchForCollisions("River", "Player");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 
