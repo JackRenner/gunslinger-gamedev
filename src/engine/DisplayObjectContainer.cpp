@@ -62,6 +62,7 @@ void DisplayObjectContainer::removeImmediateChild(string id) {
 void DisplayObjectContainer::unlinkImmediateChild(DisplayObject* child) {
     for (int i = 0; i < children.size(); i++) {
         if (children[i] == child) {
+            callRemoveChildEvent(children[i]);
             child->parent = NULL;
             children.erase(children.begin() + i);
         }
@@ -90,6 +91,7 @@ void DisplayObjectContainer::removeChild(int index) {
 
 void DisplayObjectContainer::unlinkChild(int index) {
     if (index < children.size()) {
+        callRemoveChildEvent(children[index]);
         children[index]->parent = NULL;
         children.erase(children.begin() + index);
     }
@@ -177,7 +179,20 @@ void DisplayObjectContainer :: callAddChildEvent(DisplayObject* ChildToAdd){
     //Assumes the parent is a displayobjectcontainer or a subvariant of one.
     DisplayObjectContainer* temp = (DisplayObjectContainer*) this->parent;
      temp->callAddChildEvent(ChildToAdd);
-  }else{
+  }
+  else if (ChildToAdd->type == "Scene") {
+      DisplayObjectContainer* tmp = (DisplayObjectContainer*)ChildToAdd;
+      GameTreeEvent* addEvent;
+      for (int i = 0; i < tmp->children.size(); i++) {
+          addEvent = new GameTreeEvent("addObject", this->MyEventDispatcher, tmp->children[i]);
+          this->MyEventDispatcher->dispatchEvent(addEvent);
+          free(addEvent);
+      }
+      addEvent = new GameTreeEvent("addObject", this->MyEventDispatcher, ChildToAdd);
+      this->MyEventDispatcher->dispatchEvent(addEvent);
+      free(addEvent);
+  }
+  else{
     GameTreeEvent* addEvent;
     addEvent = new GameTreeEvent("addObject", this->MyEventDispatcher, ChildToAdd);
     this->MyEventDispatcher->dispatchEvent(addEvent);
@@ -187,16 +202,29 @@ void DisplayObjectContainer :: callAddChildEvent(DisplayObject* ChildToAdd){
 
 
 void DisplayObjectContainer :: callRemoveChildEvent(DisplayObject* ChildToRemove){
-  if(this->parent != NULL){
-    //Assumes the parent is a displayobjectcontainer or a subvariant of one.
-    DisplayObjectContainer* temp = (DisplayObjectContainer*) this->parent;
-    temp->callRemoveChildEvent(ChildToRemove);
-  }else{
-    GameTreeEvent* removeEvent;
-    removeEvent = new GameTreeEvent("removeObject", this->MyEventDispatcher, ChildToRemove);
-    this->MyEventDispatcher->dispatchEvent(removeEvent);
-    free(removeEvent);
-  }
+    if (this->parent != NULL) {
+        //Assumes the parent is a displayobjectcontainer or a subvariant of one.
+        DisplayObjectContainer* temp = (DisplayObjectContainer*)this->parent;
+        temp->callRemoveChildEvent(ChildToRemove);
+    }
+    else if (ChildToRemove->type == "Scene") {
+        DisplayObjectContainer* tmp = (DisplayObjectContainer*)ChildToRemove;
+        GameTreeEvent* removeEvent;
+        for (int i = 0; i < tmp->children.size(); i++) {
+            removeEvent = new GameTreeEvent("removeObject", this->MyEventDispatcher, tmp->children[i]);
+            this->MyEventDispatcher->dispatchEvent(removeEvent);
+            free(removeEvent);
+        }
+        removeEvent = new GameTreeEvent("removeObject", this->MyEventDispatcher, ChildToRemove);
+        this->MyEventDispatcher->dispatchEvent(removeEvent);
+        free(removeEvent);
+    }
+    else {
+        GameTreeEvent* removeEvent;
+        removeEvent = new GameTreeEvent("removeObject", this->MyEventDispatcher, ChildToRemove);
+        this->MyEventDispatcher->dispatchEvent(removeEvent);
+        free(removeEvent);
+    }
 }
 
  void DisplayObjectContainer :: saveAllPositions(){
