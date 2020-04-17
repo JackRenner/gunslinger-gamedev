@@ -41,6 +41,9 @@ Game::Game(int windowWidth, int windowHeight){
 	// creeper collision
 	ourCollisionSystem->watchForCollisions("Creeper", "Projectile");
 	ourCollisionSystem->watchForCollisions("Creeper", "Player");
+	// knifeguy collision
+	ourCollisionSystem->watchForCollisions("KnifeGuy", "Projectile");
+	ourCollisionSystem->watchForCollisions("KnifeGuy", "Player");
 	// marksman collision
 	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);

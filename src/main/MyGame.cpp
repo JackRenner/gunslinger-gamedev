@@ -669,6 +669,21 @@ void MyGame::initEnemies(Scene* s) {
 		s->enemiesAdded = true;
 
 	}
+
+	if (s->id == "lake8" && !s->enemiesAdded) {
+		knifeguy1LakeStill8 = new KnifeGuy(character, "KnifeGuy1");
+		knifeguy1LakeStill8->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy1LakeStill8->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy1LakeStill8->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy1LakeStill8->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		//creeper1LakeStill7->addAnimation("resources/enemies/", "Explode", 16, 1, true);
+		lake8->addChild(knifeguy1LakeStill8);
+		knifeguy1LakeStill8->position = { 300, 300 };
+		knifeguy1LakeStill8->play("KnifeGuyLeft");
+		
+		s->enemiesAdded = true;
+
+	}
 }
 
 void MyGame::playerShooting(int gun, string dir){

@@ -12,6 +12,7 @@
 #include "../engine/Wolf.h"
 #include "../engine/GangThug.h"
 #include "../engine/Creeper.h"
+#include "../engine/KnifeGuy.h"
 #include "../engine/GangMarksman.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
@@ -111,6 +112,8 @@ private:
 
 	Creeper* creeper1LakeStill7;
 	Creeper* creeper2LakeStill7;
+
+	KnifeGuy* knifeguy1LakeStill8;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;
