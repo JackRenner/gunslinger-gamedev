@@ -23,6 +23,7 @@ public:
 	virtual void draw(AffineTransform &at);
 
 	bool enemiesAdded = false;
+	bool obstaclesAdded = false;
 
 
 private:

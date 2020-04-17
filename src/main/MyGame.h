@@ -55,6 +55,8 @@ public:
 	void initTown();
 	void initLake();
 
+	void initObstacles();
+
 	void initEnemies(Scene* s);
 
 	void playerShooting(int gun, string dir);

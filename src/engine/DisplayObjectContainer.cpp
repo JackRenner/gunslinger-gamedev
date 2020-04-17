@@ -30,12 +30,12 @@ DisplayObjectContainer::~DisplayObjectContainer() {
 }
 
 void DisplayObjectContainer::addChild(DisplayObject* child) {
+    child->parent = this;
     children.push_back(child);
-    child->parent = this; // make sure to include reverse reference also
+     // make sure to include reverse reference also
     //Add the event code to add a child here.
     //setChildEventDispatcher(child);
     callAddChildEvent(child);
-
 }
 
 void DisplayObjectContainer::removeImmediateChild(DisplayObject* child) {

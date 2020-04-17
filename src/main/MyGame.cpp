@@ -32,12 +32,12 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initTown();
 	initLake();
 
+	room_state = 0;
+
 	this->setScene(townScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
-
-	room_state = 0;
 
 	blackBox = new Sprite("blackbox",0,0,0);
 	blackBox->alpha = 0;
@@ -205,13 +205,13 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		// 		test->drawNextLine();
 		// }
 	}
-	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
-	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
-
 	//test->position = { character->position.x - test->background->width / 2, character->position.y - 300 };
 
 	Game::update(pressedKeys);
 	controls::update(pressedKeys);
+
+	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
+	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
 
 	if (!transLock) {
 		checkTransition();
@@ -251,6 +251,7 @@ void MyGame::setScene(Scene* scene) {
 	if (curScene != NULL) {
 		this->addChild(curScene);
 		initEnemies(scene);
+		initObstacles();
 	}
 }
 
@@ -674,4 +675,45 @@ void MyGame::checkTransition() {
 			}
 		}
 	}
+}
+
+void MyGame::initObstacles() {
+	Scene* scenePointer = sceneInfo[room_state].scenePointer;
+	if (scenePointer->obstaclesAdded)
+		return;
+
+	SDL_Rect rect = sceneInfo[room_state].bounds.bounds;
+	// initialize outer walls
+	DisplayObjectContainer* tmpUp = new DisplayObjectContainer();
+	DisplayObjectContainer* tmpDown = new DisplayObjectContainer();
+	DisplayObjectContainer* tmpLeft = new DisplayObjectContainer();
+	DisplayObjectContainer* tmpRight = new DisplayObjectContainer();
+
+	tmpUp->type = "Obstacle";
+	tmpDown->type = "Obstacle";
+	tmpLeft->type = "Obstacle";
+	tmpRight->type = "Obstacle";
+
+	tmpUp->width = rect.w;
+	tmpUp->height = 20;
+	tmpUp->position = { 0, -20 };
+
+	tmpDown->width = rect.w;
+	tmpDown->height = 20;
+	tmpDown->position = { 0, rect.h };
+
+	tmpLeft->width = 20;
+	tmpLeft->height = rect.h;
+	tmpLeft->position = { -20, 0 };
+
+	tmpRight->width = 20;
+	tmpRight->height = rect.h;
+	tmpRight->position = { rect.w, 0 };
+
+	scenePointer->addChild(tmpUp);
+	scenePointer->addChild(tmpDown);
+	scenePointer->addChild(tmpLeft);
+	scenePointer->addChild(tmpRight);
+
+	scenePointer->obstaclesAdded = true;
 }

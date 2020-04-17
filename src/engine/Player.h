@@ -12,6 +12,7 @@
 #include "events/EventDispatcher.h"
 #include "ui/HealthEvent.h"
 #include "ui/WeaponSelectEvent.h"
+#include "Game.h"
 
 using namespace std;
 

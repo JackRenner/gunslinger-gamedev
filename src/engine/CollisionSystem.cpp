@@ -141,7 +141,6 @@ void CollisionSystem :: watchForCollisions(string type1, string type2){
     this->collisionTypeMap.insert({Order1, 0});
     //cout <<"Item added to objectsCollide" <<endl;
   }
-
 }
 
 //returns true iff obj1 hitbox and obj2 hitbox overlap. Uses the following method from DO:

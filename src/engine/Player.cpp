@@ -78,7 +78,6 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			this->dir = "Left";
 			this->play("FaceLeft");
 			this->position.x -= 8;
-			this->position.x -= 8;
 		}
 		if (controls::holdUp()) {
 			this->dir = "Up";
@@ -140,6 +139,10 @@ void Player::onCollision(DisplayObject* other){
 	// 	}
 	// }
 
+
+	else if (other->type == "Obstacle") {
+		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
+	}
 }
 
 // do not include attacks from bosses yet
