@@ -449,7 +449,7 @@ void MyGame::initLake() {
 
 	vector<TransitionStruct> lake4Points = {
 	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 8, TransitionDetection::AXIS, Cardinal::NORTH),
-	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 12, TransitionDetection::AXIS, Cardinal::EAST),
+	// TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 12, TransitionDetection::AXIS, Cardinal::EAST),
 	TransitionStruct(SDL_Point{ 0, 595 }, SDL_Point{ 550, 80 }, 14, TransitionDetection::AXIS, Cardinal::SOUTH) };
 	transitions.push_back(lake4Points);
 
@@ -463,7 +463,8 @@ void MyGame::initLake() {
 	vector<TransitionStruct> lake6Points = {
 	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 10, TransitionDetection::AXIS, Cardinal::NORTH),
 	TransitionStruct(SDL_Point{ 0, 595}, SDL_Point{ 550, 80 }, 16, TransitionDetection::AXIS, Cardinal::SOUTH),
-	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 12, TransitionDetection::AXIS, Cardinal::WEST) };
+	// TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 12, TransitionDetection::AXIS, Cardinal::WEST)
+	};
 	transitions.push_back(lake6Points);
 
 	vector<TransitionStruct> lake7Points = {
@@ -472,7 +473,7 @@ void MyGame::initLake() {
 	transitions.push_back(lake7Points);
 
 	vector<TransitionStruct> lake8Points = {
-	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 12, TransitionDetection::AXIS, Cardinal::NORTH),
+	// TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 12, TransitionDetection::AXIS, Cardinal::NORTH),
 	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 16, TransitionDetection::AXIS, Cardinal::EAST),
 	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 14, TransitionDetection::AXIS, Cardinal::WEST) };
 	transitions.push_back(lake8Points);
@@ -715,6 +716,36 @@ void MyGame::initObstacles() {
 	scenePointer->addChild(tmpDown);
 	scenePointer->addChild(tmpLeft);
 	scenePointer->addChild(tmpRight);
+
+	if (scenePointer == lake2){
+		DisplayObjectContainer* river1 = new DisplayObjectContainer();
+		river1->type = "Obstacle";
+		river1->width = 60;
+		river1->height = 110;
+		river1->position = {500,0};
+		scenePointer->addChild(river1);
+
+		DisplayObjectContainer* river2 = new DisplayObjectContainer();
+		river2->type = "Obstacle";
+		river2->width = 60;
+		river2->height = 350;
+		river2->position = {500,250};
+		scenePointer->addChild(river2);
+
+		DisplayObjectContainer* river3 = new DisplayObjectContainer();
+		river3->type = "Obstacle";
+		river3->width = 60;
+		river3->height = 300;
+		river3->position = {450,350};
+		scenePointer->addChild(river3);
+
+		DisplayObjectContainer* river4 = new DisplayObjectContainer();
+		river4->type = "Obstacle";
+		river4->width = 60;
+		river4->height = 250;
+		river4->position = {400,400};
+		scenePointer->addChild(river4);
+	}
 
 	if (scenePointer == townScene){
 		DisplayObjectContainer* well = new DisplayObjectContainer();
