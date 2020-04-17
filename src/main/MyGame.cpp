@@ -19,6 +19,10 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	foreground = new DisplayObjectContainer();
 	foreground->id = "foreground";
 
+	Sound* music = new Sound();
+	music->playMusic("town");
+	//music->cur_music = "town";
+
     character = new Player();
 	foreground->addChild(character);
 	this->addChild(character);
@@ -47,10 +51,10 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->height = 5000;
 	foreground->addChild(blackBox);
 
-	// test = new TextBox(SDL_Point{ 1500, 500 }, 300, 200);
+	test = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
 
-	// string testText = "This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text.";
-	// test->addTextLine("./resources/fonts/arial.ttf", testText, 18, SDL_Color{ 255, 255, 255 });
+	string testText = "The man in black fled across the desert, and the gunslinger followed. \n -Stephen King, The Gunslinger";
+	test->addTextLine("./resources/fonts/west.otf", testText, 24, SDL_Color{ 255, 255, 255 });
 	// string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
 	// test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
 	// string testText3 = "Deus volt";
@@ -58,7 +62,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	// string testText4 = "Lorem ipsum.";
 	// test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
 
-	// foreground->addChild(test);
+	foreground->addChild(test);
+	test->position = { 300, 400 };
+
 
 	healthBackground = new Sprite("blackbox", 255, 0, 0);
 	healthBackground->id = "healthbackground";
@@ -198,14 +204,14 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			this->reloadGun(character->gun);
 		}
 
-		// if (controls::toggleVisibility() && !test->textLock) {
-		// 	if (test->nextLine == 0)
-		// 		test->initBox();
-		// 	else if (test->nextLine == test->maxLine)
-		// 		test->closeBox();
-		// 	else
-		// 		test->drawNextLine();
-		// }
+		if (controls::toggleVisibility() && !test->textLock) {
+			if (test->nextLine == 0)
+				test->initBox();
+			else if (test->nextLine == test->maxLine)
+				test->closeBox();
+			else
+				test->drawNextLine();
+		}
 	}
 	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
 	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
@@ -284,7 +290,6 @@ void MyGame::draw(AffineTransform& at) {
 // sets the current scene and adds as child to game and unlinks the old scene from game (does not destroy it)
 // we can tweak this to destroy the scene for memory reasons (or add a new method to destroy), but left it like this for now
 void MyGame::setScene(Scene* scene) {
-	std::cout << "SCENE CHANGEEEEEE\n";
 	if (curScene != NULL)
 		this->unlinkImmediateChild(curScene->id);
 	this->curScene = scene;
