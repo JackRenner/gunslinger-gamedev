@@ -10,8 +10,8 @@
 #include <fstream>
 #include "Controls.h"
 
-#include "EventDispatcher.h"
-#include "Event.h"
+#include "./events/EventDispatcher.h"
+#include "./events/Event.h"
 
 using namespace std;
 

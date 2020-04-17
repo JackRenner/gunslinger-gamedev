@@ -20,8 +20,6 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	foreground->id = "foreground";
 
     character = new Player();
-	foreground->addChild(character);
-	this->addChild(character);
 	//this->removeImmediateChild(character);
 
 	character->position = { 1500, 500 };
@@ -34,12 +32,12 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initTown();
 	initLake();
 
+	room_state = 0;
+
 	this->setScene(townScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
-
-	room_state = 0;
 
 	blackBox = new Sprite("blackbox",0,0,0);
 	blackBox->alpha = 0;
@@ -59,6 +57,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	// test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
 
 	// foreground->addChild(test);
+	
+	selection = new WeaponSelect();
+	selection->position = { character->position.x - (gameCamera.viewportWidth / 2) + 10, (character->position.y - gameCamera.viewportHeight / 2 + 10) };
 
 	healthBackground = new Sprite("blackbox", 255, 0, 0);
 	healthBackground->id = "healthbackground";
@@ -66,9 +67,19 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	healthBackground->width = 100;
 	healthBackground->height = 20;
 	playerHealth = new HealthBar(character, 0, 100);
+
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_FIST_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_KNIFE_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_PISTOL_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_SHOTGUN_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_RIFLE_EVENT);
+
+	foreground->addChild(character);
 	character->addChild(healthBackground);
 	character->addChild(playerHealth);
-	
+	foreground->addChild(selection);
+	//foreground->addChild(test);
+	foreground->addChild(blackBox);
 }
 
 MyGame::~MyGame() {
@@ -82,8 +93,9 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	this->saveAllPositions();
 
 	if (character->health == 0) {
-		// add in code to reset to town
+		curTransition = transitions[0][0];
 		character->health = 100;
+		transitionScene();
 	}
 	// Demo for enemies
 
@@ -149,19 +161,19 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if (!transLock) {
 		// gun select
 		if (controls::press1()) {
-			character->gun = 0;
+			character->selectWeapon(0);
 		};
 		if (controls::press2()) {
-			character->gun = 1;
+			character->selectWeapon(1);
 		};
 		if (controls::press3()) {
-			character->gun = 2;
+			character->selectWeapon(2);
 		};
 		if (controls::press4()) {
-			character->gun = 3;
+			character->selectWeapon(3);
 		};
 		if (controls::press5()) {
-			character->gun = 4;
+			character->selectWeapon(4);
 		};
 		// shooting
 		if (controls::pressUp()) {
@@ -194,55 +206,16 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		// 		test->drawNextLine();
 		// }
 	}
-	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
-	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
-
 	//test->position = { character->position.x - test->background->width / 2, character->position.y - 300 };
 
 	Game::update(pressedKeys);
 	controls::update(pressedKeys);
 
+	gameCamera.x = character->position.x - gameCamera.viewportWidth / 2;
+	gameCamera.y = character->position.y - gameCamera.viewportHeight / 2;
+
 	if (!transLock) {
-		for (int i = 0; i < transitions[room_state].size(); i++) {
-			TransitionStruct cur = transitions[room_state][i];
-			if (cur.detection == TransitionDetection::POINT) {
-				if (checkInsidePoint(cur.point, character)) {
-					curTransition = cur;
-					transitionScene();
-					break;
-				}
-			}
-			else if (cur.detection == TransitionDetection::AXIS) {
-				if (cur.direction == Cardinal::NORTH) {
-					if (character->position.y - character->pivot.y <= cur.point.y) {
-						curTransition = cur;
-						transitionScene();
-						break;
-					}
-				}
-				else if (cur.direction == Cardinal::EAST) {
-					if (character->position.x - character->pivot.x + character->width >= cur.point.x) {
-						curTransition = cur;
-						transitionScene();
-						break;
-					}
-				}
-				else if (cur.direction == Cardinal::SOUTH) {
-					if (character->position.y - character->pivot.y + character->height >= cur.point.y) {
-						curTransition = cur;
-						transitionScene();
-						break;
-					}
-				}
-				else if (cur.direction == Cardinal::WEST) {
-					if (character->position.x - character->pivot.x <= cur.point.x) {
-						curTransition = cur;
-						transitionScene();
-						break;
-					}
-				}
-			}
-		}
+		checkTransition();
 	}
 	// need to write code for sending player back to town
 	if (character->health <= 0) {
@@ -254,6 +227,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	}
 	this->ourCollisionSystem->update();
 	enforceCameraBounds();
+	selection->position = { gameCamera.x + 10, gameCamera.y + 10 };
 }
 
 void MyGame::draw(AffineTransform& at) {
@@ -278,6 +252,7 @@ void MyGame::setScene(Scene* scene) {
 	if (curScene != NULL) {
 		this->addChild(curScene);
 		initEnemies(scene);
+		initObstacles();
 	}
 }
 
@@ -381,6 +356,7 @@ void MyGame::initTown() {
 
 	// initialize town transition points, hardcoded for now
 	vector<TransitionStruct> townPoints = {
+	TransitionStruct(SDL_Point{-1,-1}, SDL_Point{535, 960}, 0),
 	TransitionStruct(SDL_Point{ 192, 300 }, SDL_Point{ 535, 900 }, 1),
 	TransitionStruct(SDL_Point{550, 288}, SDL_Point{ 535, 900 }, 2),
 	TransitionStruct(SDL_Point{900, 300}, SDL_Point{ 535, 900 }, 3),
@@ -475,7 +451,7 @@ void MyGame::initLake() {
 
 	vector<TransitionStruct> lake4Points = {
 	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 8, TransitionDetection::AXIS, Cardinal::NORTH),
-	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 12, TransitionDetection::AXIS, Cardinal::EAST),
+	// TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 12, TransitionDetection::AXIS, Cardinal::EAST),
 	TransitionStruct(SDL_Point{ 0, 595 }, SDL_Point{ 550, 80 }, 14, TransitionDetection::AXIS, Cardinal::SOUTH) };
 	transitions.push_back(lake4Points);
 
@@ -489,7 +465,8 @@ void MyGame::initLake() {
 	vector<TransitionStruct> lake6Points = {
 	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 10, TransitionDetection::AXIS, Cardinal::NORTH),
 	TransitionStruct(SDL_Point{ 0, 595}, SDL_Point{ 550, 80 }, 16, TransitionDetection::AXIS, Cardinal::SOUTH),
-	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 12, TransitionDetection::AXIS, Cardinal::WEST) };
+	// TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 12, TransitionDetection::AXIS, Cardinal::WEST)
+	};
 	transitions.push_back(lake6Points);
 
 	vector<TransitionStruct> lake7Points = {
@@ -498,7 +475,7 @@ void MyGame::initLake() {
 	transitions.push_back(lake7Points);
 
 	vector<TransitionStruct> lake8Points = {
-	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 12, TransitionDetection::AXIS, Cardinal::NORTH),
+	// TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{ 550, 530 }, 12, TransitionDetection::AXIS, Cardinal::NORTH),
 	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 16, TransitionDetection::AXIS, Cardinal::EAST),
 	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 14, TransitionDetection::AXIS, Cardinal::WEST) };
 	transitions.push_back(lake8Points);
@@ -658,4 +635,303 @@ void MyGame::reloadGun(int gun) {
 	} else if (gun == 4) {
 		character->rifle_shots = 0;
 	}
+}
+
+void MyGame::checkTransition() {
+	for (int i = 0; i < transitions[room_state].size(); i++) {
+		TransitionStruct cur = transitions[room_state][i];
+		if (cur.detection == TransitionDetection::POINT) {
+			if (checkInsidePoint(cur.point, character)) {
+				curTransition = cur;
+				transitionScene();
+				break;
+			}
+		}
+		else if (cur.detection == TransitionDetection::AXIS) {
+			if (cur.direction == Cardinal::NORTH) {
+				if (character->position.y - character->pivot.y <= cur.point.y) {
+					curTransition = cur;
+					transitionScene();
+					break;
+				}
+			}
+			else if (cur.direction == Cardinal::EAST) {
+				if (character->position.x - character->pivot.x + character->width >= cur.point.x) {
+					curTransition = cur;
+					transitionScene();
+					break;
+				}
+			}
+			else if (cur.direction == Cardinal::SOUTH) {
+				if (character->position.y - character->pivot.y + character->height >= cur.point.y) {
+					curTransition = cur;
+					transitionScene();
+					break;
+				}
+			}
+			else if (cur.direction == Cardinal::WEST) {
+				if (character->position.x - character->pivot.x <= cur.point.x) {
+					curTransition = cur;
+					transitionScene();
+					break;
+				}
+			}
+		}
+	}
+}
+
+void MyGame::initObstacles() {
+	cout << "Initializing Obstacles!" << endl;
+	Scene* scenePointer = sceneInfo[room_state].scenePointer;
+	if (scenePointer->obstaclesAdded)
+		return;
+
+	SDL_Rect rect = sceneInfo[room_state].bounds.bounds;
+	// initialize outer walls
+	DisplayObjectContainer* tmpUp = new DisplayObjectContainer();
+	DisplayObjectContainer* tmpDown = new DisplayObjectContainer();
+	DisplayObjectContainer* tmpLeft = new DisplayObjectContainer();
+	DisplayObjectContainer* tmpRight = new DisplayObjectContainer();
+
+	tmpUp->type = "Obstacle";
+	tmpDown->type = "Obstacle";
+	tmpLeft->type = "Obstacle";
+	tmpRight->type = "Obstacle";
+
+	tmpUp->width = rect.w;
+	tmpUp->height = 20;
+	tmpUp->position = { 0, -20 };
+
+	tmpDown->width = rect.w;
+	tmpDown->height = 20;
+	tmpDown->position = { 0, rect.h };
+
+	tmpLeft->width = 20;
+	tmpLeft->height = rect.h;
+	tmpLeft->position = { -20, 0 };
+
+	tmpRight->width = 20;
+	tmpRight->height = rect.h;
+	tmpRight->position = { rect.w, 0 };
+
+	scenePointer->addChild(tmpUp);
+	scenePointer->addChild(tmpDown);
+	scenePointer->addChild(tmpLeft);
+	scenePointer->addChild(tmpRight);
+
+	if (scenePointer == lake2){
+		DisplayObjectContainer* river1 = new DisplayObjectContainer();
+		river1->type = "Obstacle";
+		river1->width = 60;
+		river1->height = 110;
+		river1->position = {500,0};
+		scenePointer->addChild(river1);
+
+		DisplayObjectContainer* river2 = new DisplayObjectContainer();
+		river2->type = "Obstacle";
+		river2->width = 60;
+		river2->height = 350;
+		river2->position = {500,250};
+		scenePointer->addChild(river2);
+
+		DisplayObjectContainer* river3 = new DisplayObjectContainer();
+		river3->type = "Obstacle";
+		river3->width = 60;
+		river3->height = 300;
+		river3->position = {450,350};
+		scenePointer->addChild(river3);
+
+		DisplayObjectContainer* river4 = new DisplayObjectContainer();
+		river4->type = "Obstacle";
+		river4->width = 60;
+		river4->height = 250;
+		river4->position = {400,400};
+		scenePointer->addChild(river4);
+	}
+
+	if (scenePointer == townScene){
+		DisplayObjectContainer* well = new DisplayObjectContainer();
+		well->type = "Obstacle";
+		well->width = 80;
+		well->height = 85;
+		well->position = {1375,570};
+		scenePointer->addChild(well);
+	}
+
+	if (scenePointer == sheriffScene){
+		cout << "\nENTERING SHERIFF\n" << endl;
+		DisplayObjectContainer* wall = new DisplayObjectContainer();
+		wall->type = "Obstacle";
+		wall->width = 1100;
+		wall->height = 80;
+		wall->position = {0,400};
+		scenePointer->addChild(wall);
+
+		DisplayObjectContainer* bench1 = new DisplayObjectContainer();
+		bench1->type = "Obstacle";
+		bench1->width = 20;
+		bench1->height = 130;
+		bench1->position = {145,570};
+		scenePointer->addChild(bench1);
+
+		DisplayObjectContainer* bench2 = new DisplayObjectContainer();
+		bench2->type = "Obstacle";
+		bench2->width = 20;
+		bench2->height = 130;
+		bench2->position = {145,830};
+		scenePointer->addChild(bench2);
+
+		DisplayObjectContainer* bench3 = new DisplayObjectContainer();
+		bench3->type = "Obstacle";
+		bench3->width = 140;
+		bench3->height = 30;
+		bench3->position = {810,635};
+		scenePointer->addChild(bench3);
+	}
+
+	if (scenePointer == storeScene){
+		cout << "\nENTERING STORE\n" << endl;
+		DisplayObjectContainer* wall = new DisplayObjectContainer();
+		wall->type = "Obstacle";
+		wall->width = 1100;
+		wall->height = 100;
+		wall->position = {0,400};
+		scenePointer->addChild(wall);
+
+		DisplayObjectContainer* table = new DisplayObjectContainer();
+		table->type = "Obstacle";
+		table->width = 130;
+		table->height = 140;
+		table->position = {478,500};
+		scenePointer->addChild(table);
+	}
+
+	if (scenePointer == hotelScene){
+		cout << "\nENTERING HOTEL\n" << endl;
+		DisplayObjectContainer* wall = new DisplayObjectContainer();
+		wall->type = "Obstacle";
+		wall->width = 1100;
+		wall->height = 100;
+		wall->position = {0,400};
+		scenePointer->addChild(wall);
+
+		DisplayObjectContainer* table = new DisplayObjectContainer();
+		table->type = "Obstacle";
+		table->width = 130;
+		table->height = 30;
+		table->position = {478,605};
+		scenePointer->addChild(table);
+	}
+
+	if (scenePointer == bankScene){
+		cout << "\nENTERING BANK\n" << endl;
+		DisplayObjectContainer* wall = new DisplayObjectContainer();
+		wall->type = "Obstacle";
+		wall->width = 1100;
+		wall->height = 200;
+		wall->position = {0,320};
+		scenePointer->addChild(wall);
+	}
+
+	if (scenePointer == postScene){
+		cout << "\nENTERING POST\n" << endl;
+		DisplayObjectContainer* wall = new DisplayObjectContainer();
+		wall->type = "Obstacle";
+		wall->width = 570;
+		wall->height = 140;
+		wall->position = {0,560};
+		scenePointer->addChild(wall);
+
+		DisplayObjectContainer* topWall = new DisplayObjectContainer();
+		topWall->type = "Obstacle";
+		topWall->width = 1100;
+		topWall->height = 120;
+		topWall->position = {0,0};
+		scenePointer->addChild(topWall);
+
+		DisplayObjectContainer* counter = new DisplayObjectContainer();
+		counter->type = "Obstacle";
+		counter->width = 60;
+		counter->height = 650;
+		counter->position = {500,0};
+		scenePointer->addChild(counter);
+	}
+
+	if (scenePointer == cantinaScene){
+		cout << "\nENTERING CANTINA\n" << endl;
+		DisplayObjectContainer* topWall = new DisplayObjectContainer();
+		topWall->type = "Obstacle";
+		topWall->width = 1100;
+		topWall->height = 100;
+		topWall->position = {0,0};
+		scenePointer->addChild(topWall);
+
+		DisplayObjectContainer* table1 = new DisplayObjectContainer();
+		table1->type = "Obstacle";
+		table1->width = 45;
+		table1->height = 160;
+		table1->position = {250,240};
+		scenePointer->addChild(table1);
+
+		DisplayObjectContainer* table2 = new DisplayObjectContainer();
+		table2->type = "Obstacle";
+		table2->width = 45;
+		table2->height = 160;
+		table2->position = {500,240};
+		scenePointer->addChild(table2);
+
+		DisplayObjectContainer* bar = new DisplayObjectContainer();
+		bar->type = "Obstacle";
+		bar->width = 300;
+		bar->height = 130;
+		bar->position = {775,100};
+		scenePointer->addChild(bar);
+	}
+
+	if (scenePointer == drugScene){
+		cout << "\nENTERING DRUG STORE\n" << endl;
+		DisplayObjectContainer* topWall = new DisplayObjectContainer();
+		topWall->type = "Obstacle";
+		topWall->width = 1100;
+		topWall->height = 100;
+		topWall->position = {0,0};
+		scenePointer->addChild(topWall);
+
+		DisplayObjectContainer* shelf1 = new DisplayObjectContainer();
+		shelf1->type = "Obstacle";
+		shelf1->width = 525;
+		shelf1->height = 75;
+		shelf1->position = {0,210};
+		scenePointer->addChild(shelf1);
+
+		DisplayObjectContainer* shelf2 = new DisplayObjectContainer();
+		shelf2->type = "Obstacle";
+		shelf2->width = 525;
+		shelf2->height = 75;
+		shelf2->position = {0,410};
+		scenePointer->addChild(shelf2);
+
+		DisplayObjectContainer* shelf3 = new DisplayObjectContainer();
+		shelf3->type = "Obstacle";
+		shelf3->width = 525;
+		shelf3->height = 75;
+		shelf3->position = {0,610};
+		scenePointer->addChild(shelf3);
+
+		DisplayObjectContainer* bench1 = new DisplayObjectContainer();
+		bench1->type = "Obstacle";
+		bench1->width = 20;
+		bench1->height = 180;
+		bench1->position = {910,200};
+		scenePointer->addChild(bench1);
+
+		DisplayObjectContainer* bench2 = new DisplayObjectContainer();
+		bench2->type = "Obstacle";
+		bench2->width = 20;
+		bench2->height = 180;
+		bench2->position = {910,470};
+		scenePointer->addChild(bench2);
+	}
+
+	scenePointer->obstaclesAdded = true;
 }
