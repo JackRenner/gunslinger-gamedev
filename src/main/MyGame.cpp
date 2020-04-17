@@ -666,13 +666,13 @@ void MyGame::initEnemies(Scene* s) {
 		arrow_guys[arrow2LakeStill4] = 1;
 
 		shot1LakeStill = new GangShot((Player*)character, "GangShot1");	
-		shot1LakeStill->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
-		shot1LakeStill->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
-		shot1LakeStill->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
-		shot1LakeStill->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
 		lake4->addChild(shot1LakeStill);
 		shot1LakeStill->position = { 700, 300 };
-		shot1LakeStill->play("GangThugLeft");
+		shot1LakeStill->play("GangShotLeft");
 		gang_shot[shot1LakeStill] = 1;
 		
 		s->enemiesAdded = true;

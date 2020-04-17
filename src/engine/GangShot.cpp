@@ -43,15 +43,15 @@ void GangShot::update(set<SDL_Scancode> pressedKeys){
     // if the difference in north/south is greater than east/west
     if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
         if (this->position.x - sayu->position.x > 0) {
-            this->play("GangThugLeft");
+            this->play("GangShotLeft");
         } else {
-            this->play("GangThugRight");
+            this->play("GangShotRight");
         }
     } else {
         if (this->position.y - sayu->position.y > 0) {
-            this->play("GangThugUp");
+            this->play("GangShotUp");
         } else {
-            this->play("GangThugDown");
+            this->play("GangShotDown");
         }
     }
 	//everything else controlled by state machine
