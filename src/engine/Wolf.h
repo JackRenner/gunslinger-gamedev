@@ -47,7 +47,7 @@ public:
 
 	int shoot = 0;
 	/* Health and such */
-	int health = 100;
+	int health = 80;
 	int maxHealth = 100;
 
 	//iFrames
@@ -82,6 +82,7 @@ private:
 	int oldX=0, oldY=0;
 
     bool up = false;
+    bool justCollided = false;
 	//void initIFrames(int numFrames);
 
 };

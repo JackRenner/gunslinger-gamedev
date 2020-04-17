@@ -11,7 +11,9 @@
 #include "../engine/Player.h"
 #include "../engine/Wolf.h"
 #include "../engine/GangThug.h"
+#include "../engine/GangShot.h"
 #include "../engine/Creeper.h"
+#include "../engine/KnifeGuy.h"
 #include "../engine/GangMarksman.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
@@ -64,6 +66,9 @@ public:
 
 	//map<Benemy*, GangThug*> thug_benemies;
 	std::map<GangThug*,int> gang_thugs;
+	std::map<GangShot*,int> gang_shot;
+	std::map<GangMarksman*,int> gang_marksmans;
+	std::map<ArrowGuy*,int> arrow_guys;
 
 private:
 
@@ -103,17 +108,26 @@ private:
 	Wolf* wolf2LakeStill1;
 	
 	GangThug* thug1LakeStill2;
+	GangThug* thug2LakeStill2;
 
+	GangShot* shot1LakeStill;
+	
 	GangMarksman* mark1LakeStill3;
+	GangMarksman* mark2LakeStill3;
 
 	ArrowGuy* arrow1LakeStill4;
+	ArrowGuy* arrow2LakeStill4;
 
 	Creeper* creeper1LakeStill7;
+	Creeper* creeper2LakeStill7;
+
+	KnifeGuy* knifeguy1LakeStill8;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;
 	Benemy* benemy2;
 	Benemy* benemy3;
+	Benemy* benemya;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;

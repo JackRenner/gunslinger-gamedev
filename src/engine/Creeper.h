@@ -17,7 +17,7 @@ using namespace std;
 class Creeper : public AnimatedSprite{
 
 public:
-	Creeper(Player* sayu);
+	Creeper(Player* sayu, string id);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);

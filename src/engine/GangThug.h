@@ -17,7 +17,7 @@ using namespace std;
 class GangThug : public AnimatedSprite{
 
 public:
-	GangThug(Player* sayu);
+	GangThug(Player* sayu, string id);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -28,7 +28,7 @@ public:
     virtual void onCollision(DisplayObject* other);
     virtual SDL_Point* getGlobalHitbox();
 
-    void save(ofstream &out);
+    void save();
     
     void charge();
 
@@ -48,7 +48,7 @@ public:
 
 	int shoot = 0;
 	/* Health and such */
-	int health = 100;
+	int health = 120;
 	int maxHealth = 100;
 
 	//iFrames

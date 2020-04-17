@@ -26,12 +26,31 @@ Game::Game(int windowWidth, int windowHeight){
  	ourCollisionSystem = new CollisionSystem();
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "addObject");
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "removeObject");
-	ourCollisionSystem->watchForCollisions("Projectile", "GangThug");
+	// player + bullet collision
 	ourCollisionSystem->watchForCollisions("Benemy", "Player");
 	ourCollisionSystem->watchForCollisions("Projectile", "Player");
+	// gang thug collisions
+	ourCollisionSystem->watchForCollisions("GangThug", "GangThug");
+	ourCollisionSystem->watchForCollisions("GangThug", "Projectile");
+	// gang shot
+	ourCollisionSystem->watchForCollisions("GangShot", "GangShot");
+	ourCollisionSystem->watchForCollisions("GangShot", "Projectile");
+	// wolf collisions
 	ourCollisionSystem->watchForCollisions("Wolf", "Projectile");
 	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
 	ourCollisionSystem->watchForCollisions("Wolf", "Player");
+	// arrow collision
+	ourCollisionSystem->watchForCollisions("ArrowGuy", "Projectile");
+	// creeper collision
+	ourCollisionSystem->watchForCollisions("Creeper", "Projectile");
+	ourCollisionSystem->watchForCollisions("Creeper", "Player");
+	// knifeguy collision
+	ourCollisionSystem->watchForCollisions("KnifeGuy", "KnifeGuy");
+	ourCollisionSystem->watchForCollisions("KnifeGuy", "Projectile");
+	ourCollisionSystem->watchForCollisions("KnifeGuy", "Player");
+	// marksman collision
+	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
+	// obstacle collision
 	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }

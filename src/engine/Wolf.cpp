@@ -125,6 +125,8 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
 			this->setPatrolRange();
 		}
 	}
+	this->save();
+
 }
 
 void Wolf::onMeleeStrike(){
@@ -146,7 +148,8 @@ void Wolf::onCollision(DisplayObject* other){
 			this->health -= 20;
 			this->alpha -= 40;
 			if(this->health < 0) this->health = 0;
-		} else if (temp->gun == "knife") {
+		}else if (temp->gun == "knife" && temp->thrown) {
+		} else if(temp->gun == "knife") {
 			this->health -= 50;
 			this->alpha -= 100;
 			if(this->health < 0) this->health = 0;
@@ -161,10 +164,8 @@ void Wolf::onCollision(DisplayObject* other){
 			if(this->health < 0) this->health = 0;
 		}
 	}else if (other->type == "Wolf"){
-		this->save();
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX, this->position.y-this->oldY, 0, 0);
 	} else if (other->type == "Player"){
-		this->save();
 		if (this->position.x > this->oldX && this->position.y > this->oldY)
 		{
 			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX - 10, this->position.y-this->oldY - 10, 0, 0);
@@ -179,8 +180,7 @@ void Wolf::onCollision(DisplayObject* other){
 		} else 
 		{
 			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX - 10, this->position.y-this->oldY + 10, 0, 0);
-		}
-		
+		}		
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
@@ -207,10 +207,10 @@ void Wolf::save(){
 SDL_Point* Wolf::getGlobalHitbox(){
 	AffineTransform* temp = this->getGlobalTransform();
 	if (this->up) {
-		this->MyGlobalHitbox[0] = temp->transformPoint(-this->height/4, -this->width/4);
-		this->MyGlobalHitbox[1] = temp->transformPoint(this->height/4, -this->width/4);
-		this->MyGlobalHitbox[2] = temp->transformPoint(-this->height/4, this->width/4);
-		this->MyGlobalHitbox[3] = temp->transformPoint(this->height/4, this->width/4);
+		this->MyGlobalHitbox[0] = temp->transformPoint(-this->height * 2, -this->width/4);
+		this->MyGlobalHitbox[1] = temp->transformPoint(this->height * 2, -this->width/4);
+		this->MyGlobalHitbox[2] = temp->transformPoint(-this->height * 2, this->width/4);
+		this->MyGlobalHitbox[3] = temp->transformPoint(this->height * 2, this->width/4);
 	} else {
 		this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/4, -this->height/4);
 		this->MyGlobalHitbox[1] = temp->transformPoint(this->width/4, -this->height/4);
@@ -275,7 +275,6 @@ void Wolf::moveToTarget(){
 
     this->position.x += xComp;
     this->position.y += yComp;
-	//fire();
 }
 
 bool Wolf::isTargetReached(){

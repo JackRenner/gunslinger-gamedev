@@ -6,6 +6,7 @@
 #include "Sprite.h"
 #include "Controls.h"
 #include "CollisionSystem.h"
+#include "Benemy.h"
 
 using namespace std;
 
@@ -62,22 +63,22 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		if (controls::holdW()) {
 			this->dir = "Up";
 			this->play("FaceUp");
-			this->position.y -= 8;
+			this->position.y -= 4;
 		}
 		if (controls::holdS()) {
 			this->dir = "Down";
 			this->play("FaceDown");
-			this->position.y += 8;
+			this->position.y += 4;
 		}
 		if (controls::holdD()) {
 			this->dir = "Right";
 			this->play("FaceRight");
-			this->position.x += 8;
+			this->position.x += 4;
 		}
 		if (controls::holdA()) {
 			this->dir = "Left";
 			this->play("FaceLeft");
-			this->position.x -= 8;
+			this->position.x -= 4;
 		}
 		if (controls::holdUp()) {
 			this->dir = "Up";
@@ -103,14 +104,33 @@ void Player::hitByProjectile(string gun){
 	if (gun == "poison") {
 		this->poisoned = true;
 		this->poisonedTime = 10;
-	} else if (gun == "bow") {
+	} else if (gun == "arrow") {
 		takeDamage(10);
 	} else if (gun == "revolver") {
 		takeDamage(15);
 	} else if (gun == "shotgun") {
-		takeDamage(25);
+		takeDamage(60);
 	} else if (gun == "rifle") {
+		takeDamage(40);
+	}
+}
+
+// do not include attacks from bosses yet
+void Player::hitByMelee(string enemy){
+	std::cout << this->wolfWaitToDamage << endl;
+	if (enemy == "creeper") {
+		takeDamage(this->health);
+	} else if (enemy == "wolf" && this->wolfWaitToDamage > 40) {
 		takeDamage(15);
+		this->wolfWaitToDamage = 0;
+	} else if (enemy == "wolf") {
+		this->wolfWaitToDamage ++;
+	}
+	else if (enemy == "knife" && this->knifeWaitToDamage > 40) {
+		takeDamage(30);
+		this->knifeWaitToDamage = 0;
+	} else if (enemy == "knife") {
+		this->knifeWaitToDamage ++;
 	}
 }
 
@@ -118,7 +138,8 @@ void Player::hitByProjectile(string gun){
 //our job is to simply react to that collision.
 void Player::onCollision(DisplayObject* other){
 	if (other->type == "Benemy") {
-		hitByProjectile("revolver");
+		Benemy *temp = (Benemy*) other;
+		hitByProjectile(temp->source);
 	} else if (other->type == "Projectile") {
 		Projectile *temp = (Projectile*) other;
 		if (temp->gun == "knife" && temp->thrown) {
@@ -127,31 +148,24 @@ void Player::onCollision(DisplayObject* other){
 		}
 	} else if (other->type == "Wolf") {
 		hitByMelee("wolf");
+	} else if (other->type == "Creeper") {
+		hitByMelee("creeper");
+	} else if (other->type == "KnifeGuy") {
+		hitByMelee("knife");
 	}
-	// if(other->type == "Platform"){
-	// 	Game::instance->collisionSystem.resolveCollision(this, other, this->x - oldX, this->y - oldY);	
-	// 	_yVel = 0;
-	// 	_standing=true;
-	// }
-	// else if(other->type == "Enemy"){
-	// 	if(!this->iFrames){
-	// 		this->onEnemyCollision((Enemy*)other);
-	// 	}
-	// }
-
-
 	else if (other->type == "Obstacle") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
 	}
 }
 
-// do not include attacks from bosses yet
-void Player::hitByMelee(string enemy){
-	if (enemy == "scorpion") {
-		takeDamage(5);
-	} else if (enemy == "wolf") {
-		takeDamage(1);
-	}
+SDL_Point* Player::getGlobalHitbox(){
+	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+	AffineTransform* temp = this->getGlobalTransform();
+	this->MyGlobalHitbox[0] = temp->transformPoint(25, 25);
+	this->MyGlobalHitbox[1] = temp->transformPoint(75, 25);
+	this->MyGlobalHitbox[2] = temp->transformPoint(25, 50);
+	this->MyGlobalHitbox[3] = temp->transformPoint(75, 50);
+	return this->MyGlobalHitbox;
 }
 
 void Player::healPlayer(string method){
