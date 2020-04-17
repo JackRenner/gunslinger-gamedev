@@ -142,7 +142,7 @@ void Wolf::onMeleeStrike(){
 
 void Wolf::onCollision(DisplayObject* other){
 	//Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX + (rand() % 50) - 25, this->position.y-oldY + (rand() % 50) - 25, 0, 0);
-	if (other->type == "Projectile") {
+	if (other->type == "Projectile" && other->id != lastId) {
 		Projectile *temp = (Projectile*)other;
 		if (temp->gun == "revolver") {
 			this->health -= 20;
@@ -163,7 +163,10 @@ void Wolf::onCollision(DisplayObject* other){
 			this->alpha -= 60;
 			if(this->health < 0) this->health = 0;
 		}
-	}else if (other->type == "Wolf"){
+		lastId = other->id;
+	} else if (other->type == "Projectile"){
+		lastId = other->id;
+	} else if (other->type == "Wolf"){
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX, this->position.y-this->oldY, 0, 0);
 	} else if (other->type == "Player"){
 		if (this->position.x > this->oldX && this->position.y > this->oldY)

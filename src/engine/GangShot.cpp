@@ -135,7 +135,7 @@ void GangShot::onMeleeStrike(){
 // }
 
 void GangShot::onCollision(DisplayObject* other){
-	if (other->type == "Projectile") {
+	if (other->type == "Projectile" && other->id != lastId) {
 		Projectile *temp = (Projectile*)other;
 		if (temp->gun == "revolver") {
 			this->health -= 20;
@@ -156,6 +156,9 @@ void GangShot::onCollision(DisplayObject* other){
 			this->alpha -= 60;
 			if(this->health < 0) this->health = 0;
 		}
+		lastId = other->id;
+	} else if(other->type == "Projectile"){
+		lastId = other->id;
 	}else{
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
 	}

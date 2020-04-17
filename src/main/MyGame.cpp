@@ -336,7 +336,7 @@ void MyGame::enforceCameraBounds() {
 	}
 }
 
-// checks if entire entity is inside area described by box (rudimentary "collision" until engine team implements it)
+// checks if entire entity is inside area described by box (rudimentary until engine team implements it)
 bool MyGame::checkInsideBox(SDL_Rect box, DisplayObject* entity) {
 	return (entity->position.x - entity->pivot.x >= box.x &&
 		entity->position.x - entity->pivot.x + entity->width <= box.x + box.w &&
@@ -720,6 +720,8 @@ void MyGame::playerShooting(int gun, string dir){
 	} else if (character->gun == 2 && character->revolver_shots > 5) {
 	} else if (character->gun == 2) {
 		bullet = new Projectile(dir,this->position, character->gun);
+		bullet->id = "bullet" + projectileIdNum;
+		projectileIdNum++;
 		//foreground->addChild(bullet);
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
@@ -727,12 +729,16 @@ void MyGame::playerShooting(int gun, string dir){
 	} else if (character->gun == 3 && character->shotgun_shots > 1) {
 	} else if (character->gun == 3) {
 		bullet = new Projectile(dir,character->position, gun);
+		bullet->id = "bullet" + projectileIdNum;
+		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->shotgun_shots ++;
 	} else if (character->gun == 4 && character->rifle_shots > 4) {
 	} else if (character->gun == 4) {
 		bullet = new Projectile(dir,character->position, gun);
+		bullet->id = "bullet" + projectileIdNum;
+		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->rifle_shots ++;

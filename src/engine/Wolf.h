@@ -85,6 +85,8 @@ private:
     bool justCollided = false;
 	//void initIFrames(int numFrames);
 
+    string lastId;
+
 };
 
 #endif

@@ -151,6 +151,9 @@ private:
 
 	vector<vector<TransitionStruct>> transitions;
 	vector<SceneInfo> sceneInfo;
+
+	int projectileIdNum = 0; //allows for unique id for each projectile
+
 };
 
 #endif

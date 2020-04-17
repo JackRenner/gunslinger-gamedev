@@ -77,6 +77,8 @@ private:
 
     int pauseCount = 0;
 
+    string lastId;
+
 
 	// int oldX=0, oldY=0;
 

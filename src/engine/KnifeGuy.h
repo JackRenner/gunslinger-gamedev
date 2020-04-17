@@ -84,6 +84,8 @@ private:
     int pauseCount = 0;
     int waitToMove = 0;
 
+    string lastId;
+
 	// int oldX=0, oldY=0;
 
 	// int _jumpVel = -15;s
