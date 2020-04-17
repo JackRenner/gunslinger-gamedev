@@ -678,6 +678,7 @@ void MyGame::checkTransition() {
 }
 
 void MyGame::initObstacles() {
+	cout << "Initializing Obstacles!" << endl;
 	Scene* scenePointer = sceneInfo[room_state].scenePointer;
 	if (scenePointer->obstaclesAdded)
 		return;
@@ -714,6 +715,176 @@ void MyGame::initObstacles() {
 	scenePointer->addChild(tmpDown);
 	scenePointer->addChild(tmpLeft);
 	scenePointer->addChild(tmpRight);
+
+	if (scenePointer == townScene){
+		DisplayObjectContainer* well = new DisplayObjectContainer();
+		well->type = "Obstacle";
+		well->width = 80;
+		well->height = 85;
+		well->position = {1375,570};
+		scenePointer->addChild(well);
+	}
+
+	if (scenePointer == sheriffScene){
+		cout << "\nENTERING SHERIFF\n" << endl;
+		DisplayObjectContainer* wall = new DisplayObjectContainer();
+		wall->type = "Obstacle";
+		wall->width = 1100;
+		wall->height = 80;
+		wall->position = {0,400};
+		scenePointer->addChild(wall);
+
+		DisplayObjectContainer* bench1 = new DisplayObjectContainer();
+		bench1->type = "Obstacle";
+		bench1->width = 20;
+		bench1->height = 130;
+		bench1->position = {145,570};
+		scenePointer->addChild(bench1);
+
+		DisplayObjectContainer* bench2 = new DisplayObjectContainer();
+		bench2->type = "Obstacle";
+		bench2->width = 20;
+		bench2->height = 130;
+		bench2->position = {145,830};
+		scenePointer->addChild(bench2);
+
+		DisplayObjectContainer* bench3 = new DisplayObjectContainer();
+		bench3->type = "Obstacle";
+		bench3->width = 140;
+		bench3->height = 30;
+		bench3->position = {810,635};
+		scenePointer->addChild(bench3);
+	}
+
+	if (scenePointer == storeScene){
+		cout << "\nENTERING STORE\n" << endl;
+		DisplayObjectContainer* wall = new DisplayObjectContainer();
+		wall->type = "Obstacle";
+		wall->width = 1100;
+		wall->height = 100;
+		wall->position = {0,400};
+		scenePointer->addChild(wall);
+
+		DisplayObjectContainer* table = new DisplayObjectContainer();
+		table->type = "Obstacle";
+		table->width = 130;
+		table->height = 140;
+		table->position = {478,500};
+		scenePointer->addChild(table);
+	}
+
+	if (scenePointer == hotelScene){
+		cout << "\nENTERING HOTEL\n" << endl;
+		DisplayObjectContainer* wall = new DisplayObjectContainer();
+		wall->type = "Obstacle";
+		wall->width = 1100;
+		wall->height = 100;
+		wall->position = {0,400};
+		scenePointer->addChild(wall);
+
+		DisplayObjectContainer* table = new DisplayObjectContainer();
+		table->type = "Obstacle";
+		table->width = 130;
+		table->height = 30;
+		table->position = {478,605};
+		scenePointer->addChild(table);
+	}
+
+	if (scenePointer == bankScene){
+		cout << "\nENTERING BANK\n" << endl;
+		DisplayObjectContainer* wall = new DisplayObjectContainer();
+		wall->type = "Obstacle";
+		wall->width = 1100;
+		wall->height = 200;
+		wall->position = {0,320};
+		scenePointer->addChild(wall);
+	}
+
+	if (scenePointer == postScene){
+		cout << "\nENTERING POST\n" << endl;
+		DisplayObjectContainer* wall = new DisplayObjectContainer();
+		wall->type = "Obstacle";
+		wall->width = 570;
+		wall->height = 140;
+		wall->position = {0,560};
+		scenePointer->addChild(wall);
+
+		DisplayObjectContainer* topWall = new DisplayObjectContainer();
+		topWall->type = "Obstacle";
+		topWall->width = 1100;
+		topWall->height = 120;
+		topWall->position = {0,0};
+		scenePointer->addChild(topWall);
+
+		DisplayObjectContainer* counter = new DisplayObjectContainer();
+		counter->type = "Obstacle";
+		counter->width = 60;
+		counter->height = 650;
+		counter->position = {500,0};
+		scenePointer->addChild(counter);
+	}
+
+	if (scenePointer == cantinaScene){
+		cout << "\nENTERING CANTINA\n" << endl;
+		DisplayObjectContainer* topWall = new DisplayObjectContainer();
+		topWall->type = "Obstacle";
+		topWall->width = 1100;
+		topWall->height = 100;
+		topWall->position = {0,0};
+		scenePointer->addChild(topWall);
+
+		DisplayObjectContainer* table1 = new DisplayObjectContainer();
+		table1->type = "Obstacle";
+		table1->width = 45;
+		table1->height = 160;
+		table1->position = {250,240};
+		scenePointer->addChild(table1);
+
+		DisplayObjectContainer* table2 = new DisplayObjectContainer();
+		table2->type = "Obstacle";
+		table2->width = 45;
+		table2->height = 160;
+		table2->position = {500,240};
+		scenePointer->addChild(table2);
+
+		DisplayObjectContainer* bar = new DisplayObjectContainer();
+		bar->type = "Obstacle";
+		bar->width = 300;
+		bar->height = 130;
+		bar->position = {775,100};
+		scenePointer->addChild(bar);
+	}
+
+	if (scenePointer == drugScene){
+		cout << "\nENTERING DRUG STORE\n" << endl;
+		DisplayObjectContainer* topWall = new DisplayObjectContainer();
+		topWall->type = "Obstacle";
+		topWall->width = 1100;
+		topWall->height = 100;
+		topWall->position = {0,0};
+		scenePointer->addChild(topWall);
+
+		DisplayObjectContainer* shelf1 = new DisplayObjectContainer();
+		shelf1->type = "Obstacle";
+		shelf1->width = 525;
+		shelf1->height = 75;
+		shelf1->position = {0,210};
+		scenePointer->addChild(shelf1);
+
+		DisplayObjectContainer* shelf2 = new DisplayObjectContainer();
+		shelf2->type = "Obstacle";
+		shelf2->width = 525;
+		shelf2->height = 75;
+		shelf2->position = {0,410};
+		scenePointer->addChild(shelf2);
+
+		DisplayObjectContainer* shelf3 = new DisplayObjectContainer();
+		shelf3->type = "Obstacle";
+		shelf3->width = 525;
+		shelf3->height = 75;
+		shelf3->position = {0,610};
+		scenePointer->addChild(shelf3);
+	}
 
 	scenePointer->obstaclesAdded = true;
 }
