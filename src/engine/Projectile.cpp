@@ -78,8 +78,8 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 
 void Projectile::onCollision(DisplayObject* other) {
 	if (this->thrown && other->type=="Player") 
-		this->removeThis();
-	else if (other->type!="Player")
+		this->removeThis();		
+	else if (other->type!="Player" && !this->thrown)
 		this->removeThis();
 }
 

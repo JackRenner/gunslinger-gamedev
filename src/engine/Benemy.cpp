@@ -13,6 +13,7 @@ Benemy::Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon) 
 	this->type = "Benemy";
 	this->sayu = sayu;
 	this->targX = x;
+	this->source = weapon;
 	this->addAnimation("resources/weapons/", weapon, 1, 1, true);
 	this->play(weapon);
 	// this->width = 100;
@@ -41,6 +42,16 @@ void Benemy::draw(AffineTransform &at){
 
 void Benemy::onCollision(DisplayObject *other) {
 	this->removeThis();
+}
+
+SDL_Point* Benemy::getGlobalHitbox(){
+	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
+	AffineTransform* temp = this->getGlobalTransform();
+	this->MyGlobalHitbox[0] = temp->transformPoint(0, 0);
+	this->MyGlobalHitbox[1] = temp->transformPoint(40, 0);
+	this->MyGlobalHitbox[2] = temp->transformPoint(0, 40);
+	this->MyGlobalHitbox[3] = temp->transformPoint(40, 40);
+	return this->MyGlobalHitbox;
 }
 
 void Benemy::save(ofstream &out){

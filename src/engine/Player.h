@@ -31,9 +31,10 @@ public:
 
 	//void onEnemyCollision(Enemy* enemy);
 	virtual void onCollision(DisplayObject* other);
+	virtual SDL_Point* getGlobalHitbox();
 
 	/* Health and such */
-	int health = 100;
+	int health = 500;
 	int maxHealth = 100;
 	bool poisoned = false;
 	int poisonedTime = 0;
@@ -81,6 +82,8 @@ private:
 	// int oldX=0, oldY=0;
 
 	// int _jumpVel = -15;s
+	int wolfWaitToDamage = 0;
+	int knifeWaitToDamage = 0;
 
 	//void initIFrames(int numFrames);
 

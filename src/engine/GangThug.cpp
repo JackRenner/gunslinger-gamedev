@@ -13,7 +13,7 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-GangThug::GangThug(Player* sayu) : AnimatedSprite("GangThug"){
+GangThug::GangThug(Player* sayu, string id) : AnimatedSprite(id){
 	this->type = "GangThug";
 	this->sayu = sayu;
 	this->width = 80; this->height = 100;
@@ -60,7 +60,6 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	//state 1 = patrolling
 	//state 2 = engaged
 	//state 3 = not in distance
-	//state 4 = hiding and reloading
 	
 	if(this->state == 0){
 		setPatrolRange();
@@ -73,6 +72,8 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	}
 	else if(this->state == 3){
 		charge();
+		this->targX = this->sayu->position.x;
+		this->targY = this->sayu->position.y;
 	}
 
 	//state transitions
@@ -86,7 +87,7 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	else if(this->state == 1){
 		//if player is close, start to prepare charge
 		int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-		if(dist<200){
+		if(dist<300){
 			this->state = 2;
 			this->vel = 0;
 			this->maxVel = 4;
@@ -98,7 +99,7 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	}
 	else if(this->state == 2){
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-        if (dist>100) {
+        if (dist > 200) {
             this->state = 3;
             this->targX = this->sayu->position.x;
 			this->targY = this->sayu->position.y;
@@ -111,14 +112,16 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 	}
 	else if(this->state == 3){
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-        if(dist < 100){
+        if(dist < 200){
 			this->state = 2;
 			this->rotation = 0;
 			this->rotVel = 0;
 			this->targX = this->position.x;
 			this->targY = this->position.y;
 		}
+		std::cout << dist << endl;
 	}
+	this->save();
 }
 
 void GangThug::onMeleeStrike(){
@@ -139,7 +142,8 @@ void GangThug::onCollision(DisplayObject* other){
 			this->health -= 20;
 			this->alpha -= 40;
 			if(this->health < 0) this->health = 0;
-		} else if (temp->gun == "knife") {
+		}else if (temp->gun == "knife" && temp->thrown) {
+		} else if(temp->gun == "knife") {
 			this->health -= 50;
 			this->alpha -= 100;
 			if(this->health < 0) this->health = 0;
@@ -181,13 +185,13 @@ void GangThug::draw(AffineTransform &at){
 	//this->drawHitbox(position);
 }
 
-void GangThug::save(ofstream &out){
-	//Sprite::save(out);
-	//TODO: ADD THIS TO SAVE GangThug DATA
+void GangThug::save(){
+	this->oldX = position.x;
+	this->oldY = position.y;	//TODO: ADD THIS TO SAVE GangThug DATA
 }
 
 void GangThug::charge(){
-	this->rotation += this->rotVel;
+	//this->rotation += this->rotVel;
 	moveToTarget();
 }
 

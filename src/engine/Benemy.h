@@ -24,6 +24,7 @@ public:
     
     // void Wolf::onEssenceStrike(Weapon* w);
     virtual void onCollision(DisplayObject* other);
+    virtual SDL_Point* getGlobalHitbox();
 
     void save(ofstream &out);
 
@@ -33,7 +34,7 @@ public:
 
     bool distanceReached();
 	
-	/* Health and such */
+    string source = "";
 
 	//iFrames
 	bool iFrames = false;

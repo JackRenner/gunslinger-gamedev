@@ -1,8 +1,14 @@
 #include "CollisionSystem.h"
 #include "GangThug.h"
 #include "Creeper.h"
+#include "KnifeGuy.h"
 #include "Wolf.h"
 #include "Projectile.h"
+#include "GangShot.h"
+#include "ArrowGuy.h"
+#include "Creeper.h"
+#include "GangMarksman.h"
+#include "Player.h"
 
 
 CollisionSystem :: CollisionSystem(){
@@ -155,6 +161,12 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
   if (obj2->type == "GangThug") {
     SDL_Point* obj2Points = ((GangThug*)obj2)->getGlobalHitbox();
   }
+  if (obj1->type == "GangShot") {
+    SDL_Point* obj1Points = ((GangShot*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "GangShot") {
+    SDL_Point* obj2Points = ((GangShot*)obj2)->getGlobalHitbox();
+  }
   if (obj1->type == "Projectile") {
     SDL_Point* obj1Points = ((Projectile*)obj1)->getGlobalHitbox();
   }
@@ -166,6 +178,42 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
   }
   if (obj2->type == "Wolf") {
     SDL_Point* obj2Points = ((Wolf*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "ArrowGuy") {
+    SDL_Point* obj1Points = ((ArrowGuy*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "ArrowGuy") {
+    SDL_Point* obj2Points = ((ArrowGuy*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "Creeper") {
+    SDL_Point* obj1Points = ((Creeper*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "Creeper") {
+    SDL_Point* obj2Points = ((Creeper*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "KnifeGuy") {
+    SDL_Point* obj1Points = ((KnifeGuy*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "KnifeGuy") {
+    SDL_Point* obj2Points = ((KnifeGuy*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "GangMarksman") {
+    SDL_Point* obj1Points = ((GangMarksman*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "GangMarksman") {
+    SDL_Point* obj2Points = ((GangMarksman*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "Player") {
+    SDL_Point* obj1Points = ((Player*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "Player") {
+    SDL_Point* obj2Points = ((Player*)obj2)->getGlobalHitbox();
+  }
+  if (obj1->type == "Benemy") {
+    SDL_Point* obj1Points = ((Benemy*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "Benemy") {
+    SDL_Point* obj2Points = ((Benemy*)obj2)->getGlobalHitbox();
   }
 
   int minX = INT_MAX;
