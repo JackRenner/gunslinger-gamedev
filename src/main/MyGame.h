@@ -25,7 +25,8 @@
 #include "../engine/SceneInfo.h"
 #include "../engine/ui/TextBox.h"
 #include "../engine/ui/HealthBar.h"
-#include "MyObject.h"
+#include "../engine/ui/WeaponSelect.h"
+//#include "MyObject.h"
 
 
 using namespace std;
@@ -50,10 +51,13 @@ public:
 
 	void handleEvent(Event* e);
 
+	void checkTransition();
 	void transitionScene();
 
 	void initTown();
 	void initLake();
+
+	void initObstacles();
 
 	void initEnemies(Scene* s);
 
@@ -94,7 +98,7 @@ private:
 	Scene* lake7;
 	Scene* lake8;
 	Scene* lake9;
-
+	WeaponSelect* selection;
 	Player* character;
 	Projectile* bullet;
 	
@@ -131,8 +135,8 @@ private:
 	DisplayObjectContainer* foreground;
 	Scene* cameraDemoScene;
 
-	MyObject* object1;
-	MyObject* object2;
+	//MyObject* object1;
+	//MyObject* object2;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;

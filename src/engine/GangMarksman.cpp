@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <math.h>
 #include "Game.h"
+#include <algorithm>
 
 using namespace std;
 

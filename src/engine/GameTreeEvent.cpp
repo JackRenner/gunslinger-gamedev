@@ -1,4 +1,4 @@
-#include "GameTreeEvent.h"
+#include "./events/GameTreeEvent.h"
 
 using namespace std;
 

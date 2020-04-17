@@ -5,7 +5,7 @@
 #include "DisplayObject.h"
 #include "AffineTransform.h"
 //#include "Event.h"
-#include "GameTreeEvent.h"
+#include "./events/GameTreeEvent.h"
 #include <string>
 #include <fstream>
 #include "Controls.h"

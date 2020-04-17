@@ -4,6 +4,7 @@
 #include "DisplayObjectContainer.h"
 #include <cstdlib>
 #include <math.h>
+#include <algorithm>
 
 using namespace std;
 

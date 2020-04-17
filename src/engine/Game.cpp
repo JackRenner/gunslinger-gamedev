@@ -50,11 +50,13 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("KnifeGuy", "Player");
 	// marksman collision
 	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
+	// obstacle collision
+	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 
 Game::~Game(){
-	// DisplayObjectContainer::~DisplayObjectContainer ();
+	//DisplayObjectContainer::~DisplayObjectContainer ();
 	quitSDL();
 }
 
