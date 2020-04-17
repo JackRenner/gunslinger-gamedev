@@ -1,0 +1,27 @@
+{
+    "scene_id": "Default_Scene_id",
+    "new_sprite_0": {
+        "type": "Sprite",
+        "filepath": "./resources/sprites/RockCanyon3.png",
+        "dimensions": [
+            1080,
+            1080
+        ],
+        "position": [
+            100,
+            200
+        ],
+        "pivot": [
+            50,
+            50
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 180,
+        "visible": true,
+        "parent": null
+    }
+}
