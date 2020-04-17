@@ -109,6 +109,17 @@ void Player::hitByProjectile(string gun){
 	}
 }
 
+// do not include attacks from bosses yet
+void Player::hitByMelee(string enemy){
+	if (enemy == "creeper") {
+		takeDamage(this->health);
+	} else if (enemy == "wolf") {
+		takeDamage(5);
+	} else if (enemy == "knife") {
+		takeDamage(10);
+	}
+}
+
 //Called automatically by collision system when something collides with the player
 //our job is to simply react to that collision.
 void Player::onCollision(DisplayObject* other){
@@ -125,6 +136,8 @@ void Player::onCollision(DisplayObject* other){
 		hitByMelee("wolf");
 	} else if (other->type == "Creeper") {
 		hitByMelee("creeper");
+	} else if (other->type == "KnifeGuy") {
+		hitByMelee("knife");
 	}
 }
 
@@ -136,15 +149,6 @@ SDL_Point* Player::getGlobalHitbox(){
 	this->MyGlobalHitbox[2] = temp->transformPoint(25, 50);
 	this->MyGlobalHitbox[3] = temp->transformPoint(75, 50);
 	return this->MyGlobalHitbox;
-}
-
-// do not include attacks from bosses yet
-void Player::hitByMelee(string enemy){
-	if (enemy == "creeper") {
-		takeDamage(this->health/2);
-	} else if (enemy == "wolf") {
-		takeDamage(10);
-	}
 }
 
 void Player::healPlayer(string method){

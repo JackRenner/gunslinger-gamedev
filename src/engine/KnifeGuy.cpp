@@ -128,6 +128,7 @@ void KnifeGuy::update(set<SDL_Scancode> pressedKeys){
 			// this->play("Explode");
 		}
 	}
+	this->save();
 }
 
 // void Creeper::onEssenceStrike(Weapon* w){
@@ -139,19 +140,28 @@ void KnifeGuy::update(set<SDL_Scancode> pressedKeys){
 void KnifeGuy::onCollision(DisplayObject* other){
 	if (other->type == "Projectile") {
 		Projectile *temp = (Projectile*)other;
-		if (temp->gun == "knife" && temp->thrown) {
-		}else{
-			this->health = 0;
+		if (temp->gun == "revolver") {
+			this->health -= 40;
+			this->alpha -= 40;
+			if(this->health < 0) this->health = 0;
+		}else if (temp->gun == "knife" && temp->thrown) {
+		} else if(temp->gun == "knife") {
+			this->health -= 80;
+			this->alpha -= 100;
+			if(this->health < 0) this->health = 0;
+			sayu->knife_throws = 0;
+		} else if (temp->gun == "shotgun") {
+			this->health -= 100;
+			this->alpha -= 80;
+			if(this->health < 0) this->health = 0;
+		} else if (temp->gun == "rifle") {
+			this->health -= 50;
+			this->alpha -= 60;
+			if(this->health < 0) this->health = 0;
 		}
+	}else{
+		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
 	}
-	// if(other->type == "Weapon"){
-	// 	if(controls::pressSpecial()) 
-	// 		onEssenceStrike((Weapon*)other);
-	// }
-	// else if(other->type == "Blast"){
-	// 	if(controls::pressAttack())
-	// 		onMeleeStrike();
-	// }
 }
 
 SDL_Point* KnifeGuy::getGlobalHitbox(){
@@ -169,7 +179,9 @@ void KnifeGuy::draw(AffineTransform &at){
 	//this->drawHitbox(position);
 }
 
-void KnifeGuy::save(ofstream &out){
+void KnifeGuy::save(){
+	this->oldX = position.x;
+	this->oldY = position.y;
 	//Sprite::save(out);
 	//TODO: ADD THIS TO SAVE KNIFEGUY DATA
 }
