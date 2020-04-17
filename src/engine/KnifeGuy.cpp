@@ -117,15 +117,15 @@ void KnifeGuy::update(set<SDL_Scancode> pressedKeys){
 			}
 		}
         int dist = std::max(std::abs(this->position.x-this->targX),std::abs(this->position.y-this->targY));
-        if(dist < 100){
+        if(dist < 50){
 			this->state = 3;
 			//this->rotation = 0;
 			//this->rotVel = 0;
 			this->targX = this->position.x;
 			this->targY = this->position.y;
-			Sound* new_sound = new Sound();
-			new_sound->playSFX();
-			this->play("Explode");
+			// Sound* new_sound = new Sound();
+			// new_sound->playSFX();
+			// this->play("Explode");
 		}
 	}
 }
@@ -228,7 +228,9 @@ bool KnifeGuy::isTargetReached(){
 }
 
 void KnifeGuy::slash(){
-	if (this->waitToDelete > 100)
-		this->health = 0;
-	this->waitToDelete ++;
+	if (this->waitToMove > 100) {
+		this->state = 1;
+		this->waitToMove = 0;
+	}
+	this->waitToMove ++;
 }
