@@ -119,6 +119,29 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			}
 		}
 	}
+	for (std::map<GangShot*, int>::iterator it=gang_shot.begin(); it!=gang_shot.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			gang_shot.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemya = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun");
+			benemya->distance = 20;
+			this->addChild(benemya);
+			benemya->position = {it->first->position.x, it->first->position.y };
+			benemya->pivot = { benemya->width / 2, benemya->height / 2 };
+			benemya->scaleX = 1;
+			benemya->scaleY = 1;
+			if (it->first->shots_fired == 1) {
+				it->first->shoot -= 300;
+				it->first->shots_fired = 0;
+			} else{
+				it->first->shoot -= 100;
+				it->first->shots_fired ++;
+			}
+		}
+	}
 	for (std::map<GangMarksman*, int>::iterator it=gang_marksmans.begin(); it!=gang_marksmans.end(); ++it) {
 		if (it->first->health == 0) {
 			it->first->clean = true;
@@ -646,6 +669,18 @@ void MyGame::initEnemies(Scene* s) {
 		arrow2LakeStill4->width = 250;
 		arrow2LakeStill4->play("Arrow");
 		arrow_guys[arrow2LakeStill4] = 1;
+
+		shot1LakeStill = new GangShot((Player*)character, "GangShot1");	
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		shot1LakeStill->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		lake4->addChild(shot1LakeStill);
+		shot1LakeStill->position = { 700, 300 };
+		shot1LakeStill->play("GangShotLeft");
+		gang_shot[shot1LakeStill] = 1;
+		
+		s->enemiesAdded = true;
 
 
 		s->enemiesAdded = true;
