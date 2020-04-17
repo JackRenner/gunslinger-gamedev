@@ -884,6 +884,20 @@ void MyGame::initObstacles() {
 		shelf3->height = 75;
 		shelf3->position = {0,610};
 		scenePointer->addChild(shelf3);
+
+		DisplayObjectContainer* bench1 = new DisplayObjectContainer();
+		bench1->type = "Obstacle";
+		bench1->width = 20;
+		bench1->height = 180;
+		bench1->position = {910,200};
+		scenePointer->addChild(bench1);
+
+		DisplayObjectContainer* bench2 = new DisplayObjectContainer();
+		bench2->type = "Obstacle";
+		bench2->width = 20;
+		bench2->height = 180;
+		bench2->position = {910,470};
+		scenePointer->addChild(bench2);
 	}
 
 	scenePointer->obstaclesAdded = true;
