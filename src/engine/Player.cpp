@@ -63,22 +63,22 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		if (controls::holdW()) {
 			this->dir = "Up";
 			this->play("FaceUp");
-			this->position.y -= 8;
+			this->position.y -= 4;
 		}
 		if (controls::holdS()) {
 			this->dir = "Down";
 			this->play("FaceDown");
-			this->position.y += 8;
+			this->position.y += 4;
 		}
 		if (controls::holdD()) {
 			this->dir = "Right";
 			this->play("FaceRight");
-			this->position.x += 8;
+			this->position.x += 4;
 		}
 		if (controls::holdA()) {
 			this->dir = "Left";
 			this->play("FaceLeft");
-			this->position.x -= 8;
+			this->position.x -= 4;
 		}
 		if (controls::holdUp()) {
 			this->dir = "Up";
