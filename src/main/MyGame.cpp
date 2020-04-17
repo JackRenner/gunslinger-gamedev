@@ -51,18 +51,20 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->height = 5000;
 	foreground->addChild(blackBox);
 
-	// test = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
+	test = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
 
-	// string testText = "The man in black fled across the desert, and the gunslinger followed. \n -Stephen King, The Gunslinger";
-	// test->addTextLine("./resources/fonts/west.otf", testText, 24, SDL_Color{ 255, 255, 255 });
-	// string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
-	// test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
-	// string testText3 = "Deus volt";
-	// test->addTextLine("./resources/fonts/arial.ttf", testText3, 18, SDL_Color{ 50, 50, 255 });
-	// string testText4 = "Lorem ipsum.";
-	// test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
+	string testText = "The man in black fled across the desert, and the gunslinger followed. \n -Stephen King, The Gunslinger";
+	test->addTextLine("./resources/fonts/west.otf", testText, 24, SDL_Color{ 255, 255, 255 });
+	string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
+	test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
+	string testText3 = "Deus volt";
+	test->addTextLine("./resources/fonts/arial.ttf", testText3, 18, SDL_Color{ 50, 50, 255 });
+	string testText4 = "Lorem ipsum.";
+	test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
 
-	// foreground->addChild(test);
+
+	//foreground->addChild(test);
+	// this->addChild(test);
 	// test->position = { 300, 400 };
 
 
@@ -712,6 +714,7 @@ void MyGame::playerShooting(int gun, string dir){
 	if (gun == 1 && character->knife_throws > 0) {
 	} else if (gun == 1) {
 		bullet = new Projectile(dir,this->position, gun);
+		//foreground->addChild(bullet);
 		this->addChild(bullet);
 		bullet->speed += 5;
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
@@ -719,6 +722,7 @@ void MyGame::playerShooting(int gun, string dir){
 	} else if (character->gun == 2 && character->revolver_shots > 5) {
 	} else if (character->gun == 2) {
 		bullet = new Projectile(dir,this->position, character->gun);
+		//foreground->addChild(bullet);
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->revolver_shots ++;
