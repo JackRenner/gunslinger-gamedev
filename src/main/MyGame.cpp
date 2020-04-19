@@ -681,32 +681,32 @@ void MyGame::initHideout() {
 	transitions.push_back(hideout2Points);
 
 	vector<TransitionStruct> hideout3Points = {
-	TransitionStruct(SDL_Point{1902, 578}, SDL_Point{80, 538}, 29),
+	TransitionStruct(SDL_Point{1902, 578}, SDL_Point{80, 485}, 29),
 	TransitionStruct(SDL_Point{15, 0}, SDL_Point{1812, 654}, 27, TransitionDetection::AXIS, Cardinal::WEST)
 	};
 	transitions.push_back(hideout3Points);
 
 	vector<TransitionStruct> hideout4Points = {
-	TransitionStruct(SDL_Point{15, 538}, SDL_Point{1822, 578}, 28),
-	TransitionStruct(SDL_Point{318, 15}, SDL_Point{800, 920}, 30),
-	TransitionStruct(SDL_Point{1065, 496}, SDL_Point{135, 470}, 31),
-	TransitionStruct(SDL_Point{855, 1085}, SDL_Point{290, 165}, 32)
+	TransitionStruct(SDL_Point{15, 485}, SDL_Point{1822, 578}, 28),
+	TransitionStruct(SDL_Point{683, 15}, SDL_Point{800, 920}, 30),
+	TransitionStruct(SDL_Point{1065, 415}, SDL_Point{135, 470}, 31),
+	TransitionStruct(SDL_Point{507, 1085}, SDL_Point{290, 165}, 32)
 	};
 	transitions.push_back(hideout4Points);
 
 	vector<TransitionStruct> hideout5Points = {
-	TransitionStruct(SDL_Point{800, 1000}, SDL_Point{318, 90}, 29)
+	TransitionStruct(SDL_Point{800, 1000}, SDL_Point{683, 90}, 29)
 	};
 	transitions.push_back(hideout5Points);
 
 	vector<TransitionStruct> hideout6Points = {
-	TransitionStruct(SDL_Point{40, 470}, SDL_Point{995, 496}, 29)
+	TransitionStruct(SDL_Point{40, 470}, SDL_Point{985, 415}, 29)
 	};
 	transitions.push_back(hideout6Points);
 
 	vector<TransitionStruct> hideout7Points = {
 	TransitionStruct(SDL_Point{993, 82}, SDL_Point{598, 900}, 33),
-	TransitionStruct(SDL_Point{290, 82}, SDL_Point{855, 1005}, 29)
+	TransitionStruct(SDL_Point{290, 82}, SDL_Point{507, 1005}, 29)
 	};
 	transitions.push_back(hideout7Points);
 
