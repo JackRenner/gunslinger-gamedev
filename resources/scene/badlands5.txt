@@ -1,0 +1,27 @@
+{
+    "scene_id": "badlands5",
+    "background": {
+        "type": "Sprite",
+        "filepath": "./resources/sprites/Badlands_Room5.png",
+        "dimensions": [
+            600,
+            200
+        ],
+        "position": [
+            0,
+            0
+        ],
+        "pivot": [
+            0,
+            0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    }
+}

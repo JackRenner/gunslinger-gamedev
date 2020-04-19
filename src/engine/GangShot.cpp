@@ -5,9 +5,10 @@
 #include "Sprite.h"
 #include "DisplayObjectContainer.h"
 #include "Controls.h"
-#include "MyGame.h"
+#include "../main/MyGame.h"
 #include <cstdlib>
 #include <math.h>
+#include <algorithm>
 
 using namespace std;
 

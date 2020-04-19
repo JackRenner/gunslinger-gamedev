@@ -1,0 +1,27 @@
+{
+    "scene_id": "canyon2",
+    "new_sprite_0": {
+        "type": "Sprite",
+        "filepath": "./resources/sprites/RockCanyon2.png",
+        "dimensions": [
+            1080,
+            1080
+        ],
+        "position": [
+            0,
+            0
+        ],
+        "pivot": [
+            0,
+            0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    }
+}

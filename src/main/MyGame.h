@@ -56,6 +56,9 @@ public:
 
 	void initTown();
 	void initLake();
+	void initCanyon();
+	void initBadlands();
+	void initHideout();
 
 	void initObstacles();
 
@@ -89,6 +92,7 @@ private:
 	// TOWN NPCS
 	DisplayObject* storekeeper;
 
+	// LAKE STILL SCENES
 	Scene* lake1;
 	Scene* lake2;
 	Scene* lake3;
@@ -98,6 +102,30 @@ private:
 	Scene* lake7;
 	Scene* lake8;
 	Scene* lake9;
+
+	// ROCK CANYON SCENES
+	Scene* canyon1;
+	Scene* canyon2;
+	Scene* canyon3;
+
+	// BADLANDS SCENES
+	Scene* badlands1;
+	Scene* badlands2;
+	Scene* badlands3;
+	Scene* badlands4;
+	Scene* badlands5;
+	Scene* badlands6;
+
+	// HIDEOUT SCENES
+	Scene* hideout1;
+	Scene* hideout2;
+	Scene* hideout3;
+	Scene* hideout4;
+	Scene* hideout5;
+	Scene* hideout6;
+	Scene* hideout7;
+	Scene* hideout8;
+
 	WeaponSelect* selection;
 	Player* character;
 	Projectile* bullet;

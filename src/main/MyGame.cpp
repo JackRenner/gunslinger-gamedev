@@ -35,6 +35,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	initTown();
 	initLake();
+	initCanyon();
+	initBadlands();
+	initHideout();
 
 	room_state = 0;
 
@@ -404,7 +407,10 @@ void MyGame::initTown() {
 
 	// initialize town transition points, hardcoded for now
 	vector<TransitionStruct> townPoints = {
+	//special reset transition
 	TransitionStruct(SDL_Point{-1,-1}, SDL_Point{535, 960}, 0),
+
+	// transitions to buildings
 	TransitionStruct(SDL_Point{ 192, 300 }, SDL_Point{ 535, 900 }, 1),
 	TransitionStruct(SDL_Point{550, 288}, SDL_Point{ 535, 900 }, 2),
 	TransitionStruct(SDL_Point{900, 300}, SDL_Point{ 535, 900 }, 3),
@@ -412,7 +418,18 @@ void MyGame::initTown() {
 	TransitionStruct(SDL_Point{1632, 272}, SDL_Point{ 535, 900 }, 5),
 	TransitionStruct(SDL_Point{2040, 300}, SDL_Point{ 535, 900 }, 6),
 	TransitionStruct(SDL_Point{2333, 292}, SDL_Point{ 535, 900 }, 7),
-	TransitionStruct(SDL_Point{636, 964}, SDL_Point{ 550, 80 }, 8)
+
+	// transition to lake still
+	TransitionStruct(SDL_Point{636, 964}, SDL_Point{ 550, 80 }, 8),
+
+	// transition to rock canyon
+	TransitionStruct(SDL_Point{115, 590}, SDL_Point{80, 625}, 19),
+
+	// transition to badlands
+	TransitionStruct(SDL_Point{2497, 964}, SDL_Point{406, 110}, 20),
+
+	// transition to hideout
+	TransitionStruct(SDL_Point{2867, 620}, SDL_Point{80, 660}, 26)
 	};
 	transitions.push_back(townPoints);
 
@@ -450,38 +467,30 @@ void MyGame::initTown() {
 }
 
 void MyGame::initLake() {
-
 	lake1 = new Scene();
 	lake1->loadScene("./resources/scene/lake1.txt");
-	//this->addChild(lake1);
 	lake2 = new Scene();
 	lake2->loadScene("./resources/scene/lake2.txt");
-	//foreground->addChild(lake2);
 	lake3 = new Scene();
 	lake3->loadScene("./resources/scene/lake3.txt");
-	//this->addChild(lake3);
 	lake4 = new Scene();
 	lake4->loadScene("./resources/scene/lake4.txt");
-	//this->addChild(lake4);	
 	lake5 = new Scene();
 	lake5->loadScene("./resources/scene/lake5.txt");
-	//this->addChild(lake5);	
 	lake6 = new Scene();
 	lake6->loadScene("./resources/scene/lake6.txt");
-	//this->addChild(lake6);	
 	lake7 = new Scene();
-	lake7->loadScene("./resources/scene/lake7.txt");
-	//this->addChild(lake7);	
+	lake7->loadScene("./resources/scene/lake7.txt");	
 	lake8 = new Scene();
 	lake8->loadScene("./resources/scene/lake8.txt");
-	//this->addChild(lake8);	
 	lake9 = new Scene();
 	lake9->loadScene("./resources/scene/lake9.txt");
-	//this->addChild(lake9);	
 
 	// initialize lake transitions
 	vector<TransitionStruct> lake1Points = {
+	//transition back to town
 	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{720, 964}, 0, TransitionDetection::AXIS, Cardinal::NORTH),
+
 	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 9, TransitionDetection::AXIS, Cardinal::EAST),
 	TransitionStruct(SDL_Point{ 0, 595 }, SDL_Point{ 550, 80 }, 11, TransitionDetection::AXIS, Cardinal::SOUTH) };
 	transitions.push_back(lake1Points);
@@ -533,7 +542,7 @@ void MyGame::initLake() {
 	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1020, 305 }, 15, TransitionDetection::AXIS, Cardinal::WEST) };
 	transitions.push_back(lake9Points);
 
-	// initialize scene info
+	// initialize lake scene info
 	sceneInfo.push_back(SceneInfo(lake1, SDL_Rect{ 0, 0, 1100, 610 })); // 8
 	sceneInfo.push_back(SceneInfo(lake2, SDL_Rect{ 0, 0, 1100, 610 })); // 9
 	sceneInfo.push_back(SceneInfo(lake3, SDL_Rect{ 0, 0, 1100, 610 })); // 10
@@ -544,6 +553,177 @@ void MyGame::initLake() {
 	sceneInfo.push_back(SceneInfo(lake8, SDL_Rect{ 0, 0, 1100, 610 })); // 15
 	sceneInfo.push_back(SceneInfo(lake9, SDL_Rect{ 0, 0, 1100, 610 })); // 16
 
+}
+
+void MyGame::initCanyon() {
+	canyon1 = new Scene();
+	canyon1->loadScene("./resources/scene/canyon1.txt");
+	canyon2 = new Scene();
+	canyon2->loadScene("./resources/scene/canyon2.txt");
+	canyon3 = new Scene();
+	canyon3->loadScene("./resources/scene/canyon3.txt");
+
+	// initialize canyon transitions
+	vector<TransitionStruct> canyon1Points = {
+	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1000, 690 }, 18, TransitionDetection::AXIS, Cardinal::WEST)
+	};
+	transitions.push_back(canyon1Points);
+
+	vector<TransitionStruct> canyon2Points = {
+	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1000, 690 }, 19, TransitionDetection::AXIS, Cardinal::WEST),
+	TransitionStruct(SDL_Point{ 1065, 0 }, SDL_Point{ 80, 690 }, 17, TransitionDetection::AXIS, Cardinal::EAST)
+	};
+	transitions.push_back(canyon2Points);
+
+	vector<TransitionStruct> canyon3Points = {
+	TransitionStruct(SDL_Point{ 15, 625 }, SDL_Point{ 255, 590 }, 0),
+	TransitionStruct(SDL_Point{ 1065, 0 }, SDL_Point{ 80, 690 }, 18, TransitionDetection::AXIS, Cardinal::EAST)
+	};
+	transitions.push_back(canyon3Points);
+
+	// initialize canyon scene info
+	sceneInfo.push_back(SceneInfo(canyon1, SDL_Rect{ 0, 0, 1080, 1080 })); // 17
+	sceneInfo.push_back(SceneInfo(canyon2, SDL_Rect{ 0, 0, 1080, 1080 })); // 18
+	sceneInfo.push_back(SceneInfo(canyon3, SDL_Rect{ 0, 0, 1080, 1080 })); // 19
+}
+
+void MyGame::initBadlands() {
+	badlands1 = new Scene();
+	badlands1->loadScene("./resources/scene/badlands1.txt");
+	badlands2 = new Scene();
+	badlands2->loadScene("./resources/scene/badlands2.txt");
+	badlands3 = new Scene();
+	badlands3->loadScene("./resources/scene/badlands3.txt");
+	badlands4 = new Scene();
+	badlands4->loadScene("./resources/scene/badlands4.txt");
+	badlands5 = new Scene();
+	badlands5->loadScene("./resources/scene/badlands5.txt");
+	badlands6 = new Scene();
+	badlands6->loadScene("./resources/scene/badlands6.txt");
+
+	vector<TransitionStruct> badlands1Points = {
+	//transition back to town
+	TransitionStruct(SDL_Point{406, 30}, SDL_Point{2330, 964}, 0),
+
+	TransitionStruct(SDL_Point{510, 720}, SDL_Point{406, 110}, 21)
+	};
+	transitions.push_back(badlands1Points);
+
+	vector<TransitionStruct> badlands2Points = {
+	TransitionStruct(SDL_Point{932, 663}, SDL_Point{95, 680}, 22),
+	TransitionStruct(SDL_Point{406, 40}, SDL_Point{450, 720}, 20)
+	};
+	transitions.push_back(badlands2Points);
+
+	vector<TransitionStruct> badlands3Points = {
+	TransitionStruct(SDL_Point{918, 85}, SDL_Point{38, 305}, 23),
+	TransitionStruct(SDL_Point{15, 680}, SDL_Point{852, 663}, 21)
+	};
+	transitions.push_back(badlands3Points);
+
+	vector<TransitionStruct> badlands4Points = {
+	TransitionStruct(SDL_Point{358, 50}, SDL_Point{556, 117}, 24),
+	TransitionStruct(SDL_Point{38, 373}, SDL_Point{918, 165}, 22)
+	};
+	transitions.push_back(badlands4Points);
+
+	vector<TransitionStruct> badlands5Points = {
+	TransitionStruct(SDL_Point{38, 47}, SDL_Point{198, 318}, 25),
+	TransitionStruct(SDL_Point{556, 173}, SDL_Point{358, 100}, 23)
+	};
+	transitions.push_back(badlands5Points);
+
+	vector<TransitionStruct> badlands6Points = {
+	TransitionStruct(SDL_Point{198, 373}, SDL_Point{38, 100}, 24)
+	};
+	transitions.push_back(badlands6Points);
+
+	// initialize badlands scene info
+	sceneInfo.push_back(SceneInfo(badlands1, SDL_Rect{ 0, 0, 960, 768 })); // 20
+	sceneInfo.push_back(SceneInfo(badlands2, SDL_Rect{ 0, 0, 960, 768 })); // 21
+	sceneInfo.push_back(SceneInfo(badlands3, SDL_Rect{ 0, 0, 960, 768 })); // 22
+	sceneInfo.push_back(SceneInfo(badlands4, SDL_Rect{ 0, 0, 400, 400 })); // 23
+	sceneInfo.push_back(SceneInfo(badlands5, SDL_Rect{ 0, 0, 600, 200 })); // 24
+	sceneInfo.push_back(SceneInfo(badlands6, SDL_Rect{ 0, 0, 400, 400 })); // 25
+}
+
+void MyGame::initHideout() {
+	hideout1 = new Scene();
+	hideout1->loadScene("./resources/scene/hideout1.txt");
+	hideout2 = new Scene();
+	hideout2->loadScene("./resources/scene/hideout2.txt");
+	hideout3 = new Scene();
+	hideout3->loadScene("./resources/scene/hideout3.txt");
+	hideout4 = new Scene();
+	hideout4->loadScene("./resources/scene/hideout4.txt");
+	hideout5 = new Scene();
+	hideout5->loadScene("./resources/scene/hideout5.txt");
+	hideout6 = new Scene();
+	hideout6->loadScene("./resources/scene/hideout6.txt");
+	hideout7 = new Scene();
+	hideout7->loadScene("./resources/scene/hideout7.txt");
+	hideout8 = new Scene();
+	hideout8->loadScene("./resources/scene/hideout8.txt");
+
+	// initialize transition points
+	vector<TransitionStruct> hideout1Points = {
+		// transition back to town
+	TransitionStruct(SDL_Point{15, 0}, SDL_Point{2787, 620}, 0, TransitionDetection::AXIS, Cardinal::WEST),
+
+	TransitionStruct(SDL_Point{1551, 656}, SDL_Point{657, 830}, 27)
+	};
+	transitions.push_back(hideout1Points);
+
+	vector<TransitionStruct> hideout2Points = {
+	TransitionStruct(SDL_Point{1892, 654}, SDL_Point{80, 650}, 28),
+	TransitionStruct(SDL_Point{657, 992}, SDL_Point{1551, 720}, 26)
+	};
+	transitions.push_back(hideout2Points);
+
+	vector<TransitionStruct> hideout3Points = {
+	TransitionStruct(SDL_Point{1902, 578}, SDL_Point{80, 538}, 29),
+	TransitionStruct(SDL_Point{15, 0}, SDL_Point{1812, 654}, 27, TransitionDetection::AXIS, Cardinal::WEST)
+	};
+	transitions.push_back(hideout3Points);
+
+	vector<TransitionStruct> hideout4Points = {
+	TransitionStruct(SDL_Point{15, 538}, SDL_Point{1822, 578}, 28),
+	TransitionStruct(SDL_Point{318, 15}, SDL_Point{800, 920}, 30),
+	TransitionStruct(SDL_Point{1065, 496}, SDL_Point{135, 470}, 31),
+	TransitionStruct(SDL_Point{855, 1085}, SDL_Point{290, 165}, 32)
+	};
+	transitions.push_back(hideout4Points);
+
+	vector<TransitionStruct> hideout5Points = {
+	TransitionStruct(SDL_Point{800, 1000}, SDL_Point{318, 90}, 29)
+	};
+	transitions.push_back(hideout5Points);
+
+	vector<TransitionStruct> hideout6Points = {
+	TransitionStruct(SDL_Point{40, 470}, SDL_Point{995, 496}, 29)
+	};
+	transitions.push_back(hideout6Points);
+
+	vector<TransitionStruct> hideout7Points = {
+	TransitionStruct(SDL_Point{993, 82}, SDL_Point{598, 900}, 33),
+	TransitionStruct(SDL_Point{290, 82}, SDL_Point{855, 1005}, 29)
+	};
+	transitions.push_back(hideout7Points);
+
+	vector<TransitionStruct> hideout8Points = {
+	TransitionStruct(SDL_Point{598, 1000}, SDL_Point{993, 160}, 32)
+	};
+	transitions.push_back(hideout8Points);
+
+	// initialize hideout scene info
+	sceneInfo.push_back(SceneInfo(hideout1, SDL_Rect{ 0, 0, 1920, 1080 })); // 26
+	sceneInfo.push_back(SceneInfo(hideout2, SDL_Rect{ 0, 0, 1920, 1080 })); // 27
+	sceneInfo.push_back(SceneInfo(hideout3, SDL_Rect{ 0, 0, 1920, 1080 })); // 28
+	sceneInfo.push_back(SceneInfo(hideout4, SDL_Rect{ 0, 0, 1080, 1080 })); // 29
+	sceneInfo.push_back(SceneInfo(hideout5, SDL_Rect{ 0, 0, 1080, 1080 })); // 30
+	sceneInfo.push_back(SceneInfo(hideout6, SDL_Rect{ 0, 0, 1920, 1080 })); // 31
+	sceneInfo.push_back(SceneInfo(hideout7, SDL_Rect{ 0, 0, 1080, 720 }));  // 32
+	sceneInfo.push_back(SceneInfo(hideout8, SDL_Rect{ 0, 0, 1080, 1080 })); // 33
 }
 
 void MyGame::initEnemies(Scene* s) {

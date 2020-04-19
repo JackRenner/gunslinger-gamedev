@@ -1,0 +1,27 @@
+{
+    "scene_id": "badlands4",
+    "background": {
+        "type": "Sprite",
+        "filepath": "./resources/sprites/Badlands_Room4.png",
+        "dimensions": [
+            400,
+            400
+        ],
+        "position": [
+            0,
+            0
+        ],
+        "pivot": [
+            0,
+            0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    }
+}
