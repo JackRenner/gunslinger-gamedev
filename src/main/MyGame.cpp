@@ -673,6 +673,22 @@ void MyGame::initCanyon() {
 }
 
 void MyGame::initCanyonEnemies(Scene* s) {
+	if (s->id == "canyon1" && !s->enemiesAdded) {
+		openingText = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
+
+		string openingTextText = "The man in black fled across the desert, and the gunslinger followed. \n -Stephen King, The Gunslinger";
+		openingText->addTextLine("./resources/fonts/west.otf", openingTextText, 24, SDL_Color{ 255, 255, 255 });
+		canyon1->addChild(openingText);
+		openingText->position = { 500, 300 };
+		if (!openingText->textLock)
+			openingText->initBox();
+		if (!openingText->textLock)
+			openingText->closeBox();
+		s->enemiesAdded = true;
+	}
+	if (s->id == "canyon2" && !s->enemiesAdded) {
+		s->enemiesAdded = true;
+	}
 	if (s->id == "canyon3" && !s->enemiesAdded) {
 		wolf1Canyon3 = new Wolf((Player*)character, "Wolf4");	// Adding wolf sprites
 		wolf1Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
@@ -726,48 +742,48 @@ void MyGame::initBadlands() {
 
 	vector<TransitionStruct> badlands1Points = {
 	//transition back to town
-	TransitionStruct(SDL_Point{406, 30}, SDL_Point{2330, 964}, 0),
+	TransitionStruct(SDL_Point{406*2, 30*2}, SDL_Point{2330*2, 964*2}, 0),
 
-	TransitionStruct(SDL_Point{510, 720}, SDL_Point{406, 110}, 21)
+	TransitionStruct(SDL_Point{510*2, 720*2}, SDL_Point{406*2, 110*2}, 21)
 	};
 	transitions.push_back(badlands1Points);
 
 	vector<TransitionStruct> badlands2Points = {
-	TransitionStruct(SDL_Point{932, 663}, SDL_Point{95, 680}, 22),
-	TransitionStruct(SDL_Point{406, 40}, SDL_Point{450, 720}, 20)
+	TransitionStruct(SDL_Point{932*2, 663*2}, SDL_Point{95*2, 680*2}, 22),
+	TransitionStruct(SDL_Point{406*2, 40*2}, SDL_Point{450*2, 720*2}, 20)
 	};
 	transitions.push_back(badlands2Points);
 
 	vector<TransitionStruct> badlands3Points = {
-	TransitionStruct(SDL_Point{918, 85}, SDL_Point{38, 305}, 23),
-	TransitionStruct(SDL_Point{15, 680}, SDL_Point{852, 663}, 21)
+	TransitionStruct(SDL_Point{918*2, 85*2}, SDL_Point{38*2, 305*2}, 23),
+	TransitionStruct(SDL_Point{15*2, 680*2}, SDL_Point{852*2, 663*2}, 21)
 	};
 	transitions.push_back(badlands3Points);
 
 	vector<TransitionStruct> badlands4Points = {
-	TransitionStruct(SDL_Point{358, 50}, SDL_Point{556, 117}, 24),
-	TransitionStruct(SDL_Point{38, 373}, SDL_Point{918, 165}, 22)
+	TransitionStruct(SDL_Point{358*2, 50*2}, SDL_Point{556*2, 117*2}, 24),
+	TransitionStruct(SDL_Point{38*2, 373}, SDL_Point{918*2, 165*2}, 22)
 	};
 	transitions.push_back(badlands4Points);
 
 	vector<TransitionStruct> badlands5Points = {
-	TransitionStruct(SDL_Point{38, 47}, SDL_Point{198, 318}, 25),
-	TransitionStruct(SDL_Point{556, 173}, SDL_Point{358, 100}, 23)
+	TransitionStruct(SDL_Point{38*2, 47*2}, SDL_Point{198*2, 318*2}, 25),
+	TransitionStruct(SDL_Point{556*2, 173*2}, SDL_Point{358*2, 100*2}, 23)
 	};
 	transitions.push_back(badlands5Points);
 
 	vector<TransitionStruct> badlands6Points = {
-	TransitionStruct(SDL_Point{198, 373}, SDL_Point{38, 100}, 24)
+	TransitionStruct(SDL_Point{198*2, 373*2}, SDL_Point{38*2, 100*2}, 24)
 	};
 	transitions.push_back(badlands6Points);
 
 	// initialize badlands scene info
-	sceneInfo.push_back(SceneInfo(badlands1, SDL_Rect{ 0, 0, 960, 768 })); // 20
-	sceneInfo.push_back(SceneInfo(badlands2, SDL_Rect{ 0, 0, 960, 768 })); // 21
-	sceneInfo.push_back(SceneInfo(badlands3, SDL_Rect{ 0, 0, 960, 768 })); // 22
-	sceneInfo.push_back(SceneInfo(badlands4, SDL_Rect{ 0, 0, 400, 400 })); // 23
-	sceneInfo.push_back(SceneInfo(badlands5, SDL_Rect{ 0, 0, 600, 200 })); // 24
-	sceneInfo.push_back(SceneInfo(badlands6, SDL_Rect{ 0, 0, 400, 400 })); // 25
+	sceneInfo.push_back(SceneInfo(badlands1, SDL_Rect{ 0, 0, 960*2, 768*2 })); // 20
+	sceneInfo.push_back(SceneInfo(badlands2, SDL_Rect{ 0, 0, 960*2, 768*2 })); // 21
+	sceneInfo.push_back(SceneInfo(badlands3, SDL_Rect{ 0, 0, 960*2, 768*2 })); // 22
+	sceneInfo.push_back(SceneInfo(badlands4, SDL_Rect{ 0, 0, 400*2, 400*2 })); // 23
+	sceneInfo.push_back(SceneInfo(badlands5, SDL_Rect{ 0, 0, 600*2, 200*2 })); // 24
+	sceneInfo.push_back(SceneInfo(badlands6, SDL_Rect{ 0, 0, 400*2, 400*2 })); // 25
 }
 
 void MyGame::initHideout() {

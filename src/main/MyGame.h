@@ -113,6 +113,8 @@ private:
 	Scene* canyon2;
 	Scene* canyon3;
 
+	TextBox* openingText;
+
 	// BADLANDS SCENES
 	Scene* badlands1;
 	Scene* badlands2;
