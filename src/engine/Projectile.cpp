@@ -64,7 +64,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 			this->play("shotgun");
 			//should be shotgunup
 		}
-		this->Distance = 120;
+		this->Distance = 200;
 		this->speed = 10;
 		this->gun = "shotgun";
 	}
@@ -95,7 +95,10 @@ void Projectile::onCollision(DisplayObject* other) {
 		} else {
 			this->play("blood_splatter");
 		}
-		hitSomething = true;
+		if (this->gun == "knife" && !this->thrown) {
+			this->removeThis();
+		} if (!this->thrown)
+			hitSomething = true;
 	}
 }
 

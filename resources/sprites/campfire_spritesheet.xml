@@ -1,1 +1,7 @@
-<textureatlas xmlns="http://www.w3.org/1999/xhtml" imagepath="campfire_spritesheet.png"><subtexture name="tile000" x="0" y="0" width="64" height="64"></subtexture><subtexture name="tile002" x="0" y="65" width="64" height="64"></subtexture><subtexture name="tile001" x="65" y="0" width="64" height="64"></subtexture><subtexture name="tile003" x="65" y="65" width="64" height="64"></subtexture><subtexture name="tile004" x="0" y="130" width="64" height="64"></subtexture></textureatlas>
+<textureatlas xmlns="http://www.w3.org/1999/xhtml" imagepath="campfire_spritesheet.png">
+<subtexture name="tile000" x="0" y="0" width="64" height="64"></subtexture>
+<subtexture name="tile002" x="0" y="65" width="64" height="64"></subtexture>
+<subtexture name="tile001" x="65" y="0" width="64" height="64"></subtexture>
+<subtexture name="tile003" x="65" y="65" width="64" height="64"></subtexture>
+<subtexture name="tile004" x="0" y="130" width="64" height="64"></subtexture>
+</textureatlas>

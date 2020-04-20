@@ -8,19 +8,19 @@
             1080
         ],
         "position": [
-            0,
-            0
+            100,
+            200
         ],
         "pivot": [
-            0,
-            0
+            50,
+            50
         ],
         "scale": [
             1.0,
             1.0
         ],
         "rotation": 0.0,
-        "alpha": 255,
+        "alpha": 180,
         "visible": true,
         "parent": null
     }

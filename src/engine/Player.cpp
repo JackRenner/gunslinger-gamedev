@@ -48,10 +48,7 @@ Player::Player() : AnimatedSprite("Player"){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
-	if (this->poisonedTime > 0 && this->poisoned) {
-		this->health -= 5;
-		this->poisonedTime -= 1;
-	}
+
 	if (controls::pressShift()) {
 		if (this->dir == "Up") {
 			this->position.y -= 50;
@@ -73,26 +70,26 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		if (controls::holdW()) {
 			this->dir = "Up";
 			this->play("FaceUp");
-			//this->position.y -= 4;
-			this->position.y -= 10;
+			this->position.y -= 4;
+			//this->position.y -= 10;
 		}
 		if (controls::holdS()) {
 			this->dir = "Down";
 			this->play("FaceDown");
-			//this->position.y += 4;
-			this->position.y += 10;
+			this->position.y += 4;
+			//this->position.y += 10;
 		}
 		if (controls::holdD()) {
 			this->dir = "Right";
 			this->play("FaceRight");
-			//this->position.x += 4;
-			this->position.x += 10;
+			this->position.x += 4;
+			//this->position.x += 10;
 		}
 		if (controls::holdA()) {
 			this->dir = "Left";
 			this->play("FaceLeft");
-			//this->position.x -= 4;
-			this->position.x -= 10;
+			this->position.x -= 4;
+			//this->position.x -= 10;
 		}
 		if (controls::holdUp()) {
 			this->dir = "Up";
@@ -121,6 +118,13 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	if(this->knifeWaitToDamage > 10000){
 		this->knifeWaitToDamage = 900;
 	}
+
+	// reset health upon death
+	if (this->health == 0) {
+		this->health = 500;
+		dispatchEvent(healthChangeEvent);
+	}
+
 }
 
 // do not include attacks from bosses yet

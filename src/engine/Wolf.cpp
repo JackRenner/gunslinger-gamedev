@@ -38,14 +38,14 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
     // if the difference in north/south is greater than east/west
     if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
-		this->up = true;
+		this->up = false;
         if (this->position.x - sayu->position.x > 0) {
             this->play("WolfLeft");
         } else {
             this->play("WolfRight");
         }
     } else {
-		this->up = false;
+		this->up = true;
         if (this->position.y - sayu->position.y > 0) {
             this->play("WolfUp");
         } else {
@@ -154,6 +154,7 @@ void Wolf::onCollision(DisplayObject* other){
 			this->alpha -= 100;
 			if(this->health < 0) this->health = 0;
 			sayu->knife_throws = 0;
+			std::cout << "HIT WOLF" << endl;
 		} else if (temp->gun == "shotgun") {
 			this->health -= 40;
 			this->alpha -= 80;
@@ -184,6 +185,8 @@ void Wolf::onCollision(DisplayObject* other){
 		{
 			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX - 10, this->position.y-this->oldY + 10, 0, 0);
 		}		
+	} else if (other->type == "Obstacle") {
+		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
@@ -210,10 +213,10 @@ void Wolf::save(){
 SDL_Point* Wolf::getGlobalHitbox(){
 	AffineTransform* temp = this->getGlobalTransform();
 	if (this->up) {
-		this->MyGlobalHitbox[0] = temp->transformPoint(-this->height * 2, -this->width/4);
-		this->MyGlobalHitbox[1] = temp->transformPoint(this->height * 2, -this->width/4);
-		this->MyGlobalHitbox[2] = temp->transformPoint(-this->height * 2, this->width/4);
-		this->MyGlobalHitbox[3] = temp->transformPoint(this->height * 2, this->width/4);
+		this->MyGlobalHitbox[0] = temp->transformPoint(-this->height/4, -this->width/2);
+		this->MyGlobalHitbox[1] = temp->transformPoint(this->height/4, -this->width/2);
+		this->MyGlobalHitbox[2] = temp->transformPoint(-this->height/4, this->width/2);
+		this->MyGlobalHitbox[3] = temp->transformPoint(this->height/4, this->width/2);
 	} else {
 		this->MyGlobalHitbox[0] = temp->transformPoint(-this->width/4, -this->height/4);
 		this->MyGlobalHitbox[1] = temp->transformPoint(this->width/4, -this->height/4);

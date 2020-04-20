@@ -119,7 +119,8 @@ void Scene::loadScene(string sceneFilePath) {
 			}
 
 			new_animsprite->play(sceneDoc[entityName]["playing"].GetString());
-
+			std::cout << "adding animation" << endl;
+			std::cout << sceneDoc[entityName]["playing"].GetString() << endl;
 			// set transform parameters
 			new_animsprite->width = sceneDoc[entityName]["dimensions"][0].GetInt();
 			new_animsprite->height = sceneDoc[entityName]["dimensions"][1].GetInt();

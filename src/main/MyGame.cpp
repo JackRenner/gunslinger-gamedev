@@ -26,7 +26,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
     character = new Player();
 	//this->removeImmediateChild(character);
 
-	character->position = { 1500, 500 };
+	character->position = { 600, 600 };
 	character->scaleX = 0.8;
 	character->scaleY = 0.8;
 	character->pivot = { character->width / 2, character->height / 2 };
@@ -39,9 +39,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 0;
+	room_state = 17;
 
-	this->setScene(townScene);
+	this->setScene(canyon1);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -93,6 +93,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	foreground->addChild(selection);
 	//foreground->addChild(test);
 	foreground->addChild(blackBox);
+
 }
 
 MyGame::~MyGame() {
@@ -108,93 +109,12 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if (character->health == 0) {
 		curTransition = transitions[0][0];
 		transitionScene();
-		character->health = 500;
 	}
 	// Demo for enemies
 
 	// need to make these for loops that loop through for each type of enemy
 
-	// GANG THUG LOOP
-	for (std::map<GangThug*, int>::iterator it=gang_thugs.begin(); it!=gang_thugs.end(); ++it) {
-		if (it->first->health == 0) {
-			it->first->clean = true;
-			gang_thugs.erase(it->first);
-			break;
-		}
-		if(it->first->shoot > 0) {
-			benemy = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "revolver");
-			benemy->distance = 20;
-			this->addChild(benemy);
-			benemy->position = {it->first->position.x, it->first->position.y };
-			benemy->pivot = { benemy->width / 2, benemy->height / 2 };
-			benemy->scaleX = 1;
-			benemy->scaleY = 1;
-			if (it->first->shots_fired == 5) {
-				it->first->shoot -= 120;
-				it->first->shots_fired = 0;
-			} else{
-				it->first->shoot -= 40;
-				it->first->shots_fired ++;
-			}
-		}
-	}
-	for (std::map<GangShot*, int>::iterator it=gang_shot.begin(); it!=gang_shot.end(); ++it) {
-		if (it->first->health == 0) {
-			it->first->clean = true;
-			gang_shot.erase(it->first);
-			break;
-		}
-		if(it->first->shoot > 0) {
-			benemya = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun");
-			benemya->distance = 20;
-			this->addChild(benemya);
-			benemya->position = {it->first->position.x, it->first->position.y };
-			benemya->pivot = { benemya->width / 2, benemya->height / 2 };
-			benemya->scaleX = 1;
-			benemya->scaleY = 1;
-			if (it->first->shots_fired == 1) {
-				it->first->shoot -= 300;
-				it->first->shots_fired = 0;
-			} else{
-				it->first->shoot -= 100;
-				it->first->shots_fired ++;
-			}
-		}
-	}
-	for (std::map<GangMarksman*, int>::iterator it=gang_marksmans.begin(); it!=gang_marksmans.end(); ++it) {
-		if (it->first->health == 0) {
-			it->first->clean = true;
-			gang_marksmans.erase(it->first);
-			break;
-		}
-		if(it->first->shoot > 0) {
-			benemy2 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "rifle");
-			benemy2->distance = 20;
-			this->addChild(benemy2);
-			benemy2->position = {it->first->position.x, it->first->position.y };
-			benemy2->pivot = { benemy2->width / 2, benemy2->height / 2 };
-			benemy2->scaleX = 1;
-			benemy2->scaleY = 1;
-			it->first->shoot -= 40;
-		}
-	}
-	for (std::map<ArrowGuy*, int>::iterator it=arrow_guys.begin(); it!=arrow_guys.end(); ++it) {
-		if (it->first->health == 0) {
-			it->first->clean = true;
-			arrow_guys.erase(it->first);
-			break;
-		}
-		if(it->first->shoot > 0) {
-			benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "arrow");
-			benemy3->distance = 20;
-			this->addChild(benemy3);
-			benemy3->position = {it->first->position.x, it->first->position.y };
-			benemy3->pivot = { benemy3->width / 2, benemy3->height / 2 };
-			benemy3->scaleX = 1;
-			benemy3->scaleY = 1;
-			it->first->shoot -= 80;
-		}
-	}
+	this->enemyShootingLoops();
 	
 	// for (std::map<Benemy*, GangThug*>::iterator it=thug_benemies.begin(); it!=thug_benemies.end(); ++it) {
 	// 	if (it->first->clean != true) {
@@ -299,7 +219,10 @@ void MyGame::setScene(Scene* scene) {
 	this->curScene = scene;
 	if (curScene != NULL) {
 		this->addChild(curScene);
-		initEnemies(scene);
+		if (scene->id.substr(0,4) == "lake")
+			initLakeEnemies(scene);
+		else if (scene->id.substr(0,4) == "cany")
+			initCanyonEnemies(scene);
 		initObstacles();
 	}
 }
@@ -555,178 +478,7 @@ void MyGame::initLake() {
 
 }
 
-void MyGame::initCanyon() {
-	canyon1 = new Scene();
-	canyon1->loadScene("./resources/scene/canyon1.txt");
-	canyon2 = new Scene();
-	canyon2->loadScene("./resources/scene/canyon2.txt");
-	canyon3 = new Scene();
-	canyon3->loadScene("./resources/scene/canyon3.txt");
-
-	// initialize canyon transitions
-	vector<TransitionStruct> canyon1Points = {
-	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1000, 690 }, 18, TransitionDetection::AXIS, Cardinal::WEST)
-	};
-	transitions.push_back(canyon1Points);
-
-	vector<TransitionStruct> canyon2Points = {
-	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1000, 690 }, 19, TransitionDetection::AXIS, Cardinal::WEST),
-	TransitionStruct(SDL_Point{ 1065, 0 }, SDL_Point{ 80, 690 }, 17, TransitionDetection::AXIS, Cardinal::EAST)
-	};
-	transitions.push_back(canyon2Points);
-
-	vector<TransitionStruct> canyon3Points = {
-	TransitionStruct(SDL_Point{ 15, 625 }, SDL_Point{ 255, 590 }, 0),
-	TransitionStruct(SDL_Point{ 1065, 0 }, SDL_Point{ 80, 690 }, 18, TransitionDetection::AXIS, Cardinal::EAST)
-	};
-	transitions.push_back(canyon3Points);
-
-	// initialize canyon scene info
-	sceneInfo.push_back(SceneInfo(canyon1, SDL_Rect{ 0, 0, 1080, 1080 })); // 17
-	sceneInfo.push_back(SceneInfo(canyon2, SDL_Rect{ 0, 0, 1080, 1080 })); // 18
-	sceneInfo.push_back(SceneInfo(canyon3, SDL_Rect{ 0, 0, 1080, 1080 })); // 19
-}
-
-void MyGame::initBadlands() {
-	badlands1 = new Scene();
-	badlands1->loadScene("./resources/scene/badlands1.txt");
-	badlands2 = new Scene();
-	badlands2->loadScene("./resources/scene/badlands2.txt");
-	badlands3 = new Scene();
-	badlands3->loadScene("./resources/scene/badlands3.txt");
-	badlands4 = new Scene();
-	badlands4->loadScene("./resources/scene/badlands4.txt");
-	badlands5 = new Scene();
-	badlands5->loadScene("./resources/scene/badlands5.txt");
-	badlands6 = new Scene();
-	badlands6->loadScene("./resources/scene/badlands6.txt");
-
-	vector<TransitionStruct> badlands1Points = {
-	//transition back to town
-	TransitionStruct(SDL_Point{406, 30}, SDL_Point{2330, 964}, 0),
-
-	TransitionStruct(SDL_Point{510, 720}, SDL_Point{406, 110}, 21)
-	};
-	transitions.push_back(badlands1Points);
-
-	vector<TransitionStruct> badlands2Points = {
-	TransitionStruct(SDL_Point{932, 663}, SDL_Point{95, 680}, 22),
-	TransitionStruct(SDL_Point{406, 40}, SDL_Point{450, 720}, 20)
-	};
-	transitions.push_back(badlands2Points);
-
-	vector<TransitionStruct> badlands3Points = {
-	TransitionStruct(SDL_Point{918, 85}, SDL_Point{38, 305}, 23),
-	TransitionStruct(SDL_Point{15, 680}, SDL_Point{852, 663}, 21)
-	};
-	transitions.push_back(badlands3Points);
-
-	vector<TransitionStruct> badlands4Points = {
-	TransitionStruct(SDL_Point{358, 50}, SDL_Point{556, 117}, 24),
-	TransitionStruct(SDL_Point{38, 373}, SDL_Point{918, 165}, 22)
-	};
-	transitions.push_back(badlands4Points);
-
-	vector<TransitionStruct> badlands5Points = {
-	TransitionStruct(SDL_Point{38, 47}, SDL_Point{198, 318}, 25),
-	TransitionStruct(SDL_Point{556, 173}, SDL_Point{358, 100}, 23)
-	};
-	transitions.push_back(badlands5Points);
-
-	vector<TransitionStruct> badlands6Points = {
-	TransitionStruct(SDL_Point{198, 373}, SDL_Point{38, 100}, 24)
-	};
-	transitions.push_back(badlands6Points);
-
-	// initialize badlands scene info
-	sceneInfo.push_back(SceneInfo(badlands1, SDL_Rect{ 0, 0, 960, 768 })); // 20
-	sceneInfo.push_back(SceneInfo(badlands2, SDL_Rect{ 0, 0, 960, 768 })); // 21
-	sceneInfo.push_back(SceneInfo(badlands3, SDL_Rect{ 0, 0, 960, 768 })); // 22
-	sceneInfo.push_back(SceneInfo(badlands4, SDL_Rect{ 0, 0, 400, 400 })); // 23
-	sceneInfo.push_back(SceneInfo(badlands5, SDL_Rect{ 0, 0, 600, 200 })); // 24
-	sceneInfo.push_back(SceneInfo(badlands6, SDL_Rect{ 0, 0, 400, 400 })); // 25
-}
-
-void MyGame::initHideout() {
-	hideout1 = new Scene();
-	hideout1->loadScene("./resources/scene/hideout1.txt");
-	hideout2 = new Scene();
-	hideout2->loadScene("./resources/scene/hideout2.txt");
-	hideout3 = new Scene();
-	hideout3->loadScene("./resources/scene/hideout3.txt");
-	hideout4 = new Scene();
-	hideout4->loadScene("./resources/scene/hideout4.txt");
-	hideout5 = new Scene();
-	hideout5->loadScene("./resources/scene/hideout5.txt");
-	hideout6 = new Scene();
-	hideout6->loadScene("./resources/scene/hideout6.txt");
-	hideout7 = new Scene();
-	hideout7->loadScene("./resources/scene/hideout7.txt");
-	hideout8 = new Scene();
-	hideout8->loadScene("./resources/scene/hideout8.txt");
-
-	// initialize transition points
-	vector<TransitionStruct> hideout1Points = {
-		// transition back to town
-	TransitionStruct(SDL_Point{15, 0}, SDL_Point{2787, 620}, 0, TransitionDetection::AXIS, Cardinal::WEST),
-
-	TransitionStruct(SDL_Point{1551, 656}, SDL_Point{657, 830}, 27)
-	};
-	transitions.push_back(hideout1Points);
-
-	vector<TransitionStruct> hideout2Points = {
-	TransitionStruct(SDL_Point{1892, 654}, SDL_Point{80, 650}, 28),
-	TransitionStruct(SDL_Point{657, 992}, SDL_Point{1551, 720}, 26)
-	};
-	transitions.push_back(hideout2Points);
-
-	vector<TransitionStruct> hideout3Points = {
-	TransitionStruct(SDL_Point{1902, 578}, SDL_Point{80, 538}, 29),
-	TransitionStruct(SDL_Point{15, 0}, SDL_Point{1812, 654}, 27, TransitionDetection::AXIS, Cardinal::WEST)
-	};
-	transitions.push_back(hideout3Points);
-
-	vector<TransitionStruct> hideout4Points = {
-	TransitionStruct(SDL_Point{15, 538}, SDL_Point{1822, 578}, 28),
-	TransitionStruct(SDL_Point{318, 15}, SDL_Point{800, 920}, 30),
-	TransitionStruct(SDL_Point{1065, 496}, SDL_Point{135, 470}, 31),
-	TransitionStruct(SDL_Point{855, 1085}, SDL_Point{290, 165}, 32)
-	};
-	transitions.push_back(hideout4Points);
-
-	vector<TransitionStruct> hideout5Points = {
-	TransitionStruct(SDL_Point{800, 1000}, SDL_Point{318, 90}, 29)
-	};
-	transitions.push_back(hideout5Points);
-
-	vector<TransitionStruct> hideout6Points = {
-	TransitionStruct(SDL_Point{40, 470}, SDL_Point{995, 496}, 29)
-	};
-	transitions.push_back(hideout6Points);
-
-	vector<TransitionStruct> hideout7Points = {
-	TransitionStruct(SDL_Point{993, 82}, SDL_Point{598, 900}, 33),
-	TransitionStruct(SDL_Point{290, 82}, SDL_Point{855, 1005}, 29)
-	};
-	transitions.push_back(hideout7Points);
-
-	vector<TransitionStruct> hideout8Points = {
-	TransitionStruct(SDL_Point{598, 1000}, SDL_Point{993, 160}, 32)
-	};
-	transitions.push_back(hideout8Points);
-
-	// initialize hideout scene info
-	sceneInfo.push_back(SceneInfo(hideout1, SDL_Rect{ 0, 0, 1920, 1080 })); // 26
-	sceneInfo.push_back(SceneInfo(hideout2, SDL_Rect{ 0, 0, 1920, 1080 })); // 27
-	sceneInfo.push_back(SceneInfo(hideout3, SDL_Rect{ 0, 0, 1920, 1080 })); // 28
-	sceneInfo.push_back(SceneInfo(hideout4, SDL_Rect{ 0, 0, 1080, 1080 })); // 29
-	sceneInfo.push_back(SceneInfo(hideout5, SDL_Rect{ 0, 0, 1080, 1080 })); // 30
-	sceneInfo.push_back(SceneInfo(hideout6, SDL_Rect{ 0, 0, 1920, 1080 })); // 31
-	sceneInfo.push_back(SceneInfo(hideout7, SDL_Rect{ 0, 0, 1080, 720 }));  // 32
-	sceneInfo.push_back(SceneInfo(hideout8, SDL_Rect{ 0, 0, 1080, 1080 })); // 33
-}
-
-void MyGame::initEnemies(Scene* s) {
+void MyGame::initLakeEnemies(Scene* s) {
 	if (s->id == "lake1" && !s->enemiesAdded) {
 		// wolves
 		wolf1LakeStill1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
@@ -885,6 +637,299 @@ void MyGame::initEnemies(Scene* s) {
 		
 		s->enemiesAdded = true;
 
+	}
+}
+
+void MyGame::initCanyon() {
+	canyon1 = new Scene();
+	canyon1->loadScene("./resources/scene/canyon1.txt");
+	canyon2 = new Scene();
+	canyon2->loadScene("./resources/scene/canyon2.txt");
+	canyon3 = new Scene();
+	canyon3->loadScene("./resources/scene/canyon3.txt");
+
+	// initialize canyon transitions
+	vector<TransitionStruct> canyon1Points = {
+	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1000, 690 }, 18, TransitionDetection::AXIS, Cardinal::WEST)
+	};
+	transitions.push_back(canyon1Points);
+
+	vector<TransitionStruct> canyon2Points = {
+	TransitionStruct(SDL_Point{ 15, 0 }, SDL_Point{ 1000, 690 }, 19, TransitionDetection::AXIS, Cardinal::WEST),
+	TransitionStruct(SDL_Point{ 1065, 0 }, SDL_Point{ 80, 690 }, 17, TransitionDetection::AXIS, Cardinal::EAST)
+	};
+	transitions.push_back(canyon2Points);
+
+	vector<TransitionStruct> canyon3Points = {
+	TransitionStruct(SDL_Point{ 15, 625 }, SDL_Point{ 255, 590 }, 0),
+	TransitionStruct(SDL_Point{ 1065, 0 }, SDL_Point{ 80, 690 }, 18, TransitionDetection::AXIS, Cardinal::EAST)
+	};
+	transitions.push_back(canyon3Points);
+
+	// initialize canyon scene info
+	sceneInfo.push_back(SceneInfo(canyon1, SDL_Rect{ 0, 0, 1080, 1080 })); // 17
+	sceneInfo.push_back(SceneInfo(canyon2, SDL_Rect{ 0, 0, 1080, 1080 })); // 18
+	sceneInfo.push_back(SceneInfo(canyon3, SDL_Rect{ 0, 0, 1080, 1080 })); // 19
+}
+
+void MyGame::initCanyonEnemies(Scene* s) {
+	if (s->id == "canyon3" && !s->enemiesAdded) {
+		wolf1Canyon3 = new Wolf((Player*)character, "Wolf4");	// Adding wolf sprites
+		wolf1Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf1Canyon3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf1Canyon3->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf1Canyon3->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		canyon3->addChild(wolf1Canyon3);
+		wolf1Canyon3->position = { 200, 600 };
+		wolf1Canyon3->scaleX = 0.75;
+		wolf1Canyon3->scaleY = 0.75;
+		wolf1Canyon3->play("WolfRight");
+
+		wolf2Canyon3 = new Wolf((Player*)character, "Wolf5");	// Adding wolf sprites
+		wolf2Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf2Canyon3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf2Canyon3->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf2Canyon3->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		canyon3->addChild(wolf2Canyon3);
+		wolf2Canyon3->position = { 200, 700 };
+		wolf2Canyon3->scaleX = 0.75;
+		wolf2Canyon3->scaleY = 0.75;
+		wolf2Canyon3->play("WolfRight");
+
+		wolf3Canyon3 = new Wolf((Player*)character, "Wolf6");	// Adding wolf sprites
+		wolf3Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf3Canyon3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf3Canyon3->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf3Canyon3->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		canyon3->addChild(wolf3Canyon3);
+		wolf3Canyon3->position = { 200, 800 };
+		wolf3Canyon3->scaleX = 0.75;
+		wolf3Canyon3->scaleY = 0.75;
+		wolf3Canyon3->play("WolfRight");
+		s->enemiesAdded = true;
+	}	
+}
+
+void MyGame::initBadlands() {
+	badlands1 = new Scene();
+	badlands1->loadScene("./resources/scene/badlands1.txt");
+	badlands2 = new Scene();
+	badlands2->loadScene("./resources/scene/badlands2.txt");
+	badlands3 = new Scene();
+	badlands3->loadScene("./resources/scene/badlands3.txt");
+	badlands4 = new Scene();
+	badlands4->loadScene("./resources/scene/badlands4.txt");
+	badlands5 = new Scene();
+	badlands5->loadScene("./resources/scene/badlands5.txt");
+	badlands6 = new Scene();
+	badlands6->loadScene("./resources/scene/badlands6.txt");
+
+	vector<TransitionStruct> badlands1Points = {
+	//transition back to town
+	TransitionStruct(SDL_Point{406, 30}, SDL_Point{2330, 964}, 0),
+
+	TransitionStruct(SDL_Point{510, 720}, SDL_Point{406, 110}, 21)
+	};
+	transitions.push_back(badlands1Points);
+
+	vector<TransitionStruct> badlands2Points = {
+	TransitionStruct(SDL_Point{932, 663}, SDL_Point{95, 680}, 22),
+	TransitionStruct(SDL_Point{406, 40}, SDL_Point{450, 720}, 20)
+	};
+	transitions.push_back(badlands2Points);
+
+	vector<TransitionStruct> badlands3Points = {
+	TransitionStruct(SDL_Point{918, 85}, SDL_Point{38, 305}, 23),
+	TransitionStruct(SDL_Point{15, 680}, SDL_Point{852, 663}, 21)
+	};
+	transitions.push_back(badlands3Points);
+
+	vector<TransitionStruct> badlands4Points = {
+	TransitionStruct(SDL_Point{358, 50}, SDL_Point{556, 117}, 24),
+	TransitionStruct(SDL_Point{38, 373}, SDL_Point{918, 165}, 22)
+	};
+	transitions.push_back(badlands4Points);
+
+	vector<TransitionStruct> badlands5Points = {
+	TransitionStruct(SDL_Point{38, 47}, SDL_Point{198, 318}, 25),
+	TransitionStruct(SDL_Point{556, 173}, SDL_Point{358, 100}, 23)
+	};
+	transitions.push_back(badlands5Points);
+
+	vector<TransitionStruct> badlands6Points = {
+	TransitionStruct(SDL_Point{198, 373}, SDL_Point{38, 100}, 24)
+	};
+	transitions.push_back(badlands6Points);
+
+	// initialize badlands scene info
+	sceneInfo.push_back(SceneInfo(badlands1, SDL_Rect{ 0, 0, 960, 768 })); // 20
+	sceneInfo.push_back(SceneInfo(badlands2, SDL_Rect{ 0, 0, 960, 768 })); // 21
+	sceneInfo.push_back(SceneInfo(badlands3, SDL_Rect{ 0, 0, 960, 768 })); // 22
+	sceneInfo.push_back(SceneInfo(badlands4, SDL_Rect{ 0, 0, 400, 400 })); // 23
+	sceneInfo.push_back(SceneInfo(badlands5, SDL_Rect{ 0, 0, 600, 200 })); // 24
+	sceneInfo.push_back(SceneInfo(badlands6, SDL_Rect{ 0, 0, 400, 400 })); // 25
+}
+
+void MyGame::initHideout() {
+	hideout1 = new Scene();
+	hideout1->loadScene("./resources/scene/hideout1.txt");
+	hideout2 = new Scene();
+	hideout2->loadScene("./resources/scene/hideout2.txt");
+	hideout3 = new Scene();
+	hideout3->loadScene("./resources/scene/hideout3.txt");
+	hideout4 = new Scene();
+	hideout4->loadScene("./resources/scene/hideout4.txt");
+	hideout5 = new Scene();
+	hideout5->loadScene("./resources/scene/hideout5.txt");
+	hideout6 = new Scene();
+	hideout6->loadScene("./resources/scene/hideout6.txt");
+	hideout7 = new Scene();
+	hideout7->loadScene("./resources/scene/hideout7.txt");
+	hideout8 = new Scene();
+	hideout8->loadScene("./resources/scene/hideout8.txt");
+
+	// initialize transition points
+	vector<TransitionStruct> hideout1Points = {
+		// transition back to town
+	TransitionStruct(SDL_Point{15, 0}, SDL_Point{2787, 620}, 0, TransitionDetection::AXIS, Cardinal::WEST),
+
+	TransitionStruct(SDL_Point{1551, 656}, SDL_Point{657, 830}, 27)
+	};
+	transitions.push_back(hideout1Points);
+
+	vector<TransitionStruct> hideout2Points = {
+	TransitionStruct(SDL_Point{1892, 654}, SDL_Point{80, 650}, 28),
+	TransitionStruct(SDL_Point{657, 992}, SDL_Point{1551, 720}, 26)
+	};
+	transitions.push_back(hideout2Points);
+
+	vector<TransitionStruct> hideout3Points = {
+	TransitionStruct(SDL_Point{1902, 578}, SDL_Point{80, 538}, 29),
+	TransitionStruct(SDL_Point{15, 0}, SDL_Point{1812, 654}, 27, TransitionDetection::AXIS, Cardinal::WEST)
+	};
+	transitions.push_back(hideout3Points);
+
+	vector<TransitionStruct> hideout4Points = {
+	TransitionStruct(SDL_Point{15, 538}, SDL_Point{1822, 578}, 28),
+	TransitionStruct(SDL_Point{318, 15}, SDL_Point{800, 920}, 30),
+	TransitionStruct(SDL_Point{1065, 496}, SDL_Point{135, 470}, 31),
+	TransitionStruct(SDL_Point{855, 1085}, SDL_Point{290, 165}, 32)
+	};
+	transitions.push_back(hideout4Points);
+
+	vector<TransitionStruct> hideout5Points = {
+	TransitionStruct(SDL_Point{800, 1000}, SDL_Point{318, 90}, 29)
+	};
+	transitions.push_back(hideout5Points);
+
+	vector<TransitionStruct> hideout6Points = {
+	TransitionStruct(SDL_Point{40, 470}, SDL_Point{995, 496}, 29)
+	};
+	transitions.push_back(hideout6Points);
+
+	vector<TransitionStruct> hideout7Points = {
+	TransitionStruct(SDL_Point{993, 82}, SDL_Point{598, 900}, 33),
+	TransitionStruct(SDL_Point{290, 82}, SDL_Point{855, 1005}, 29)
+	};
+	transitions.push_back(hideout7Points);
+
+	vector<TransitionStruct> hideout8Points = {
+	TransitionStruct(SDL_Point{598, 1000}, SDL_Point{993, 160}, 32)
+	};
+	transitions.push_back(hideout8Points);
+
+	// initialize hideout scene info
+	sceneInfo.push_back(SceneInfo(hideout1, SDL_Rect{ 0, 0, 1920, 1080 })); // 26
+	sceneInfo.push_back(SceneInfo(hideout2, SDL_Rect{ 0, 0, 1920, 1080 })); // 27
+	sceneInfo.push_back(SceneInfo(hideout3, SDL_Rect{ 0, 0, 1920, 1080 })); // 28
+	sceneInfo.push_back(SceneInfo(hideout4, SDL_Rect{ 0, 0, 1080, 1080 })); // 29
+	sceneInfo.push_back(SceneInfo(hideout5, SDL_Rect{ 0, 0, 1080, 1080 })); // 30
+	sceneInfo.push_back(SceneInfo(hideout6, SDL_Rect{ 0, 0, 1920, 1080 })); // 31
+	sceneInfo.push_back(SceneInfo(hideout7, SDL_Rect{ 0, 0, 1080, 720 }));  // 32
+	sceneInfo.push_back(SceneInfo(hideout8, SDL_Rect{ 0, 0, 1080, 1080 })); // 33
+}
+
+void MyGame::enemyShootingLoops() {
+	// GANG THUG LOOP
+	for (std::map<GangThug*, int>::iterator it=gang_thugs.begin(); it!=gang_thugs.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			gang_thugs.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemy = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "revolver");
+			benemy->distance = 20;
+			this->addChild(benemy);
+			benemy->position = {it->first->position.x, it->first->position.y };
+			benemy->pivot = { benemy->width / 2, benemy->height / 2 };
+			benemy->scaleX = 1;
+			benemy->scaleY = 1;
+			if (it->first->shots_fired == 5) {
+				it->first->shoot -= 120;
+				it->first->shots_fired = 0;
+			} else{
+				it->first->shoot -= 40;
+				it->first->shots_fired ++;
+			}
+		}
+	}
+	for (std::map<GangShot*, int>::iterator it=gang_shot.begin(); it!=gang_shot.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			gang_shot.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemya = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun");
+			benemya->distance = 20;
+			this->addChild(benemya);
+			benemya->position = {it->first->position.x, it->first->position.y };
+			benemya->pivot = { benemya->width / 2, benemya->height / 2 };
+			benemya->scaleX = 1;
+			benemya->scaleY = 1;
+			if (it->first->shots_fired == 1) {
+				it->first->shoot -= 300;
+				it->first->shots_fired = 0;
+			} else{
+				it->first->shoot -= 100;
+				it->first->shots_fired ++;
+			}
+		}
+	}
+	for (std::map<GangMarksman*, int>::iterator it=gang_marksmans.begin(); it!=gang_marksmans.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			gang_marksmans.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemy2 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "rifle");
+			benemy2->distance = 20;
+			this->addChild(benemy2);
+			benemy2->position = {it->first->position.x, it->first->position.y };
+			benemy2->pivot = { benemy2->width / 2, benemy2->height / 2 };
+			benemy2->scaleX = 1;
+			benemy2->scaleY = 1;
+			it->first->shoot -= 40;
+		}
+	}
+	for (std::map<ArrowGuy*, int>::iterator it=arrow_guys.begin(); it!=arrow_guys.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			arrow_guys.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "arrow");
+			benemy3->distance = 20;
+			this->addChild(benemy3);
+			benemy3->position = {it->first->position.x, it->first->position.y };
+			benemy3->pivot = { benemy3->width / 2, benemy3->height / 2 };
+			benemy3->scaleX = 1;
+			benemy3->scaleY = 1;
+			it->first->shoot -= 80;
+		}
 	}
 }
 

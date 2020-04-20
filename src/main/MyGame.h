@@ -62,10 +62,15 @@ public:
 
 	void initObstacles();
 
-	void initEnemies(Scene* s);
+	void initLakeEnemies(Scene* s);
+	void initCanyonEnemies(Scene* s);
+	void initHideoutEnemies(Scene* s);
+	void initBadlandsEnemies(Scene* s);
+	void initTownEnemies(Scene* s);
 
 	void playerShooting(int gun, string dir);
 	void reloadGun(int gun);
+	void enemyShootingLoops();
 
 	//map<Benemy*, GangThug*> thug_benemies;
 	std::map<GangThug*,int> gang_thugs;
@@ -132,6 +137,7 @@ private:
 	
 	HealthBar* playerHealth;
 
+	// LAKE STILL ENEMIES
 	Wolf* wolf1LakeStill1;
 	Wolf* wolf2LakeStill1;
 	
@@ -150,6 +156,11 @@ private:
 	Creeper* creeper2LakeStill7;
 
 	KnifeGuy* knifeguy1LakeStill8;
+
+	// CANYON ENEMIES
+	Wolf* wolf1Canyon3;
+	Wolf* wolf2Canyon3;
+	Wolf* wolf3Canyon3;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;

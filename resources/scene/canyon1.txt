@@ -5,15 +5,15 @@
         "filepath": "./resources/sprites/RockCanyon1.png",
         "dimensions": [
             1080,
-            1080
+            900
         ],
         "position": [
-            0,
-            0
+            100,
+            150
         ],
         "pivot": [
-            0,
-            0
+            50,
+            50
         ],
         "scale": [
             1.0,
@@ -43,12 +43,12 @@
             100
         ],
         "position": [
-            600,
-            750
+            550,
+            650
         ],
         "pivot": [
-            0,
-            0
+            50,
+            50
         ],
         "scale": [
             2.0,
