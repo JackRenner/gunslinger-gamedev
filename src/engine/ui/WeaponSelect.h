@@ -23,6 +23,9 @@ private:
 	Sprite* box2;
 	Sprite* box3;
 	Sprite* box4;
+	Sprite* box5;
+
+	int food = 5;
 
 	Sprite* selector;
 

@@ -46,13 +46,19 @@ public:
 	int revolver_shots = 0;
 	int shotgun_shots = 0;
 	int rifle_shots = 0;
+	int foodNum = 5;
 
 	void hitByProjectile(string gun);
+
+	void heal(string food);
+
 	void hitByMelee(string enemy);
 
 	void healPlayer(string method);
 
 	void takeDamage(int damage);
+
+	void takeNoDamage(int damage);
 
 	void selectWeapon(int gun);
 
@@ -75,6 +81,7 @@ public:
 	WeaponSelectEvent* selectPistol;
 	WeaponSelectEvent* selectShotgun;
 	WeaponSelectEvent* selectRifle;
+	WeaponSelectEvent* playerHeal;
 
 	/* Current Enemy player is engaging with*/
 	//Enemy* curEnemy = NULL;
