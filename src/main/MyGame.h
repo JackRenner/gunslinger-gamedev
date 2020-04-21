@@ -15,6 +15,7 @@
 #include "../engine/Creeper.h"
 #include "../engine/KnifeGuy.h"
 #include "../engine/GangMarksman.h"
+#include "../engine/ShotgunGuy.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
@@ -163,6 +164,10 @@ private:
 	Wolf* wolf1Canyon3;
 	Wolf* wolf2Canyon3;
 	Wolf* wolf3Canyon3;
+
+	// HIDEOUT ENEMIES
+
+	ShotgunGuy* boss_1;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;

@@ -153,7 +153,7 @@ void Player::hitByMelee(string enemy){
 		this->wolfWaitToDamage = 0;
 	}
 	else if (enemy == "knife" && this->knifeWaitToDamage > 40) {
-		takeDamage(30);
+		takeDamage(100);
 		this->knifeWaitToDamage = 0;
 	}
 }
@@ -213,17 +213,6 @@ void Player::takeDamage(int damage){
 		dispatchEvent(healthChangeEvent);
 	}
 }
-
-// void Player::onEnemyCollision(Enemy* enemy){
-// 	this->health -= enemy->damage;
-// 	this->initIFrames(120);
-// }
-
-// void Player::initIFrames(int numFrames){
-// 	this->iFrameCount = 0;
-// 	this->numIFrames = numFrames;
-// 	this->iFrames = true;
-// }
 
 void Player::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);

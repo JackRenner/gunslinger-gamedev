@@ -152,8 +152,8 @@ void Projectile::update(set<SDL_Scancode> pressedKeys){
 			this->thrown = true;
 			this->speed = 0;
 			this->position = this->position;
-			this->stop();
-			this->play("knife");
+			//this->stop();
+			//this->play("knife");
 		}else{
 			this->removeThis();
 		}

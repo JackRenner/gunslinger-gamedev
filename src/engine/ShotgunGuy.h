@@ -1,5 +1,5 @@
-#ifndef GangShot_H
-#define GangShot_H
+#ifndef SHOTGUNGUY_H
+#define SHOTGUNGUY_H
 
 #include <iostream>
 #include "AnimatedSprite.h"
@@ -14,17 +14,16 @@
 
 using namespace std;
 
-class GangShot : public AnimatedSprite{
+class ShotgunGuy : public AnimatedSprite{
 
 public:
-	GangShot(Player* sayu, string id);
+	ShotgunGuy(Player* sayu, string id);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
     void onMeleeStrike();
     
-    // void GangShot::onEssenceStrike(Weapon* w);
     virtual void onCollision(DisplayObject* other);
     virtual SDL_Point* getGlobalHitbox();
 
@@ -66,8 +65,8 @@ private:
     
     int state = 0;
 
-    int targX = 0;
-    int targY = 0;
+    double targX = 0;
+    double targY = 0;
 
     int maxPatX = 0;
     int maxPatY = 0;
@@ -84,6 +83,12 @@ private:
     int pauseCount = 0;
 
     string lastId;
+
+	// int oldX=0, oldY=0;
+
+	// int _jumpVel = -15;s
+
+	//void initIFrames(int numFrames);
 
 };
 

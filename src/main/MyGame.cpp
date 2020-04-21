@@ -39,9 +39,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 17;
+	room_state = 33;
 
-	this->setScene(canyon1);
+	this->setScene(hideout8);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -223,6 +223,8 @@ void MyGame::setScene(Scene* scene) {
 			initLakeEnemies(scene);
 		else if (scene->id.substr(0,4) == "cany")
 			initCanyonEnemies(scene);
+		else if (scene->id.substr(0,4) == "hide")
+			initHideoutEnemies(scene);
 		initObstacles();
 	}
 }
@@ -742,7 +744,7 @@ void MyGame::initBadlands() {
 
 	vector<TransitionStruct> badlands1Points = {
 	//transition back to town
-	TransitionStruct(SDL_Point{406*2, 30*2}, SDL_Point{2330*2, 964*2}, 0),
+	TransitionStruct(SDL_Point{406, 30}, SDL_Point{2330, 964}, 0),
 
 	TransitionStruct(SDL_Point{510*2, 720*2}, SDL_Point{406*2, 110*2}, 21)
 	};
@@ -863,6 +865,21 @@ void MyGame::initHideout() {
 	sceneInfo.push_back(SceneInfo(hideout6, SDL_Rect{ 0, 0, 1920, 1080 })); // 31
 	sceneInfo.push_back(SceneInfo(hideout7, SDL_Rect{ 0, 0, 1080, 720 }));  // 32
 	sceneInfo.push_back(SceneInfo(hideout8, SDL_Rect{ 0, 0, 1080, 1080 })); // 33
+}
+
+void MyGame::initHideoutEnemies(Scene *s) {
+	if (s->id == "hideout8" && !s->enemiesAdded) {
+		boss_1 = new ShotgunGuy((Player*)character, "Boss1");	
+		boss_1->addAnimation("resources/enemies/", "ShotgunGuyUp", 1, 1, true);
+		boss_1->addAnimation("resources/enemies/", "ShotgunGuyLeft", 1, 1, true);
+		boss_1->addAnimation("resources/enemies/", "ShotgunGuyRight", 1, 1, true);
+		boss_1->addAnimation("resources/enemies/", "ShotgunGuyDown", 1, 1, true);
+		hideout8->addChild(boss_1);
+		boss_1->position = { 700, 300 };
+		boss_1->play("ShotgunGuyLeft");
+		
+		s->enemiesAdded = true;
+	}
 }
 
 void MyGame::enemyShootingLoops() {
