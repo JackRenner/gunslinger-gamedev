@@ -86,6 +86,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character->addEventListener(selection, WeaponSelectEvent::SELECT_PISTOL_EVENT);
 	character->addEventListener(selection, WeaponSelectEvent::SELECT_SHOTGUN_EVENT);
 	character->addEventListener(selection, WeaponSelectEvent::SELECT_RIFLE_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::PLAYER_HEAL);
 
 	foreground->addChild(character);
 	character->addChild(healthBackground);
@@ -163,9 +164,15 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		}
 		// there isn't any delay from reloading yet
 		if (controls::pressR()) {
+
 			this->reloadGun(character->gun);
 		}
+		if (controls::pressF() && character->health < 500) {
+			character->heal("whiskey");
+			character->foodNum -=1;
+			character->selectWeapon(5);
 
+		}
 		// if (controls::toggleVisibility() && !test->textLock) {
 		// 	if (test->nextLine == 0)
 		// 		test->initBox();

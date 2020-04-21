@@ -31,6 +31,7 @@ Player::Player() : AnimatedSprite("Player"){
 	selectPistol = new WeaponSelectEvent(WeaponSelectEvent::SELECT_PISTOL_EVENT, this);
 	selectShotgun = new WeaponSelectEvent(WeaponSelectEvent::SELECT_SHOTGUN_EVENT, this);
 	selectRifle = new WeaponSelectEvent(WeaponSelectEvent::SELECT_RIFLE_EVENT, this);
+	playerHeal = new WeaponSelectEvent(WeaponSelectEvent::PLAYER_HEAL, this);
 	
 	this->play("FaceUp");
 	holding = 0;
@@ -143,6 +144,13 @@ void Player::hitByProjectile(string gun){
 	}
 }
 
+void Player::heal(string food){
+	if (food == "whiskey" && foodNum > 0) {
+		takeNoDamage(-20);
+	}
+
+}
+
 // do not include attacks from bosses yet
 void Player::hitByMelee(string enemy){
 	std::cout << this->wolfWaitToDamage << endl;
@@ -212,6 +220,18 @@ void Player::takeDamage(int damage){
 		if (this->health < 0) {this->health = 0;}
 		dispatchEvent(healthChangeEvent);
 	}
+	
+}
+
+void Player::takeNoDamage(int damage){
+	//this->bloodSplatter->alpha = 255;
+	//this->bloodSplatter->replay();
+	if(this->health > 0){
+		this->health -= damage;
+		if (this->health < 0) {this->health = 0;}
+		dispatchEvent(healthChangeEvent);
+	}
+	
 }
 
 void Player::draw(AffineTransform &at){
@@ -238,5 +258,7 @@ void Player::selectWeapon(int gun) {
 	case 4:
 		this->dispatchEvent(selectRifle);
 		break;
+	case 5:
+		this->dispatchEvent(playerHeal);
 	}
 }

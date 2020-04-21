@@ -7,6 +7,7 @@ const string WeaponSelectEvent::SELECT_KNIFE_EVENT = "select_1";
 const string WeaponSelectEvent::SELECT_PISTOL_EVENT = "select_2";
 const string WeaponSelectEvent::SELECT_SHOTGUN_EVENT = "select_3";
 const string WeaponSelectEvent::SELECT_RIFLE_EVENT = "select_4";
+const string WeaponSelectEvent::PLAYER_HEAL = "heal";
 
 WeaponSelectEvent::WeaponSelectEvent(string type, Player* player) : Event(type, player) {
 

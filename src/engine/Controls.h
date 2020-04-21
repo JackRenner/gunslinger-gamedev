@@ -25,6 +25,7 @@ namespace controls{
 	extern SDL_Scancode KEY_UP;
 	extern SDL_Scancode KEY_DOWN;
 	extern SDL_Scancode KEY_R;
+	extern SDL_Scancode KEY_F;
 
 	extern SDL_Scancode KEY_SHIFT;
 
@@ -62,6 +63,7 @@ namespace controls{
 	bool pressUp();
 	bool pressDown();
 	bool pressR();
+	bool pressF();
 
 	//gun select
 	bool press1();
