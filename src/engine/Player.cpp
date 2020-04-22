@@ -26,13 +26,13 @@ Player::Player() : AnimatedSprite("Player"){
 
 	healthChangeEvent = new HealthEvent(HealthEvent::HEALTH_CHANGE_EVENT, this);
 
-	selectFist = new WeaponEvent(WeaponEvent::SELECT_FIST_EVENT, this);
-	selectKnife = new WeaponEvent(WeaponEvent::SELECT_KNIFE_EVENT, this);
-	selectPistol = new WeaponEvent(WeaponEvent::SELECT_PISTOL_EVENT, this);
-	selectShotgun = new WeaponEvent(WeaponEvent::SELECT_SHOTGUN_EVENT, this);
-	selectRifle = new WeaponEvent(WeaponEvent::SELECT_RIFLE_EVENT, this);
+	selectFist = new WeaponSelectEvent(WeaponSelectEvent::SELECT_FIST_EVENT, this);
+	selectKnife = new WeaponSelectEvent(WeaponSelectEvent::SELECT_KNIFE_EVENT, this);
+	selectPistol = new WeaponSelectEvent(WeaponSelectEvent::SELECT_PISTOL_EVENT, this);
+	selectShotgun = new WeaponSelectEvent(WeaponSelectEvent::SELECT_SHOTGUN_EVENT, this);
+	selectRifle = new WeaponSelectEvent(WeaponSelectEvent::SELECT_RIFLE_EVENT, this);
 
-	updateAmmo = new WeaponEvent(WeaponEvent::UPDATE_AMMO, this);
+	updateAmmo = new WeaponSelectEvent(WeaponSelectEvent::UPDATE_AMMO, this);
 	
 	this->play("FaceUp");
 	holding = 0;

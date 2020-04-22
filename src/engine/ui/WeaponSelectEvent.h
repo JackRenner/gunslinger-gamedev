@@ -15,6 +15,7 @@ public:
 	static const string SELECT_PISTOL_EVENT;
 	static const string SELECT_SHOTGUN_EVENT;
 	static const string SELECT_RIFLE_EVENT;
+	static const string UPDATE_AMMO;
 
 	Player* getPlayer();
 

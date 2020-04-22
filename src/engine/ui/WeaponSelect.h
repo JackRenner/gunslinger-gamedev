@@ -6,9 +6,9 @@
 #include "../tweens/Tween.h"
 #include "../tweens/TweenJuggler.h"
 #include "Text.h"
-#include "WeaponEvent.h"
+#include "WeaponSelectEvent.h"
 
-class WeaponEvent;
+class WeaponSelectEvent;
 
 class WeaponSelect : public DisplayObjectContainer, public EventListener {
 public:
