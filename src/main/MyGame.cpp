@@ -685,7 +685,7 @@ void MyGame::initCanyonEnemies(Scene* s) {
 	if (s->id == "canyon1" && !s->enemiesAdded) {
 		openingText = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
 
-		string openingTextText = "The man in black fled across the desert, and the gunslinger followed. \n -Stephen King, The Gunslinger";
+		string openingTextText = "Robbie Walnuts smells";
 		openingText->addTextLine("./resources/fonts/west.otf", openingTextText, 24, SDL_Color{ 255, 255, 255 });
 		canyon1->addChild(openingText);
 		openingText->position = { 500, 300 };
