@@ -9,6 +9,7 @@
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Player.h"
+#include "../engine/TownsPeople.h"
 #include "../engine/Wolf.h"
 #include "../engine/GangThug.h"
 #include "../engine/GangShot.h"
@@ -62,6 +63,7 @@ public:
 
 	void initObstacles();
 
+	void initTownsPeople(Scene* s);
 	void initLakeEnemies(Scene* s);
 	void initCanyonEnemies(Scene* s);
 	void initHideoutEnemies(Scene* s);
@@ -96,6 +98,7 @@ private:
 
 	// TOWN NPCS
 	DisplayObject* storekeeper;
+	TownsPeople* storekeeper1;
 
 	// LAKE STILL SCENES
 	Scene* lake1;
@@ -163,6 +166,9 @@ private:
 	Wolf* wolf1Canyon3;
 	Wolf* wolf2Canyon3;
 	Wolf* wolf3Canyon3;
+
+	//BADLANDS ENEMIES
+	Wolf* wolf1Badlands1;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;
