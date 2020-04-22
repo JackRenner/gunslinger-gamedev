@@ -26,6 +26,7 @@
 #include "../engine/ui/TextBox.h"
 #include "../engine/ui/HealthBar.h"
 #include "../engine/ui/WeaponSelect.h"
+#include "../engine/ui/AmmoCount.h"
 //#include "MyObject.h"
 
 
@@ -82,7 +83,7 @@ private:
 
 	Scene* curScene = NULL;
 
-	TextBox* test;
+	//TextBox* test;
 
 	// TOWN SCENES
 	Scene* townScene;
@@ -113,6 +114,8 @@ private:
 	Scene* canyon2;
 	Scene* canyon3;
 
+	TextBox* openingText;
+
 	// BADLANDS SCENES
 	Scene* badlands1;
 	Scene* badlands2;
@@ -132,6 +135,7 @@ private:
 	Scene* hideout8;
 
 	WeaponSelect* selection;
+	AmmoCount* ammoCounter;
 	Player* character;
 	Projectile* bullet;
 	

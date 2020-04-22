@@ -11,7 +11,7 @@
 #include "Controls.h"
 #include "events/EventDispatcher.h"
 #include "ui/HealthEvent.h"
-#include "ui/WeaponSelectEvent.h"
+#include "ui/WeaponEvent.h"
 #include "Game.h"
 
 using namespace std;
@@ -19,7 +19,7 @@ using namespace std;
 extern bool transLock;
 
 class HealthEvent;
-class WeaponSelectEvent;
+class WeaponEvent;
 
 class Player : public AnimatedSprite, public EventDispatcher{
 
@@ -70,11 +70,13 @@ public:
 
 	HealthEvent * healthChangeEvent;
 
-	WeaponSelectEvent* selectFist;
-	WeaponSelectEvent* selectKnife;
-	WeaponSelectEvent* selectPistol;
-	WeaponSelectEvent* selectShotgun;
-	WeaponSelectEvent* selectRifle;
+	WeaponEvent* selectFist;
+	WeaponEvent* selectKnife;
+	WeaponEvent* selectPistol;
+	WeaponEvent* selectShotgun;
+	WeaponEvent* selectRifle;
+
+	WeaponEvent* updateAmmo;
 
 	/* Current Enemy player is engaging with*/
 	//Enemy* curEnemy = NULL;

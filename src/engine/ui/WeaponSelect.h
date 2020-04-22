@@ -5,9 +5,10 @@
 #include "../events/EventListener.h"
 #include "../tweens/Tween.h"
 #include "../tweens/TweenJuggler.h"
-#include "../ui/Text.h"
+#include "Text.h"
+#include "WeaponEvent.h"
 
-class WeaponSelectEvent;
+class WeaponEvent;
 
 class WeaponSelect : public DisplayObjectContainer, public EventListener {
 public:

@@ -51,27 +51,11 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	blackBox->width = 5000;
 	blackBox->height = 5000;
 	foreground->addChild(blackBox);
-
-	test = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
-
-	string testText = "The man in black fled across the desert, and the gunslinger followed. \n -Stephen King, The Gunslinger";
-	test->addTextLine("./resources/fonts/west.otf", testText, 24, SDL_Color{ 255, 255, 255 });
-	string testText2 = "This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text. This is other text.";
-	test->addTextLine("./resources/fonts/arial.ttf", testText2, 18, SDL_Color{ 255, 50, 50 });
-	string testText3 = "Deus volt";
-	test->addTextLine("./resources/fonts/arial.ttf", testText3, 18, SDL_Color{ 50, 50, 255 });
-	string testText4 = "Lorem ipsum.";
-	test->addTextLine("./resources/fonts/arial.ttf", testText4, 18, SDL_Color{ 50, 255, 50 });
-
-
-	//foreground->addChild(test);
-	// this->addChild(test);
-	// test->position = { 300, 400 };
-
-	// foreground->addChild(test);
 	
 	selection = new WeaponSelect();
 	selection->position = { character->position.x - (gameCamera.viewportWidth / 2) + 10, (character->position.y - gameCamera.viewportHeight / 2 + 10) };
+	ammoCounter = new AmmoCount();
+	ammoCounter->position = { -25, -105 };
 
 	healthBackground = new Sprite("blackbox", 255, 0, 0);
 	healthBackground->id = "healthbackground";
@@ -81,19 +65,20 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	
 	playerHealth = new HealthBar(character, 0, 500);
 
-	character->addEventListener(selection, WeaponSelectEvent::SELECT_FIST_EVENT);
-	character->addEventListener(selection, WeaponSelectEvent::SELECT_KNIFE_EVENT);
-	character->addEventListener(selection, WeaponSelectEvent::SELECT_PISTOL_EVENT);
-	character->addEventListener(selection, WeaponSelectEvent::SELECT_SHOTGUN_EVENT);
-	character->addEventListener(selection, WeaponSelectEvent::SELECT_RIFLE_EVENT);
+	character->addEventListener(selection, WeaponEvent::SELECT_FIST_EVENT);
+	character->addEventListener(selection, WeaponEvent::SELECT_KNIFE_EVENT);
+	character->addEventListener(selection, WeaponEvent::SELECT_PISTOL_EVENT);
+	character->addEventListener(selection, WeaponEvent::SELECT_SHOTGUN_EVENT);
+	character->addEventListener(selection, WeaponEvent::SELECT_RIFLE_EVENT);
+
+	character->addEventListener(ammoCounter, WeaponEvent::UPDATE_AMMO);
 
 	foreground->addChild(character);
+	foreground->addChild(selection);
 	character->addChild(healthBackground);
 	character->addChild(playerHealth);
-	foreground->addChild(selection);
-	//foreground->addChild(test);
+	character->addChild(ammoCounter);
 	foreground->addChild(blackBox);
-
 }
 
 MyGame::~MyGame() {
@@ -106,7 +91,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 	this->saveAllPositions();
 
-	if (character->health == 0) {
+	// code to reset scene
+	if (character->health <= 0) {
 		curTransition = transitions[0][0];
 		transitionScene();
 	}
@@ -165,17 +151,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		if (controls::pressR()) {
 			this->reloadGun(character->gun);
 		}
-
-		// if (controls::toggleVisibility() && !test->textLock) {
-		// 	if (test->nextLine == 0)
-		// 		test->initBox();
-		// 	else if (test->nextLine == test->maxLine)
-		// 		test->closeBox();
-		// 	else
-		// 		test->drawNextLine();
-		// }
 	}
-	//test->position = { character->position.x - test->background->width / 2, character->position.y - 300 };
 
 	Game::update(pressedKeys);
 	controls::update(pressedKeys);
@@ -186,14 +162,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if (!transLock) {
 		checkTransition();
 	}
-	// need to write code for sending player back to town
-	if (character->health <= 0) {
-		// character->position = { 1500, 500 };
-		// this->setScene(townScene);
-		// character->health = 100;
-		// initLake();
-		// initTown();
-	}
+
 	this->ourCollisionSystem->update();
 	enforceCameraBounds();
 	selection->position = { gameCamera.x + 10, gameCamera.y + 10 };
@@ -673,6 +642,22 @@ void MyGame::initCanyon() {
 }
 
 void MyGame::initCanyonEnemies(Scene* s) {
+	if (s->id == "canyon1" && !s->enemiesAdded) {
+		openingText = new TextBox(SDL_Point{ 1500, 500 }, 400, 100, 20, 20, 20, 255);
+
+		string openingTextText = "The man in black fled across the desert, and the gunslinger followed. \n -Stephen King, The Gunslinger";
+		openingText->addTextLine("./resources/fonts/west.otf", openingTextText, 24, SDL_Color{ 255, 255, 255 });
+		canyon1->addChild(openingText);
+		openingText->position = { 500, 300 };
+		if (!openingText->textLock)
+			openingText->initBox();
+		if (!openingText->textLock)
+			openingText->closeBox();
+		s->enemiesAdded = true;
+	}
+	if (s->id == "canyon2" && !s->enemiesAdded) {
+		s->enemiesAdded = true;
+	}
 	if (s->id == "canyon3" && !s->enemiesAdded) {
 		wolf1Canyon3 = new Wolf((Player*)character, "Wolf4");	// Adding wolf sprites
 		wolf1Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
@@ -725,10 +710,10 @@ void MyGame::initBadlands() {
 	badlands6->loadScene("./resources/scene/badlands6.txt");
 
 	vector<TransitionStruct> badlands1Points = {
-	//transition back to town
-	TransitionStruct(SDL_Point{406, 30}, SDL_Point{2330, 964}, 0),
+		//transition back to town
+		TransitionStruct(SDL_Point{406, 30}, SDL_Point{2330, 964}, 0),
 
-	TransitionStruct(SDL_Point{510, 720}, SDL_Point{406, 110}, 21)
+		TransitionStruct(SDL_Point{510, 720}, SDL_Point{406, 110}, 21)
 	};
 	transitions.push_back(badlands1Points);
 
@@ -942,6 +927,7 @@ void MyGame::playerShooting(int gun, string dir){
 		bullet->speed += 5;
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->knife_throws ++;
+		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 2 && character->revolver_shots > 5) {
 	} else if (character->gun == 2) {
 		bullet = new Projectile(dir,this->position, character->gun);
@@ -951,6 +937,7 @@ void MyGame::playerShooting(int gun, string dir){
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->revolver_shots ++;
+		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 3 && character->shotgun_shots > 1) {
 	} else if (character->gun == 3) {
 		bullet = new Projectile(dir,character->position, gun);
@@ -959,6 +946,7 @@ void MyGame::playerShooting(int gun, string dir){
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->shotgun_shots ++;
+		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 4 && character->rifle_shots > 4) {
 	} else if (character->gun == 4) {
 		bullet = new Projectile(dir,character->position, gun);
@@ -967,15 +955,19 @@ void MyGame::playerShooting(int gun, string dir){
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
 		character->rifle_shots ++;
+		character->dispatchEvent(character->updateAmmo);
 	}
 }
 void MyGame::reloadGun(int gun) {
 	if (gun == 2) {
 		character->revolver_shots = 0;
+		character->dispatchEvent(character->updateAmmo);
 	} else if (gun == 3) {
 		character->shotgun_shots = 0;
+		character->dispatchEvent(character->updateAmmo);
 	} else if (gun == 4) {
 		character->rifle_shots = 0;
+		character->dispatchEvent(character->updateAmmo);
 	}
 }
 

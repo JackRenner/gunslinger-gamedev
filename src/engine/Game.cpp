@@ -59,7 +59,6 @@ Game::Game(int windowWidth, int windowHeight){
 }
 
 Game::~Game(){
-	//DisplayObjectContainer::~DisplayObjectContainer ();
 	quitSDL();
 }
 
