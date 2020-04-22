@@ -20,8 +20,6 @@ public:
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
-
-    void onMeleeStrike();
     
     // void Creeper::onEssenceStrike(Weapon* w);
     virtual void onCollision(DisplayObject* other);
@@ -32,6 +30,10 @@ public:
     void setPatrolRange();
 
     void patrol();
+
+    void moveToTarget();
+
+    bool isTargetReached();
 
 	/* Health and such */
 	int health = 100;

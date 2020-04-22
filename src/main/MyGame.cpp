@@ -39,9 +39,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 17;
+	room_state = 0;
 
-	this->setScene(canyon1);
+	this->setScene(townScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -226,7 +226,10 @@ void MyGame::setScene(Scene* scene) {
 	this->curScene = scene;
 	if (curScene != NULL) {
 		this->addChild(curScene);
-		if (scene->id.substr(0,4) == "lake")
+		if (scene->id.substr(0,4) == "town") {
+			initTownsPeople(scene);
+		}
+		else if (scene->id.substr(0,4) == "lake")
 			initLakeEnemies(scene);
 		else if (scene->id.substr(0,4) == "cany")
 			initCanyonEnemies(scene);
@@ -322,20 +325,20 @@ void MyGame::transitionScene() {
 void MyGame::initTown() {
 	townScene = new Scene();
 	townScene->loadScene("./resources/scene/townScene.txt");
-	sheriffScene = new Scene();
-	sheriffScene->loadScene("./resources/scene/sherrifsoffice.txt");
-	storeScene = new Scene();
-	storeScene->loadScene("./resources/scene/generalstore.txt");
-	hotelScene = new Scene();
-	hotelScene->loadScene("./resources/scene/grandhotel.txt");
-	bankScene = new Scene();
-	bankScene->loadScene("./resources/scene/bank.txt");
-	postScene = new Scene();
-	postScene->loadScene("./resources/scene/postoffice.txt");
-	cantinaScene = new Scene();
-	cantinaScene->loadScene("./resources/scene/cantina.txt");
-	drugScene = new Scene();
-	drugScene->loadScene("./resources/scene/drugstore.txt");
+	townSheriffScene = new Scene();
+	townSheriffScene->loadScene("./resources/scene/sherrifsoffice.txt");
+	townStoreScene = new Scene();
+	townStoreScene->loadScene("./resources/scene/generalstore.txt");
+	townHotelScene = new Scene();
+	townHotelScene->loadScene("./resources/scene/grandhotel.txt");
+	townBankScene = new Scene();
+	townBankScene->loadScene("./resources/scene/bank.txt");
+	townPostScene = new Scene();
+	townPostScene->loadScene("./resources/scene/postoffice.txt");
+	townCantinaScene = new Scene();
+	townCantinaScene->loadScene("./resources/scene/cantina.txt");
+	townDrugScene = new Scene();
+	townDrugScene->loadScene("./resources/scene/drugstore.txt");
 
 	// initialize town transition points, hardcoded for now
 	vector<TransitionStruct> townPoints = {
@@ -383,29 +386,32 @@ void MyGame::initTown() {
 
 	// initilizing scene info
 	sceneInfo.push_back(SceneInfo(townScene, SDL_Rect{ 0, 0, 3000, 1080 })); // 0
-	sceneInfo.push_back(SceneInfo(sheriffScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 1
-	sceneInfo.push_back(SceneInfo(storeScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 2
-	sceneInfo.push_back(SceneInfo(hotelScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 3
-	sceneInfo.push_back(SceneInfo(bankScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 4
-	sceneInfo.push_back(SceneInfo(postScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 5
-	sceneInfo.push_back(SceneInfo(cantinaScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 6
-	sceneInfo.push_back(SceneInfo(drugScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 7
+	sceneInfo.push_back(SceneInfo(townSheriffScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 1
+	sceneInfo.push_back(SceneInfo(townStoreScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 2
+	sceneInfo.push_back(SceneInfo(townHotelScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 3
+	sceneInfo.push_back(SceneInfo(townBankScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 4
+	sceneInfo.push_back(SceneInfo(townPostScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 5
+	sceneInfo.push_back(SceneInfo(townCantinaScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 6
+	sceneInfo.push_back(SceneInfo(townDrugScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 7
 
-	// add friendly NPCs to Town
-	storekeeper = new DisplayObject("storekeeper", "./resources/friendlies/storekeeper.png");
-	storeScene->addChild(storekeeper);
-	storekeeper->position.x = 500;
-	storekeeper->position.y = 500;
 }
+
 void MyGame::initTownsPeople(Scene* s) {
-	if (s->id == "townScence" && !s->enemiesAdded) {
+	if (s->id == "townScene" && !s->enemiesAdded) {
+		cout << "town init" << endl;
 		storekeeper1 = new TownsPeople((Player*)character, "storekeeper1");	
-		storekeeper1->addAnimation("resources/friendlies/", "storekeeper", 1, 1, true);
+		storekeeper1->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		storekeeper1->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		storekeeper1->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		storekeeper1->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
 		townScene->addChild(storekeeper1);
 		storekeeper1->position = { 700, 500 };
-		storekeeper1->play("storekeeper");
+		storekeeper1->scaleX = 0.75;
+		storekeeper1->scaleY = 0.75;
+		storekeeper1->play("storekeeperLeft");
+		
+		s->enemiesAdded=true;
 	}
-	s->enemiesAdded=true;
 }
 
 void MyGame::initLake() {
@@ -500,18 +506,18 @@ void MyGame::initLake() {
 void MyGame::initLakeEnemies(Scene* s) {
 	if (s->id == "lake1" && !s->enemiesAdded) {
 		// wolves
-		wolf1LakeStill1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
-		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
-		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
-		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
-		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
-		lake1->addChild(wolf1LakeStill1);
-		wolf1LakeStill1->position = { 500, 500 };
-		//wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
-		wolf1LakeStill1->scaleX = 0.75;
-		wolf1LakeStill1->scaleY = 0.75;
-		//wolf1LakeStill1->width = 90;
-		wolf1LakeStill1->play("WolfLeft");
+		// wolf1LakeStill1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
+		// wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		// wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		// wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		// wolf1LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		// lake1->addChild(wolf1LakeStill1);
+		// wolf1LakeStill1->position = { 500, 500 };
+		// //wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
+		// wolf1LakeStill1->scaleX = 0.75;
+		// wolf1LakeStill1->scaleY = 0.75;
+		// //wolf1LakeStill1->width = 90;
+		// wolf1LakeStill1->play("WolfLeft");
 
 		wolf2LakeStill1 = new Wolf((Player*)character, "Wolf2");	// Adding wolf sprites
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
@@ -1206,7 +1212,7 @@ void MyGame::initObstacles() {
 		scenePointer->addChild(well);
 	}
 
-	if (scenePointer == sheriffScene){
+	if (scenePointer == townSheriffScene){
 		cout << "\nENTERING SHERIFF\n" << endl;
 		DisplayObjectContainer* wall = new DisplayObjectContainer();
 		wall->type = "Obstacle";
@@ -1237,7 +1243,7 @@ void MyGame::initObstacles() {
 		scenePointer->addChild(bench3);
 	}
 
-	if (scenePointer == storeScene){
+	if (scenePointer == townStoreScene){
 		cout << "\nENTERING STORE\n" << endl;
 		DisplayObjectContainer* wall = new DisplayObjectContainer();
 		wall->type = "Obstacle";
@@ -1254,7 +1260,7 @@ void MyGame::initObstacles() {
 		scenePointer->addChild(table);
 	}
 
-	if (scenePointer == hotelScene){
+	if (scenePointer == townHotelScene){
 		cout << "\nENTERING HOTEL\n" << endl;
 		DisplayObjectContainer* wall = new DisplayObjectContainer();
 		wall->type = "Obstacle";
@@ -1271,7 +1277,7 @@ void MyGame::initObstacles() {
 		scenePointer->addChild(table);
 	}
 
-	if (scenePointer == bankScene){
+	if (scenePointer == townBankScene){
 		cout << "\nENTERING BANK\n" << endl;
 		DisplayObjectContainer* wall = new DisplayObjectContainer();
 		wall->type = "Obstacle";
@@ -1281,7 +1287,7 @@ void MyGame::initObstacles() {
 		scenePointer->addChild(wall);
 	}
 
-	if (scenePointer == postScene){
+	if (scenePointer == townPostScene){
 		cout << "\nENTERING POST\n" << endl;
 		DisplayObjectContainer* wall = new DisplayObjectContainer();
 		wall->type = "Obstacle";
@@ -1305,7 +1311,7 @@ void MyGame::initObstacles() {
 		scenePointer->addChild(counter);
 	}
 
-	if (scenePointer == cantinaScene){
+	if (scenePointer == townCantinaScene){
 		cout << "\nENTERING CANTINA\n" << endl;
 		DisplayObjectContainer* topWall = new DisplayObjectContainer();
 		topWall->type = "Obstacle";
@@ -1336,7 +1342,7 @@ void MyGame::initObstacles() {
 		scenePointer->addChild(bar);
 	}
 
-	if (scenePointer == drugScene){
+	if (scenePointer == townDrugScene){
 		cout << "\nENTERING DRUG STORE\n" << endl;
 		DisplayObjectContainer* topWall = new DisplayObjectContainer();
 		topWall->type = "Obstacle";

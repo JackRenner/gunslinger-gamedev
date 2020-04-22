@@ -9,11 +9,8 @@
 #include "Creeper.h"
 #include "GangMarksman.h"
 #include "Player.h"
-<<<<<<< HEAD
 #include "ShotgunGuy.h"
-=======
 #include "TownsPeople.h"
->>>>>>> b5b6b2bf27565939a5b2eae727f266d288b07e9f
 
 
 CollisionSystem :: CollisionSystem(){

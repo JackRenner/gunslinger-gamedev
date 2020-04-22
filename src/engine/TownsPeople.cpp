@@ -15,7 +15,7 @@ using namespace std;
 TownsPeople::TownsPeople(Player* sayu, string id) : AnimatedSprite(id){
 	this->type = "TownsPeople";
 	this->sayu = sayu;
-	this->width = 80; this->height = 100;
+	//this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
 }
@@ -23,16 +23,28 @@ TownsPeople::TownsPeople(Player* sayu, string id) : AnimatedSprite(id){
 void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
-	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
-
 	if(this->health == 0){
 		this->clean = true; //scene will clean it up
 	}
 	//do the actual cleaning if necessary
 	if(this->clean){
-		//MyGame::gang_thugs.erase(this);
 		this->removeThis();
-		//delete this;
+	}
+
+	this->scaleX = 0.75;
+	this->scaleY = 0.75;
+	if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
+		if (this->position.x - sayu->position.x > 0) {
+			this->play("storekeeperLeft");
+		} else {
+			this->play("storekeeperRight");
+		}
+	} else {
+		if (this->position.y - sayu->position.y > 0) {
+			this->play("storekeeperUp");
+		} else {
+			this->play("storekeeperDown");
+		}
 	}
 
 
@@ -45,7 +57,6 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 		setPatrolRange();
 	}
 	else if(this->state == 1){
-		std::cout << "setting state 1" << endl;
 		patrol();
     }
 
@@ -58,21 +69,7 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 		this->maxVel = 4;
 	}
 	else if(this->state == 1){
-		    // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
-		// if the difference in north/south is greater than east/west
-		if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
-			if (this->position.x - sayu->position.x > 0) {
-				this->play("storekeeperLeft");
-			} else {
-				this->play("storekeeperRight");
-			}
-		} else {
-			if (this->position.y - sayu->position.y > 0) {
-				this->play("storekeeperUp");
-			} else {
-				this->play("storekeeperDown");
-			}
-		}
+
 	}
 
 }
@@ -125,7 +122,7 @@ void TownsPeople::setPatrolRange(){
 void TownsPeople::patrol(){
 	//if close to target, set a new one
     //TODO CHECK THIS
-	if(pauseCount == 119){
+	if(isTargetReached() && pauseCount == 119){
 		this->targX = std::rand()%(this->maxPatX-this->minPatX) + this->minPatX;
 		this->targY = std::rand()%(this->maxPatY-this->minPatY) + this->minPatY;
 		this->vel = 0;
@@ -135,7 +132,28 @@ void TownsPeople::patrol(){
 
 	if(pauseCount < 119){
 		pauseCount = (pauseCount+1) % 120;
+	}else{
+		moveToTarget();
 	}
 }
 
+void TownsPeople::moveToTarget(){
+
+	//increase velocity by accel
+	this->vel = std::min(this->vel+this->acc, this->maxVel);
+
+	//use unit vector to determine percent that goes into x and y 
+	double theta = atan2(std::abs(this->targY - this->position.y),std::abs(this->targX - this->position.x));
+	double xComp = this->vel*cos(theta);
+	double yComp = this->vel*sin(theta);
+	if(this->targX - this->position.x < 0) xComp *= -1;
+	if(this->targY - this->position.y < 0) yComp *= -1;
+
+    this->position.x += xComp;
+    this->position.y += yComp;
+}
+
+bool TownsPeople::isTargetReached(){
+	return std::abs(this->position.x-this->targX) <= 6 && std::abs(this->position.y-this->targY) <= 6;
+}
 
