@@ -198,14 +198,14 @@ void MyGame::setScene(Scene* scene) {
 		else if (scene->id.substr(0,4) == "cany")
 			initCanyonEnemies(scene);
 		//all town scenes end with Scene
-		else if (scene->id.length() > 5 && scene->id.substr(scene->id.length()-5,scene->id.length()-1) == "Scene"){
-			if(currentMusic != townMusic){
+		else if (scene->id.length() > 5 && scene->id.substr(scene->id.length() - 5, scene->id.length() - 1) == "Scene") {
+			if (currentMusic != townMusic) {
 				cout << "Start town music!" << endl;
 				townMusic->play();
 				currentMusic = townMusic;
 			}
 		}
-		} else if (scene->id == "hideout4"){
+		else if (scene->id == "hideout4") {
 			this->character->lightingSystem(true);
 		} else {
 			this->character->lightingSystem(false);
