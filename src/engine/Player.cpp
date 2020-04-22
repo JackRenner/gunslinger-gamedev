@@ -31,6 +31,8 @@ Player::Player() : AnimatedSprite("Player"){
 	selectPistol = new WeaponSelectEvent(WeaponSelectEvent::SELECT_PISTOL_EVENT, this);
 	selectShotgun = new WeaponSelectEvent(WeaponSelectEvent::SELECT_SHOTGUN_EVENT, this);
 	selectRifle = new WeaponSelectEvent(WeaponSelectEvent::SELECT_RIFLE_EVENT, this);
+
+	updateAmmo = new WeaponSelectEvent(WeaponSelectEvent::UPDATE_AMMO, this);
 	
 	this->play("FaceUp");
 	holding = 0;
@@ -91,26 +93,26 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		if (controls::holdW()) {
 			this->dir = "Up";
 			this->play("FaceUp");
-			this->position.y -= 4;
-			//this->position.y -= 10;
+			// this->position.y -= 4;
+			this->position.y -= 10;
 		}
 		if (controls::holdS()) {
 			this->dir = "Down";
 			this->play("FaceDown");
-			this->position.y += 4;
-			//this->position.y += 10;
+			//this->position.y += 4;
+			this->position.y += 10;
 		}
 		if (controls::holdD()) {
 			this->dir = "Right";
 			this->play("FaceRight");
-			this->position.x += 4;
-			//this->position.x += 10;
+			//this->position.x += 4;
+			this->position.x += 10;
 		}
 		if (controls::holdA()) {
 			this->dir = "Left";
 			this->play("FaceLeft");
-			this->position.x -= 4;
-			//this->position.x -= 10;
+			//this->position.x -= 4;
+			this->position.x -= 10;
 		}
 		if (controls::holdUp()) {
 			this->dir = "Up";
@@ -254,6 +256,7 @@ void Player::draw(AffineTransform &at){
 
 void Player::selectWeapon(int gun) {
 	this->gun = gun;
+	this->dispatchEvent(updateAmmo);
 	switch (gun) {
 	case 0:
 		this->dispatchEvent(selectFist);

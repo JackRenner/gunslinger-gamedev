@@ -110,13 +110,15 @@ void CollisionSystem :: handleRemoveDisplayObject(GameTreeEvent*e){
     }
     else{
       auto iter = ObjectsOfEachType[e->getModifiedObject()->type]->begin(); //Create iterator for forloop, starts with the beginning
-      for(iter; iter !=  ObjectsOfEachType[e->getModifiedObject()->type]->end(); iter++ ){
+      for(iter; iter !=  ObjectsOfEachType[e->getModifiedObject()->type]->end(); ){
           cout << "Erase Iter" <<endl;
           cout << (*iter)->id <<endl;
-          if( (*iter)->id == e->getModifiedObject()->id){
-              cout <<"Equal to Target"<<endl;
-              ObjectsOfEachType[e->getModifiedObject()->type]->erase(iter--);
+          if ((*iter)->id == e->getModifiedObject()->id) {
+              cout << "Equal to Target" << endl;
+              iter = ObjectsOfEachType[e->getModifiedObject()->type]->erase(iter);
           }
+          else
+              iter++;
       }
     }
 

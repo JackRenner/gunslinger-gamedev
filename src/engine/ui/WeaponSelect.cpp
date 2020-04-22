@@ -3,12 +3,14 @@
 using namespace std;
 
 WeaponSelect::WeaponSelect() {
+	this->type = "WeaponSelect";
 	string fontPath = "./resources/fonts/arial.ttf";
 
 	background = new Sprite("background", 230, 230, 230);
 	background->width = 80;
 	background->height = 220;
 	background->position = { -10, -10 };
+	background->alpha = 180;
 
 	box0 = new Sprite("box0", 10, 10, 10);
 	box0->width = 40;

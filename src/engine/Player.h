@@ -79,6 +79,8 @@ public:
 	WeaponSelectEvent* selectShotgun;
 	WeaponSelectEvent* selectRifle;
 
+	WeaponSelectEvent* updateAmmo;
+
 	/* Current Enemy player is engaging with*/
 	//Enemy* curEnemy = NULL;
 

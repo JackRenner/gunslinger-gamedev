@@ -13,7 +13,7 @@ extern bool transLock;
 
 class TextBox : public DisplayObjectContainer, public EventListener {
 public:
-	TextBox(SDL_Point position, int width, int height);
+	TextBox(SDL_Point position, int width, int height, int red, int blue, int green, int alpha);
 	~TextBox();
 
 	void addTextLine(string fontPath, string text, int pts, SDL_Color fontColor);
