@@ -39,9 +39,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 33;
+	room_state = 17;
 
-	this->setScene(hideout8);
+	this->setScene(canyon1);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -881,9 +881,11 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyLeft", 1, 1, true);
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyRight", 1, 1, true);
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyDown", 1, 1, true);
+		boss_1->addAnimation("resources/enemies/", "smoke", 50, 1, true);
 		hideout8->addChild(boss_1);
 		boss_1->position = { 700, 300 };
 		boss_1->play("ShotgunGuyLeft");
+		shotgun_boss[boss_1] = 1;
 		
 		s->enemiesAdded = true;
 	}
@@ -914,6 +916,7 @@ void MyGame::enemyShootingLoops() {
 			}
 		}
 	}
+	// GANG SHOT loop
 	for (std::map<GangShot*, int>::iterator it=gang_shot.begin(); it!=gang_shot.end(); ++it) {
 		if (it->first->health == 0) {
 			it->first->clean = true;
@@ -937,6 +940,7 @@ void MyGame::enemyShootingLoops() {
 			}
 		}
 	}
+	// GANG MARKSMAN loop
 	for (std::map<GangMarksman*, int>::iterator it=gang_marksmans.begin(); it!=gang_marksmans.end(); ++it) {
 		if (it->first->health == 0) {
 			it->first->clean = true;
@@ -954,6 +958,7 @@ void MyGame::enemyShootingLoops() {
 			it->first->shoot -= 40;
 		}
 	}
+	// ARROW GUY loop
 	for (std::map<ArrowGuy*, int>::iterator it=arrow_guys.begin(); it!=arrow_guys.end(); ++it) {
 		if (it->first->health == 0) {
 			it->first->clean = true;
@@ -969,6 +974,43 @@ void MyGame::enemyShootingLoops() {
 			benemy3->scaleX = 1;
 			benemy3->scaleY = 1;
 			it->first->shoot -= 80;
+		}
+	}
+	// SHOTGUN BOSS loop
+	for (std::map<ShotgunGuy*, int>::iterator it=shotgun_boss.begin(); it!=shotgun_boss.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			shotgun_boss.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemyb = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun");
+			benemyb->distance = 20;
+			this->addChild(benemyb);
+			benemyb->position = {it->first->position.x, it->first->position.y };
+			benemyb->pivot = { benemyb->width / 2, benemyb->height / 2 };
+			benemyb->scaleX = 1;
+			benemyb->scaleY = 1;
+			if (it->first->shots_fired == 1) {
+				it->first->state = 4;
+				it->first->shoot = 0;
+				//it->first->shots_fired = 0;
+			} else{
+				it->first->shoot -= 75;
+				it->first->shots_fired ++;
+			}
+		}
+		if(it->first->dynamite){
+			// ensure dynamite is only thrown once
+			it->first->dynamite = false;
+			benemyc = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "dynamite");
+			benemyc->distance = 20;
+			this->addChild(benemyc);
+			benemyc->position = {it->first->position.x, it->first->position.y };
+			benemyc->pivot = { benemyc->width / 2, benemyc->height / 2 };
+			benemyc->scaleX = 1;
+			benemyc->scaleY = 1;
+			//it->first->shots_fired += 1;
 		}
 	}
 }

@@ -31,12 +31,6 @@ public:
     
     void charge();
 
-    void prepareCharge();
-
-    void setPatrolRange();
-
-    void patrol();
-
     void moveToTarget();
 
     bool isTargetReached();
@@ -45,9 +39,11 @@ public:
 
     int fire();
 
+    void smokeBomb();
+
 	int shoot = 0;
 	/* Health and such */
-	int health = 120;
+	int health = 500;
 	int maxHealth = 100;
 
 	//iFrames
@@ -57,13 +53,14 @@ public:
 
     int shots_fired = 0;
     bool clean = false;
+    int state = 0;
+    bool dynamite = false;
 
 
 private:
     Player* sayu;
     Benemy* dirt;
     
-    int state = 0;
 
     double targX = 0;
     double targY = 0;
@@ -84,7 +81,12 @@ private:
 
     string lastId;
 
-	// int oldX=0, oldY=0;
+    int waitToReload = 0;
+    
+    int waitToSmokeTimer = 0;
+    int waitToSmoke = rand() % 500 + 250;
+
+	int oldAlpha = 0;
 
 	// int _jumpVel = -15;s
 

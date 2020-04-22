@@ -46,61 +46,76 @@ void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
     }
 		//everything else controlled by state machine
 	//state 0 = one time state to kick things off
-	//state 1 = patrolling
-	//state 2 = engaged
-	//state 3 = not in distance
+	//state 1 = more preparation
+	//state 2 = at rest shooting at player
+	//state 3 = moving towards player shooting at player
+    //state 4 = reload and throw dynamite
+    //state 5 = smoke bomb and relocate
 	
 	if(this->state == 0){
-		//setPatrolRange();
+        cout << "init state" << endl;
+		
 	}
 	else if(this->state == 1){
-		//patrol();
+        cout << "state 1" << endl;
+		
 	}
 	else if(this->state == 2){
-		fire();
+        cout << "state 2" << endl;
+        fire();
 	}
 	else if(this->state == 3){
+        cout << "state 3" << endl;
+        // state where he moves towards player
 		charge();
 		this->targX = this->sayu->position.x;
 		this->targY = this->sayu->position.y;
 	}
+    else if(this->state == 4){
+        cout << "state 4" << endl;
+        // charge();
+		// this->targX = this->sayu->position.x + rand() % 100 + 100; 
+		// this->targY = this->sayu->position.y + rand() % 100 + 100;
+        this->waitToReload ++;
+    }
+    else if(this->state == 5){
+        smokeBomb();
+    }
 
 	//state transitions
 	if(this->state == 0){
 		this->state = 1;
-		// this->targX = std::rand()%(this->maxPatX-this->minPatX) + this->minPatX;
-		// this->targY = std::rand()%(this->maxPatY-this->minPatY) + this->minPatY;
-		// this->vel = 0;
-		// this->maxVel = .8;
 	}
 	else if(this->state == 1){
-		//if player is close, start to prepare charge
-		int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-		if(dist<300){
-			this->state = 2;
-			this->vel = 0;
-			this->maxVel = 2;
-			this->acc = 0.5;
-			this->rotVel = 0;
-			this->rotAcc = 0.4;
-			this->maxRotVel = 20;
-		}
+		// Prepare to move towards player (the boss won't stay in this state long)
+        // it is here that we can change what his speed will be
+        this->state = 2;
+        this->vel = 0;
+        this->maxVel = 5;
+        this->acc = 0.5;
 	}
 	else if(this->state == 2){
+        // this is the state where he doesn't move and just shoots
+        // maybe figure out a way to get him to rotate around player??
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
-        if (dist > 200) {
+        if (shots_fired == 2) {
+            this->state = 4;
+            shots_fired = 0;
+        }
+        else if (dist > 200) {
             this->state = 3;
             this->targX = this->sayu->position.x;
 			this->targY = this->sayu->position.y;
+            shots_fired = 0;
         }
-		// //if(abs(this->rotVel - this->maxRotVel) < 1){
-		// 	this->state = 3;
-		// 	this->targX = this->sayu->position.x;
-		// 	this->targY = this->sayu->position.y;
-		// //}
 	}
 	else if(this->state == 3){
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
+        // if (shots_fired == 2) {
+        //     this->state = 4;
+        //     shots_fired = 0;
+        //     this->shoot = 0;
+        // }
         if(dist < 200){
 			this->state = 2;
 			this->rotation = 0;
@@ -108,40 +123,60 @@ void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 			this->targX = this->position.x;
 			this->targY = this->position.y;
 		}
-		std::cout << dist << endl;
 	}
+    else if(this->state == 4){
+        if (this->waitToReload == 150) {
+            this->dynamite = true;
+        }
+        if (this->waitToReload == 200) {        
+            this->dynamite = false;  
+            this->state = 2;
+            this->shots_fired = 0;
+            this->waitToReload = 0;
+        }
+    }
+    else if(this->state == 5){
+        this->state = 2;
+    }
+
+    if (this->waitToSmokeTimer == this->waitToSmoke) {
+        this->state = 5;
+        this->waitToSmoke = rand() % 200 + 200;
+        this->waitToSmokeTimer = 0;
+    }
+    this->waitToSmokeTimer ++;
 	
 	this->save();
 }
 
 void ShotgunGuy::onCollision(DisplayObject* other){
-	// if (other->type == "Projectile" && other->id != lastId) {
-	// 	Projectile *temp = (Projectile*)other;
-	// 	if (temp->gun == "revolver") {
-	// 		this->health -= 20;
-	// 		this->alpha -= 40;
-	// 		if(this->health < 0) this->health = 0;
-	// 	}else if (temp->gun == "knife" && temp->thrown) {
-	// 	} else if(temp->gun == "knife") {
-	// 		this->health -= 50;
-	// 		this->alpha -= 100;
-	// 		if(this->health < 0) this->health = 0;
-	// 		sayu->knife_throws = 0;
-	// 	} else if (temp->gun == "shotgun") {
-	// 		this->health -= 40;
-	// 		this->alpha -= 80;
-	// 		if(this->health < 0) this->health = 0;
-	// 	} else if (temp->gun == "rifle") {
-	// 		this->health -= 30;
-	// 		this->alpha -= 60;
-	// 		if(this->health < 0) this->health = 0;
-	// 	}
-	// 	lastId = other->id;
-	// } else if(other->type == "Projectile"){
-	// 	lastId = other->id;
-	// }else{
-	// 	Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
-	// }
+	if (other->type == "Projectile" && other->id != lastId) {
+		Projectile *temp = (Projectile*)other;
+		if (temp->gun == "revolver") {
+			this->health -= 20;
+			this->alpha -= 5;
+			if(this->health < 0) this->health = 0;
+		}else if (temp->gun == "knife" && temp->thrown) {
+		} else if(temp->gun == "knife") {
+			this->health -= 50;
+			this->alpha -= 5;
+			if(this->health < 0) this->health = 0;
+			sayu->knife_throws = 0;
+		} else if (temp->gun == "shotgun") {
+			this->health -= 40;
+			this->alpha -= 5;
+			if(this->health < 0) this->health = 0;
+		} else if (temp->gun == "rifle") {
+			this->health -= 30;
+			this->alpha -= 5;
+			if(this->health < 0) this->health = 0;
+		}
+		lastId = other->id;
+	} else if(other->type == "Projectile"){
+		lastId = other->id;
+	}else{
+		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+	}
 }
 
 SDL_Point* ShotgunGuy::getGlobalHitbox(){
@@ -161,6 +196,7 @@ void ShotgunGuy::draw(AffineTransform &at){
 void ShotgunGuy::save(){
 	this->oldX = position.x;
 	this->oldY = position.y;
+    this->oldAlpha = alpha;
 }
 
 void ShotgunGuy::charge(){
@@ -181,7 +217,7 @@ void ShotgunGuy::moveToTarget(){
 
     this->position.x += xComp;
     this->position.y += yComp;
-	fire();
+    fire();
 }
 
 bool ShotgunGuy::isTargetReached(){
@@ -189,8 +225,22 @@ bool ShotgunGuy::isTargetReached(){
 }
 
 int ShotgunGuy::fire() {
-    // shoot six shots at a time with pauses between
 	this->shoot += 1;
 	return shoot;
+}
+
+void ShotgunGuy::smokeBomb() {
+    this->play("smoke");
+    this->waitToSmoke = 500;
+    while (this->waitToSmokeTimer < this->waitToSmoke) {
+        this->waitToSmokeTimer++;
+    }
+    this->waitToSmokeTimer = 0;
+    this->waitToSmoke = rand() % 500 + 250;
+    this->position.x = rand() % 1000;
+    this->position.y = rand() % 1000;
+    cout << "LOOK HERE" << endl;
+    //this->stop();
+    //this->alpha = this->oldAlpha;
 }
 

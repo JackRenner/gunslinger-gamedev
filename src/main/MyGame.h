@@ -78,6 +78,7 @@ public:
 	std::map<GangShot*,int> gang_shot;
 	std::map<GangMarksman*,int> gang_marksmans;
 	std::map<ArrowGuy*,int> arrow_guys;
+	std::map<ShotgunGuy*,int> shotgun_boss;
 
 private:
 
@@ -174,6 +175,8 @@ private:
 	Benemy* benemy2;
 	Benemy* benemy3;
 	Benemy* benemya;
+	Benemy* benemyb;
+	Benemy* benemyc;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;
