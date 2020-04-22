@@ -397,6 +397,16 @@ void MyGame::initTown() {
 	storekeeper->position.x = 500;
 	storekeeper->position.y = 500;
 }
+void MyGame::initTownsPeople(Scene* s) {
+	if (s->id == "townScence" && !s->enemiesAdded) {
+		storekeeper1 = new TownsPeople((Player*)character, "storekeeper1");	
+		storekeeper1->addAnimation("resources/friendlies/", "storekeeper", 1, 1, true);
+		townScene->addChild(storekeeper1);
+		storekeeper1->position = { 700, 500 };
+		storekeeper1->play("storekeeper");
+	}
+	s->enemiesAdded=true;
+}
 
 void MyGame::initLake() {
 	lake1 = new Scene();
@@ -793,6 +803,20 @@ void MyGame::initBadlands() {
 	sceneInfo.push_back(SceneInfo(badlands4, SDL_Rect{ 0, 0, 400*2, 400*2 })); // 23
 	sceneInfo.push_back(SceneInfo(badlands5, SDL_Rect{ 0, 0, 600*2, 200*2 })); // 24
 	sceneInfo.push_back(SceneInfo(badlands6, SDL_Rect{ 0, 0, 400*2, 400*2 })); // 25
+}
+
+void MyGame::initBadlandsEnemies(Scene* s) {
+	wolf1Badlands1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
+		wolf1Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf1Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf1Badlands1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf1Badlands1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		badlands1->addChild(wolf1Badlands1);
+		wolf1Badlands1->position = { 200, 600 };
+		wolf1Badlands1->scaleX = 0.75;
+		wolf1Badlands1->scaleY = 0.75;
+		wolf1Badlands1->play("WolfRight");
+		s->enemiesAdded=true;
 }
 
 void MyGame::initHideout() {

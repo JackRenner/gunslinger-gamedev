@@ -9,7 +9,11 @@
 #include "Creeper.h"
 #include "GangMarksman.h"
 #include "Player.h"
+<<<<<<< HEAD
 #include "ShotgunGuy.h"
+=======
+#include "TownsPeople.h"
+>>>>>>> b5b6b2bf27565939a5b2eae727f266d288b07e9f
 
 
 CollisionSystem :: CollisionSystem(){
@@ -222,6 +226,13 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
   if (obj2->type == "ShotgunGuy") {
     SDL_Point* obj2Points = ((ShotgunGuy*)obj2)->getGlobalHitbox();
   }
+  if (obj1->type == "TownsPeople") {
+    SDL_Point* obj1Points = ((TownsPeople*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "TownsPeople") {
+    SDL_Point* obj2Points = ((TownsPeople*)obj2)->getGlobalHitbox();
+  }
+  
 
   int minX = INT_MAX;
   int maxX = INT_MIN;
