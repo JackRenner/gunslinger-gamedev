@@ -44,6 +44,27 @@ Player::Player() : AnimatedSprite("Player"){
 	bloodSplatter->play("blood_splatter");
 
 	this->addChild(bloodSplatter);
+
+	//add lighting effect for tunnel room (hideout room 4)
+	lightingEffect = new AnimatedSprite("le");
+	lightingEffect->addAnimation("./resources/sprites/", "lighting", 1, 1, true);
+	lightingEffect->width = 3000;
+	lightingEffect->height = 3000;
+	lightingEffect->position.x = lightingEffect->position.x - (lightingEffect->width / 2);
+	lightingEffect->position.y = lightingEffect->position.y - (lightingEffect->height / 2);
+	lightingEffect->alpha = 0;
+	lightingEffect->play("lighting");
+
+	this->addChild(lightingEffect);
+
+}
+
+void Player::lightingSystem(bool on){
+	if(on){
+		lightingEffect->alpha = 255;
+	} else {
+		lightingEffect->alpha = 0;
+	}
 }
 
 

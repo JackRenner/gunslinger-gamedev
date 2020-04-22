@@ -56,6 +56,8 @@ public:
 
 	void selectWeapon(int gun);
 
+	void lightingSystem(bool on); //toggles on and off the torch light lighting system
+
 	/* direction */
 	string dir;
 	int holding = 0;
@@ -67,6 +69,7 @@ public:
 
 	//AnimatedSprite* bullet;
 	AnimatedSprite* bloodSplatter;
+	AnimatedSprite* lightingEffect;
 
 	HealthEvent * healthChangeEvent;
 

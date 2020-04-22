@@ -219,10 +219,16 @@ void MyGame::setScene(Scene* scene) {
 	this->curScene = scene;
 	if (curScene != NULL) {
 		this->addChild(curScene);
-		if (scene->id.substr(0,4) == "lake")
+		if (scene->id.substr(0,4) == "lake"){
 			initLakeEnemies(scene);
-		else if (scene->id.substr(0,4) == "cany")
+		} else if (scene->id.substr(0,4) == "cany"){
 			initCanyonEnemies(scene);
+		} else if (scene->id == "hideout4"){
+			this->character->lightingSystem(true);
+		} else {
+			this->character->lightingSystem(false);
+		}
+		
 		initObstacles();
 	}
 }
@@ -778,6 +784,7 @@ void MyGame::initHideout() {
 	hideout3 = new Scene();
 	hideout3->loadScene("./resources/scene/hideout3.txt");
 	hideout4 = new Scene();
+	hideout4->id = "hideout4";
 	hideout4->loadScene("./resources/scene/hideout4.txt");
 	hideout5 = new Scene();
 	hideout5->loadScene("./resources/scene/hideout5.txt");
