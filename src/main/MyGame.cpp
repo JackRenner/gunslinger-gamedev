@@ -20,7 +20,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	foreground->id = "foreground";
 
 	townMusic = new Music("./resources/music/MoodyLoop.wav");
-	lakeMusic = new Music("./resources/music/lakestill_music.mp3");
+	lakeMusic = new Music("./resources/music/lakestill_music.wav");
 
     character = new Player();
 	//this->removeImmediateChild(character);
