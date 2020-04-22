@@ -23,6 +23,7 @@
 #include "../engine/eventhandlers/CoinListener.h"
 #include "../engine/TransitionStruct.h"
 #include "../engine/SceneInfo.h"
+#include "../engine/Music.h"
 #include "../engine/ui/TextBox.h"
 #include "../engine/ui/HealthBar.h"
 #include "../engine/ui/WeaponSelect.h"
@@ -188,7 +189,10 @@ private:
 
 	int room_state = -1;
 
-	Sound* music;
+	Music* currentMusic;
+
+	Music* lakeMusic;
+	Music* townMusic;
 
 	TweenJuggler* juggler;
 

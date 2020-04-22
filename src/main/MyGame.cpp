@@ -19,9 +19,8 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	foreground = new DisplayObjectContainer();
 	foreground->id = "foreground";
 
-	// Sound* music = new Sound();
-	// music->playMusic("town");
-	//music->cur_music = "town";
+	townMusic = new Music("./resources/music/MoodyLoop.wav");
+	lakeMusic = new Music("./resources/music/lakestill_music.mp3");
 
     character = new Player();
 	//this->removeImmediateChild(character);
@@ -65,13 +64,13 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	
 	playerHealth = new HealthBar(character, 0, 500);
 
-	character->addEventListener(selection, WeaponEvent::SELECT_FIST_EVENT);
-	character->addEventListener(selection, WeaponEvent::SELECT_KNIFE_EVENT);
-	character->addEventListener(selection, WeaponEvent::SELECT_PISTOL_EVENT);
-	character->addEventListener(selection, WeaponEvent::SELECT_SHOTGUN_EVENT);
-	character->addEventListener(selection, WeaponEvent::SELECT_RIFLE_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_FIST_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_KNIFE_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_PISTOL_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_SHOTGUN_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::SELECT_RIFLE_EVENT);
 
-	character->addEventListener(ammoCounter, WeaponEvent::UPDATE_AMMO);
+	character->addEventListener(ammoCounter, WeaponSelectEvent::UPDATE_AMMO);
 
 	foreground->addChild(character);
 	foreground->addChild(selection);
@@ -188,10 +187,24 @@ void MyGame::setScene(Scene* scene) {
 	this->curScene = scene;
 	if (curScene != NULL) {
 		this->addChild(curScene);
-		if (scene->id.substr(0,4) == "lake")
+		if (scene->id.substr(0,4) == "lake"){
 			initLakeEnemies(scene);
+			if(currentMusic != lakeMusic){
+				cout << "Start lake music!" << endl;
+				lakeMusic->play();
+				currentMusic = lakeMusic;
+			}
+		}
 		else if (scene->id.substr(0,4) == "cany")
 			initCanyonEnemies(scene);
+		//all town scenes end with Scene
+		else if (scene->id.length() > 5 && scene->id.substr(scene->id.length()-5,scene->id.length()-1) == "Scene"){
+			if(currentMusic != townMusic){
+				cout << "Start town music!" << endl;
+				townMusic->play();
+				currentMusic = townMusic;
+			}
+		}
 		initObstacles();
 	}
 }
@@ -1015,7 +1028,6 @@ void MyGame::checkTransition() {
 }
 
 void MyGame::initObstacles() {
-	cout << "Initializing Obstacles!" << endl;
 	Scene* scenePointer = sceneInfo[room_state].scenePointer;
 	if (scenePointer->obstaclesAdded)
 		return;
@@ -1093,7 +1105,6 @@ void MyGame::initObstacles() {
 	}
 
 	if (scenePointer == sheriffScene){
-		cout << "\nENTERING SHERIFF\n" << endl;
 		DisplayObjectContainer* wall = new DisplayObjectContainer();
 		wall->type = "Obstacle";
 		wall->width = 1100;
@@ -1124,7 +1135,6 @@ void MyGame::initObstacles() {
 	}
 
 	if (scenePointer == storeScene){
-		cout << "\nENTERING STORE\n" << endl;
 		DisplayObjectContainer* wall = new DisplayObjectContainer();
 		wall->type = "Obstacle";
 		wall->width = 1100;
@@ -1141,7 +1151,6 @@ void MyGame::initObstacles() {
 	}
 
 	if (scenePointer == hotelScene){
-		cout << "\nENTERING HOTEL\n" << endl;
 		DisplayObjectContainer* wall = new DisplayObjectContainer();
 		wall->type = "Obstacle";
 		wall->width = 1100;
@@ -1158,7 +1167,6 @@ void MyGame::initObstacles() {
 	}
 
 	if (scenePointer == bankScene){
-		cout << "\nENTERING BANK\n" << endl;
 		DisplayObjectContainer* wall = new DisplayObjectContainer();
 		wall->type = "Obstacle";
 		wall->width = 1100;
@@ -1168,7 +1176,6 @@ void MyGame::initObstacles() {
 	}
 
 	if (scenePointer == postScene){
-		cout << "\nENTERING POST\n" << endl;
 		DisplayObjectContainer* wall = new DisplayObjectContainer();
 		wall->type = "Obstacle";
 		wall->width = 570;
@@ -1192,7 +1199,6 @@ void MyGame::initObstacles() {
 	}
 
 	if (scenePointer == cantinaScene){
-		cout << "\nENTERING CANTINA\n" << endl;
 		DisplayObjectContainer* topWall = new DisplayObjectContainer();
 		topWall->type = "Obstacle";
 		topWall->width = 1100;
@@ -1223,7 +1229,6 @@ void MyGame::initObstacles() {
 	}
 
 	if (scenePointer == drugScene){
-		cout << "\nENTERING DRUG STORE\n" << endl;
 		DisplayObjectContainer* topWall = new DisplayObjectContainer();
 		topWall->type = "Obstacle";
 		topWall->width = 1100;
