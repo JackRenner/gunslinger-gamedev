@@ -96,15 +96,16 @@ private:
 
 	// TOWN SCENES
 	Scene* townScene;
-	Scene* townSheriffScene;
-	Scene* townStoreScene;
-	Scene* townHotelScene;
-	Scene* townBankScene;
-	Scene* townPostScene;
-	Scene* townCantinaScene;
-	Scene* townDrugScene;
+	Scene* sheriffScene;
+	Scene* storeScene;
+	Scene* hotelScene;
+	Scene* bankScene;
+	Scene* postScene;
+	Scene* cantinaScene;
+	Scene* drugScene;
 
 	// TOWN NPCS
+	TownsPeople* walkingTownee1;
 	TownsPeople* storekeeper1;
 
 	// LAKE STILL SCENES
