@@ -75,6 +75,7 @@ void Player::lightingSystem(bool on){
 
 void Player::update(set<SDL_Scancode> pressedKeys){
 	cout << "Position: " << position.x << " " << position.y << endl;
+	this->dispatchEvent(this->updateAmmo);
 	if (controls::pressShift()) {
 		if (this->dir == "Up") {
 			this->position.y -= 50;
@@ -222,6 +223,7 @@ void Player::onCollision(DisplayObject* other){
 		if (temp->gun == "knife" && temp->thrown) {
 			// picking up knife
 			this->knife_throws = 0;
+			this->dispatchEvent(this->updateAmmo);
 		}
 	} else if (other->type == "Wolf") {
 		hitByMelee("wolf");

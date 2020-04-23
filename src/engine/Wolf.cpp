@@ -154,7 +154,6 @@ void Wolf::onCollision(DisplayObject* other){
 			this->alpha -= 100;
 			if(this->health < 0) this->health = 0;
 			sayu->knife_throws = 0;
-			std::cout << "HIT WOLF" << endl;
 		} else if (temp->gun == "shotgun") {
 			this->health -= 40;
 			this->alpha -= 80;

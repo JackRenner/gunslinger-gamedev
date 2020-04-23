@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 22;
+	room_state = 0;
 
-	this->setScene(badlands3);
+	this->setScene(townScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -1342,7 +1342,8 @@ void MyGame::playerShooting(int gun, string dir){
 	if (gun == 1 && character->knife_throws > 0) {
 	} else if (gun == 1) {
 		bullet = new Projectile(dir,this->position, gun);
-		//foreground->addChild(bullet);
+		bullet->id = "bullet" + projectileIdNum;
+		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->speed += 5;
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
