@@ -52,17 +52,8 @@ Player::Player() : AnimatedSprite("Player"){
 void Player::update(set<SDL_Scancode> pressedKeys){
 
 	if (controls::pressShift()) {
-		if (this->dir == "Up") {
-			this->position.y -= 50;
-		}
-		if (this->dir == "Down") {
-			this->position.y += 50;
-		}
-		if (this->dir == "Right") {
-			this->position.x += 50;
-		}
-		if (this->dir == "Left") {
-			this->position.x -= 50;
+		if (rollpause==0){
+			rollcount=10;
 		}
 	}
 	AnimatedSprite::update(pressedKeys);	
@@ -241,6 +232,27 @@ void Player::takeNoDamage(int damage){
 
 void Player::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
+	if (this->rollcount>0){
+		rollpause=100;
+		if (this->dir == "Up"){
+			this->position.y -= 10;
+		}
+		if (this->dir == "Down"){
+			this->position.y += 10;
+		}
+		if (this->dir == "Right"){
+			this->position.x += 10;
+		}
+		if (this->dir == "Left"){
+			this->position.x -= 10;
+		}
+		//Turn on for double version
+		//AnimatedSprite::draw(at);
+		this->rollcount-=1;
+	}
+	if(rollpause>0){
+	rollpause-=5;
+	}
 }
 
 
@@ -267,3 +279,4 @@ void Player::selectWeapon(int gun) {
 		this->dispatchEvent(playerHeal);
 	}
 }
+

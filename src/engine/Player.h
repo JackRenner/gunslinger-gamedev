@@ -38,6 +38,8 @@ public:
 	int maxHealth = 100;
 	bool poisoned = false;
 	int poisonedTime = 0;
+	int rollcount=0;
+	int rollpause=0;
 
 	int gun = 0;
 
