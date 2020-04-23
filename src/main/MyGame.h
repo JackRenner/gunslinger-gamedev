@@ -205,6 +205,13 @@ private:
 	GangThug* thug2Badlands5;
 	GangThug* thug3Badlands5;
 
+	Creeper* creeper1Badlands6;
+	Creeper* creeper2Badlands6;
+	GangThug* thug1Badlands6;
+	GangThug* thug2Badlands6;
+	GangThug* thug3Badlands6;
+
+
 	// END ENEMIES CREATION
 
 	int iterate;
