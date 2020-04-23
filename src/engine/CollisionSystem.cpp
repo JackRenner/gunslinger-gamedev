@@ -151,6 +151,25 @@ void CollisionSystem :: watchForCollisions(string type1, string type2){
   }
 }
 
+
+double CollisionSystem::distance(SDL_Point &p1, SDL_Point &p2) {
+	return sqrt(((p2.y - p1.y)*(p2.y - p1.y)) + ((p2.x - p1.x)*(p2.x - p1.x)));
+}
+
+
+double CollisionSystem::HeronFormulaOfTriangle(SDL_Point &p1, SDL_Point &p2, SDL_Point &p3) {
+  double perimeter =  (distance(p1, p2) + distance(p2,p3) +distance(p1,p3))/2;
+  return sqrt(perimeter*(perimeter - distance(p1, p2))*(perimeter - distance(p2,p3)) *(perimeter - distance(p1,p3) )  );
+  //Calculates area of a triangle based on three SDL_Points
+}
+
+double CollisionSystem::areaOfFourTriangles(SDL_Point &p1, SDL_Point &p2, SDL_Point &p3, SDL_Point &p4, SDL_Point &p5){
+  return HeronFormulaOfTriangle(p1,p2,p5) + HeronFormulaOfTriangle(p1,p3,p5) + HeronFormulaOfTriangle(p2,p4,p5) + HeronFormulaOfTriangle(p3, p4, p5);
+  //Calculates area of a triangle based on three SDL_Points
+}
+
+
+
 //returns true iff obj1 hitbox and obj2 hitbox overlap. Uses the following method from DO:
 //	SDL_Point* DisplayObject::getGlobalHitbox();
 bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
@@ -222,7 +241,7 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
   int maxX = INT_MIN;
   int minY = INT_MAX;
   int maxY = INT_MIN;
-
+/*
   for(int i = 0; i < 4 ; i++){
     if(obj2Points[i].x < minX){
       minX = obj2Points[i].x;
@@ -245,7 +264,18 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
   //    cout << "PointWithinOtherObject" <<endl;
       return true;
     }
-  return IntersectChecker(obj1Points, obj2Points);
+    */
+    double obj1Length = this->distance(obj1Points[0], obj1Points[1]);
+    double obj1Height = this->distance(obj1Points[0],obj1Points[2]);
+    double area = obj1Length*obj1Height;
+    double areaOf4Triangles = areaOfFourTriangles(obj1Points[0], obj1Points[1],obj1Points[2], obj1Points[3],obj2Points[0]);
+
+    if(area == areaOf4Triangles){
+    //  cout << "One is inside the other";
+      return(area == areaOf4Triangles);
+    }else{
+      return IntersectChecker(obj1Points, obj2Points);
+  }
 /*
   cout << "TwoLineCheckerTest";
   SDL_Point temp = {0,0};
