@@ -49,7 +49,7 @@ Player::Player() : AnimatedSprite("Player"){
 
 	//add lighting effect for tunnel room (hideout room 4)
 	lightingEffect = new AnimatedSprite("le");
-	lightingEffect->addAnimation("./resources/sprites/", "lighting", 1, 1, true);
+	lightingEffect->addAnimation("./resources/sprites/", "lighting", 2, 10, true);
 	lightingEffect->width = 3000;
 	lightingEffect->height = 3000;
 	lightingEffect->position.x = lightingEffect->position.x - (lightingEffect->width / 2);
