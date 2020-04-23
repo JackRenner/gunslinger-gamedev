@@ -17,7 +17,7 @@ using namespace std;
 class TownsPeople : public AnimatedSprite{
 
 public:
-	TownsPeople(Player* sayu, string id);
+	TownsPeople(Player* sayu, string id, bool walking, string text);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -26,7 +26,7 @@ public:
     virtual void onCollision(DisplayObject* other);
     virtual SDL_Point* getGlobalHitbox();
 
-    void save(ofstream &out);
+    void save();
     
     void setPatrolRange();
 
@@ -75,6 +75,8 @@ private:
     TextBox* townspeopleText;
     bool textClosed = true;
     int timeWaited = 0;
+
+    bool walker = false;
 
 	// int oldX=0, oldY=0;
 

@@ -54,6 +54,7 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
 	// obstacle collision
 	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
+	ourCollisionSystem->watchForCollisions("Obstacle", "TownsPeople");
 	//projectile and obstacle for particle effect
 	ourCollisionSystem->watchForCollisions("Projectile", "Obstacle");
 	ourCollisionSystem->watchForCollisions("River", "Player");
