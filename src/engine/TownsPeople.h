@@ -66,8 +66,11 @@ private:
     double maxVel = 20;
     double acc = 2;
 
+    int pauseCount = 0;
+    int waitToDelete = 0;
+
     TextBox* townspeopleText;
-    bool ableToBuy = false;
+    bool ableToBuy = true;
     int timeWaited = 0;
 
     bool walker = false;
