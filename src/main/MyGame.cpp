@@ -25,7 +25,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
     character = new Player();
 	//this->removeImmediateChild(character);
 
-	character->position = { 600, 600 };
+	character->position = { 80, 600 };
 	character->scaleX = 0.8;
 	character->scaleY = 0.8;
 	character->pivot = { character->width / 2, character->height / 2 };
@@ -38,9 +38,11 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 17;
+	//room_state = 17;
 
-	this->setScene(canyon1);
+	//this->setScene(canyon1);
+	room_state = 26;
+	this->setScene(hideout1);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -1160,6 +1162,192 @@ void MyGame::initObstacles() {
 	if (s == canyon1) {
 		// skybox
 		addDOC(s, obs, 1080, 300, 0, 0);
+
+		// rocks
+		addDOC(s, obs, 468, 124, 32, 335);
+		addDOC(s, obs, 176, 216, 584, 339);
+		addDOC(s, obs, 130, 88, 842, 439);
+		addDOC(s, obs, 108, 142, 874, 839);
+		addDOC(s, obs, 280, 126, 538, 881);
+		addDOC(s, obs, 168, 112, 258, 907);
+		addDOC(s, obs, 168, 100, 20, 833);
+	}
+
+	if (s == canyon2) {
+		// skybox
+		addDOC(s, obs, 1080, 300, 0, 0);
+
+		// river boxes - really rough
+		addDOC(s, riv, 110, 186, 440, 301);
+		addDOC(s, riv, 92, 339, 440, 722);
+		addDOC(s, riv, 59, 35, 423, 694);
+
+		// bridge boxes - really rough
+		addDOC(s, obs, 113, 20, 437, 510);
+		addDOC(s, obs, 97, 20, 432, 662);
+	}
+
+	if (s == canyon3) {
+		// skybox
+		addDOC(s, obs, 1080, 300, 0, 0);
+
+		// rocks
+		addDOC(s, obs, 170, 115, 25, 343);
+		addDOC(s, obs, 181, 214, 576, 338);
+		addDOC(s, obs, 110, 146, 868, 837);
+		addDOC(s, obs, 174, 116, 249, 905);
+		addDOC(s, obs, 178, 106, 14, 825);
+	}
+
+	if (s == hideout1) {
+		// skybox
+		addDOC(s, obs, 1920, 245, 0, 0);
+
+		// rocks and trees
+		addDOC(s, obs, 143, 249, 94, 155);
+		addDOC(s, obs, 212, 90, 978, 312);
+		addDOC(s, obs, 127, 113, 927, 185);
+		addDOC(s, obs, 296, 132, 1242, 832);
+		addDOC(s, obs, 120, 108, 1247, 715);
+
+		// building areas
+		addDOC(s, obs, 188, 357, 1722, 374);
+		addDOC(s, obs, 254, 385, 1458, 247);
+
+
+		// river boxes - pretty rough
+		addDOC(s, riv, 90, 45, 1632, 918);
+		addDOC(s, riv, 88, 29, 851, 285);
+		addDOC(s, riv, 84, 44, 881, 321);
+
+		addDOC(s, riv, 158, 139, 704, 935);
+		addDOC(s, riv, 124, 280, 688, 918);
+		addDOC(s, riv, 110, 23, 700, 641);
+		addDOC(s, riv, 110, 28, 710, 617);
+		addDOC(s, riv, 110, 26, 722, 594);
+		addDOC(s, riv, 110, 26, 736, 571);
+		addDOC(s, riv, 98, 26, 766, 540);
+		addDOC(s, riv, 70, 35, 799, 502);
+		addDOC(s, riv, 70, 35, 810, 477);
+
+
+		// bridge boxes - pretty rough
+		addDOC(s, obs, 71, 28, 827, 455);
+		addDOC(s, obs, 26, 19, 873, 481);
+		addDOC(s, obs, 43, 28, 878, 342);
+		addDOC(s, obs, 47, 26, 910, 354);
+		addDOC(s, obs, 38, 26, 937, 375);
+	}
+
+
+	if (s == hideout2) {
+		// wall
+		addDOC(s, obs, 1920, 275, 0, 0);
+
+		// piano
+		addDOC(s, obs, 207, 198, 101, 782);
+
+		// tables
+		addDOC(s, obs, 135, 135, 701, 596);
+		addDOC(s, obs, 135, 135, 887, 820);
+		addDOC(s, obs, 135, 135, 1185, 605);
+		addDOC(s, obs, 135, 135, 1390, 820);
+
+		// bar/shelves
+		addDOC(s, obs, 791, 280, 1037, 201);
+	}
+
+	if (s == hideout3) {
+		// wall
+		addDOC(s, obs, 1920, 350, 0, 0);
+
+		// shelves
+		addDOC(s, obs, 571, 236, 100, 165);
+		addDOC(s, obs, 680, 82, 1161, 307);
+
+		// tables
+		addDOC(s, obs, 273, 163, 351, 478);
+		addDOC(s, obs, 273, 163, 765, 810);
+		addDOC(s, obs, 273, 163, 1158, 490);
+		addDOC(s, obs, 273, 163, 1525, 810);
+
+		// food bar
+		addDOC(s, obs, 501, 94, 51, 909);
+	}
+
+	if (s == hideout4) {
+		// walls
+		addDOC(s, obs, 448, 540, 0, 540);
+		addDOC(s, obs, 449, 434, 0, 0);
+		addDOC(s, obs, 170, 356, 451, 0);
+		addDOC(s, obs, 339, 358, 741, 0);
+		addDOC(s, obs, 520, 599, 560, 481);
+	}
+
+	if (s == hideout5) {
+		// cell wall
+		addDOC(s, obs, 854, 136, 0, 387);
+
+		// misc objects
+		addDOC(s, obs, 153, 275, 887, 457);
+		addDOC(s, obs, 141, 191, 908, 765);
+		addDOC(s, obs, 141, 229, 49, 758);
+		addDOC(s, obs, 205, 297, 369, 544);
+	}
+
+	if (s == hideout6) {
+		// wall
+		addDOC(s, obs, 1920, 356, 0, 0);
+
+		// dressers
+		addDOC(s, obs, 160, 75, 757, 347);
+		addDOC(s, obs, 321, 75, 1599, 345);
+
+		// beds
+		addDOC(s, obs, 89, 198, 955, 377);
+		addDOC(s, obs, 89, 198, 1115, 377);
+		addDOC(s, obs, 89, 198, 1298, 377);
+		addDOC(s, obs, 89, 198, 943, 834);
+		addDOC(s, obs, 89, 198, 1113, 834);
+		addDOC(s, obs, 89, 198, 1301, 834);
+
+		// bathroom walls
+		addDOC(s, obs, 294, 125, 0, 655);
+		addDOC(s, obs, 151, 101, 411, 655);
+		addDOC(s, obs, 90, 326, 470, 754);
+	}
+
+	if (s == hideout7) {
+		// wall
+		addDOC(s, obs, 1080, 100, 0, 0);
+		// lower wall? - is this supposed to be a wall?
+		addDOC(s, obs, 450, 423, 0, 297);
+
+		// drawers
+		addDOC(s, obs, 430, 58, 498, 77);
+
+		// TV
+		addDOC(s, obs, 146, 144, 838, 313);
+
+		// chest table
+		addDOC(s, obs, 94, 90, 576, 423);
+	}
+
+	if (s == hideout8) {
+		// wall
+		addDOC(s, obs, 1080, 224, 0, 0);
+
+		// bookcases
+		addDOC(s, obs, 270, 148, 0, 448);
+		addDOC(s, obs, 280, 146, 234, 805);
+		addDOC(s, obs, 226, 179, 689, 596);
+
+		// iron maidens
+		addDOC(s, obs, 120, 162, 129, 215);
+		addDOC(s, obs, 120, 162, 823, 215);
+
+		// table
+		addDOC(s, obs, 122, 94, 475, 283);
 	}
 
 	s->obstaclesAdded = true;
