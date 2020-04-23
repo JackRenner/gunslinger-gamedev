@@ -179,6 +179,9 @@ void Player::hitByMelee(string enemy){
 		takeDamage(30);
 		this->knifeWaitToDamage = 0;
 	}
+	else if (enemy == "cactus" ) {
+		takeDamage(5);
+	}
 }
 
 //Called automatically by collision system when something collides with the player
@@ -202,8 +205,13 @@ void Player::onCollision(DisplayObject* other){
 	}
 	else if (other->type == "Obstacle") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
-	} else if (other->type == "River") {
+	} 
+	else if (other->type == "River") {
 		this->health = 0;
+	}
+	else if (other->type == "Cactus") {
+		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
+		hitByMelee("cactus");
 	}
 }
 

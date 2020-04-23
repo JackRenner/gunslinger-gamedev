@@ -1043,6 +1043,7 @@ void MyGame::initObstacles() {
 
 	string obs = "Obstacle";
 	string riv = "River";
+	string cac = "Cactus";
 
 	SDL_Rect rect = sceneInfo[room_state].bounds.bounds;
 	// initialize outer walls
@@ -1350,6 +1351,46 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 122, 94, 475, 283);
 	}
 
+	if (s == badlands1) {
+		// cacti
+		addDOC(s, cac, 30, 30, 526, 72);
+		addDOC(s, cac, 30, 30, 197, 214);
+		addDOC(s, cac, 30, 30, 744, 237);
+		addDOC(s, cac, 30, 30, 278, 353);
+		addDOC(s, cac, 30, 30, 554, 356);
+		addDOC(s, cac, 30, 30, 208, 521);
+		addDOC(s, cac, 30, 30, 636, 582);
+
+	}
+
+	if (s == badlands2) {
+		// cacti
+		addDOC(s, cac, 30, 30, 526, 76);
+		addDOC(s, cac, 30, 30, 450, 192);
+		addDOC(s, cac, 30, 30, 343, 292);
+		addDOC(s, cac, 30, 30, 279, 431);
+		addDOC(s, cac, 30, 30, 524, 73);
+		addDOC(s, cac, 30, 30, 769, 460);
+		addDOC(s, cac, 30, 30, 636, 507);
+		addDOC(s, cac, 30, 30, 636, 583);
+
+	}
+
+	if (s == badlands3) {
+		// cacti
+		addDOC(s, cac, 30, 30, 524, 73);
+		addDOC(s, cac, 30, 30, 707, 176);
+		addDOC(s, cac, 30, 30, 343, 293);
+		addDOC(s, cac, 30, 30, 343, 293);
+		addDOC(s, cac, 30, 30, 706, 379);
+		addDOC(s, cac, 30, 30, 561, 389);
+		addDOC(s, cac, 30, 30, 279, 432);
+		addDOC(s, cac, 30, 30, 500, 452);
+		addDOC(s, cac, 30, 30, 770, 460);
+		addDOC(s, cac, 30, 30, 636, 510);
+
+	}
+
 	if (s == badlands4) {
 		// tables
 		addDOC(s, obs, 70, 50, 0, 20);
@@ -1363,14 +1404,14 @@ void MyGame::initObstacles() {
 	}
 
 	if (s == badlands5) {
-		
+		//walls
 		addDOC(s, obs, 600, 70, 0, -40);
 		addDOC(s, obs, 600, 70, 0, 160);
 
 	}
 
 	if (s == badlands6) {
-		
+		//walls
 		addDOC(s, obs, 400, 70, 0, -40);
 		addDOC(s, obs, 400, 70, 0, 360);
 
