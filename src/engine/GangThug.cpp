@@ -168,6 +168,8 @@ void GangThug::onCollision(DisplayObject* other){
 		this->targY = oldY - 10;
 	} else {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+		this->targX = oldX + rand() % 200 - 100;
+		this->targY = oldY + rand() % 200 - 100;
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 

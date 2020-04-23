@@ -192,13 +192,13 @@ private:
 	GangMarksman* mark1Badlands2;
 	GangMarksman* mark2Badlands2;
 
-	//AnimatedSprite* wolf;
-	//Benemy* benemy;
-	Benemy* benemy2;
-	Benemy* benemy3;
-	Benemy* benemya;
-	Benemy* benemyb;
-	Benemy* benemyc;
+	Wolf* wolf1Badlands3;
+	Wolf* wolf2Badlands3;
+	GangMarksman* mark1Badlands3;
+	GangMarksman* mark2Badlands3;
+	Creeper* creeper1Badlands3;
+
+	int iterate;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;

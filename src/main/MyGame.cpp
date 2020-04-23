@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 21;
+	room_state = 22;
 
-	this->setScene(badlands2);
+	this->setScene(badlands3);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -520,36 +520,32 @@ void MyGame::initLake() {
 void MyGame::initLakeEnemies(Scene* s) {
 	if (s->id == "lake1" && !s->enemiesAdded) {
 		// wolves
-		wolf1LakeStill1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
+		wolf1LakeStill1 = new Wolf((Player*)character, "LakeWolf1");	// Adding wolf sprites
 		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
 		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
 		lake1->addChild(wolf1LakeStill1);
 		wolf1LakeStill1->position = { 500, 500 };
-		//wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
 		wolf1LakeStill1->scaleX = 0.75;
 		wolf1LakeStill1->scaleY = 0.75;
-		//wolf1LakeStill1->width = 90;
 		wolf1LakeStill1->play("WolfLeft");
 
-		wolf2LakeStill1 = new Wolf((Player*)character, "Wolf2");	// Adding wolf sprites
+		wolf2LakeStill1 = new Wolf((Player*)character, "LakeWolf2");	// Adding wolf sprites
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
 		lake1->addChild(wolf2LakeStill1);
 		wolf2LakeStill1->position = { 700, 500 };
-		//wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
 		wolf2LakeStill1->scaleX = 0.75;
 		wolf2LakeStill1->scaleY = 0.75;
-		//wolf1LakeStill1->width = 90;
 		wolf2LakeStill1->play("WolfLeft");
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake2" && !s->enemiesAdded) {
 
-		thug1LakeStill2 = new GangThug((Player*)character, "GangThug1");	
+		thug1LakeStill2 = new GangThug((Player*)character, "LakeGangThug1");	
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -559,7 +555,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		thug1LakeStill2->play("GangThugLeft");
 		gang_thugs[thug1LakeStill2] = 1;
 
-		thug2LakeStill2 = new GangThug((Player*)character, "GangThug2");	
+		thug2LakeStill2 = new GangThug((Player*)character, "LakeGangThug2");	
 		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -573,7 +569,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 
 	}
 	if (s->id == "lake3" && !s->enemiesAdded) {
-		mark1LakeStill3 = new GangMarksman((Player*)character, "GangMarksman1");	
+		mark1LakeStill3 = new GangMarksman((Player*)character, "LakeGangMarksman1");	
 		mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
 		mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
@@ -585,7 +581,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		mark1LakeStill3->play("GangMarksmanLeft");
 		gang_marksmans[mark1LakeStill3] = 1;
 
-		mark2LakeStill3 = new GangMarksman((Player*)character, "GangMarksman2");	
+		mark2LakeStill3 = new GangMarksman((Player*)character, "LakeGangMarksman2");	
 		mark2LakeStill3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		mark2LakeStill3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
 		mark2LakeStill3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
@@ -600,7 +596,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake4" && !s->enemiesAdded) {
-		arrow1LakeStill4 = new ArrowGuy((Player*)character, "Arrow1");
+		arrow1LakeStill4 = new ArrowGuy((Player*)character, "LakeArrow1");
 		arrow1LakeStill4->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
 		lake4->addChild(arrow1LakeStill4);
 		arrow1LakeStill4->position = { 900, 150 };
@@ -612,7 +608,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		arrow1LakeStill4->play("Arrow");
 		arrow_guys[arrow1LakeStill4] = 1;
 
-		arrow2LakeStill4 = new ArrowGuy((Player*)character, "Arrow2");
+		arrow2LakeStill4 = new ArrowGuy((Player*)character, "LakeArrow2");
 		arrow2LakeStill4->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
 		lake4->addChild(arrow2LakeStill4);
 		arrow2LakeStill4->position = { 300, 300 };
@@ -627,7 +623,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake6" && !s->enemiesAdded) {
-		shot1LakeStill = new GangShot((Player*)character, "GangShot1");	
+		shot1LakeStill = new GangShot((Player*)character, "LakeGangShot1");	
 		shot1LakeStill->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
 		shot1LakeStill->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
 		shot1LakeStill->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
@@ -639,7 +635,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake7" && !s->enemiesAdded) {
-		creeper1LakeStill7 = new Creeper(character, "Creeper1");
+		creeper1LakeStill7 = new Creeper(character, "LakeCreeper1");
 		creeper1LakeStill7->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper1LakeStill7->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper1LakeStill7->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
@@ -649,7 +645,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		creeper1LakeStill7->position = { 300, 700 };
 		creeper1LakeStill7->play("CreeperUp");
 
-		creeper2LakeStill7 = new Creeper(character, "Creeper2");
+		creeper2LakeStill7 = new Creeper(character, "LakeCreeper2");
 		creeper2LakeStill7->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper2LakeStill7->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper2LakeStill7->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
@@ -664,12 +660,11 @@ void MyGame::initLakeEnemies(Scene* s) {
 	}
 
 	if (s->id == "lake8" && !s->enemiesAdded) {
-		knifeguy1LakeStill8 = new KnifeGuy(character, "KnifeGuy1");
+		knifeguy1LakeStill8 = new KnifeGuy(character, "LakeKnifeGuy1");
 		knifeguy1LakeStill8->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy1LakeStill8->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
 		knifeguy1LakeStill8->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
 		knifeguy1LakeStill8->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		//creeper1LakeStill7->addAnimation("resources/enemies/", "Explode", 16, 1, true);
 		lake8->addChild(knifeguy1LakeStill8);
 		knifeguy1LakeStill8->position = { 300, 300 };
 		knifeguy1LakeStill8->play("KnifeGuyLeft");
@@ -729,7 +724,7 @@ void MyGame::initCanyonEnemies(Scene* s) {
 		s->enemiesAdded = true;
 	}
 	if (s->id == "canyon3" && !s->enemiesAdded) {
-		wolf1Canyon3 = new Wolf((Player*)character, "Wolf4");	// Adding wolf sprites
+		wolf1Canyon3 = new Wolf((Player*)character, "CanyonWolf1");	// Adding wolf sprites
 		wolf1Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf1Canyon3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 		wolf1Canyon3->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
@@ -740,7 +735,7 @@ void MyGame::initCanyonEnemies(Scene* s) {
 		wolf1Canyon3->scaleY = 0.75;
 		wolf1Canyon3->play("WolfRight");
 
-		wolf2Canyon3 = new Wolf((Player*)character, "Wolf5");	// Adding wolf sprites
+		wolf2Canyon3 = new Wolf((Player*)character, "CanyonWolf2");	// Adding wolf sprites
 		wolf2Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf2Canyon3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 		wolf2Canyon3->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
@@ -751,7 +746,7 @@ void MyGame::initCanyonEnemies(Scene* s) {
 		wolf2Canyon3->scaleY = 0.75;
 		wolf2Canyon3->play("WolfRight");
 
-		wolf3Canyon3 = new Wolf((Player*)character, "Wolf6");	// Adding wolf sprites
+		wolf3Canyon3 = new Wolf((Player*)character, "CanyonWolf3");	// Adding wolf sprites
 		wolf3Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf3Canyon3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 		wolf3Canyon3->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
@@ -933,6 +928,83 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug4Badlands2->position = { 1300, 900 };
 		thug4Badlands2->play("GangThugLeft");
 		gang_thugs[thug4Badlands2] = 1;
+
+		mark1Badlands2 = new GangMarksman((Player*)character, "BadGangMarksman1");	
+		mark1Badlands2->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
+		mark1Badlands2->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
+		mark1Badlands2->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
+		mark1Badlands2->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
+		badlands2->addChild(mark1Badlands2);
+		mark1Badlands2->position = { 1600, 1100 };
+		mark1Badlands2->play("GangMarksmanLeft");
+		gang_marksmans[mark1Badlands2] = 1;
+
+		mark2Badlands2 = new GangMarksman((Player*)character, "BadGangMarksman2");	
+		mark2Badlands2->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
+		mark2Badlands2->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
+		mark2Badlands2->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
+		mark2Badlands2->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
+		badlands2->addChild(mark2Badlands2);
+		mark2Badlands2->position = { 1400, 1300 };
+		mark2Badlands2->play("GangMarksmanLeft");
+		gang_marksmans[mark2Badlands2] = 1;
+		
+		s->enemiesAdded=true;
+	}else if (s->id == "badlands3" && !s->enemiesAdded) {
+		wolf1Badlands3 = new Wolf((Player*)character, "BadWolf5"); 
+		wolf1Badlands3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf1Badlands3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf1Badlands3->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf1Badlands3->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		badlands3->addChild(wolf1Badlands3);
+		wolf1Badlands3->position = { 800, 400 };
+		wolf1Badlands3->scaleX = 0.75;
+		wolf1Badlands3->scaleY = 0.75;
+		wolf1Badlands3->play("WolfRight");
+
+		wolf2Badlands3 = new Wolf((Player*)character, "BadWolf6"); 
+		wolf2Badlands3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf2Badlands3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf2Badlands3->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf2Badlands3->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		badlands3->addChild(wolf2Badlands3);
+		wolf2Badlands3->position = { 800, 600 };
+		wolf2Badlands3->scaleX = 0.75;
+		wolf2Badlands3->scaleY = 0.75;
+		wolf2Badlands3->play("WolfRight");
+
+		mark1Badlands3 = new GangMarksman((Player*)character, "BadGangMarksman3");	
+		mark1Badlands3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
+		mark1Badlands3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
+		mark1Badlands3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
+		mark1Badlands3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
+		badlands3->addChild(mark1Badlands3);
+		mark1Badlands3->position = { 1400, 400 };
+		mark1Badlands3->play("GangMarksmanLeft");
+		gang_marksmans[mark1Badlands3] = 1;
+
+		mark2Badlands3 = new GangMarksman((Player*)character, "BadGangMarksman4");	
+		mark2Badlands3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
+		mark2Badlands3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
+		mark2Badlands3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
+		mark2Badlands3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
+		badlands3->addChild(mark2Badlands3);
+		mark2Badlands3->position = { 1400, 600 };
+		mark2Badlands3->play("GangMarksmanLeft");
+		gang_marksmans[mark2Badlands3] = 1;
+
+		creeper1Badlands3 = new Creeper(character, "BadCreeper1");
+		creeper1Badlands3->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
+		creeper1Badlands3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
+		creeper1Badlands3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
+		creeper1Badlands3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper1Badlands3->addAnimation("resources/enemies/", "Explode", 16, 1, true);
+		badlands3->addChild(creeper1Badlands3);
+		creeper1Badlands3->position = { 200, 1000 };
+		creeper1Badlands3->play("CreeperUp");
+
+
+		s->enemiesAdded = true;
 	}
 }
 
@@ -1035,9 +1107,8 @@ void MyGame::initHideoutEnemies(Scene *s) {
 
 void MyGame::enemyShootingLoops() {
 	// GANG THUG LOOP
-	int iterate = 0;
 	for (std::map<GangThug*, int>::iterator it=gang_thugs.begin(); it!=gang_thugs.end(); ++it) {
-		if (it->first->health == 0) {
+		if (it->first->health == 0 ) {
 			it->first->clean = true;
 			gang_thugs.erase(it->first);
 			break;
@@ -1051,24 +1122,24 @@ void MyGame::enemyShootingLoops() {
 			benemy->scaleX = 1;
 			benemy->scaleY = 1;
 			if (it->first->shots_fired == 5) {
-				it->first->shoot -= 120;
+				it->first->shoot -= 200;
 				it->first->shots_fired = 0;
 			} else{
-				it->first->shoot -= 40;
+				it->first->shoot -= 80;
 				it->first->shots_fired ++;
 			}
+			iterate ++;
 		}
-		iterate ++;
 	}
 	// GANG SHOT loop
 	for (std::map<GangShot*, int>::iterator it=gang_shot.begin(); it!=gang_shot.end(); ++it) {
-		if (it->first->health == 0) {
+		if (it->first->health == 0 ) {
 			it->first->clean = true;
 			gang_shot.erase(it->first);
 			break;
 		}
 		if(it->first->shoot > 0) {
-			benemya = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun", "Benemy"+to_string(iterate));
+			Benemy* benemya = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun", "Benemy"+to_string(iterate));
 			benemya->distance = 20;
 			this->addChild(benemya);
 			benemya->position = {it->first->position.x, it->first->position.y };
@@ -1082,18 +1153,18 @@ void MyGame::enemyShootingLoops() {
 				it->first->shoot -= 100;
 				it->first->shots_fired ++;
 			}
+			iterate ++;
 		}
-		iterate++;
 	}
 	// GANG MARKSMAN loop
 	for (std::map<GangMarksman*, int>::iterator it=gang_marksmans.begin(); it!=gang_marksmans.end(); ++it) {
-		if (it->first->health == 0) {
+		if (it->first->health == 0 ) {
 			it->first->clean = true;
 			gang_marksmans.erase(it->first);
 			break;
 		}
 		if(it->first->shoot > 0) {
-			benemy2 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "rifle", "Benemy"+to_string(iterate));
+			Benemy* benemy2 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "rifle", "Benemy"+to_string(iterate));
 			benemy2->distance = 20;
 			this->addChild(benemy2);
 			benemy2->position = {it->first->position.x, it->first->position.y };
@@ -1101,18 +1172,18 @@ void MyGame::enemyShootingLoops() {
 			benemy2->scaleX = 1;
 			benemy2->scaleY = 1;
 			it->first->shoot -= 200;
+			iterate++;
 		}
-		iterate++;
 	}
 	// ARROW GUY loop
 	for (std::map<ArrowGuy*, int>::iterator it=arrow_guys.begin(); it!=arrow_guys.end(); ++it) {
-		if (it->first->health == 0) {
+		if (it->first->health == 0 ) {
 			it->first->clean = true;
 			arrow_guys.erase(it->first);
 			break;
 		}
 		if(it->first->shoot > 0) {
-			benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "arrow", "Benemy"+to_string(iterate));
+			Benemy * benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "arrow", "Benemy"+to_string(iterate));
 			benemy3->distance = 20;
 			this->addChild(benemy3);
 			benemy3->position = {it->first->position.x, it->first->position.y };
@@ -1120,18 +1191,18 @@ void MyGame::enemyShootingLoops() {
 			benemy3->scaleX = 1;
 			benemy3->scaleY = 1;
 			it->first->shoot -= 80;
+			iterate++;
 		}
-		iterate ++;
 	}
 	// SHOTGUN BOSS loop
 	for (std::map<ShotgunGuy*, int>::iterator it=shotgun_boss.begin(); it!=shotgun_boss.end(); ++it) {
-		if (it->first->health == 0) {
+		if (it->first->health == 0 ) {
 			it->first->clean = true;
 			shotgun_boss.erase(it->first);
 			break;
 		}
 		if(it->first->shoot > 0) {
-			benemyb = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun", "Benemy"+to_string(iterate));
+			Benemy* benemyb = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun", "Benemy"+to_string(iterate));
 			benemyb->distance = 20;
 			this->addChild(benemyb);
 			benemyb->position = {it->first->position.x, it->first->position.y };
@@ -1146,21 +1217,20 @@ void MyGame::enemyShootingLoops() {
 				it->first->shoot -= 75;
 				it->first->shots_fired ++;
 			}
+			iterate++;
 		}
-		iterate ++;
 		if(it->first->dynamite){
 			// ensure dynamite is only thrown once
 			it->first->dynamite = false;
-			benemyc = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "dynamite", "Benemy"+to_string(iterate));
+			Benemy* benemyc = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "dynamite", "Benemy"+to_string(iterate));
 			benemyc->distance = 20;
 			this->addChild(benemyc);
 			benemyc->position = {it->first->position.x, it->first->position.y };
 			benemyc->pivot = { benemyc->width / 2, benemyc->height / 2 };
 			benemyc->scaleX = 1;
 			benemyc->scaleY = 1;
-			//it->first->shots_fired += 1;
+			iterate++;
 		}
-		iterate++;
 	}
 }
 

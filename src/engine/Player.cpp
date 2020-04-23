@@ -177,7 +177,7 @@ void Player::hitByProjectile(string gun){
 	} else if (gun == "shotgun") {
 		takeDamage(60);
 	} else if (gun == "rifle") {
-		takeDamage(80);
+		takeDamage(40);
 	} else if (gun == "dynamite") {
 		takeDamage(200);
 		Sound* new_sound = new Sound();
@@ -250,9 +250,9 @@ SDL_Point* Player::getGlobalHitbox(){
 	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
 	AffineTransform* temp = this->getGlobalTransform();
 	this->MyGlobalHitbox[0] = temp->transformPoint(0, 0);
-	this->MyGlobalHitbox[1] = temp->transformPoint(100, 0);
-	this->MyGlobalHitbox[2] = temp->transformPoint(0, 100);
-	this->MyGlobalHitbox[3] = temp->transformPoint(100, 100);
+	this->MyGlobalHitbox[1] = temp->transformPoint(80, 0);
+	this->MyGlobalHitbox[2] = temp->transformPoint(0, 80);
+	this->MyGlobalHitbox[3] = temp->transformPoint(80, 80);
 	return this->MyGlobalHitbox;
 }
 
