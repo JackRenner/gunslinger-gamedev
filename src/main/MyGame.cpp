@@ -411,7 +411,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		s->enemiesAdded=true;
 	} else if (s->id == "storeScene" && !s->enemiesAdded) {
 		string storekeeper1Text = "Hey fella! Come over and Press Space to buy food for $10!";
-		storekeeper1 = new TownsPeople((Player*)character, "storekeeper1", false, storekeeper1Text);	
+		storekeeper1 = new TownsPeople((Player*)character, "storekeeper", false, storekeeper1Text);	
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
@@ -1299,7 +1299,7 @@ void MyGame::enemyShootingLoops() {
 			benemy2->pivot = { benemy2->width / 2, benemy2->height / 2 };
 			benemy2->scaleX = 1;
 			benemy2->scaleY = 1;
-			it->first->shoot -= 40;
+			it->first->shoot -= 200;
 		}
 	}
 	// GANG MARKSMAN no move

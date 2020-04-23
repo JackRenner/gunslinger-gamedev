@@ -97,10 +97,6 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 
 void TownsPeople::onCollision(DisplayObject* other){
 	if (other->type == "Player") {
-		if (!this->ableToBuy) {
-			this->ableToBuy = true;
-			this->state = 2;
-		}
 	}
 }
 

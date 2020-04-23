@@ -74,7 +74,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->addAnimation("./resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
-		this->Distance = 350;
+		this->Distance = 500;
 		this->speed = 15;
 		this->gun = "rifle";
 		

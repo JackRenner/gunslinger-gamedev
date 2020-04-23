@@ -8,6 +8,7 @@
 #include "CollisionSystem.h"
 #include "Benemy.h"
 #include "Sound.h"
+#include "TownsPeople.h"
 
 using namespace std;
 
@@ -95,26 +96,26 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		if (controls::holdW()) {
 			this->dir = "Up";
 			this->play("FaceUp");
-			//this->position.y -= 4;
-			this->position.y -= 10;
+			this->position.y -= 4;
+			//this->position.y -= 10;
 		}
 		if (controls::holdS()) {
 			this->dir = "Down";
 			this->play("FaceDown");
-			//this->position.y += 4;
-			this->position.y += 10;
+			this->position.y += 4;
+			//this->position.y += 10;
 		}
 		if (controls::holdD()) {
 			this->dir = "Right";
 			this->play("FaceRight");
-			//this->position.x += 4;
-			this->position.x += 10;
+			this->position.x += 4;
+			//this->position.x += 10;
 		}
 		if (controls::holdA()) {
 			this->dir = "Left";
 			this->play("FaceLeft");
-			//this->position.x -= 4;
-			this->position.x -= 10;
+			this->position.x -= 4;
+			//this->position.x -= 10;
 		}
 		if (controls::holdUp()) {
 			this->dir = "Up";
@@ -150,6 +151,19 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		dispatchEvent(healthChangeEvent);
 	}
 
+	// BUYING COOL THINGS!
+	if (this->timeToBuy == 200) {
+		this->ableToBuy = false;
+		this->timeToBuy = 0;
+	}
+	if (this->ableToBuy) {
+		this->timeToBuy++;
+	}
+	if (controls::press1() && this->ableToBuy) {
+		this->foodNum ++;
+	}
+	cout << ableToBuy << endl;
+
 }
 
 // do not include attacks from bosses yet
@@ -164,7 +178,7 @@ void Player::hitByProjectile(string gun){
 	} else if (gun == "shotgun") {
 		takeDamage(60);
 	} else if (gun == "rifle") {
-		takeDamage(40);
+		takeDamage(80);
 	} else if (gun == "dynamite") {
 		takeDamage(200);
 		Sound* new_sound = new Sound();
@@ -212,11 +226,16 @@ void Player::onCollision(DisplayObject* other){
 		hitByMelee("creeper");
 	} else if (other->type == "KnifeGuy") {
 		hitByMelee("knife");
-	}
-	else if (other->type == "Obstacle") {
+	} else if (other->type == "Obstacle") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
 	} else if (other->type == "River") {
 		this->health = 0;
+	}
+	if (other->type == "TownsPeople") {
+		TownsPeople *temp = (TownsPeople*) other;
+		if (temp->id == "storekeeper" && !this->ableToBuy) {
+			this->ableToBuy = true;
+		}
 	}
 }
 

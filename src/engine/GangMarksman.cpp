@@ -176,6 +176,7 @@ void GangMarksman::patrol(){
 	else{
 		moveToTarget();
 	}
+	fire();
 }
 
 void GangMarksman::moveToTarget(){
