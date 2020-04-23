@@ -198,6 +198,15 @@ private:
 	GangMarksman* mark2Badlands3;
 	Creeper* creeper1Badlands3;
 
+	KnifeGuy* knifeguy1Badlands4;
+	GangShot* shot1Badlands4;
+
+	GangThug* thug1Badlands5;
+	GangThug* thug2Badlands5;
+	GangThug* thug3Badlands5;
+
+	// END ENEMIES CREATION
+
 	int iterate;
 
 	Sprite* blackBox;

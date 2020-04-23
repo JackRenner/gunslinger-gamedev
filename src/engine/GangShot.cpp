@@ -162,6 +162,9 @@ void GangShot::onCollision(DisplayObject* other){
 		lastId = other->id;
 	}else{
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+		this->targX = oldX + rand() % 200 - 100;
+		this->targX = oldY + rand() % 200 - 100;
+		this->state = 1;
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
