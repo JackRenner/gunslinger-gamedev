@@ -16,7 +16,7 @@ using namespace std;
 class Benemy : public AnimatedSprite{
 
 public:
-	Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon);
+	Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon, string id);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -29,6 +29,8 @@ public:
     void save(ofstream &out);
 
     void fire();
+
+    void firePast();
 
     bool isTargetReached();
 
@@ -59,7 +61,10 @@ private:
     double maxVel = 10;
     double maxRotVel = 20;
 
+    double theta = 0;
+
     int pauseCount = 0;
+    int timer = 0;
 
 
 	// int oldX=0, oldY=0;

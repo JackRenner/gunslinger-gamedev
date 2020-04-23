@@ -176,16 +176,29 @@ private:
 
 	// HIDEOUT ENEMIES
 	ShotgunGuy* boss_1;
+	
 	//BADLANDS ENEMIES
 	Wolf* wolf1Badlands1;
+	Wolf* wolf2Badlands1;
+	Wolf* wolf3Badlands1;
+	Wolf* wolf4Badlands1;
+	Wolf* wolf5Badlands1;
+	Wolf* wolf6Badlands1;
 
-	//AnimatedSprite* wolf;
-	Benemy* benemy;
-	Benemy* benemy2;
-	Benemy* benemy3;
-	Benemy* benemya;
-	Benemy* benemyb;
-	Benemy* benemyc;
+	GangThug* thug1Badlands2;
+	GangThug* thug2Badlands2;
+	GangThug* thug3Badlands2;
+	GangThug* thug4Badlands2;
+	GangMarksman* mark1Badlands2;
+	GangMarksman* mark2Badlands2;
+
+	Wolf* wolf1Badlands3;
+	Wolf* wolf2Badlands3;
+	GangMarksman* mark1Badlands3;
+	GangMarksman* mark2Badlands3;
+	Creeper* creeper1Badlands3;
+
+	int iterate;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;

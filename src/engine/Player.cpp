@@ -161,7 +161,7 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	if (controls::press1() && this->ableToBuy) {
 		this->foodNum ++;
 	}
-	cout << ableToBuy << endl;
+	//cout << ableToBuy << endl;
 
 }
 
@@ -177,7 +177,7 @@ void Player::hitByProjectile(string gun){
 	} else if (gun == "shotgun") {
 		takeDamage(60);
 	} else if (gun == "rifle") {
-		takeDamage(80);
+		takeDamage(40);
 	} else if (gun == "dynamite") {
 		takeDamage(200);
 		Sound* new_sound = new Sound();
@@ -194,7 +194,7 @@ void Player::heal(string food){
 
 // do not include attacks from bosses yet
 void Player::hitByMelee(string enemy){
-	std::cout << this->wolfWaitToDamage << endl;
+	//std::cout << this->wolfWaitToDamage << endl;
 	if (enemy == "creeper") {
 		takeDamage(this->health);
 	} else if (enemy == "wolf" && this->wolfWaitToDamage > 40) {
@@ -249,10 +249,10 @@ void Player::onCollision(DisplayObject* other){
 SDL_Point* Player::getGlobalHitbox(){
 	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
 	AffineTransform* temp = this->getGlobalTransform();
-	this->MyGlobalHitbox[0] = temp->transformPoint(25, 25);
-	this->MyGlobalHitbox[1] = temp->transformPoint(75, 25);
-	this->MyGlobalHitbox[2] = temp->transformPoint(25, 50);
-	this->MyGlobalHitbox[3] = temp->transformPoint(75, 50);
+	this->MyGlobalHitbox[0] = temp->transformPoint(0, 0);
+	this->MyGlobalHitbox[1] = temp->transformPoint(80, 0);
+	this->MyGlobalHitbox[2] = temp->transformPoint(0, 80);
+	this->MyGlobalHitbox[3] = temp->transformPoint(80, 80);
 	return this->MyGlobalHitbox;
 }
 
