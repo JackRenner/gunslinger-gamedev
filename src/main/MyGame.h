@@ -182,9 +182,18 @@ private:
 	Wolf* wolf2Badlands1;
 	Wolf* wolf3Badlands1;
 	Wolf* wolf4Badlands1;
+	Wolf* wolf5Badlands1;
+	Wolf* wolf6Badlands1;
+
+	GangThug* thug1Badlands2;
+	GangThug* thug2Badlands2;
+	GangThug* thug3Badlands2;
+	GangThug* thug4Badlands2;
+	GangMarksman* mark1Badlands2;
+	GangMarksman* mark2Badlands2;
 
 	//AnimatedSprite* wolf;
-	Benemy* benemy;
+	//Benemy* benemy;
 	Benemy* benemy2;
 	Benemy* benemy3;
 	Benemy* benemya;

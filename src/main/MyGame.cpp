@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 0;
+	room_state = 21;
 
-	this->setScene(townScene);
+	this->setScene(badlands2);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -837,7 +837,102 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf1Badlands1->scaleX = 0.75;
 		wolf1Badlands1->scaleY = 0.75;
 		wolf1Badlands1->play("WolfRight");
+
+		wolf2Badlands1 = new Wolf((Player*)character, "BadWolf2"); 
+		wolf2Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf2Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf2Badlands1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf2Badlands1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		badlands1->addChild(wolf2Badlands1);
+		wolf2Badlands1->position = { 800, 600 };
+		wolf2Badlands1->scaleX = 0.75;
+		wolf2Badlands1->scaleY = 0.75;
+		wolf2Badlands1->play("WolfRight");
+
+		wolf3Badlands1 = new Wolf((Player*)character, "BadWolf3"); 
+		wolf3Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf3Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf3Badlands1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf3Badlands1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		badlands1->addChild(wolf3Badlands1);
+		wolf3Badlands1->position = { 800, 1200 };
+		wolf3Badlands1->scaleX = 0.75;
+		wolf3Badlands1->scaleY = 0.75;
+		wolf3Badlands1->play("WolfRight");
+
+		wolf4Badlands1 = new Wolf((Player*)character, "BadWolf4"); 
+		wolf4Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf4Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf4Badlands1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf4Badlands1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		badlands1->addChild(wolf4Badlands1);
+		wolf4Badlands1->position = { 800, 1200 };
+		wolf4Badlands1->scaleX = 0.75;
+		wolf4Badlands1->scaleY = 0.75;
+		wolf4Badlands1->play("WolfRight");
+
+		wolf5Badlands1 = new Wolf((Player*)character, "BadWolf5"); 
+		wolf5Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf5Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf5Badlands1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf5Badlands1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		badlands1->addChild(wolf5Badlands1);
+		wolf5Badlands1->position = { 1000, 1200 };
+		wolf5Badlands1->scaleX = 0.75;
+		wolf5Badlands1->scaleY = 0.75;
+		wolf5Badlands1->play("WolfRight");
+
+		wolf6Badlands1 = new Wolf((Player*)character, "BadWolf6"); 
+		wolf6Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf6Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf6Badlands1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf6Badlands1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		badlands1->addChild(wolf6Badlands1);
+		wolf6Badlands1->position = { 800, 400 };
+		wolf6Badlands1->scaleX = 0.75;
+		wolf6Badlands1->scaleY = 0.75;
+		wolf6Badlands1->play("WolfRight");
 		s->enemiesAdded=true;
+	}else if (s->id == "badlands2" && !s->enemiesAdded) {
+		thug1Badlands2 = new GangThug((Player*)character, "BadGangThug1");	
+		thug1Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug1Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug1Badlands2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug1Badlands2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		badlands2->addChild(thug1Badlands2);
+		thug1Badlands2->position = { 1000, 800 };
+		thug1Badlands2->play("GangThugLeft");
+		gang_thugs[thug1Badlands2] = 1;
+
+		thug2Badlands2 = new GangThug((Player*)character, "BadGangThug2");	
+		thug2Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug2Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug2Badlands2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug2Badlands2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		badlands2->addChild(thug2Badlands2);
+		thug2Badlands2->position = { 1000, 900 };
+		thug2Badlands2->play("GangThugLeft");
+		gang_thugs[thug2Badlands2] = 1;
+
+		thug3Badlands2 = new GangThug((Player*)character, "BadGangThug3");	
+		thug3Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug3Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug3Badlands2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug3Badlands2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		badlands2->addChild(thug3Badlands2);
+		thug3Badlands2->position = { 1300, 700 };
+		thug3Badlands2->play("GangThugLeft");
+		gang_thugs[thug3Badlands2] = 1;
+
+		thug4Badlands2 = new GangThug((Player*)character, "BadGangThug4");	
+		thug4Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug4Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug4Badlands2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug4Badlands2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		badlands2->addChild(thug4Badlands2);
+		thug4Badlands2->position = { 1300, 900 };
+		thug4Badlands2->play("GangThugLeft");
+		gang_thugs[thug4Badlands2] = 1;
 	}
 }
 
@@ -940,6 +1035,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 
 void MyGame::enemyShootingLoops() {
 	// GANG THUG LOOP
+	int iterate = 0;
 	for (std::map<GangThug*, int>::iterator it=gang_thugs.begin(); it!=gang_thugs.end(); ++it) {
 		if (it->first->health == 0) {
 			it->first->clean = true;
@@ -947,7 +1043,7 @@ void MyGame::enemyShootingLoops() {
 			break;
 		}
 		if(it->first->shoot > 0) {
-			benemy = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "revolver");
+			Benemy* benemy = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "revolver", "Benemy"+to_string(iterate));
 			benemy->distance = 20;
 			this->addChild(benemy);
 			benemy->position = {it->first->position.x, it->first->position.y };
@@ -962,6 +1058,7 @@ void MyGame::enemyShootingLoops() {
 				it->first->shots_fired ++;
 			}
 		}
+		iterate ++;
 	}
 	// GANG SHOT loop
 	for (std::map<GangShot*, int>::iterator it=gang_shot.begin(); it!=gang_shot.end(); ++it) {
@@ -971,7 +1068,7 @@ void MyGame::enemyShootingLoops() {
 			break;
 		}
 		if(it->first->shoot > 0) {
-			benemya = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun");
+			benemya = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun", "Benemy"+to_string(iterate));
 			benemya->distance = 20;
 			this->addChild(benemya);
 			benemya->position = {it->first->position.x, it->first->position.y };
@@ -986,6 +1083,7 @@ void MyGame::enemyShootingLoops() {
 				it->first->shots_fired ++;
 			}
 		}
+		iterate++;
 	}
 	// GANG MARKSMAN loop
 	for (std::map<GangMarksman*, int>::iterator it=gang_marksmans.begin(); it!=gang_marksmans.end(); ++it) {
@@ -995,7 +1093,7 @@ void MyGame::enemyShootingLoops() {
 			break;
 		}
 		if(it->first->shoot > 0) {
-			benemy2 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "rifle");
+			benemy2 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "rifle", "Benemy"+to_string(iterate));
 			benemy2->distance = 20;
 			this->addChild(benemy2);
 			benemy2->position = {it->first->position.x, it->first->position.y };
@@ -1004,6 +1102,7 @@ void MyGame::enemyShootingLoops() {
 			benemy2->scaleY = 1;
 			it->first->shoot -= 200;
 		}
+		iterate++;
 	}
 	// ARROW GUY loop
 	for (std::map<ArrowGuy*, int>::iterator it=arrow_guys.begin(); it!=arrow_guys.end(); ++it) {
@@ -1013,7 +1112,7 @@ void MyGame::enemyShootingLoops() {
 			break;
 		}
 		if(it->first->shoot > 0) {
-			benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "arrow");
+			benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "arrow", "Benemy"+to_string(iterate));
 			benemy3->distance = 20;
 			this->addChild(benemy3);
 			benemy3->position = {it->first->position.x, it->first->position.y };
@@ -1022,6 +1121,7 @@ void MyGame::enemyShootingLoops() {
 			benemy3->scaleY = 1;
 			it->first->shoot -= 80;
 		}
+		iterate ++;
 	}
 	// SHOTGUN BOSS loop
 	for (std::map<ShotgunGuy*, int>::iterator it=shotgun_boss.begin(); it!=shotgun_boss.end(); ++it) {
@@ -1031,7 +1131,7 @@ void MyGame::enemyShootingLoops() {
 			break;
 		}
 		if(it->first->shoot > 0) {
-			benemyb = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun");
+			benemyb = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun", "Benemy"+to_string(iterate));
 			benemyb->distance = 20;
 			this->addChild(benemyb);
 			benemyb->position = {it->first->position.x, it->first->position.y };
@@ -1047,10 +1147,11 @@ void MyGame::enemyShootingLoops() {
 				it->first->shots_fired ++;
 			}
 		}
+		iterate ++;
 		if(it->first->dynamite){
 			// ensure dynamite is only thrown once
 			it->first->dynamite = false;
-			benemyc = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "dynamite");
+			benemyc = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "dynamite", "Benemy"+to_string(iterate));
 			benemyc->distance = 20;
 			this->addChild(benemyc);
 			benemyc->position = {it->first->position.x, it->first->position.y };
@@ -1059,6 +1160,7 @@ void MyGame::enemyShootingLoops() {
 			benemyc->scaleY = 1;
 			//it->first->shots_fired += 1;
 		}
+		iterate++;
 	}
 }
 

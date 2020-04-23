@@ -103,8 +103,8 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
         int dist = std::max(std::abs(this->position.x-this->sayu->position.x),std::abs(this->position.y-this->sayu->position.y));
         if (dist > 200) {
             this->state = 3;
-            this->targX = this->sayu->position.x;
-			this->targY = this->sayu->position.y;
+            this->targX = this->sayu->position.x + (rand() % 400 + 100) - 300;
+			this->targY = this->sayu->position.y + (rand() % 400 + 100) - 300;
         }
 		// //if(abs(this->rotVel - this->maxRotVel) < 1){
 		// 	this->state = 3;
@@ -163,10 +163,11 @@ void GangThug::onCollision(DisplayObject* other){
 	} else if(other->type == "Projectile") {
 		lastId = other->id;	
 	} else if(other->type == "River") {
-		cout << "SHOULD BE COLLIDING WITH RIVER" << endl;
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
 		this->targX = oldX;
 		this->targY = oldY - 10;
+	} else {
+		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 
