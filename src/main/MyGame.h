@@ -82,6 +82,8 @@ public:
 
 private:
 
+	void addDOC(Scene* s, string type, int width, int height, int xpos, int ypos);
+
 	Scene* curScene = NULL;
 
 	//TextBox* test;
