@@ -997,7 +997,7 @@ void MyGame::enemyShootingLoops() {
 			benemy2->pivot = { benemy2->width / 2, benemy2->height / 2 };
 			benemy2->scaleX = 1;
 			benemy2->scaleY = 1;
-			it->first->shoot -= 40;
+			it->first->shoot -= 200;
 		}
 	}
 	// ARROW GUY loop
