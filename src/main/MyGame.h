@@ -16,6 +16,7 @@
 #include "../engine/Creeper.h"
 #include "../engine/KnifeGuy.h"
 #include "../engine/GangMarksman.h"
+#include "../engine/GangMarksmanFree.h"
 #include "../engine/ShotgunGuy.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
@@ -81,6 +82,8 @@ public:
 	std::map<GangThug*,int> gang_thugs;
 	std::map<GangShot*,int> gang_shot;
 	std::map<GangMarksman*,int> gang_marksmans;
+	std::map<GangMarksmanFree*,int> gang_marksmansfree;
+
 	std::map<ArrowGuy*,int> arrow_guys;
 	std::map<ShotgunGuy*,int> shotgun_boss;
 
@@ -176,6 +179,49 @@ private:
 
 	// HIDEOUT ENEMIES
 	ShotgunGuy* boss_1;
+	KnifeGuy* knifeguy1hideout6;
+	KnifeGuy* knifeguy2hideout6;
+	KnifeGuy* knifeguy3hideout6;
+	KnifeGuy* knifeguy4hideout6;
+
+	Creeper* creeper1hideout6;
+	Creeper* creeper2hideout6;
+
+	GangThug* gangthug1hideout6;
+	GangThug* gangthug2hideout6;
+
+
+	GangMarksmanFree* gangmarksmanfree1hideout5;
+	GangMarksmanFree* gangmarksmanfree2hideout5;
+
+	KnifeGuy* knifeguy1hideout5;
+	KnifeGuy* knifeguy2hideout5;
+
+	GangShot* shot1hideout5;
+	GangShot* shot2hideout5;
+
+	KnifeGuy* knifeguy3hideout3;
+	KnifeGuy* knifeguy2hideout3;
+	KnifeGuy* knifeguy1hideout3;
+	KnifeGuy* knifeguy4hideout3;
+
+	GangMarksman* gangmarksmanfree1hideout3;
+	GangMarksman* gangmarksmanfree2hideout3;
+
+	GangThug* gangthug1hideout3;
+	GangThug* gangthug2hideout3;
+	GangThug* gangthug3hideout3;
+	GangThug* gangthug4hideout3;
+
+	Creeper* creeper1hideout3;
+	Creeper* creeper2hideout3;
+
+	GangShot* shot1hideout3;
+	GangShot* shot2hideout3;
+
+
+	
+
 	//BADLANDS ENEMIES
 	Wolf* wolf1Badlands1;
 
@@ -186,6 +232,7 @@ private:
 	Benemy* benemya;
 	Benemy* benemyb;
 	Benemy* benemyc;
+	Benemy* benemyu;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;
