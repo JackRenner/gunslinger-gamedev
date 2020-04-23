@@ -18,6 +18,12 @@ TownsPeople::TownsPeople(Player* sayu, string id) : AnimatedSprite(id){
 	//this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
+	
+	townspeopleText = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
+
+	string actualtext = "Hey buddy!";
+	townspeopleText->addTextLine("./resources/fonts/west.otf", actualtext, 24, SDL_Color{ 255, 255, 255 });
+	this->addChild(townspeopleText);
 }
 
 void TownsPeople::update(set<SDL_Scancode> pressedKeys){
@@ -51,6 +57,7 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 	//everything else controlled by state machine
 	//state 0 = one time state to kick things off
 	//state 1 = patrolling
+	//state 2 = text is showing
 
 	
 	if(this->state == 0){
@@ -58,7 +65,9 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 	}
 	else if(this->state == 1){
 		patrol();
-    }
+    } else if(this->state == 2){
+		this->timeWaited++;
+	}
 
 	//state transitions
 	if(this->state == 0){
@@ -71,23 +80,29 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 	else if(this->state == 1){
 
 	}
+	else if(this->state == 2){
+		if (this->timeWaited == 500){
+			this->timeWaited = 0;
+			this->state = 1;
+			this->textClosed = true;
+			townspeopleText->closeBox();
+		}
+	}
+
+	townspeopleText->position = { -50, -100 };
 
 }
 
 
 void TownsPeople::onCollision(DisplayObject* other){
 	if (other->type == "Player") {
-		std::cout << "Show Text" << endl;
+		if (!townspeopleText->textLock && this->textClosed) {
+			townspeopleText->initBox();
+			this->textClosed = false;
+			this->state = 2;
 		}
 	}
-	// if(other->type == "Weapon"){
-	// 	if(controls::pressSpecial()) 
-	// 		onEssenceStrike((Weapon*)other);
-	// }
-	// else if(other->type == "Blast"){
-	// 	if(controls::pressAttack())
-	// 		onMeleeStrike();
-	// }
+}
 
 
 SDL_Point* TownsPeople::getGlobalHitbox(){

@@ -9,6 +9,7 @@
 #include "Sprite.h"
 #include "Controls.h"
 #include "Player.h"
+#include "./ui/TextBox.h"
 
 
 using namespace std;
@@ -70,6 +71,10 @@ private:
 
     int pauseCount = 0;
     int waitToDelete = 0;
+
+    TextBox* townspeopleText;
+    bool textClosed = true;
+    int timeWaited = 0;
 
 	// int oldX=0, oldY=0;
 
