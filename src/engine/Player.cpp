@@ -218,11 +218,6 @@ void Player::onCollision(DisplayObject* other){
 	} else if (other->type == "River") {
 		this->health = 0;
 	}
-	else if (other->type == "TownsPeople") {
-		if (controls::pressR) {
-			cout << "THIS IS WORKING WELL SOOOOOO WEELLLLL" << endl;
-		}
-	}
 }
 
 SDL_Point* Player::getGlobalHitbox(){

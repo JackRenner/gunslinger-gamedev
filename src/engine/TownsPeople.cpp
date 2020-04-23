@@ -59,7 +59,7 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 	//everything else controlled by state machine
 	//state 0 = one time state to kick things off
 	//state 1 = patrolling
-	//state 2 = text is showing
+	//state 2 = you are able to buy from the townsperson
 
 	
 	if(this->state == 0){
@@ -84,11 +84,10 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 
 	}
 	else if(this->state == 2){
-		if (this->timeWaited == 200){
+		if (this->timeWaited == 300){
 			this->timeWaited = 0;
-			this->state = 1;
-			this->textClosed = true;
-			townspeopleText->alpha = 0;
+			this->state = 0;
+			this->ableToBuy = false;
 		}
 	}
 	this->save();
@@ -98,14 +97,10 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 
 void TownsPeople::onCollision(DisplayObject* other){
 	if (other->type == "Player") {
-		if (this->textClosed) {
-			townspeopleText->alpha = 255;
-			//townspeopleText->initBox();
-			this->textClosed = false;
-			//this->state = 2;
+		if (!this->ableToBuy) {
+			this->ableToBuy = true;
+			this->state = 2;
 		}
-	} else if (other->type == "Obstacle") {
-		//Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
 	}
 }
 

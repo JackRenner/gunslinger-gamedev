@@ -65,15 +65,9 @@ private:
     double vel = 4;
     double maxVel = 20;
     double acc = 2;
-    double rotVel = 2;
-    double rotAcc = 2;
-    double maxRotVel = 20;
-
-    int pauseCount = 0;
-    int waitToDelete = 0;
 
     TextBox* townspeopleText;
-    bool textClosed = true;
+    bool ableToBuy = false;
     int timeWaited = 0;
 
     bool walker = false;
