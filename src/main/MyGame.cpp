@@ -1350,6 +1350,32 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 122, 94, 475, 283);
 	}
 
+	if (s == badlands4) {
+		// tables
+		addDOC(s, obs, 70, 50, 0, 20);
+		addDOC(s, obs, 80, 80, 160, 134);
+		addDOC(s, obs, 70, 50, 320, 300);
+
+		//wall
+		addDOC(s, obs, 400, 70, 0, -40);
+		addDOC(s, obs, 400, 70, 0, 360);
+
+	}
+
+	if (s == badlands5) {
+		
+		addDOC(s, obs, 600, 70, 0, -40);
+		addDOC(s, obs, 600, 70, 0, 160);
+
+	}
+
+	if (s == badlands6) {
+		
+		addDOC(s, obs, 400, 70, 0, -40);
+		addDOC(s, obs, 400, 70, 0, 360);
+
+	}
+
 	s->obstaclesAdded = true;
 }
 
