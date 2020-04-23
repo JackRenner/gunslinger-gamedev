@@ -74,7 +74,6 @@ void Player::lightingSystem(bool on){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
-
 	if (controls::pressShift()) {
 		if (this->dir == "Up") {
 			this->position.y -= 50;

@@ -68,9 +68,11 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 		patrol();
 	}
 	else if(this->state == 2){
+		cout << "fire state" << endl;
 		fire();
 	}
 	else if(this->state == 3){
+		cout << "charge state" << endl;
 		charge();
 		this->targX = this->sayu->position.x;
 		this->targY = this->sayu->position.y;
@@ -160,8 +162,11 @@ void GangThug::onCollision(DisplayObject* other){
 		lastId = other->id;
 	} else if(other->type == "Projectile") {
 		lastId = other->id;	
-	}else{
+	} else if(other->type == "River") {
+		cout << "SHOULD BE COLLIDING WITH RIVER" << endl;
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+		this->targX = oldX;
+		this->targY = oldY - 10;
 	}
 	// if(other->type == "Weapon"){
 	// 	if(controls::pressSpecial()) 

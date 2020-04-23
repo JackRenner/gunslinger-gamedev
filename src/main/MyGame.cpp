@@ -25,7 +25,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
     character = new Player();
 	//this->removeImmediateChild(character);
 
-	character->position = { 80, 600 };
+	character->position = { 200, 600 };
 	character->scaleX = 0.8;
 	character->scaleY = 0.8;
 	character->pivot = { character->width / 2, character->height / 2 };
@@ -409,7 +409,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		
 		s->enemiesAdded=true;
 	} else if (s->id == "storeScene" && !s->enemiesAdded) {
-		string storekeeper1Text = "Hey fella! Come over and Press Space to buy food for $10!";
+		string storekeeper1Text = "Hey fella! Come over and Coming Soon you can buy food!!";
 		storekeeper1 = new TownsPeople((Player*)character, "storekeeper", false, storekeeper1Text);	
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
@@ -1470,67 +1470,67 @@ void MyGame::initObstacles() {
 
 	if (s == badlands1) {
 		// cacti
-		addDOC(s, cac, 30, 30, 526, 72);
-		addDOC(s, cac, 30, 30, 197, 214);
-		addDOC(s, cac, 30, 30, 744, 237);
-		addDOC(s, cac, 30, 30, 278, 353);
-		addDOC(s, cac, 30, 30, 554, 356);
-		addDOC(s, cac, 30, 30, 208, 521);
-		addDOC(s, cac, 30, 30, 636, 582);
+		addDOC(s, cac, 60, 60, 1052, 204);
+		addDOC(s, cac, 60, 60, 400, 520);
+		addDOC(s, cac, 60, 60, 1488, 534);
+		addDOC(s, cac, 60, 60, 556, 766);
+		addDOC(s, cac, 60, 60, 1108, 772);
+		addDOC(s, cac, 60, 60, 416, 1102);
+		addDOC(s, cac, 60, 60, 1272, 1224);
 
 	}
 
 	if (s == badlands2) {
 		// cacti
-		addDOC(s, cac, 30, 30, 526, 76);
-		addDOC(s, cac, 30, 30, 450, 192);
-		addDOC(s, cac, 30, 30, 343, 292);
-		addDOC(s, cac, 30, 30, 279, 431);
-		addDOC(s, cac, 30, 30, 524, 73);
-		addDOC(s, cac, 30, 30, 769, 460);
-		addDOC(s, cac, 30, 30, 636, 507);
-		addDOC(s, cac, 30, 30, 636, 583);
+		addDOC(s, cac, 60, 60, 526*2, 76*2+60);
+		addDOC(s, cac, 60, 60, 450*2, 192*2+60);
+		addDOC(s, cac, 60, 60, 343*2, 292*2+60);
+		addDOC(s, cac, 60, 60, 279*2, 431*2+60);
+		addDOC(s, cac, 60, 60, 524*2, 73*2+60);
+		addDOC(s, cac, 60, 60, 769*2, 460*2+60);
+		addDOC(s, cac, 60, 60, 636*2, 507*2+60);
+		addDOC(s, cac, 60, 60, 636*2, 583*2+60);
 
 	}
 
 	if (s == badlands3) {
 		// cacti
-		addDOC(s, cac, 30, 30, 524, 73);
-		addDOC(s, cac, 30, 30, 707, 176);
-		addDOC(s, cac, 30, 30, 343, 293);
-		addDOC(s, cac, 30, 30, 343, 293);
-		addDOC(s, cac, 30, 30, 706, 379);
-		addDOC(s, cac, 30, 30, 561, 389);
-		addDOC(s, cac, 30, 30, 279, 432);
-		addDOC(s, cac, 30, 30, 500, 452);
-		addDOC(s, cac, 30, 30, 770, 460);
-		addDOC(s, cac, 30, 30, 636, 510);
+		addDOC(s, cac, 60, 60, 524*2, 73*2+60);
+		addDOC(s, cac, 60, 60, 707*2, 176*2+60);
+		addDOC(s, cac, 60, 60, 343*2, 293*2+60);
+		addDOC(s, cac, 60, 60, 343*2, 293*2+60);
+		addDOC(s, cac, 60, 60, 706*2, 379*2+60);
+		addDOC(s, cac, 60, 60, 561*2, 389*2+60);
+		addDOC(s, cac, 60, 60, 279*2, 432*2+60);
+		addDOC(s, cac, 60, 60, 500*2, 452*2+60);
+		addDOC(s, cac, 60, 60, 770*2, 460*2+60);
+		addDOC(s, cac, 60, 60, 636*2, 510*2+60);
 
 	}
 
 	if (s == badlands4) {
 		// tables
-		addDOC(s, obs, 70, 50, 0, 20);
-		addDOC(s, obs, 80, 80, 160, 134);
-		addDOC(s, obs, 70, 50, 320, 300);
+		addDOC(s, obs, 140, 100, 0, 20*2);
+		addDOC(s, obs, 160, 160, 160*2, 134*2+40);
+		addDOC(s, obs, 140, 100, 320*2, 300*2+40);
 
 		//wall
-		addDOC(s, obs, 400, 70, 0, -40);
-		addDOC(s, obs, 400, 70, 0, 360);
+		addDOC(s, obs, 400*2, 70*2, 0, -40*2+40);
+		addDOC(s, obs, 400*2, 70*2, 0, 360*2+40);
 
 	}
 
 	if (s == badlands5) {
 		//walls
-		addDOC(s, obs, 600, 70, 0, -40);
-		addDOC(s, obs, 600, 70, 0, 160);
+		addDOC(s, obs, 600*2, 70*2, 0, -40*2+40);
+		addDOC(s, obs, 600*2, 70*2, 0, 160*2+40);
 
 	}
 
 	if (s == badlands6) {
 		//walls
-		addDOC(s, obs, 400, 70, 0, -40);
-		addDOC(s, obs, 400, 70, 0, 360);
+		addDOC(s, obs, 400*2, 70*2, 0, -40*2+40);
+		addDOC(s, obs, 400*2, 70*2, 0, 360*2+40);
 
 	}
 
