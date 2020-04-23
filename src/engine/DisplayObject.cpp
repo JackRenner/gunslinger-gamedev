@@ -86,7 +86,6 @@ void DisplayObject::setTexture(SDL_Texture* t){
 
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
 		SDL_Point* temp = this->getGlobalHitbox();
-
 }
 
 void DisplayObject::setSourceRect(SDL_Rect* srcrect){
@@ -108,6 +107,7 @@ void DisplayObject::draw(AffineTransform &at){
 
 		int w = (int)distance(origin, upperRight);
 		int h = (int)distance(upperRight, lowerRight);
+		/*
 		if(this->hitboxDrawn){
 			this->getGlobalHitbox();
 			cout << this->MyGlobalHitbox[0].x << endl;
@@ -116,6 +116,7 @@ void DisplayObject::draw(AffineTransform &at){
 			cout << this->MyGlobalHitbox[3].y <<endl;
 //			this->drawHitbox( setGlobalTransform(globalTransform, this->pivot) );
 		 }
+		 */
 		SDL_Rect dstrect = { origin.x, origin.y, w, h };
 
 
@@ -129,12 +130,15 @@ void DisplayObject::draw(AffineTransform &at){
 
 		SDL_SetTextureAlphaMod(curTexture, alpha);
 		SDL_RenderCopyEx(Game::renderer, curTexture, srcrect, &dstrect, calculateRotation(origin, upperRight), &corner, flip);
+		this->drawHitbox(this->getGlobalHitbox());
 
 	}
 
 	//at.translate(gameCamera.x, gameCamera.y);
 
 	reverseTransformations(at);
+
+
 }
 
 void DisplayObject::applyTransformations(AffineTransform &at) {
@@ -206,13 +210,21 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 
 		}//Use this to specify what happens on hit with another object
 
-	void DisplayObject :: drawHitbox(SDL_Point globalPosition){
+	void DisplayObject :: drawHitbox(SDL_Point * globalPosition){
+		SDL_SetRenderDrawColor(Game:: renderer, 0, 255, 0, SDL_ALPHA_OPAQUE);
+		SDL_RenderDrawLine(Game::renderer, globalPosition[0].x, globalPosition[0].y, globalPosition[1].x, globalPosition[1].y);
+		SDL_RenderDrawLine(Game::renderer, globalPosition[0].x, globalPosition[0].y, globalPosition[2].x, globalPosition[2].y);
+		SDL_RenderDrawLine(Game::renderer, globalPosition[2].x, globalPosition[2].y, globalPosition[3].x, globalPosition[3].y);
+		SDL_RenderDrawLine(Game::renderer, globalPosition[1].x, globalPosition[1].y, globalPosition[3].x, globalPosition[3].y);
+
+		SDL_RenderDrawLine(Game::renderer, globalPosition[0].x, globalPosition[0].y, globalPosition[3].x, globalPosition[3].y);
+		SDL_RenderDrawLine(Game::renderer, globalPosition[1].x, globalPosition[1].y, globalPosition[2].x, globalPosition[2].y);
+
+
+
+
 /*
 		SDL_Rect origin;
-		origin.x = this->myHitbox.origin.x;
-		origin.y = this->myHitbox.origin.y;
-		origin.w = this->myHitbox.width;
-		origin.h = this->myHitbox.height;
 		SDL_Rect upperLeft;
 		SDL_Rect upperRight;
 		SDL_Rect lowerLeft;
@@ -245,23 +257,6 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 		SDL_RenderDrawRect(Game::renderer, &lowerLeft);
 		SDL_RenderDrawRect(Game::renderer, &lowerRight);
 		SDL_RenderDrawRect(Game::renderer, &upperLeft);
-
-		*/
-
-		/*
-		cout << "position x : ";
-		cout << this->position.x << endl;
-		cout << "position y: ";
-		cout << this->position.y << endl;
-
-		cout << "ID: ";
-		cout << this->id <<endl;
-		cout << "Global position x: ";
-		cout << globalPosition.x <<endl;
-		cout << "Global Position y: ";
-		cout << globalPosition.y << endl;
-*/
-
 		SDL_Rect hitboxRect;
 		hitboxRect.x = globalPosition.x;
 		hitboxRect.y = globalPosition.y;
@@ -269,8 +264,10 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 		hitboxRect.h = this -> height;
 
 		SDL_RenderDrawRect(Game::renderer, &hitboxRect);
-//		SDL_RenderDrawRect(Game::renderer, &temp);
-		SDL_RenderPresent(Game::renderer);
+
+		*/
+
+		//SDL_RenderPresent(Game::renderer);
 
 //		cout<< "DrawHitboxPressed";
 //		SDL_RenderCopyEx(Game::renderer, curTexture, srcrect, &dstrect, calculateRotation(origin, upperRight), &corner, flip);

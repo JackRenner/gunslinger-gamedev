@@ -118,14 +118,14 @@ public:
 	//AffineTransform = getGlobalTransform
 	//Use Transformpoint to on 0,0
 	//width,0,
-	//o height,
+	//0 height,
 	//width, height
 	//THen free the affine Transform.
 
 
 
 
-	void drawHitbox(SDL_Point globalPosition);
+	void drawHitbox(SDL_Point * globalPosition);
 	bool hitboxDrawn = false;
 	virtual void onCollision(DisplayObject * otherObject);
 	virtual void savePosition();

@@ -66,8 +66,11 @@ public:
 	void handleAddDisplayObject(GameTreeEvent* e);
 	void handleRemoveDisplayObject(GameTreeEvent* e);
 
+	double distance(SDL_Point &p1, SDL_Point &p2);
 
 
+	double HeronFormulaOfTriangle(SDL_Point &p1, SDL_Point &p2, SDL_Point &p3);
+	double areaOfFourTriangles(SDL_Point &p1, SDL_Point &p2, SDL_Point &p3, SDL_Point &p4, SDL_Point &p5);
 
 	//DisplayObjectContainer* ObjectTree;
 	std:: map<string, vector<DisplayObject*>*> ObjectsOfEachType;
@@ -87,7 +90,6 @@ public:
 	void binaryYChecker(DisplayObject* d, DisplayObject* other, int yDelta1, int yDelta2);
 
 //In the player Object Class onCollision
-
 
 private:
 
