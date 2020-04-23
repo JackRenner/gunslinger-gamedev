@@ -176,8 +176,12 @@ private:
 
 	// HIDEOUT ENEMIES
 	ShotgunGuy* boss_1;
+	
 	//BADLANDS ENEMIES
 	Wolf* wolf1Badlands1;
+	Wolf* wolf2Badlands1;
+	Wolf* wolf3Badlands1;
+	Wolf* wolf4Badlands1;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;

@@ -210,6 +210,9 @@ void MyGame::setScene(Scene* scene) {
 			// 	currentMusic = lakeMusic;
 			// }
 		}
+		else if (scene->id.substr(0,4) == "badl") {
+			initBadlandsEnemies(scene);
+		}
 		else if (scene->id.substr(0,4) == "cany") {
 			initCanyonEnemies(scene);
 		}
@@ -823,7 +826,8 @@ void MyGame::initBadlands() {
 }
 
 void MyGame::initBadlandsEnemies(Scene* s) {
-	wolf1Badlands1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
+	if (s->id == "badlands1" && !s->enemiesAdded) {
+		wolf1Badlands1 = new Wolf((Player*)character, "BadWolf1"); 
 		wolf1Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf1Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 		wolf1Badlands1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
@@ -834,6 +838,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf1Badlands1->scaleY = 0.75;
 		wolf1Badlands1->play("WolfRight");
 		s->enemiesAdded=true;
+	}
 }
 
 void MyGame::initHideout() {
