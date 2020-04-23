@@ -1003,6 +1003,110 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		creeper1Badlands3->position = { 200, 1000 };
 		creeper1Badlands3->play("CreeperUp");
 
+		s->enemiesAdded = true;
+	} else if (s->id=="badlands4" && !s->enemiesAdded){
+		knifeguy1Badlands4 = new KnifeGuy(character, "BadKnifeGuy1");
+		knifeguy1Badlands4->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy1Badlands4->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy1Badlands4->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy1Badlands4->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		badlands4->addChild(knifeguy1Badlands4);
+		knifeguy1Badlands4->position = { 300, 300 };
+		knifeguy1Badlands4->play("KnifeGuyLeft");
+		
+		shot1Badlands4 = new GangShot((Player*)character, "BadGangShot1");	
+		shot1Badlands4->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		shot1Badlands4->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		shot1Badlands4->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		shot1Badlands4->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		badlands4->addChild(shot1Badlands4);
+		shot1Badlands4->position = { 600, 300 };
+		shot1Badlands4->play("GangShotLeft");
+		gang_shot[shot1Badlands4] = 1;
+
+		s->enemiesAdded = true;
+	} else if (s->id == "badlands5" && !s->enemiesAdded) {
+		thug1Badlands5 = new GangThug((Player*)character, "BadGangThug5");	
+		thug1Badlands5->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug1Badlands5->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug1Badlands5->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug1Badlands5->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		badlands5->addChild(thug1Badlands5);
+		thug1Badlands5->position = { 100, 300 };
+		thug1Badlands5->play("GangThugLeft");
+		gang_thugs[thug1Badlands5] = 1;
+
+		thug2Badlands5 = new GangThug((Player*)character, "BadGangThug6");	
+		thug2Badlands5->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug2Badlands5->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug2Badlands5->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug2Badlands5->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		badlands5->addChild(thug2Badlands5);
+		thug2Badlands5->position = { 100, 400 };
+		thug2Badlands5->play("GangThugLeft");
+		gang_thugs[thug2Badlands5] = 1;
+
+		thug3Badlands5 = new GangThug((Player*)character, "BadGangThug7");	
+		thug3Badlands5->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug3Badlands5->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug3Badlands5->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug3Badlands5->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		badlands5->addChild(thug3Badlands5);
+		thug3Badlands5->position = { 200, 400 };
+		thug3Badlands5->play("GangThugLeft");
+		gang_thugs[thug3Badlands5] = 1;
+
+		s->enemiesAdded = true;
+	} else if (s->id == "badlands6" && !s->enemiesAdded) {
+		creeper1Badlands6 = new Creeper(character, "BadCreeper2");
+		creeper1Badlands6->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
+		creeper1Badlands6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
+		creeper1Badlands6->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
+		creeper1Badlands6->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper1Badlands6->addAnimation("resources/enemies/", "Explode", 16, 1, true);
+		badlands6->addChild(creeper1Badlands6);
+		creeper1Badlands6->position = { 70, 650 };
+		creeper1Badlands6->play("CreeperRight");
+
+		creeper2Badlands6 = new Creeper(character, "BadCreeper3");
+		creeper2Badlands6->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
+		creeper2Badlands6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
+		creeper2Badlands6->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
+		creeper2Badlands6->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper2Badlands6->addAnimation("resources/enemies/", "Explode", 16, 1, true);
+		badlands6->addChild(creeper2Badlands6);
+		creeper2Badlands6->position = { 715, 650 };
+		creeper2Badlands6->play("CreeperLeft");
+
+		thug1Badlands6 = new GangThug((Player*)character, "BadGangThug5");	
+		thug1Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug1Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug1Badlands6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug1Badlands6->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		badlands6->addChild(thug1Badlands6);
+		thug1Badlands6->position = { 70, 300 };
+		thug1Badlands6->play("GangThugLeft");
+		gang_thugs[thug1Badlands6] = 1;
+
+		thug2Badlands6 = new GangThug((Player*)character, "BadGangThug6");	
+		thug2Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug2Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug2Badlands6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug2Badlands6->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		badlands6->addChild(thug2Badlands6);
+		thug2Badlands6->position = { 350, 300 };
+		thug2Badlands6->play("GangThugLeft");
+		gang_thugs[thug2Badlands6] = 1;
+
+		thug3Badlands6 = new GangThug((Player*)character, "BadGangThug7");	
+		thug3Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		thug3Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		thug3Badlands6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		thug3Badlands6->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		badlands6->addChild(thug3Badlands6);
+		thug3Badlands6->position = { 715, 300 };
+		thug3Badlands6->play("GangThugLeft");
+		gang_thugs[thug3Badlands6] = 1;
 
 		s->enemiesAdded = true;
 	}

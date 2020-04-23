@@ -37,6 +37,7 @@ Game::Game(int windowWidth, int windowHeight){
 	// gang shot
 	ourCollisionSystem->watchForCollisions("GangShot", "GangShot");
 	ourCollisionSystem->watchForCollisions("GangShot", "Projectile");
+	ourCollisionSystem->watchForCollisions("Obstacle", "GangShot");
 	// wolf collisions
 	ourCollisionSystem->watchForCollisions("Wolf", "Projectile");
 	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
@@ -50,6 +51,7 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("KnifeGuy", "KnifeGuy");
 	ourCollisionSystem->watchForCollisions("KnifeGuy", "Projectile");
 	ourCollisionSystem->watchForCollisions("KnifeGuy", "Player");
+	ourCollisionSystem->watchForCollisions("Obstacle", "KnifeGuy");
 	// marksman collision
 	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
 	// obstacle collision
@@ -58,6 +60,7 @@ Game::Game(int windowWidth, int windowHeight){
 	// cactus collision
 	ourCollisionSystem->watchForCollisions("Cactus", "Player");
 	//projectile and obstacle for particle effect
+	//ourCollisionSystem->watchForCollisions("Benemy", "Obstacle");
 	ourCollisionSystem->watchForCollisions("Projectile", "Obstacle");
 	ourCollisionSystem->watchForCollisions("River", "Player");
 	// shotgun boss collision
