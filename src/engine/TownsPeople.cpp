@@ -19,11 +19,11 @@ TownsPeople::TownsPeople(Player* sayu, string id) : AnimatedSprite(id){
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
 	
-	townspeopleText = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
+	// townspeopleText = new TextBox(SDL_Point{ 1500, 500 }, 400, 100);
 
-	string actualtext = "Hey buddy!";
-	townspeopleText->addTextLine("./resources/fonts/west.otf", actualtext, 24, SDL_Color{ 255, 255, 255 });
-	this->addChild(townspeopleText);
+	// string actualtext = "Hey buddy!";
+	// townspeopleText->addTextLine("./resources/fonts/west.otf", actualtext, 24, SDL_Color{ 255, 255, 255 });
+	// this->addChild(townspeopleText);
 }
 
 void TownsPeople::update(set<SDL_Scancode> pressedKeys){
@@ -85,22 +85,22 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 			this->timeWaited = 0;
 			this->state = 1;
 			this->textClosed = true;
-			townspeopleText->closeBox();
+			//townspeopleText->closeBox();
 		}
 	}
 
-	townspeopleText->position = { -50, -100 };
+	//townspeopleText->position = { -50, -100 };
 
 }
 
 
 void TownsPeople::onCollision(DisplayObject* other){
 	if (other->type == "Player") {
-		if (!townspeopleText->textLock && this->textClosed) {
-			townspeopleText->initBox();
-			this->textClosed = false;
-			this->state = 2;
-		}
+		// if (!townspeopleText->textLock && this->textClosed) {
+		// 	townspeopleText->initBox();
+		// 	this->textClosed = false;
+		// 	this->state = 2;
+		// }
 	}
 }
 

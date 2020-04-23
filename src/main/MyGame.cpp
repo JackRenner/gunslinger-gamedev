@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 0;
+	room_state = 17;
 
-	this->setScene(townScene);
+	this->setScene(canyon1);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -203,19 +203,25 @@ void MyGame::setScene(Scene* scene) {
 	this->curScene = scene;
 	if (curScene != NULL) {
 		this->addChild(curScene);
+		cout << "CURRENT SCENE: " << curScene->id << endl;
+		cout << "SCENE: " << scene->id << endl;
+		
 		if (scene->id.substr(0,4) == "town") {
+			cout << "TOWN" << endl;
 			initTownsPeople(scene);
 		}
-		else if (scene->id.substr(0,4) == "lake")
+		else if (scene->id.substr(0,4) == "lake") {
+			cout << "LAKE" << (scene->id.substr(0,4) == "cany") << endl;
 			initLakeEnemies(scene);
 			if(currentMusic != lakeMusic){
-				cout << "Start lake music!" << endl;
 				lakeMusic->play();
 				currentMusic = lakeMusic;
 			}
 		}
-		else if (scene->id.substr(0,4) == "cany")
+		else if (scene->id.substr(0,4) == "cany") {
+			cout << "TRYING TO INIT CANYON ENEMIES" << endl;
 			initCanyonEnemies(scene);
+		}
 		else if (scene->id.substr(0,4) == "hide") {
 			initHideoutEnemies(scene);
 		}
@@ -505,18 +511,18 @@ void MyGame::initLake() {
 void MyGame::initLakeEnemies(Scene* s) {
 	if (s->id == "lake1" && !s->enemiesAdded) {
 		// wolves
-		// wolf1LakeStill1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
-		// wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
-		// wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
-		// wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
-		// wolf1LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
-		// lake1->addChild(wolf1LakeStill1);
-		// wolf1LakeStill1->position = { 500, 500 };
-		// //wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
-		// wolf1LakeStill1->scaleX = 0.75;
-		// wolf1LakeStill1->scaleY = 0.75;
-		// //wolf1LakeStill1->width = 90;
-		// wolf1LakeStill1->play("WolfLeft");
+		wolf1LakeStill1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		lake1->addChild(wolf1LakeStill1);
+		wolf1LakeStill1->position = { 500, 500 };
+		//wolf1LakeStill1->pivot = { wolf1LakeStill1->width / 2, wolf1LakeStill1->height / 2 };
+		wolf1LakeStill1->scaleX = 0.75;
+		wolf1LakeStill1->scaleY = 0.75;
+		//wolf1LakeStill1->width = 90;
+		wolf1LakeStill1->play("WolfLeft");
 
 		wolf2LakeStill1 = new Wolf((Player*)character, "Wolf2");	// Adding wolf sprites
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
@@ -1197,7 +1203,7 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 3000, 300, 0, 0);
 	}
 
-	if (s == sheriffScene) {
+	if (s == townSheriffScene) {
 		// wall
 		addDOC(s, obs, 1100, 80, 0, 400);
 
@@ -1207,7 +1213,7 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 140, 30, 810, 635);
 	}
 
-	if (s == storeScene){
+	if (s == townStoreScene){
 		// wall
 		addDOC(s, obs, 1100, 100, 0, 400);
 
@@ -1215,7 +1221,7 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 130, 140, 478, 500);
 	}
 
-	if (s == hotelScene){
+	if (s == townHotelScene){
 		// wall
 		addDOC(s, obs, 1100, 100, 0, 400);
 
@@ -1223,12 +1229,12 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 130, 30, 478, 605);
 	}
 
-	if (s == bankScene){
+	if (s == townBankScene){
 		// wall
 		addDOC(s, obs, 1100, 200, 0, 320);
 	}
 
-	if (s == postScene){
+	if (s == townPostScene){
 		// wall
 		addDOC(s, obs, 570, 140, 0, 560);
 		// top wall
@@ -1238,7 +1244,7 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 60, 650, 500, 0);
 	}
 
-	if (s == cantinaScene){
+	if (s == townCantinaScene){
 		// top wall
 		addDOC(s, obs, 1100, 100, 0, 0);
 
@@ -1250,7 +1256,7 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 300, 130, 775, 100);
 	}
 
-	if (s == drugScene){
+	if (s == townDrugScene){
 		// top wall
 		addDOC(s, obs, 1100, 100, 0, 0);
 
