@@ -7,6 +7,8 @@
 #include "Controls.h"
 #include "CollisionSystem.h"
 #include "Benemy.h"
+#include "Sound.h"
+#include "TownsPeople.h"
 
 using namespace std;
 
@@ -31,6 +33,7 @@ Player::Player() : AnimatedSprite("Player"){
 	selectPistol = new WeaponSelectEvent(WeaponSelectEvent::SELECT_PISTOL_EVENT, this);
 	selectShotgun = new WeaponSelectEvent(WeaponSelectEvent::SELECT_SHOTGUN_EVENT, this);
 	selectRifle = new WeaponSelectEvent(WeaponSelectEvent::SELECT_RIFLE_EVENT, this);
+	playerHeal = new WeaponSelectEvent(WeaponSelectEvent::PLAYER_HEAL, this);
 
 	updateAmmo = new WeaponSelectEvent(WeaponSelectEvent::UPDATE_AMMO, this);
 	
@@ -93,26 +96,26 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		if (controls::holdW()) {
 			this->dir = "Up";
 			this->play("FaceUp");
-			// this->position.y -= 4;
-			this->position.y -= 10;
+			this->position.y -= 4;
+			//this->position.y -= 10;
 		}
 		if (controls::holdS()) {
 			this->dir = "Down";
 			this->play("FaceDown");
-			//this->position.y += 4;
-			this->position.y += 10;
+			this->position.y += 4;
+			//this->position.y += 10;
 		}
 		if (controls::holdD()) {
 			this->dir = "Right";
 			this->play("FaceRight");
-			//this->position.x += 4;
-			this->position.x += 10;
+			this->position.x += 4;
+			//this->position.x += 10;
 		}
 		if (controls::holdA()) {
 			this->dir = "Left";
 			this->play("FaceLeft");
-			//this->position.x -= 4;
-			this->position.x -= 10;
+			this->position.x -= 4;
+			//this->position.x -= 10;
 		}
 		if (controls::holdUp()) {
 			this->dir = "Up";
@@ -148,6 +151,19 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		dispatchEvent(healthChangeEvent);
 	}
 
+	// BUYING COOL THINGS!
+	if (this->timeToBuy == 200) {
+		this->ableToBuy = false;
+		this->timeToBuy = 0;
+	}
+	if (this->ableToBuy) {
+		this->timeToBuy++;
+	}
+	if (controls::press1() && this->ableToBuy) {
+		this->foodNum ++;
+	}
+	cout << ableToBuy << endl;
+
 }
 
 // do not include attacks from bosses yet
@@ -162,8 +178,19 @@ void Player::hitByProjectile(string gun){
 	} else if (gun == "shotgun") {
 		takeDamage(60);
 	} else if (gun == "rifle") {
-		takeDamage(40);
+		takeDamage(80);
+	} else if (gun == "dynamite") {
+		takeDamage(200);
+		Sound* new_sound = new Sound();
+		new_sound->playSFX();
 	}
+}
+
+void Player::heal(string food){
+	if (food == "whiskey" && foodNum > 0) {
+		takeNoDamage(-20);
+	}
+
 }
 
 // do not include attacks from bosses yet
@@ -176,7 +203,7 @@ void Player::hitByMelee(string enemy){
 		this->wolfWaitToDamage = 0;
 	}
 	else if (enemy == "knife" && this->knifeWaitToDamage > 40) {
-		takeDamage(30);
+		takeDamage(100);
 		this->knifeWaitToDamage = 0;
 	}
 	else if (enemy == "cactus" ) {
@@ -202,8 +229,7 @@ void Player::onCollision(DisplayObject* other){
 		hitByMelee("creeper");
 	} else if (other->type == "KnifeGuy") {
 		hitByMelee("knife");
-	}
-	else if (other->type == "Obstacle") {
+	} else if (other->type == "Obstacle") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
 	} 
 	else if (other->type == "River") {
@@ -212,6 +238,12 @@ void Player::onCollision(DisplayObject* other){
 	else if (other->type == "Cactus") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
 		hitByMelee("cactus");
+	}
+	if (other->type == "TownsPeople") {
+		TownsPeople *temp = (TownsPeople*) other;
+		if (temp->id == "storekeeper" && !this->ableToBuy) {
+			this->ableToBuy = true;
+		}
 	}
 }
 
@@ -243,18 +275,19 @@ void Player::takeDamage(int damage){
 		if (this->health < 0) {this->health = 0;}
 		dispatchEvent(healthChangeEvent);
 	}
+	
 }
 
-// void Player::onEnemyCollision(Enemy* enemy){
-// 	this->health -= enemy->damage;
-// 	this->initIFrames(120);
-// }
-
-// void Player::initIFrames(int numFrames){
-// 	this->iFrameCount = 0;
-// 	this->numIFrames = numFrames;
-// 	this->iFrames = true;
-// }
+void Player::takeNoDamage(int damage){
+	//this->bloodSplatter->alpha = 255;
+	//this->bloodSplatter->replay();
+	if(this->health > 0){
+		this->health -= damage;
+		if (this->health < 0) {this->health = 0;}
+		dispatchEvent(healthChangeEvent);
+	}
+	
+}
 
 void Player::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
@@ -281,5 +314,7 @@ void Player::selectWeapon(int gun) {
 	case 4:
 		this->dispatchEvent(selectRifle);
 		break;
+	case 5:
+		this->dispatchEvent(playerHeal);
 	}
 }

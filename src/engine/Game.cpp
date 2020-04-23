@@ -26,6 +26,8 @@ Game::Game(int windowWidth, int windowHeight){
  	ourCollisionSystem = new CollisionSystem();
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "addObject");
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "removeObject");
+	// player + townspeople collision
+	ourCollisionSystem->watchForCollisions("TownsPeople", "Player");
 	// player + bullet collision
 	ourCollisionSystem->watchForCollisions("Benemy", "Player");
 	ourCollisionSystem->watchForCollisions("Projectile", "Player");
@@ -52,11 +54,14 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
 	// obstacle collision
 	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
+	ourCollisionSystem->watchForCollisions("River", "GangThug");
 	// cactus collision
 	ourCollisionSystem->watchForCollisions("Cactus", "Player");
 	//projectile and obstacle for particle effect
 	ourCollisionSystem->watchForCollisions("Projectile", "Obstacle");
 	ourCollisionSystem->watchForCollisions("River", "Player");
+	// shotgun boss collision
+	ourCollisionSystem->watchForCollisions("ShotgunGuy", "Projectile");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 

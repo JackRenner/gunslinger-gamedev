@@ -38,11 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	//room_state = 17;
+	room_state = 0;
 
-	//this->setScene(canyon1);
-	room_state = 26;
-	this->setScene(hideout1);
+	this->setScene(townScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -71,6 +69,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character->addEventListener(selection, WeaponSelectEvent::SELECT_PISTOL_EVENT);
 	character->addEventListener(selection, WeaponSelectEvent::SELECT_SHOTGUN_EVENT);
 	character->addEventListener(selection, WeaponSelectEvent::SELECT_RIFLE_EVENT);
+	character->addEventListener(selection, WeaponSelectEvent::PLAYER_HEAL);
 
 	character->addEventListener(ammoCounter, WeaponSelectEvent::UPDATE_AMMO);
 
@@ -150,8 +149,23 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		}
 		// there isn't any delay from reloading yet
 		if (controls::pressR()) {
+
 			this->reloadGun(character->gun);
 		}
+		if (controls::pressF() && character->health < 500) {
+			character->heal("whiskey");
+			character->foodNum -=1;
+			character->selectWeapon(5);
+
+		}
+		// if (controls::toggleVisibility() && !test->textLock) {
+		// 	if (test->nextLine == 0)
+		// 		test->initBox();
+		// 	else if (test->nextLine == test->maxLine)
+		// 		test->closeBox();
+		// 	else
+		// 		test->drawNextLine();
+		// }
 	}
 
 	Game::update(pressedKeys);
@@ -189,25 +203,30 @@ void MyGame::setScene(Scene* scene) {
 	this->curScene = scene;
 	if (curScene != NULL) {
 		this->addChild(curScene);
-		if (scene->id.substr(0,4) == "lake"){
+		if (scene->id.substr(0,4) == "lake") {
 			initLakeEnemies(scene);
-			if(currentMusic != lakeMusic){
-				cout << "Start lake music!" << endl;
-				lakeMusic->play();
-				currentMusic = lakeMusic;
-			}
+			// if(currentMusic != lakeMusic){
+			// 	lakeMusic->play();
+			// 	currentMusic = lakeMusic;
+			// }
 		}
-		else if (scene->id.substr(0,4) == "cany")
+		else if (scene->id.substr(0,4) == "cany") {
 			initCanyonEnemies(scene);
+		}
+		else if (scene->id.substr(0,4) == "hide") {
+			initHideoutEnemies(scene);
+		}
 		//all town scenes end with Scene
 		else if (scene->id.length() > 5 && scene->id.substr(scene->id.length() - 5, scene->id.length() - 1) == "Scene") {
-			if (currentMusic != townMusic) {
-				cout << "Start town music!" << endl;
-				townMusic->play();
-				currentMusic = townMusic;
-			}
+			initTownsPeople(scene);
+			// if (currentMusic != townMusic) {
+			// 	cout << "Start town music!" << endl;
+			// 	townMusic->play();
+			// 	currentMusic = townMusic;
+			// }
 		}
-		else if (scene->id == "hideout4") {
+		
+		if (scene->id == "hideout4") {
 			this->character->lightingSystem(true);
 		} else {
 			this->character->lightingSystem(false);
@@ -372,11 +391,38 @@ void MyGame::initTown() {
 	sceneInfo.push_back(SceneInfo(cantinaScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 6
 	sceneInfo.push_back(SceneInfo(drugScene, SDL_Rect{ 0, 0, 1080, 1080 })); // 7
 
-	// add friendly NPCs to Town
-	storekeeper = new DisplayObject("storekeeper", "./resources/friendlies/storekeeper.png");
-	storeScene->addChild(storekeeper);
-	storekeeper->position.x = 500;
-	storekeeper->position.y = 500;
+}
+
+void MyGame::initTownsPeople(Scene* s) {
+	if (s->id == "townScene" && !s->enemiesAdded) {
+		string walkingTownee1Text = "What's up homey!";
+		walkingTownee1 = new TownsPeople((Player*)character, "walkingTownee1", true, walkingTownee1Text);	
+		walkingTownee1->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		walkingTownee1->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		walkingTownee1->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		walkingTownee1->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		townScene->addChild(walkingTownee1);
+		walkingTownee1->position = { 700, 500 };
+		// walkingTownee1->scaleX = 0.75;
+		// walkingTownee1->scaleY = 0.75;
+		walkingTownee1->play("storekeeperLeft");
+		
+		s->enemiesAdded=true;
+	} else if (s->id == "storeScene" && !s->enemiesAdded) {
+		string storekeeper1Text = "Hey fella! Come over and Press Space to buy food for $10!";
+		storekeeper1 = new TownsPeople((Player*)character, "storekeeper", false, storekeeper1Text);	
+		storekeeper1->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		storekeeper1->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		storekeeper1->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		storekeeper1->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		storeScene->addChild(storekeeper1);
+		storekeeper1->position = { 550, 550 };
+		// storekeeper1->scaleX = 0.75;
+		// storekeeper1->scaleY = 0.75;
+		storekeeper1->play("storekeeperLeft");
+		
+		s->enemiesAdded=true;
+	}
 }
 
 void MyGame::initLake() {
@@ -734,46 +780,60 @@ void MyGame::initBadlands() {
 		//transition back to town
 		TransitionStruct(SDL_Point{406, 30}, SDL_Point{2330, 964}, 0),
 
-		TransitionStruct(SDL_Point{510, 720}, SDL_Point{406, 110}, 21)
+	TransitionStruct(SDL_Point{510*2, 720*2}, SDL_Point{406*2, 110*2}, 21)
 	};
 	transitions.push_back(badlands1Points);
 
 	vector<TransitionStruct> badlands2Points = {
-	TransitionStruct(SDL_Point{932, 663}, SDL_Point{95, 680}, 22),
-	TransitionStruct(SDL_Point{406, 40}, SDL_Point{450, 720}, 20)
+	TransitionStruct(SDL_Point{932*2, 663*2}, SDL_Point{95*2, 680*2}, 22),
+	TransitionStruct(SDL_Point{406*2, 40*2}, SDL_Point{450*2, 720*2}, 20)
 	};
 	transitions.push_back(badlands2Points);
 
 	vector<TransitionStruct> badlands3Points = {
-	TransitionStruct(SDL_Point{918, 85}, SDL_Point{38, 305}, 23),
-	TransitionStruct(SDL_Point{15, 680}, SDL_Point{852, 663}, 21)
+	TransitionStruct(SDL_Point{918*2, 85*2}, SDL_Point{38*2, 305*2}, 23),
+	TransitionStruct(SDL_Point{15*2, 680*2}, SDL_Point{852*2, 663*2}, 21)
 	};
 	transitions.push_back(badlands3Points);
 
 	vector<TransitionStruct> badlands4Points = {
-	TransitionStruct(SDL_Point{358, 50}, SDL_Point{556, 117}, 24),
-	TransitionStruct(SDL_Point{38, 373}, SDL_Point{918, 165}, 22)
+	TransitionStruct(SDL_Point{358*2, 50*2}, SDL_Point{556*2, 117*2}, 24),
+	TransitionStruct(SDL_Point{38*2, 373}, SDL_Point{918*2, 165*2}, 22)
 	};
 	transitions.push_back(badlands4Points);
 
 	vector<TransitionStruct> badlands5Points = {
-	TransitionStruct(SDL_Point{38, 47}, SDL_Point{198, 318}, 25),
-	TransitionStruct(SDL_Point{556, 173}, SDL_Point{358, 100}, 23)
+	TransitionStruct(SDL_Point{38*2, 47*2}, SDL_Point{198*2, 318*2}, 25),
+	TransitionStruct(SDL_Point{556*2, 173*2}, SDL_Point{358*2, 100*2}, 23)
 	};
 	transitions.push_back(badlands5Points);
 
 	vector<TransitionStruct> badlands6Points = {
-	TransitionStruct(SDL_Point{198, 373}, SDL_Point{38, 100}, 24)
+	TransitionStruct(SDL_Point{198*2, 373*2}, SDL_Point{38*2, 100*2}, 24)
 	};
 	transitions.push_back(badlands6Points);
 
 	// initialize badlands scene info
-	sceneInfo.push_back(SceneInfo(badlands1, SDL_Rect{ 0, 0, 960, 768 })); // 20
-	sceneInfo.push_back(SceneInfo(badlands2, SDL_Rect{ 0, 0, 960, 768 })); // 21
-	sceneInfo.push_back(SceneInfo(badlands3, SDL_Rect{ 0, 0, 960, 768 })); // 22
-	sceneInfo.push_back(SceneInfo(badlands4, SDL_Rect{ 0, 0, 400, 400 })); // 23
-	sceneInfo.push_back(SceneInfo(badlands5, SDL_Rect{ 0, 0, 600, 200 })); // 24
-	sceneInfo.push_back(SceneInfo(badlands6, SDL_Rect{ 0, 0, 400, 400 })); // 25
+	sceneInfo.push_back(SceneInfo(badlands1, SDL_Rect{ 0, 0, 960*2, 768*2 })); // 20
+	sceneInfo.push_back(SceneInfo(badlands2, SDL_Rect{ 0, 0, 960*2, 768*2 })); // 21
+	sceneInfo.push_back(SceneInfo(badlands3, SDL_Rect{ 0, 0, 960*2, 768*2 })); // 22
+	sceneInfo.push_back(SceneInfo(badlands4, SDL_Rect{ 0, 0, 400*2, 400*2 })); // 23
+	sceneInfo.push_back(SceneInfo(badlands5, SDL_Rect{ 0, 0, 600*2, 200*2 })); // 24
+	sceneInfo.push_back(SceneInfo(badlands6, SDL_Rect{ 0, 0, 400*2, 400*2 })); // 25
+}
+
+void MyGame::initBadlandsEnemies(Scene* s) {
+	wolf1Badlands1 = new Wolf((Player*)character, "Wolf1");	// Adding wolf sprites
+		wolf1Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
+		wolf1Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
+		wolf1Badlands1->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
+		wolf1Badlands1->addAnimation("resources/enemies/", "WolfDown", 1, 1, true);
+		badlands1->addChild(wolf1Badlands1);
+		wolf1Badlands1->position = { 200, 600 };
+		wolf1Badlands1->scaleX = 0.75;
+		wolf1Badlands1->scaleY = 0.75;
+		wolf1Badlands1->play("WolfRight");
+		s->enemiesAdded=true;
 }
 
 void MyGame::initHideout() {
@@ -856,6 +916,23 @@ void MyGame::initHideout() {
 	sceneInfo.push_back(SceneInfo(hideout8, SDL_Rect{ 0, 0, 1080, 1080 })); // 33
 }
 
+void MyGame::initHideoutEnemies(Scene *s) {
+	if (s->id == "hideout8" && !s->enemiesAdded) {
+		boss_1 = new ShotgunGuy((Player*)character, "Boss1");	
+		boss_1->addAnimation("resources/enemies/", "ShotgunGuyUp", 1, 1, true);
+		boss_1->addAnimation("resources/enemies/", "ShotgunGuyLeft", 1, 1, true);
+		boss_1->addAnimation("resources/enemies/", "ShotgunGuyRight", 1, 1, true);
+		boss_1->addAnimation("resources/enemies/", "ShotgunGuyDown", 1, 1, true);
+		boss_1->addAnimation("resources/enemies/", "smoke", 50, 1, true);
+		hideout8->addChild(boss_1);
+		boss_1->position = { 700, 300 };
+		boss_1->play("ShotgunGuyLeft");
+		shotgun_boss[boss_1] = 1;
+		
+		s->enemiesAdded = true;
+	}
+}
+
 void MyGame::enemyShootingLoops() {
 	// GANG THUG LOOP
 	for (std::map<GangThug*, int>::iterator it=gang_thugs.begin(); it!=gang_thugs.end(); ++it) {
@@ -881,6 +958,7 @@ void MyGame::enemyShootingLoops() {
 			}
 		}
 	}
+	// GANG SHOT loop
 	for (std::map<GangShot*, int>::iterator it=gang_shot.begin(); it!=gang_shot.end(); ++it) {
 		if (it->first->health == 0) {
 			it->first->clean = true;
@@ -904,6 +982,7 @@ void MyGame::enemyShootingLoops() {
 			}
 		}
 	}
+	// GANG MARKSMAN loop
 	for (std::map<GangMarksman*, int>::iterator it=gang_marksmans.begin(); it!=gang_marksmans.end(); ++it) {
 		if (it->first->health == 0) {
 			it->first->clean = true;
@@ -918,9 +997,10 @@ void MyGame::enemyShootingLoops() {
 			benemy2->pivot = { benemy2->width / 2, benemy2->height / 2 };
 			benemy2->scaleX = 1;
 			benemy2->scaleY = 1;
-			it->first->shoot -= 40;
+			it->first->shoot -= 200;
 		}
 	}
+	// ARROW GUY loop
 	for (std::map<ArrowGuy*, int>::iterator it=arrow_guys.begin(); it!=arrow_guys.end(); ++it) {
 		if (it->first->health == 0) {
 			it->first->clean = true;
@@ -936,6 +1016,43 @@ void MyGame::enemyShootingLoops() {
 			benemy3->scaleX = 1;
 			benemy3->scaleY = 1;
 			it->first->shoot -= 80;
+		}
+	}
+	// SHOTGUN BOSS loop
+	for (std::map<ShotgunGuy*, int>::iterator it=shotgun_boss.begin(); it!=shotgun_boss.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			shotgun_boss.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemyb = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun");
+			benemyb->distance = 20;
+			this->addChild(benemyb);
+			benemyb->position = {it->first->position.x, it->first->position.y };
+			benemyb->pivot = { benemyb->width / 2, benemyb->height / 2 };
+			benemyb->scaleX = 1;
+			benemyb->scaleY = 1;
+			if (it->first->shots_fired == 1) {
+				it->first->state = 4;
+				it->first->shoot = 0;
+				//it->first->shots_fired = 0;
+			} else{
+				it->first->shoot -= 75;
+				it->first->shots_fired ++;
+			}
+		}
+		if(it->first->dynamite){
+			// ensure dynamite is only thrown once
+			it->first->dynamite = false;
+			benemyc = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "dynamite");
+			benemyc->distance = 20;
+			this->addChild(benemyc);
+			benemyc->position = {it->first->position.x, it->first->position.y };
+			benemyc->pivot = { benemyc->width / 2, benemyc->height / 2 };
+			benemyc->scaleX = 1;
+			benemyc->scaleY = 1;
+			//it->first->shots_fired += 1;
 		}
 	}
 }

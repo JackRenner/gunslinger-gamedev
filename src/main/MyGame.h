@@ -9,12 +9,14 @@
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Player.h"
+#include "../engine/TownsPeople.h"
 #include "../engine/Wolf.h"
 #include "../engine/GangThug.h"
 #include "../engine/GangShot.h"
 #include "../engine/Creeper.h"
 #include "../engine/KnifeGuy.h"
 #include "../engine/GangMarksman.h"
+#include "../engine/ShotgunGuy.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
@@ -64,6 +66,7 @@ public:
 
 	void initObstacles();
 
+	void initTownsPeople(Scene* s);
 	void initLakeEnemies(Scene* s);
 	void initCanyonEnemies(Scene* s);
 	void initHideoutEnemies(Scene* s);
@@ -79,6 +82,7 @@ public:
 	std::map<GangShot*,int> gang_shot;
 	std::map<GangMarksman*,int> gang_marksmans;
 	std::map<ArrowGuy*,int> arrow_guys;
+	std::map<ShotgunGuy*,int> shotgun_boss;
 
 private:
 
@@ -99,7 +103,8 @@ private:
 	Scene* drugScene;
 
 	// TOWN NPCS
-	DisplayObject* storekeeper;
+	TownsPeople* walkingTownee1;
+	TownsPeople* storekeeper1;
 
 	// LAKE STILL SCENES
 	Scene* lake1;
@@ -169,11 +174,18 @@ private:
 	Wolf* wolf2Canyon3;
 	Wolf* wolf3Canyon3;
 
+	// HIDEOUT ENEMIES
+	ShotgunGuy* boss_1;
+	//BADLANDS ENEMIES
+	Wolf* wolf1Badlands1;
+
 	//AnimatedSprite* wolf;
 	Benemy* benemy;
 	Benemy* benemy2;
 	Benemy* benemy3;
 	Benemy* benemya;
+	Benemy* benemyb;
+	Benemy* benemyc;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;
