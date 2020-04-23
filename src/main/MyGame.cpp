@@ -103,7 +103,9 @@ MyGame::~MyGame() {
 
 
 void MyGame::update(set<SDL_Scancode> pressedKeys) {
-	controls::update(pressedKeys);
+	
+	
+	cout << " x coord: " + to_string(character->position.x) << " y coord: " + to_string(character->position.y);
 
 	this->saveAllPositions();
 
@@ -889,6 +891,90 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		
 		s->enemiesAdded = true;
 	}
+	if (s->id == "hideout7" && !s->enemiesAdded) {
+		//floryan
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout6" && !s->enemiesAdded) {
+		knifeguy1hideout6 = new KnifeGuy(character, "knifeguy1hideout6");
+		knifeguy1hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy1hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy1hideout6->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy1hideout6->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout6->addChild(knifeguy1hideout6);
+		knifeguy1hideout6->position = {300, 800};
+		knifeguy1hideout6->play("KnifeGuyLeft");
+
+		knifeguy2hideout6 = new KnifeGuy(character, "knifeguy2hideout6");
+		knifeguy2hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy2hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy2hideout6->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy2hideout6->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout6->addChild(knifeguy2hideout6);
+		knifeguy2hideout6->position = {250, 900};
+		knifeguy2hideout6->play("KnifeGuyLeft");
+
+		knifeguy3hideout6 = new KnifeGuy(character, "knifeguy3hideout6");
+		knifeguy3hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy3hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy3hideout6->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy3hideout6->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout6->addChild(knifeguy3hideout6);
+		knifeguy3hideout6->position = {300, 900};
+		knifeguy3hideout6->play("KnifeGuyLeft");
+
+		knifeguy4hideout6 = new KnifeGuy(character, "knifeguy4hideout6");
+		knifeguy4hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy4hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy4hideout6->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy4hideout6->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout6->addChild(knifeguy4hideout6);
+		knifeguy4hideout6->position = {250, 800};
+		knifeguy4hideout6->play("KnifeGuyLeft");
+		//bedroom
+		//4 knife guys in bathroom
+		//2 creeper on right
+		// gang thugs in middle
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout5" && !s->enemiesAdded) {
+		//prison
+		// 2 new marksmen who don't move
+		// 1 knife on each side of tower
+		// shotgun guys from behind in the back
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout4" && !s->enemiesAdded) {
+		//hallway
+		// 4 new marksmen - don't move, infinite range
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout3" && !s->enemiesAdded) {
+		//kitchen
+		// 2 shotguns in back top
+		// 2 marksmen in back bottom
+		// knife guys in middle
+		// thugs in left
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout2" && !s->enemiesAdded) {
+		// bar
+		// 3 gang thugs at bar
+		// 2 knife wielders at first table
+		// 2 knife wielders at back table
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout1" && !s->enemiesAdded) {
+		// 3 gang thugs
+		s->enemiesAdded = true;
+
+	}
 }
 
 void MyGame::enemyShootingLoops() {
@@ -955,6 +1041,24 @@ void MyGame::enemyShootingLoops() {
 			benemy2->pivot = { benemy2->width / 2, benemy2->height / 2 };
 			benemy2->scaleX = 1;
 			benemy2->scaleY = 1;
+			it->first->shoot -= 40;
+		}
+	}
+	// GANG MARKSMAN no move
+	for (std::map<GangMarksmanFree*, int>::iterator it=gang_marksmansfree.begin(); it!=gang_marksmansfree.end(); ++it) {
+		if (it->first->health == 0) {
+			it->first->clean = true;
+			gang_marksmansfree.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			benemyu = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "rifle");
+			benemyu->distance = 20;
+			this->addChild(benemyu);
+			benemyu->position = {it->first->position.x, it->first->position.y };
+			benemyu->pivot = { benemyu->width / 2, benemyu->height / 2 };
+			benemyu->scaleX = 1;
+			benemyu->scaleY = 1;
 			it->first->shoot -= 40;
 		}
 	}
