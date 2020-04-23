@@ -9,6 +9,7 @@
 #include "../engine/Sprite.h"
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Player.h"
+#include "../engine/TownsPeople.h"
 #include "../engine/Wolf.h"
 #include "../engine/GangThug.h"
 #include "../engine/GangShot.h"
@@ -25,9 +26,11 @@
 #include "../engine/eventhandlers/CoinListener.h"
 #include "../engine/TransitionStruct.h"
 #include "../engine/SceneInfo.h"
+#include "../engine/Music.h"
 #include "../engine/ui/TextBox.h"
 #include "../engine/ui/HealthBar.h"
 #include "../engine/ui/WeaponSelect.h"
+#include "../engine/ui/AmmoCount.h"
 //#include "MyObject.h"
 
 
@@ -64,6 +67,7 @@ public:
 
 	void initObstacles();
 
+	void initTownsPeople(Scene* s);
 	void initLakeEnemies(Scene* s);
 	void initCanyonEnemies(Scene* s);
 	void initHideoutEnemies(Scene* s);
@@ -84,22 +88,24 @@ public:
 
 private:
 
+	void addDOC(Scene* s, string type, int width, int height, int xpos, int ypos);
+
 	Scene* curScene = NULL;
 
-	TextBox* test;
+	//TextBox* test;
 
 	// TOWN SCENES
 	Scene* townScene;
-	Scene* sheriffScene;
-	Scene* storeScene;
-	Scene* hotelScene;
-	Scene* bankScene;
-	Scene* postScene;
-	Scene* cantinaScene;
-	Scene* drugScene;
+	Scene* townSheriffScene;
+	Scene* townStoreScene;
+	Scene* townHotelScene;
+	Scene* townBankScene;
+	Scene* townPostScene;
+	Scene* townCantinaScene;
+	Scene* townDrugScene;
 
 	// TOWN NPCS
-	DisplayObject* storekeeper;
+	TownsPeople* storekeeper1;
 
 	// LAKE STILL SCENES
 	Scene* lake1;
@@ -138,6 +144,7 @@ private:
 	Scene* hideout8;
 
 	WeaponSelect* selection;
+	AmmoCount* ammoCounter;
 	Player* character;
 	Projectile* bullet;
 	
@@ -169,7 +176,6 @@ private:
 	Wolf* wolf3Canyon3;
 
 	// HIDEOUT ENEMIES
-
 	ShotgunGuy* boss_1;
 	KnifeGuy* knifeguy1hideout6;
 	KnifeGuy* knifeguy2hideout6;
@@ -177,6 +183,8 @@ private:
 	KnifeGuy* knifeguy4hideout6;
 
 
+	//BADLANDS ENEMIES
+	Wolf* wolf1Badlands1;
 
 	//AnimatedSprite* wolf;
 	Benemy* benemy;
@@ -203,7 +211,10 @@ private:
 
 	int room_state = -1;
 
-	Sound* music;
+	Music* currentMusic;
+
+	Music* lakeMusic;
+	Music* townMusic;
 
 	TweenJuggler* juggler;
 

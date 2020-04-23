@@ -26,6 +26,8 @@ Game::Game(int windowWidth, int windowHeight){
  	ourCollisionSystem = new CollisionSystem();
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "addObject");
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "removeObject");
+	// player + townspeople collision
+	ourCollisionSystem->watchForCollisions("TownsPeople", "Player");
 	// player + bullet collision
 	ourCollisionSystem->watchForCollisions("Benemy", "Player");
 	ourCollisionSystem->watchForCollisions("Projectile", "Player");
@@ -61,7 +63,6 @@ Game::Game(int windowWidth, int windowHeight){
 }
 
 Game::~Game(){
-	//DisplayObjectContainer::~DisplayObjectContainer ();
 	quitSDL();
 }
 

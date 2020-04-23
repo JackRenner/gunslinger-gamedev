@@ -10,6 +10,7 @@
 #include "GangMarksman.h"
 #include "Player.h"
 #include "ShotgunGuy.h"
+#include "TownsPeople.h"
 
 
 CollisionSystem :: CollisionSystem(){
@@ -111,13 +112,15 @@ void CollisionSystem :: handleRemoveDisplayObject(GameTreeEvent*e){
     }
     else{
       auto iter = ObjectsOfEachType[e->getModifiedObject()->type]->begin(); //Create iterator for forloop, starts with the beginning
-      for(iter; iter !=  ObjectsOfEachType[e->getModifiedObject()->type]->end(); iter++ ){
+      for(iter; iter !=  ObjectsOfEachType[e->getModifiedObject()->type]->end(); ){
           cout << "Erase Iter" <<endl;
           cout << (*iter)->id <<endl;
-          if( (*iter)->id == e->getModifiedObject()->id){
-              cout <<"Equal to Target"<<endl;
-              ObjectsOfEachType[e->getModifiedObject()->type]->erase(iter--);
+          if ((*iter)->id == e->getModifiedObject()->id) {
+              cout << "Equal to Target" << endl;
+              iter = ObjectsOfEachType[e->getModifiedObject()->type]->erase(iter);
           }
+          else
+              iter++;
       }
     }
 
@@ -222,6 +225,13 @@ bool CollisionSystem :: collidesWith(DisplayObject* obj1, DisplayObject* obj2){
   if (obj2->type == "ShotgunGuy") {
     SDL_Point* obj2Points = ((ShotgunGuy*)obj2)->getGlobalHitbox();
   }
+  if (obj1->type == "TownsPeople") {
+    SDL_Point* obj1Points = ((TownsPeople*)obj1)->getGlobalHitbox();
+  }
+  if (obj2->type == "TownsPeople") {
+    SDL_Point* obj2Points = ((TownsPeople*)obj2)->getGlobalHitbox();
+  }
+  
 
   int minX = INT_MAX;
   int maxX = INT_MIN;
