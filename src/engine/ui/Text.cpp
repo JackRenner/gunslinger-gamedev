@@ -4,6 +4,7 @@ using namespace std;
 
 
 Text::Text(string fontPath, string text, int pts, SDL_Color fontColor, int sz) {
+	this->type = "Text";
 	font = TTF_OpenFont(fontPath.c_str(), pts);
 	this->fontColor = fontColor;
 

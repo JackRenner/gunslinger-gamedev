@@ -33,6 +33,8 @@ Player::Player() : AnimatedSprite("Player"){
 	selectShotgun = new WeaponSelectEvent(WeaponSelectEvent::SELECT_SHOTGUN_EVENT, this);
 	selectRifle = new WeaponSelectEvent(WeaponSelectEvent::SELECT_RIFLE_EVENT, this);
 	playerHeal = new WeaponSelectEvent(WeaponSelectEvent::PLAYER_HEAL, this);
+
+	updateAmmo = new WeaponSelectEvent(WeaponSelectEvent::UPDATE_AMMO, this);
 	
 	this->play("FaceUp");
 	holding = 0;
@@ -46,6 +48,27 @@ Player::Player() : AnimatedSprite("Player"){
 	bloodSplatter->play("blood_splatter");
 
 	this->addChild(bloodSplatter);
+
+	//add lighting effect for tunnel room (hideout room 4)
+	lightingEffect = new AnimatedSprite("le");
+	lightingEffect->addAnimation("./resources/sprites/", "lighting", 1, 1, true);
+	lightingEffect->width = 3000;
+	lightingEffect->height = 3000;
+	lightingEffect->position.x = lightingEffect->position.x - (lightingEffect->width / 2);
+	lightingEffect->position.y = lightingEffect->position.y - (lightingEffect->height / 2);
+	lightingEffect->alpha = 0;
+	lightingEffect->play("lighting");
+
+	this->addChild(lightingEffect);
+
+}
+
+void Player::lightingSystem(bool on){
+	if(on){
+		lightingEffect->alpha = 255;
+	} else {
+		lightingEffect->alpha = 0;
+	}
 }
 
 
@@ -247,6 +270,7 @@ void Player::draw(AffineTransform &at){
 
 void Player::selectWeapon(int gun) {
 	this->gun = gun;
+	this->dispatchEvent(updateAmmo);
 	switch (gun) {
 	case 0:
 		this->dispatchEvent(selectFist);

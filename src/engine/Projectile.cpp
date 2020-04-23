@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "Controls.h"
 #include "Game.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -88,6 +89,8 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 
 void Projectile::onCollision(DisplayObject* other) {
 	if (this->thrown && other->type=="Player"){
+		Player* p = static_cast<Player*>(other);
+		p->knife_throws = 0;
 		this->removeThis();
 	} else if (other->type!="Player"){
 		if(other->type == "ArrowGuy" || other->type == "Obstacle"){ //add an or here once collision detection with wall is feasible
@@ -95,10 +98,10 @@ void Projectile::onCollision(DisplayObject* other) {
 		} else {
 			this->play("blood_splatter");
 		}
-		if (this->gun == "knife" && !this->thrown) {
-			this->removeThis();
-		} if (!this->thrown)
+		hitSomething = true;
+		/*if (!this->thrown){
 			hitSomething = true;
+		}*/
 	}
 }
 

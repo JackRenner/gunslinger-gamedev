@@ -25,9 +25,11 @@
 #include "../engine/eventhandlers/CoinListener.h"
 #include "../engine/TransitionStruct.h"
 #include "../engine/SceneInfo.h"
+#include "../engine/Music.h"
 #include "../engine/ui/TextBox.h"
 #include "../engine/ui/HealthBar.h"
 #include "../engine/ui/WeaponSelect.h"
+#include "../engine/ui/AmmoCount.h"
 //#include "MyObject.h"
 
 
@@ -84,9 +86,11 @@ public:
 
 private:
 
+	void addDOC(Scene* s, string type, int width, int height, int xpos, int ypos);
+
 	Scene* curScene = NULL;
 
-	TextBox* test;
+	//TextBox* test;
 
 	// TOWN SCENES
 	Scene* townScene;
@@ -138,6 +142,7 @@ private:
 	Scene* hideout8;
 
 	WeaponSelect* selection;
+	AmmoCount* ammoCounter;
 	Player* character;
 	Projectile* bullet;
 	
@@ -197,7 +202,10 @@ private:
 
 	int room_state = -1;
 
-	Sound* music;
+	Music* currentMusic;
+
+	Music* lakeMusic;
+	Music* townMusic;
 
 	TweenJuggler* juggler;
 
