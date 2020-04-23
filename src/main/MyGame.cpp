@@ -410,7 +410,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		s->enemiesAdded=true;
 	} else if (s->id == "storeScene" && !s->enemiesAdded) {
 		string storekeeper1Text = "Hey fella! Come over and Press Space to buy food for $10!";
-		storekeeper1 = new TownsPeople((Player*)character, "storekeeper1", false, storekeeper1Text);	
+		storekeeper1 = new TownsPeople((Player*)character, "storekeeper", false, storekeeper1Text);	
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);

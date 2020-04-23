@@ -68,10 +68,8 @@ public:
 	string dir;
 	int holding = 0;
 
-	//iFrames
-	bool iFrames = false;
-	int iFrameCount = 0;
-	int numIFrames = 0;
+	//purchasing counter
+	int timeToBuy = 0;
 
 	//AnimatedSprite* bullet;
 	AnimatedSprite* bloodSplatter;
@@ -97,6 +95,8 @@ private:
 	// int _jumpVel = -15;s
 	int wolfWaitToDamage = 0;
 	int knifeWaitToDamage = 0;
+
+	bool ableToBuy = false;
 
 	//void initIFrames(int numFrames);
 

@@ -203,7 +203,7 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 
 
 		void DisplayObject :: onCollision(DisplayObject * otherObject){
-			cout << "DisplayObjects onCollision is being called." <<endl;
+			//cout << "DisplayObjects onCollision is being called." <<endl;
 		    //Game::instance->ourCollisionSystem->resolveCollision(this, otherObject , this->position.x - oldX, this->position.y-oldY, 0, 0);
 
 		}//Use this to specify what happens on hit with another object

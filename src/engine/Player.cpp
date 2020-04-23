@@ -8,6 +8,7 @@
 #include "CollisionSystem.h"
 #include "Benemy.h"
 #include "Sound.h"
+#include "TownsPeople.h"
 
 using namespace std;
 
@@ -150,6 +151,19 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		dispatchEvent(healthChangeEvent);
 	}
 
+	// BUYING COOL THINGS!
+	if (this->timeToBuy == 200) {
+		this->ableToBuy = false;
+		this->timeToBuy = 0;
+	}
+	if (this->ableToBuy) {
+		this->timeToBuy++;
+	}
+	if (controls::press1() && this->ableToBuy) {
+		this->foodNum ++;
+	}
+	cout << ableToBuy << endl;
+
 }
 
 // do not include attacks from bosses yet
@@ -212,11 +226,16 @@ void Player::onCollision(DisplayObject* other){
 		hitByMelee("creeper");
 	} else if (other->type == "KnifeGuy") {
 		hitByMelee("knife");
-	}
-	else if (other->type == "Obstacle") {
+	} else if (other->type == "Obstacle") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
 	} else if (other->type == "River") {
 		this->health = 0;
+	}
+	if (other->type == "TownsPeople") {
+		TownsPeople *temp = (TownsPeople*) other;
+		if (temp->id == "storekeeper" && !this->ableToBuy) {
+			this->ableToBuy = true;
+		}
 	}
 }
 
