@@ -219,6 +219,20 @@ private:
 	GangShot* shot1hideout3;
 	GangShot* shot2hideout3;
 
+	KnifeGuy* knifeguy3hideout2;
+	KnifeGuy* knifeguy2hideout2;
+	KnifeGuy* knifeguy1hideout2;
+	KnifeGuy* knifeguy4hideout2;
+
+	GangThug* gangthug1hideout2;
+	GangThug* gangthug2hideout2;
+	GangThug* gangthug3hideout2;
+
+	GangThug* gangthug1hideout1;
+	GangThug* gangthug2hideout1;
+	GangThug* gangthug3hideout1;
+
+
 
 	
 

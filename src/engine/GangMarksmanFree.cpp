@@ -190,8 +190,8 @@ void GangMarksmanFree::moveToTarget(){
 	if(this->targX - this->position.x < 0) xComp *= -1;
 	if(this->targY - this->position.y < 0) yComp *= -1;
 
-    this->position.x += xComp;
-    this->position.y += yComp;
+    this->position.x += 0;
+    this->position.y += 0;
 	fire();
 }
 
