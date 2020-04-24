@@ -18,33 +18,25 @@ WeaponSelect::WeaponSelect() {
 	Text* placeholder0 = new Text(fontPath, "None", 12, SDL_Color{255, 255, 255}, 40);
 	box0->addChild(placeholder0);
 
-	box1 = new Sprite("box1", 10, 10, 10);
+	box1 = new Sprite("box1", "../resources/weapons/knife_ui.png");
 	box1->width = 40;
 	box1->height = 30;
 	box1->position = { 0, 40 };
-	Text* placeholder1 = new Text(fontPath, "Knife", 12, SDL_Color{ 240, 100, 100 }, 40);
-	box1->addChild(placeholder1);
 
-	box2 = new Sprite("box2", 10, 10, 10);
+	box2 = new Sprite("box2", "../resources/weapons/revolver_ui.png");
 	box2->width = 40;
 	box2->height = 30;
 	box2->position = { 0, 80 };
-	Text* placeholder2 = new Text(fontPath, "Pistol", 12, SDL_Color{ 100, 160, 240 }, 40);
-	box2->addChild(placeholder2);
 
-	box3 = new Sprite("box3", 10, 10, 10);
+	box3 = new Sprite("box3", "../resources/weapons/shotgun_ui.png");
 	box3->width = 40;
 	box3->height = 30;
 	box3->position = { 0, 120 };
-	Text* placeholder3 = new Text(fontPath, "Shotgun", 12, SDL_Color{ 40, 240, 40 }, 40);
-	box3->addChild(placeholder3);
 
-	box4 = new Sprite("box4", 10, 10, 10);
+	box4 = new Sprite("box4", "../resources/weapons/rifle_ui.png");
 	box4->width = 40;
 	box4->height = 30;
 	box4->position = { 0, 160 };
-	Text* placeholder4 = new Text(fontPath, "Rifle", 12, SDL_Color{ 240, 40, 240 }, 40);
-	box4->addChild(placeholder4);
 
 	box5 = new Sprite("box5", 10, 10, 10);
 	box5->width = 40;

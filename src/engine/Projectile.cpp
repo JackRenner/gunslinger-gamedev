@@ -38,7 +38,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->height = 30;
  		this->dir = face;
 		this->play("knife");
-		this->Distance = 150;
+		this->Distance = 250;
 		this->speed = 4;
 		this->gun = "knife";
 	}

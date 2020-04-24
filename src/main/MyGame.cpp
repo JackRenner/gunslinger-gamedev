@@ -96,22 +96,8 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		curTransition = transitions[0][0];
 		transitionScene();
 	}
-	// Demo for enemies
-
-	// need to make these for loops that loop through for each type of enemy
 
 	this->enemyShootingLoops();
-	
-	// for (std::map<Benemy*, GangThug*>::iterator it=thug_benemies.begin(); it!=thug_benemies.end(); ++it) {
-	// 	if (it->first->clean != true) {
-	// 		if (this->ourCollisionSystem->collidesWith(it->first, character)) {
-	// 			character->takeDamage(1);
-	// 		}
-	// 	} else {
-	// 		thug_benemies.erase(it->first);
-	// 		break;
-	// 	}
-	// }
 
 	if (!transLock) {
 		// gun select
