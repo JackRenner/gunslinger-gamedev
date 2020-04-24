@@ -393,7 +393,7 @@ void MyGame::initTown() {
 	TransitionStruct(SDL_Point{2497, 964}, SDL_Point{406, 110}, 20),
 
 	// transition to hideout
-	//TransitionStruct(SDL_Point{2867, 620}, SDL_Point{80, 660}, 26)
+	TransitionStruct(SDL_Point{2867, 620}, SDL_Point{80, 660}, 26)
 	};
 	transitions.push_back(townPoints);
 
@@ -2169,21 +2169,21 @@ void MyGame::initObstacles() {
 	}
 
 	if (s == hideout3) {
-		// wall
-		addDOC(s, obs, 1920, 350, 0, 0);
+		// // wall
+		// addDOC(s, obs, 1920, 350, 0, 0);
 
-		// shelves
-		addDOC(s, obs, 571, 236, 100, 165);
-		addDOC(s, obs, 680, 82, 1161, 307);
+		// // shelves
+		// addDOC(s, obs, 571, 236, 100, 165);
+		// addDOC(s, obs, 680, 82, 1161, 307);
 
-		// tables
-		addDOC(s, obs, 273, 163, 351, 478);
-		addDOC(s, obs, 273, 163, 765, 810);
-		addDOC(s, obs, 273, 163, 1158, 490);
-		addDOC(s, obs, 273, 163, 1525, 810);
+		// // tables
+		// addDOC(s, obs, 273, 163, 351, 478);
+		// addDOC(s, obs, 273, 163, 765, 810);
+		// addDOC(s, obs, 273, 163, 1158, 490);
+		// addDOC(s, obs, 273, 163, 1525, 810);
 
-		// food bar
-		addDOC(s, obs, 501, 94, 51, 909);
+		// // food bar
+		// addDOC(s, obs, 501, 94, 51, 909);
 	}
 
 	if (s == hideout4) {

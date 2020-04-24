@@ -29,7 +29,7 @@ Game::Game(int windowWidth, int windowHeight){
 	// player + townspeople collision
 	ourCollisionSystem->watchForCollisions("TownsPeople", "Player");
 	// player + bullet collision
-	ourCollisionSystem->watchForCollisions("Benemy", "Player");
+	ourCollisionSystem->watchForCollisions("Player", "Benemy");
 	ourCollisionSystem->watchForCollisions("Projectile", "Player");
 	// gang thug collisions
 	//ourCollisionSystem->watchForCollisions("GangThug", "GangThug");
