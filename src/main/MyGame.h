@@ -16,6 +16,7 @@
 #include "../engine/Creeper.h"
 #include "../engine/KnifeGuy.h"
 #include "../engine/GangMarksman.h"
+#include "../engine/GangMarksmanFree.h"
 #include "../engine/ShotgunGuy.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
@@ -81,6 +82,7 @@ public:
 	std::map<GangThug*,int> gang_thugs;
 	std::map<GangShot*,int> gang_shot;
 	std::map<GangMarksman*,int> gang_marksmans;
+	std::map<GangMarksmanFree*,int> gang_marksmansfree;
 	std::map<ArrowGuy*,int> arrow_guys;
 	std::map<ShotgunGuy*,int> shotgun_boss;
 
