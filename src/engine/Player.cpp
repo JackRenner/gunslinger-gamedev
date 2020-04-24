@@ -118,7 +118,6 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			//this->position.x += 10;
 		}
 		if (controls::holdA()) {
-			cout << "poopy" << endl;
 			this->dir = "Left";
 			this->play("FaceLeft");
 			this->position.x -= 4;
@@ -162,16 +161,17 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	}
 
 	// BUYING COOL THINGS!
-	if (this->timeToBuy == 200) {
-		this->ableToBuy = false;
-		this->timeToBuy = 0;
-	}
-	if (this->ableToBuy) {
-		this->timeToBuy++;
-	}
-	if (controls::press1() && this->ableToBuy) {
-		this->foodNum ++;
-	}
+	// if (this->timeToBuy == 200) {
+	// 	this->ableToBuy = false;
+	// 	this->timeToBuy = 0;
+	// }
+	// if (this->ableToBuy) {
+	// 	this->timeToBuy++;
+	// }
+	// if (controls::press1() && this->ableToBuy) {
+	// 	this->foodNum ++;
+	// 	cout << "LOOK HERE RIGHT NOW DUDE" << endl;
+	// }
 	//cout << ableToBuy << endl;
 
 }

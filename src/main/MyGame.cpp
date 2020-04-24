@@ -134,23 +134,30 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		if (controls::pressUp()) {
 			//gunshot->playSFX();
 			this->playerShooting(character->gun, "up");
+			this->reloadTime = 300;
 		}
 		if (controls::pressDown()) {
 			//gunshot->playSFX();
 			this->playerShooting(character->gun, "down");
+			this->reloadTime = 300;
+
 		}
 		if (controls::pressRight()) {
 			//gunshot->playSFX();	
 			this->playerShooting(character->gun, "left");
+			this->reloadTime = 300;
+
 		}
 		if (controls::pressLeft()) {
 			//gunshot->playSFX();	
 			this->playerShooting(character->gun, "right");
+			this->reloadTime = 300;
+
 		}
 		// there isn't any delay from reloading yet
-		if (controls::pressR()) {
-
-			this->reloadGun(character->gun);
+		if (controls::pressR() && (this->reloadTime == 300 || this->reloadTime == 250 || this->reloadTime == 100)) {
+			this->reloadTime = 0;
+			//this->reloadGun(character->gun);
 		}
 		if (controls::pressF() && character->health < 500) {
 			character->heal("whiskey");
@@ -166,6 +173,42 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		// 	else
 		// 		test->drawNextLine();
 		// }
+	}
+
+	// reloading per frame
+	if (this->reloadTime < 300 && character->gun == 2) {
+		if (this->character->revolver_shots == 0) {
+			this->reloadTime = 300;
+		}
+		else if (this->reloadTime % 50 == 0) {
+			character->revolver_shots --;
+			character->dispatchEvent(character->updateAmmo);
+			this->reloadTime ++;
+		} else {
+			this->reloadTime ++;
+		}
+	} else if (this->reloadTime < 100 && character->gun == 3) {
+		if (this->character->shotgun_shots == 0) {
+			this->reloadTime = 100;
+		}
+		else if (this->reloadTime % 50 == 0) {
+			character->shotgun_shots --;
+			character->dispatchEvent(character->updateAmmo);
+			this->reloadTime ++;
+		} else {
+			this->reloadTime ++;
+		}
+	} else if (this->reloadTime < 250 && character->gun == 4) {
+		if (this->character->rifle_shots == 0) {
+			this->reloadTime = 250;
+		}
+		else if (this->reloadTime % 50 == 0) {
+			character->rifle_shots --;
+			character->dispatchEvent(character->updateAmmo);
+			this->reloadTime ++;
+		} else {
+			this->reloadTime ++;
+		}
 	}
 
 	Game::update(pressedKeys);
@@ -350,7 +393,7 @@ void MyGame::initTown() {
 	TransitionStruct(SDL_Point{550, 300}, SDL_Point{ 535, 900 }, 2),
 	TransitionStruct(SDL_Point{900, 300}, SDL_Point{ 535, 900 }, 3),
 	TransitionStruct(SDL_Point{1268, 300}, SDL_Point{ 535, 900 }, 4),
-	TransitionStruct(SDL_Point{1632, 272}, SDL_Point{ 535, 900 }, 5),
+	TransitionStruct(SDL_Point{1632, 300}, SDL_Point{ 535, 900 }, 5),
 	TransitionStruct(SDL_Point{2040, 300}, SDL_Point{ 535, 900 }, 6),
 	TransitionStruct(SDL_Point{2333, 292}, SDL_Point{ 535, 900 }, 7),
 
@@ -412,7 +455,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		
 		s->enemiesAdded=true;
 	} else if (s->id == "storeScene" && !s->enemiesAdded) {
-		string storekeeper1Text = "Hey fella! Come over and Coming Soon you can buy food!!";
+		string storekeeper1Text = "New to Town? Welcome to Stillwater! I hope you can give us a hand with that gang.";
 		storekeeper1 = new TownsPeople((Player*)character, "storekeeper", false, storekeeper1Text);	
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
@@ -420,9 +463,67 @@ void MyGame::initTownsPeople(Scene* s) {
 		storekeeper1->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
 		storeScene->addChild(storekeeper1);
 		storekeeper1->position = { 550, 550 };
-		// storekeeper1->scaleX = 0.75;
-		// storekeeper1->scaleY = 0.75;
 		storekeeper1->play("storekeeperLeft");
+		
+		s->enemiesAdded=true;
+	} else if (s->id == "hotelScene" && !s->enemiesAdded) {
+		string hotelManText = "Sorry my friend, we don't have any vacancies.";
+		hotelMan = new TownsPeople((Player*)character, "storekeeper", false, hotelManText);	
+		hotelMan->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		hotelMan->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		hotelMan->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		hotelMan->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		hotelScene->addChild(hotelMan);
+		hotelMan->position = { 550, 550 };
+		hotelMan->play("storekeeperLeft");
+		
+		s->enemiesAdded=true;
+	} else if (s->id == "bankScene" && !s->enemiesAdded) {
+		string bankManText = "Hey! You look awful familiar but I can't remember how...";
+		bankMan = new TownsPeople((Player*)character, "storekeeper", false, bankManText);	
+		bankMan->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		bankMan->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		bankMan->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		bankMan->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		bankScene->addChild(bankMan);
+		bankMan->position = { 550, 550 };
+		bankMan->play("storekeeperLeft");
+		
+		s->enemiesAdded=true;
+	} else if (s->id == "postScene" && !s->enemiesAdded) {
+		string postManText = "I'm glad you got a chance to see our nice little town. All things serve the beam!";
+		postMan = new TownsPeople((Player*)character, "storekeeper", false, postManText);	
+		postMan->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		postMan->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		postMan->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		postMan->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		postScene->addChild(postMan);
+		postMan->position = { 800, 275 };
+		postMan->play("storekeeperLeft");
+		
+		s->enemiesAdded=true;
+	} else if (s->id == "cantinaScene" && !s->enemiesAdded) {
+		string cantinaManText = "Looks like you scared all my customers out of the bar!!";
+		cantinaMan = new TownsPeople((Player*)character, "storekeeper", false, cantinaManText);	
+		cantinaMan->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		cantinaMan->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		cantinaMan->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		cantinaMan->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		cantinaScene->addChild(cantinaMan);
+		cantinaMan->position = { 890, 300 };
+		cantinaMan->play("storekeeperLeft");
+		
+		s->enemiesAdded=true;
+	} else if (s->id == "drugScene" && !s->enemiesAdded) {
+		string drugManText = "I hear you have amnesia, I'd offer you some medicine to help but there's not much I can do to solve that for ya.";
+		drugMan = new TownsPeople((Player*)character, "storekeeper", false, drugManText);	
+		drugMan->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		drugMan->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		drugMan->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		drugMan->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		drugScene->addChild(drugMan);
+		drugMan->position = { 711, 308 };
+		drugMan->play("storekeeperLeft");
 		
 		s->enemiesAdded=true;
 	}
@@ -1381,8 +1482,17 @@ void MyGame::playerShooting(int gun, string dir){
 }
 void MyGame::reloadGun(int gun) {
 	if (gun == 2) {
-		character->revolver_shots = 0;
-		character->dispatchEvent(character->updateAmmo);
+		while (this->reloadTime < 1200 || character->revolver_shots != 0) {
+			if (this->reloadTime % 200 == 0) {
+				character->revolver_shots --;
+				character->dispatchEvent(character->updateAmmo);
+				this->reloadTime ++;
+			} else {
+				this->reloadTime ++;
+			}
+			// character->revolver_shots = 3;
+			// character->dispatchEvent(character->updateAmmo);
+		}
 	} else if (gun == 3) {
 		character->shotgun_shots = 0;
 		character->dispatchEvent(character->updateAmmo);
