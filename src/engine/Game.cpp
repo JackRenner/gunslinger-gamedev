@@ -32,13 +32,13 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("Player", "Benemy");
 	ourCollisionSystem->watchForCollisions("Projectile", "Player");
 	// gang thug collisions
-	//ourCollisionSystem->watchForCollisions("GangThug", "GangThug");
+	ourCollisionSystem->watchForCollisions("GangThug", "GangThug");
 	ourCollisionSystem->watchForCollisions("GangThug", "Projectile");
 	//ourCollisionSystem->watchForCollisions("Obstacle", "GangThug");
 	ourCollisionSystem->watchForCollisions("River", "GangThug");
 
 	// gang shot
-	//ourCollisionSystem->watchForCollisions("GangShot", "GangShot");
+	ourCollisionSystem->watchForCollisions("GangShot", "GangShot");
 	ourCollisionSystem->watchForCollisions("GangShot", "Projectile");
 	//ourCollisionSystem->watchForCollisions("Obstacle", "GangShot");
 	

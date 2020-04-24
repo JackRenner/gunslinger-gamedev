@@ -166,14 +166,6 @@ void GangThug::onCollision(DisplayObject* other){
 		this->targX = oldX + rand() % 200 - 100;
 		this->targY = oldY + rand() % 200 - 100;
 	}
-	// if(other->type == "Weapon"){
-	// 	if(controls::pressSpecial()) 
-	// 		onEssenceStrike((Weapon*)other);
-	// }
-	// else if(other->type == "Blast"){
-	// 	if(controls::pressAttack())
-	// 		onMeleeStrike();
-	// }
 }
 
 SDL_Point* GangThug::getGlobalHitbox(){

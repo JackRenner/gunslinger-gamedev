@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 0;
+	room_state = 27;
 
-	this->setScene(townScene);
+	this->setScene(hideout2);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -1456,7 +1456,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 
 	}
 	if (s->id == "hideout3" && !s->enemiesAdded) {
-		//kitchen
+		// //kitchen
 		creeper1hideout3 = new Creeper(character, "creeper1hideout3");
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
@@ -1556,41 +1556,41 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree2hideout3->play("GangMarksmanDown");
 		gang_marksmans[gangmarksmanfree2hideout3] = 1;
 
-		knifeguy1hideout3 = new KnifeGuy(character, "knifeguy1hideout3");
-		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		hideout3->addChild(knifeguy1hideout3);
-		knifeguy1hideout3->position = {1580, 770};
-		knifeguy1hideout3->play("KnifeGuyDown");
+		// knifeguy1hideout3 = new KnifeGuy(character, "knifeguy1hideout3");
+		// knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		// knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		// knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		// knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		// hideout3->addChild(knifeguy1hideout3);
+		// knifeguy1hideout3->position = {1580, 770};
+		// knifeguy1hideout3->play("KnifeGuyDown");
 
-		knifeguy2hideout3 = new KnifeGuy(character, "knifeguy2hideout3");
-		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		hideout3->addChild(knifeguy2hideout3);
-		knifeguy2hideout3->position = {1660, 790};
-		knifeguy2hideout3->play("KnifeGuyDown");
+		// knifeguy2hideout3 = new KnifeGuy(character, "knifeguy2hideout3");
+		// knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		// knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		// knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		// knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		// hideout3->addChild(knifeguy2hideout3);
+		// knifeguy2hideout3->position = {1660, 790};
+		// knifeguy2hideout3->play("KnifeGuyDown");
 
-		knifeguy3hideout3 = new KnifeGuy(character, "knifeguy3hideout3");
-		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		hideout3->addChild(knifeguy3hideout3);
-		knifeguy3hideout3->position = {1590, 910};
-		knifeguy3hideout3->play("KnifeGuyUp");
+		// knifeguy3hideout3 = new KnifeGuy(character, "knifeguy3hideout3");
+		// knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		// knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		// knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		// knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		// hideout3->addChild(knifeguy3hideout3);
+		// knifeguy3hideout3->position = {1590, 910};
+		// knifeguy3hideout3->play("KnifeGuyUp");
 
-		knifeguy4hideout3 = new KnifeGuy(character, "knifeguy4hideout3");
-		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		hideout3->addChild(knifeguy4hideout3);
-		knifeguy4hideout3->position = {1660, 910};
-		knifeguy4hideout3->play("KnifeGuyUp");
+		// knifeguy4hideout3 = new KnifeGuy(character, "knifeguy4hideout3");
+		// knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		// knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		// knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		// knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		// hideout3->addChild(knifeguy4hideout3);
+		// knifeguy4hideout3->position = {1660, 910};
+		// knifeguy4hideout3->play("KnifeGuyUp");
 
 
 		
