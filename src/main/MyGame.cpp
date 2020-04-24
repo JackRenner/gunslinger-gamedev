@@ -2101,8 +2101,8 @@ void MyGame::initObstacles() {
 		addDOC(s, riv, 59, 35, 423, 694);
 
 		// bridge boxes - really rough
-		addDOC(s, obs, 113, 20, 437, 510);
-		addDOC(s, obs, 97, 20, 432, 662);
+		//addDOC(s, obs, 113, 20, 437, 510);
+		//addDOC(s, obs, 97, 20, 432, 662);
 	}
 
 	if (s == canyon3) {
@@ -2132,11 +2132,9 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 188, 357, 1722, 374);
 		addDOC(s, obs, 254, 385, 1458, 247);
 
-
-		// river boxes - pretty rough
-		addDOC(s, riv, 90, 45, 1632, 918);
-		addDOC(s, riv, 88, 29, 851, 285);
-		addDOC(s, riv, 84, 44, 881, 321);
+		// river boxes
+		addDOC(s, riv, 99, 32, 797, 240);
+		addDOC(s, riv, 50, 28, 858, 280);
 
 		addDOC(s, riv, 158, 139, 704, 935);
 		addDOC(s, riv, 124, 280, 688, 918);
@@ -2145,16 +2143,11 @@ void MyGame::initObstacles() {
 		addDOC(s, riv, 110, 26, 722, 594);
 		addDOC(s, riv, 110, 26, 736, 571);
 		addDOC(s, riv, 98, 26, 766, 540);
-		addDOC(s, riv, 70, 35, 799, 502);
-		addDOC(s, riv, 70, 35, 810, 477);
 
-
-		// bridge boxes - pretty rough
-		addDOC(s, obs, 71, 28, 827, 455);
-		addDOC(s, obs, 26, 19, 873, 481);
-		addDOC(s, obs, 43, 28, 878, 342);
-		addDOC(s, obs, 47, 26, 910, 354);
-		addDOC(s, obs, 38, 26, 937, 375);
+		// bridge boxes
+		addDOC(s, obs, 172, 15, 743, 505);
+		addDOC(s, obs, 172, 15, 818, 331);
+		addDOC(s, obs, 30, 50, 792, 456);
 	}
 
 
