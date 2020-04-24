@@ -91,6 +91,7 @@ void Projectile::onCollision(DisplayObject* other) {
 	if (this->thrown && other->type=="Player"){
 		Player* p = static_cast<Player*>(other);
 		p->knife_throws = 0;
+		this->clean = true;
 		this->removeThis();
 	} else if (other->type!="Player"){
 		if(other->type == "ArrowGuy" || other->type == "Obstacle"){ //add an or here once collision detection with wall is feasible
@@ -99,9 +100,6 @@ void Projectile::onCollision(DisplayObject* other) {
 			this->play("blood_splatter");
 		}
 		hitSomething = true;
-		/*if (!this->thrown){
-			hitSomething = true;
-		}*/
 	}
 }
 
@@ -118,6 +116,9 @@ SDL_Point* Projectile::getGlobalHitbox(){
 void Projectile::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	controls::update(pressedKeys);
+	if (this->clean) {
+		delete this;
+	}
 	if(this->dir == "right"){
 		if(!hitSomething){
 			this->position.x -= this->speed;
@@ -151,18 +152,15 @@ void Projectile::update(set<SDL_Scancode> pressedKeys){
 		this->durability +=this->speed;
 	}
 	if(this->durability > this->Distance) {
-		if(this->Distance == 150) {
+		if(this->Distance == 250) {
 			this->thrown = true;
 			this->speed = 0;
 			this->position = this->position;
-			//this->stop();
-			//this->play("knife");
 		}else{
+			this->clean = true;
 			this->removeThis();
 		}
 	}
-	
-	//Game::instance->ourCollisionSystem->collidesWith()
 }
 
 void Projectile::draw(AffineTransform &at){
