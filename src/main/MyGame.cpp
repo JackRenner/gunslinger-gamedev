@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 0;
+	room_state = 2;
 
-	this->setScene(townScene);
+	this->setScene(storeScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -347,7 +347,7 @@ void MyGame::initTown() {
 
 	// transitions to buildings
 	TransitionStruct(SDL_Point{ 192, 300 }, SDL_Point{ 535, 900 }, 1),
-	TransitionStruct(SDL_Point{550, 288}, SDL_Point{ 535, 900 }, 2),
+	TransitionStruct(SDL_Point{550, 300}, SDL_Point{ 535, 900 }, 2),
 	TransitionStruct(SDL_Point{900, 300}, SDL_Point{ 535, 900 }, 3),
 	TransitionStruct(SDL_Point{1268, 300}, SDL_Point{ 535, 900 }, 4),
 	TransitionStruct(SDL_Point{1632, 272}, SDL_Point{ 535, 900 }, 5),

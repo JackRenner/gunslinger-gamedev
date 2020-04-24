@@ -26,6 +26,11 @@ Player::Player() : AnimatedSprite("Player"){
 	this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
 
+	this->addAnimation("resources/character/", "MoveLeft", 3, 1, true);
+	// this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
+	// this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
+	// this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
+
 	healthChangeEvent = new HealthEvent(HealthEvent::HEALTH_CHANGE_EVENT, this);
 
 	selectFist = new WeaponSelectEvent(WeaponSelectEvent::SELECT_FIST_EVENT, this);
@@ -113,11 +118,15 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			//this->position.x += 10;
 		}
 		if (controls::holdA()) {
+			cout << "poopy" << endl;
 			this->dir = "Left";
 			this->play("FaceLeft");
 			this->position.x -= 4;
 			//this->position.x -= 10;
 		}
+		// } else {
+		// 	this->play("Face"+this->dir);
+		// }
 		if (controls::holdUp()) {
 			this->dir = "Up";
 			this->play("FaceUp");
