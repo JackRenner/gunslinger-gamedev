@@ -24,21 +24,16 @@ GangShot::GangShot(Player* sayu, string id) : AnimatedSprite(id){
 void GangShot::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
-	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
-
-	//do the actual cleaning if necessary
-	if(this->clean){
-		std::cout << "removing" << endl;
-		//MyGame::gang_thugs.erase(this);
-		this->removeThis();
-		std::cout << "wait what" << endl;
-		//delete this;
+	// actually delete
+	if(this->removed){
+		delete this;
 	}
-	//enemy is dead so clean it up
-	// if(this->health == 0){
-	// 	//this->clean = true; //scene will clean it up
-	// 	AnimatedSprite::update(pressedKeys);
-	// }
+
+	// remove from game tree
+	if(this->clean){
+		this->removed = true;
+		this->removeThis();
+	}
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
     // if the difference in north/south is greater than east/west

@@ -24,10 +24,17 @@ GangMarksman::GangMarksman(Player* sayu, string id) : AnimatedSprite(id){
 void GangMarksman::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
-	//enemy is dead so clean it up
+	// actually delete
+	if(this->removed){
+		delete this;
+	}
+
+	// remove from game tree
 	if(this->clean){
+		this->removed = true;
 		this->removeThis();
 	}
+
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
     // if the difference in north/south is greater than east/west
     if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {

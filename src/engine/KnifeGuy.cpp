@@ -24,16 +24,17 @@ KnifeGuy::KnifeGuy(Player* sayu, string id) : AnimatedSprite(id){
 void KnifeGuy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
-	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
-
+	// this will have to happen on the next iteration of update
+	if(this->clean){
+		delete this;
+	}
+	//enemy is dead so clean it up
 	if(this->health == 0){
 		this->clean = true; //scene will clean it up
 	}
 	//do the actual cleaning if necessary
 	if(this->clean){
-		//MyGame::gang_thugs.erase(this);
 		this->removeThis();
-		//delete this;
 	}
 
 
@@ -164,7 +165,6 @@ void KnifeGuy::onCollision(DisplayObject* other){
 	} else if(other->type == "Projectile"){
 		lastId = other->id;
 	}else{
-		cout << "SHOULD BE RESOLVING" << endl;
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
 		this->targX = oldX + rand() % 200 - 100;
 		this->targX = oldY + rand() % 200 - 100;

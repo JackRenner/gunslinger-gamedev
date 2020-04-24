@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 2;
+	room_state = 0;
 
-	this->setScene(storeScene);
+	this->setScene(townScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -393,7 +393,7 @@ void MyGame::initTown() {
 	TransitionStruct(SDL_Point{2497, 964}, SDL_Point{406, 110}, 20),
 
 	// transition to hideout
-	TransitionStruct(SDL_Point{2867, 620}, SDL_Point{80, 660}, 26)
+	//TransitionStruct(SDL_Point{2867, 620}, SDL_Point{80, 660}, 26)
 	};
 	transitions.push_back(townPoints);
 
@@ -1462,7 +1462,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
-		hideout6->addChild(creeper1hideout3);
+		hideout3->addChild(creeper1hideout3);
 		creeper1hideout3->position = {320, 540};
 		creeper1hideout3->play("CreeperRight");
 
@@ -1471,7 +1471,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
-		hideout6->addChild(creeper2hideout3);
+		hideout3->addChild(creeper2hideout3);
 		creeper2hideout3->position = {650, 540};
 		creeper2hideout3->play("CreeperLeft");
 
@@ -1481,7 +1481,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		shot1hideout3->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
 		shot1hideout3->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
 		hideout3->addChild(shot1hideout3);
-		shot1hideout3->position = { 500, 440 };
+		shot1hideout3->position = { 800, 440 };
 		shot1hideout3->play("GangShotDown");
 		gang_shot[shot1hideout3] = 1;
 

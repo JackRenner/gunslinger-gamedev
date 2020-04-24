@@ -23,9 +23,14 @@ ArrowGuy::ArrowGuy(Player* sayu, string id) : AnimatedSprite(id){
 void ArrowGuy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
-	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
-	//enemy is dead so clean it up
+	// actually delete
+	if(this->removed){
+		delete this;
+	}
+
+	// remove from game tree
 	if(this->clean){
+		this->removed = true;
 		this->removeThis();
 	}
 
