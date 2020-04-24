@@ -1294,7 +1294,429 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		
 		s->enemiesAdded = true;
 	}
+	if (s->id == "hideout7" && !s->enemiesAdded) {
+		//floryan
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout6" && !s->enemiesAdded) {
+		knifeguy1hideout6 = new KnifeGuy(character, "knifeguy1hideout6");
+		knifeguy1hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy1hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy1hideout6->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy1hideout6->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout6->addChild(knifeguy1hideout6);
+		knifeguy1hideout6->position = {395, 810};
+		knifeguy1hideout6->play("KnifeGuyLeft");
+
+		knifeguy2hideout6 = new KnifeGuy(character, "knifeguy2hideout6");
+		knifeguy2hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy2hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy2hideout6->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy2hideout6->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout6->addChild(knifeguy2hideout6);
+		knifeguy2hideout6->position = {395, 880};
+		knifeguy2hideout6->play("KnifeGuyLeft");
+
+		knifeguy3hideout6 = new KnifeGuy(character, "knifeguy3hideout6");
+		knifeguy3hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy3hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy3hideout6->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy3hideout6->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout6->addChild(knifeguy3hideout6);
+		knifeguy3hideout6->position = {65, 960};
+		knifeguy3hideout6->play("KnifeGuyLeft");
+
+		knifeguy4hideout6 = new KnifeGuy(character, "knifeguy4hideout6");
+		knifeguy4hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy4hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy4hideout6->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy4hideout6->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout6->addChild(knifeguy4hideout6);
+		knifeguy4hideout6->position = {51, 780};
+		knifeguy4hideout6->play("KnifeGuyLeft");
+
+		creeper1hideout6 = new Creeper(character, "creeper1hideout6");
+		creeper1hideout6->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
+		creeper1hideout6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
+		creeper1hideout6->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
+		creeper1hideout6->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		hideout6->addChild(creeper1hideout6);
+		creeper1hideout6->position = {1080, 510};
+		creeper1hideout6->play("CreeperDown");
+
+		creeper2hideout6 = new Creeper(character, "creeper2hideout6");
+		creeper2hideout6->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
+		creeper2hideout6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
+		creeper2hideout6->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
+		creeper2hideout6->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		hideout6->addChild(creeper2hideout6);
+		creeper2hideout6->position = {1260, 520};
+		creeper2hideout6->play("CreeperDown");
+
+		gangthug1hideout6 = new GangThug(character, "gangthug1hideout6");
+		gangthug1hideout6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug1hideout6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug1hideout6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug1hideout6->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout6->addChild(gangthug1hideout6);
+		gangthug1hideout6->position = {1260, 920};
+		gangthug1hideout6->play("GangThugUp");
+		gang_thugs[gangthug1hideout6] = 1;
+
+		gangthug2hideout6 = new GangThug(character, "gangthug2hideout6");
+		gangthug2hideout6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug2hideout6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug2hideout6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug2hideout6->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout6->addChild(gangthug2hideout6);
+		gangthug2hideout6->position = {1440, 900};
+		gangthug2hideout6->play("GangThugUp");
+		gang_thugs[gangthug2hideout6] = 1;
+
+
+		//bedroom
+		//4 knife guys in bathroom
+		//2 creeper on right
+		// gang thugs in middle
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout5" && !s->enemiesAdded) {
+		//prison
+		gangmarksmanfree1hideout5 = new GangMarksmanFree(character, "gangmarksmanfree1hideout5");
+		gangmarksmanfree1hideout5->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
+		gangmarksmanfree1hideout5->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
+		gangmarksmanfree1hideout5->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
+		gangmarksmanfree1hideout5->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
+		hideout5->addChild(gangmarksmanfree1hideout5);
+		gangmarksmanfree1hideout5->position = {430,630};
+		gangmarksmanfree1hideout5->play("GangMarksmanDown");
+		gang_marksmansfree[gangmarksmanfree1hideout5] = 1;
+
+		gangmarksmanfree2hideout5 = new GangMarksmanFree(character, "gangmarksmanfree2hideout5");
+		gangmarksmanfree2hideout5->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
+		gangmarksmanfree2hideout5->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
+		gangmarksmanfree2hideout5->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
+		gangmarksmanfree2hideout5->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
+		hideout5->addChild(gangmarksmanfree2hideout5);
+		gangmarksmanfree2hideout5->position = {540,630};
+		gangmarksmanfree2hideout5->play("GangMarksmanDown");
+		gang_marksmansfree[gangmarksmanfree2hideout5] = 1;
+
+		knifeguy1hideout5 = new KnifeGuy(character, "knifeguy1hideout5");
+		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout5->addChild(knifeguy1hideout5);
+		knifeguy1hideout5->position = {260, 810};
+		knifeguy1hideout5->play("KnifeGuyDown");
+
+		knifeguy2hideout5 = new KnifeGuy(character, "knifeguy2hideout5");
+		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout5->addChild(knifeguy2hideout5);
+		knifeguy2hideout5->position = {660, 730};
+		knifeguy2hideout5->play("KnifeGuyDown");
+
+		shot1hideout5 = new GangShot((Player*)character, "shot1hideout5");	
+		shot1hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		shot1hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		shot1hideout5->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		shot1hideout5->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		hideout5->addChild(shot1hideout5);
+		shot1hideout5->position = { 150, 580 };
+		shot1hideout5->play("GangShotRight");
+		gang_shot[shot1hideout5] = 1;
+
+		shot2hideout5 = new GangShot((Player*)character, "shot2hideout5");	
+		shot2hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		shot2hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		shot2hideout5->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		shot2hideout5->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		hideout5->addChild(shot2hideout5);
+		shot2hideout5->position = { 270, 580 };
+		shot2hideout5->play("GangShotLeft");
+		gang_shot[shot2hideout5] = 1;
+
+		
+		// 2 new marksmen who don't move
+		// 1 knife on each side of tower
+		// shotgun guys from behind in the back
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout4" && !s->enemiesAdded) {
+		//hallway
+		// 4 new marksmen - don't move, infinite range
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout3" && !s->enemiesAdded) {
+		//kitchen
+		creeper1hideout3 = new Creeper(character, "creeper1hideout3");
+		creeper1hideout3->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
+		creeper1hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
+		creeper1hideout3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
+		creeper1hideout3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		hideout6->addChild(creeper1hideout3);
+		creeper1hideout3->position = {320, 540};
+		creeper1hideout3->play("CreeperRight");
+
+		creeper2hideout3 = new Creeper(character, "creeper2hideout3");
+		creeper2hideout3->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
+		creeper2hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
+		creeper2hideout3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
+		creeper2hideout3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		hideout6->addChild(creeper2hideout3);
+		creeper2hideout3->position = {650, 540};
+		creeper2hideout3->play("CreeperLeft");
+
+		shot1hideout3 = new GangShot((Player*)character, "shot1hideout3");	
+		shot1hideout3->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		shot1hideout3->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		shot1hideout3->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		shot1hideout3->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		hideout3->addChild(shot1hideout3);
+		shot1hideout3->position = { 500, 440 };
+		shot1hideout3->play("GangShotDown");
+		gang_shot[shot1hideout3] = 1;
+
+		shot2hideout3 = new GangShot((Player*)character, "shot2hideout3");	
+		shot2hideout3->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		shot2hideout3->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		shot2hideout3->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		shot2hideout3->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		hideout3->addChild(shot2hideout3);
+		shot2hideout3->position = { 560, 620 };
+		shot2hideout3->play("GangShotUp");
+		gang_shot[shot2hideout3] = 1;
+
+		gangthug1hideout3 = new GangThug(character, "gangthug1hideout3");
+		gangthug1hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug1hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug1hideout3->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug1hideout3->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout3->addChild(gangthug1hideout3);
+		gangthug1hideout3->position = {830, 970};
+		gangthug1hideout3->play("GangThugDown");
+		gang_thugs[gangthug1hideout3] = 1;
+
+		gangthug2hideout3 = new GangThug(character, "gangthug2hideout3");
+		gangthug2hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug2hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug2hideout3->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug2hideout3->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout3->addChild(gangthug2hideout3);
+		gangthug2hideout3->position = {960, 780};
+		gangthug2hideout3->play("GangThugDown");
+		gang_thugs[gangthug2hideout3] = 1;
+
+		gangthug3hideout3 = new GangThug(character, "gangthug3hideout3");
+		gangthug3hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug3hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug3hideout3->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug3hideout3->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout3->addChild(gangthug3hideout3);
+		gangthug3hideout3->position = {1070, 870};
+		gangthug3hideout3->play("GangThugLeft");
+		gang_thugs[gangthug3hideout3] = 1;
+		
+
+		gangthug4hideout3 = new GangThug(character, "gangthug4hideout3");
+		gangthug4hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug4hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug4hideout3->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug4hideout3->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout3->addChild(gangthug4hideout3);
+		gangthug4hideout3->position = {970, 920};
+		gangthug4hideout3->play("GangThugUp");
+		gang_thugs[gangthug4hideout3] = 1;
+
+		gangmarksmanfree1hideout3 = new GangMarksman(character, "gangmarksmanfree1hideout3");
+		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
+		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
+		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
+		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
+		hideout3->addChild(gangmarksmanfree1hideout3);
+		gangmarksmanfree1hideout3->position = {1130, 550};
+		gangmarksmanfree1hideout3->play("GangMarksmanRight");
+		gang_marksmans[gangmarksmanfree1hideout3] = 1;
+
+		gangmarksmanfree2hideout3 = new GangMarksman(character, "gangmarksmanfree2hideout3");
+		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
+		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
+		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
+		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
+		hideout3->addChild(gangmarksmanfree2hideout3);
+		gangmarksmanfree2hideout3->position = {1220,470};
+		gangmarksmanfree2hideout3->play("GangMarksmanDown");
+		gang_marksmans[gangmarksmanfree2hideout3] = 1;
+
+		knifeguy1hideout3 = new KnifeGuy(character, "knifeguy1hideout3");
+		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout3->addChild(knifeguy1hideout3);
+		knifeguy1hideout3->position = {1580, 770};
+		knifeguy1hideout3->play("KnifeGuyDown");
+
+		knifeguy2hideout3 = new KnifeGuy(character, "knifeguy2hideout3");
+		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout3->addChild(knifeguy2hideout3);
+		knifeguy2hideout3->position = {1660, 790};
+		knifeguy2hideout3->play("KnifeGuyDown");
+
+		knifeguy3hideout3 = new KnifeGuy(character, "knifeguy3hideout3");
+		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout3->addChild(knifeguy3hideout3);
+		knifeguy3hideout3->position = {1590, 910};
+		knifeguy3hideout3->play("KnifeGuyUp");
+
+		knifeguy4hideout3 = new KnifeGuy(character, "knifeguy4hideout3");
+		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout3->addChild(knifeguy4hideout3);
+		knifeguy4hideout3->position = {1660, 910};
+		knifeguy4hideout3->play("KnifeGuyUp");
+
+
+		
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout2" && !s->enemiesAdded) {
+		// bar
+		// 3 gang thugs at bar
+		// 2 knife wielders at first table
+		// 2 knife wielders at back table
+
+		knifeguy1hideout2 = new KnifeGuy(character, "knifeguy1hideout2");
+		knifeguy1hideout2->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy1hideout2->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy1hideout2->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy1hideout2->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout2->addChild(knifeguy1hideout2);
+		knifeguy1hideout2->position = {666, 650};
+		knifeguy1hideout2->play("KnifeGuyDown");
+
+		knifeguy2hideout2 = new KnifeGuy(character, "knifeguy2hideout2");
+		knifeguy2hideout2->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy2hideout2->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy2hideout2->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy2hideout2->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout2->addChild(knifeguy2hideout2);
+		knifeguy2hideout2->position = {867, 650};
+		knifeguy2hideout2->play("KnifeGuyDown");
+
+		knifeguy3hideout2 = new KnifeGuy(character, "knifeguy3hideout2");
+		knifeguy3hideout2->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy3hideout2->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy3hideout2->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy3hideout2->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout2->addChild(knifeguy3hideout2);
+		knifeguy3hideout2->position = {1367, 870};
+		knifeguy3hideout2->play("KnifeGuyUp");
+
+		knifeguy4hideout2 = new KnifeGuy(character, "knifeguy4hideout2");
+		knifeguy4hideout2->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy4hideout2->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy4hideout2->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy4hideout2->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout2->addChild(knifeguy4hideout2);
+		knifeguy4hideout2->position = {1557, 870};
+		knifeguy4hideout2->play("KnifeGuyUp");
+
+		gangthug1hideout2 = new GangThug(character, "gangthug1hideout2");
+		gangthug1hideout2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug1hideout2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug1hideout2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug1hideout2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout2->addChild(gangthug1hideout2);
+		gangthug1hideout2->position = {830, 970};
+		gangthug1hideout2->play("GangThugDown");
+		gang_thugs[gangthug1hideout2] = 1;
+
+		gangthug2hideout2 = new GangThug(character, "gangthug2hideout2");
+		gangthug2hideout2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug2hideout2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug2hideout2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug2hideout2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout2->addChild(gangthug2hideout2);
+		gangthug2hideout2->position = {960, 780};
+		gangthug2hideout2->play("GangThugDown");
+		gang_thugs[gangthug2hideout2] = 1;
+
+		gangthug3hideout2 = new GangThug(character, "gangthug3hideout2");
+		gangthug3hideout2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug3hideout2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug3hideout2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug3hideout2->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout2->addChild(gangthug3hideout2);
+		gangthug3hideout2->position = {1070, 870};
+		gangthug3hideout2->play("GangThugLeft");
+		gang_thugs[gangthug3hideout2] = 1;
+
+
+
+
+		s->enemiesAdded = true;
+
+	}
+	if (s->id == "hideout1" && !s->enemiesAdded) {
+		// 3 gang thugs
+		gangthug1hideout1 = new GangThug(character, "gangthug1hideout1");
+		gangthug1hideout1->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug1hideout1->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug1hideout1->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug1hideout1->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout1->addChild(gangthug1hideout1);
+		gangthug1hideout1->position = {830, 970};
+		gangthug1hideout1->play("GangThugDown");
+		gang_thugs[gangthug1hideout1] = 1;
+
+
+		gangthug2hideout1 = new GangThug(character, "gangthug2hideout1");
+		gangthug2hideout1->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug2hideout1->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug2hideout1->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug2hideout1->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout1->addChild(gangthug2hideout1);
+		gangthug2hideout1->position = {960, 780};
+		gangthug2hideout1->play("GangThugDown");
+		gang_thugs[gangthug2hideout1] = 1;
+
+		gangthug3hideout1 = new GangThug(character, "gangthug3hideout1");
+		gangthug3hideout1->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
+		gangthug3hideout1->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
+		gangthug3hideout1->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
+		gangthug3hideout1->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
+		hideout1->addChild(gangthug3hideout1);
+		gangthug3hideout1->position = {1070, 870};
+		gangthug3hideout1->play("GangThugLeft");
+		gang_thugs[gangthug3hideout1] = 1;
+		s->enemiesAdded = true;
+
+	}
 }
+
+
+
+
+
+
 
 void MyGame::enemyShootingLoops() {
 	// GANG THUG LOOP

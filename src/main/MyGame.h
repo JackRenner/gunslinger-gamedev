@@ -180,7 +180,59 @@ private:
 	Wolf* wolf3Canyon3;
 
 	// HIDEOUT ENEMIES
-	ShotgunGuy* boss_1;
+		ShotgunGuy* boss_1;
+	KnifeGuy* knifeguy1hideout6;
+	KnifeGuy* knifeguy2hideout6;
+	KnifeGuy* knifeguy3hideout6;
+	KnifeGuy* knifeguy4hideout6;
+
+	Creeper* creeper1hideout6;
+	Creeper* creeper2hideout6;
+
+	GangThug* gangthug1hideout6;
+	GangThug* gangthug2hideout6;
+
+
+	GangMarksmanFree* gangmarksmanfree1hideout5;
+	GangMarksmanFree* gangmarksmanfree2hideout5;
+
+	KnifeGuy* knifeguy1hideout5;
+	KnifeGuy* knifeguy2hideout5;
+
+	GangShot* shot1hideout5;
+	GangShot* shot2hideout5;
+
+	KnifeGuy* knifeguy3hideout3;
+	KnifeGuy* knifeguy2hideout3;
+	KnifeGuy* knifeguy1hideout3;
+	KnifeGuy* knifeguy4hideout3;
+
+	GangMarksman* gangmarksmanfree1hideout3;
+	GangMarksman* gangmarksmanfree2hideout3;
+
+	GangThug* gangthug1hideout3;
+	GangThug* gangthug2hideout3;
+	GangThug* gangthug3hideout3;
+	GangThug* gangthug4hideout3;
+
+	Creeper* creeper1hideout3;
+	Creeper* creeper2hideout3;
+
+	GangShot* shot1hideout3;
+	GangShot* shot2hideout3;
+
+	KnifeGuy* knifeguy3hideout2;
+	KnifeGuy* knifeguy2hideout2;
+	KnifeGuy* knifeguy1hideout2;
+	KnifeGuy* knifeguy4hideout2;
+
+	GangThug* gangthug1hideout2;
+	GangThug* gangthug2hideout2;
+	GangThug* gangthug3hideout2;
+
+	GangThug* gangthug1hideout1;
+	GangThug* gangthug2hideout1;
+	GangThug* gangthug3hideout1;
 	
 	//BADLANDS ENEMIES
 	Wolf* wolf1Badlands1;
