@@ -105,6 +105,11 @@ private:
 	// TOWN NPCS
 	TownsPeople* walkingTownee1;
 	TownsPeople* storekeeper1;
+	TownsPeople* hotelMan;
+	TownsPeople* bankMan;
+	TownsPeople* postMan;
+	TownsPeople* cantinaMan;
+	TownsPeople* drugMan;
 
 	// LAKE STILL SCENES
 	Scene* lake1;
@@ -215,6 +220,8 @@ private:
 	// END ENEMIES CREATION
 
 	int iterate;
+
+	int reloadTime = 300;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;

@@ -26,6 +26,11 @@ Player::Player() : AnimatedSprite("Player"){
 	this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
 
+	this->addAnimation("resources/character/", "MoveLeft", 3, 1, true);
+	// this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
+	// this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
+	// this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
+
 	healthChangeEvent = new HealthEvent(HealthEvent::HEALTH_CHANGE_EVENT, this);
 
 	selectFist = new WeaponSelectEvent(WeaponSelectEvent::SELECT_FIST_EVENT, this);
@@ -118,6 +123,9 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			this->position.x -= 4;
 			//this->position.x -= 10;
 		}
+		// } else {
+		// 	this->play("Face"+this->dir);
+		// }
 		if (controls::holdUp()) {
 			this->dir = "Up";
 			this->play("FaceUp");
@@ -153,16 +161,17 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	}
 
 	// BUYING COOL THINGS!
-	if (this->timeToBuy == 200) {
-		this->ableToBuy = false;
-		this->timeToBuy = 0;
-	}
-	if (this->ableToBuy) {
-		this->timeToBuy++;
-	}
-	if (controls::press1() && this->ableToBuy) {
-		this->foodNum ++;
-	}
+	// if (this->timeToBuy == 200) {
+	// 	this->ableToBuy = false;
+	// 	this->timeToBuy = 0;
+	// }
+	// if (this->ableToBuy) {
+	// 	this->timeToBuy++;
+	// }
+	// if (controls::press1() && this->ableToBuy) {
+	// 	this->foodNum ++;
+	// 	cout << "LOOK HERE RIGHT NOW DUDE" << endl;
+	// }
 	//cout << ableToBuy << endl;
 
 }
