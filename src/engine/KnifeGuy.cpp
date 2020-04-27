@@ -164,12 +164,28 @@ void KnifeGuy::onCollision(DisplayObject* other){
 		lastId = other->id;
 	} else if(other->type == "Projectile"){
 		lastId = other->id;
-	}else{
-		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
-		this->targX = oldX + rand() % 200 - 100;
-		this->targX = oldY + rand() % 200 - 100;
-		this->state = 1;
+	} else if (other->type != "KnifeGuy"){
+		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
+		if (abs(this->position.x - this->oldX) > abs(this->position.y - this->oldY)) {
+			if (this->position.x - this->oldX > 0) {
+				this->targX = this->oldX - 50;
+			} else {
+				this->targX = this->oldX + 50;
+			}
+		} else {
+			if (this->position.y - this->oldY > 0) {
+				this->targY = this->oldY - 50;
+			} else {
+				this->targY = this->oldY + 50;
+			}
+		}
 	}
+	// } else{
+	// 	Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+	// 	this->targX = oldX + rand() % 200 - 100;
+	// 	this->targX = oldY + rand() % 200 - 100;
+	// 	this->state = 1;
+	// }
 }
 
 SDL_Point* KnifeGuy::getGlobalHitbox(){

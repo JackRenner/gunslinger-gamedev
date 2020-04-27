@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 0;
+	room_state = 17;
 
-	this->setScene(townScene);
+	this->setScene(canyon1);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -1258,8 +1258,8 @@ void MyGame::initHideout() {
 	transitions.push_back(hideout6Points);
 
 	vector<TransitionStruct> hideout7Points = {
-	TransitionStruct(SDL_Point{993, 82}, SDL_Point{598, 900}, 33),
-	TransitionStruct(SDL_Point{290, 82}, SDL_Point{507, 1005}, 29)
+	TransitionStruct(SDL_Point{993, 70}, SDL_Point{598, 900}, 33),
+	TransitionStruct(SDL_Point{290, 70}, SDL_Point{507, 1005}, 29)
 	};
 	transitions.push_back(hideout7Points);
 
