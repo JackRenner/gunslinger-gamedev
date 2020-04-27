@@ -24,21 +24,16 @@ GangThug::GangThug(Player* sayu, string id) : AnimatedSprite(id){
 void GangThug::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
-	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
-
-	//do the actual cleaning if necessary
-	if(this->clean){
-		std::cout << "removing" << endl;
-		//MyGame::gang_thugs.erase(this);
-		this->removeThis();
-		std::cout << "wait what" << endl;
-		//delete this;
+	// actually delete
+	if(this->removed){
+		delete this;
 	}
-	//enemy is dead so clean it up
-	// if(this->health == 0){
-	// 	//this->clean = true; //scene will clean it up
-	// 	AnimatedSprite::update(pressedKeys);
-	// }
+
+	// remove from game tree
+	if(this->clean){
+		this->removed = true;
+		this->removeThis();
+	}
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
     // if the difference in north/south is greater than east/west
@@ -68,14 +63,12 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 		patrol();
 	}
 	else if(this->state == 2){
-		cout << "fire state" << endl;
 		fire();
 	}
 	else if(this->state == 3){
-		cout << "charge state" << endl;
 		charge();
-		this->targX = this->sayu->position.x;
-		this->targY = this->sayu->position.y;
+		this->targX = this->sayu->position.x + (rand() % 400 + 100) - 300;
+		this->targY = this->sayu->position.y + (rand() % 400 + 100) - 300;
 	}
 
 	//state transitions
@@ -121,7 +114,6 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 			this->targX = this->position.x;
 			this->targY = this->position.y;
 		}
-		std::cout << dist << endl;
 	}
 	this->save();
 }
@@ -165,19 +157,31 @@ void GangThug::onCollision(DisplayObject* other){
 	} else if(other->type == "River") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
 		this->targX = oldX;
-		this->targY = oldY - 10;
-	} else {
-		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
-		this->targX = oldX + rand() % 200 - 100;
-		this->targY = oldY + rand() % 200 - 100;
+		if (river_flip) {
+			this->targY = oldY + 10;
+		} else {
+			this->targY = oldY - 10;
+		}
+	} else if (other->type == "Obstacle" || other->type == "Cactus") {
+		river_flip = !river_flip;
+		if (abs(this->position.x - other->position.x) > abs(this->position.y - other->position.y)) {
+			if (this->position.x - other->position.x > 0) {
+				this->targX = this->position.x - 100;
+			} else {
+				this->targX = this->position.x + 100;
+			}
+		} else {
+			if (this->position.y - other->position.y > 0) {
+				this->targY = this->position.y - 100;
+			} else {
+				this->targY = this->position.y + 100;
+			}
+		}
 	}
-	// if(other->type == "Weapon"){
-	// 	if(controls::pressSpecial()) 
-	// 		onEssenceStrike((Weapon*)other);
-	// }
-	// else if(other->type == "Blast"){
-	// 	if(controls::pressAttack())
-	// 		onMeleeStrike();
+	// } else {
+	// 	Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+	// 	this->targX = oldX + rand() % 200 - 100;
+	// 	this->targY = oldY + rand() % 200 - 100;
 	// }
 }
 

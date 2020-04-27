@@ -47,6 +47,7 @@ public:
 
 private:
 
+	bool clean = false;
 };
 
 #endif

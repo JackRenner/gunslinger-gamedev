@@ -20,17 +20,15 @@ Benemy::Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon, 
 	this->targY = y;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
-	if (weapon == "rifle") {
-		this->vel = velocity;
-		this->maxVel = 20;
-	}else {
-		this->vel = velocity;
-	}
+	this->vel = velocity;
 	this->initial = sayu->position;
 }
 
 void Benemy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
+	if (clean){
+		delete this;
+	}
 	if(isTargetReached()){
 		clean = true;
 		AnimatedSprite::update(pressedKeys);
@@ -47,6 +45,8 @@ void Benemy::draw(AffineTransform &at){
 
 void Benemy::onCollision(DisplayObject *other) {
 	this->removeThis();
+	this->clean = true;
+	//delete this;
 }
 
 SDL_Point* Benemy::getGlobalHitbox(){

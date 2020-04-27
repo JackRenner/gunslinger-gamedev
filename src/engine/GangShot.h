@@ -85,6 +85,8 @@ private:
 
     string lastId;
 
+    bool removed = false;
+
 };
 
 #endif

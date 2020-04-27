@@ -79,6 +79,8 @@ private:
 
     string lastId;
 
+    bool removed = false;
+
 
 	// int oldX=0, oldY=0;
 

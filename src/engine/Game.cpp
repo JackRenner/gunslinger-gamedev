@@ -29,34 +29,40 @@ Game::Game(int windowWidth, int windowHeight){
 	// player + townspeople collision
 	ourCollisionSystem->watchForCollisions("TownsPeople", "Player");
 	// player + bullet collision
-	ourCollisionSystem->watchForCollisions("Benemy", "Player");
+	ourCollisionSystem->watchForCollisions("Player", "Benemy");
 	ourCollisionSystem->watchForCollisions("Projectile", "Player");
 	// gang thug collisions
 	ourCollisionSystem->watchForCollisions("GangThug", "GangThug");
 	ourCollisionSystem->watchForCollisions("GangThug", "Projectile");
+	//ourCollisionSystem->watchForCollisions("Obstacle", "GangThug");
+	ourCollisionSystem->watchForCollisions("River", "GangThug");
+
 	// gang shot
 	ourCollisionSystem->watchForCollisions("GangShot", "GangShot");
 	ourCollisionSystem->watchForCollisions("GangShot", "Projectile");
-	ourCollisionSystem->watchForCollisions("Obstacle", "GangShot");
+	//ourCollisionSystem->watchForCollisions("Obstacle", "GangShot");
+	
 	// wolf collisions
 	ourCollisionSystem->watchForCollisions("Wolf", "Projectile");
 	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
 	ourCollisionSystem->watchForCollisions("Wolf", "Player");
+	ourCollisionSystem->watchForCollisions("Obstacle", "Wolf");
 	// arrow collision
 	ourCollisionSystem->watchForCollisions("ArrowGuy", "Projectile");
 	// creeper collision
 	ourCollisionSystem->watchForCollisions("Creeper", "Projectile");
 	ourCollisionSystem->watchForCollisions("Creeper", "Player");
+	
 	// knifeguy collision
 	ourCollisionSystem->watchForCollisions("KnifeGuy", "KnifeGuy");
 	ourCollisionSystem->watchForCollisions("KnifeGuy", "Projectile");
 	ourCollisionSystem->watchForCollisions("KnifeGuy", "Player");
-	ourCollisionSystem->watchForCollisions("Obstacle", "KnifeGuy");
+	//ourCollisionSystem->watchForCollisions("Obstacle", "KnifeGuy");
+	
 	// marksman collision
 	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
 	// obstacle collision
 	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
-	ourCollisionSystem->watchForCollisions("River", "GangThug");
 	// cactus collision
 	ourCollisionSystem->watchForCollisions("Cactus", "Player");
 	//projectile and obstacle for particle effect

@@ -77,11 +77,7 @@ private:
 
     string lastId;
 
-	// int oldX=0, oldY=0;
-
-	// int _jumpVel = -15;s
-
-	//void initIFrames(int numFrames);
+    bool removed = false;
 
 };
 

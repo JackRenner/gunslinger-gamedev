@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 2;
+	room_state = 17;
 
-	this->setScene(storeScene);
+	this->setScene(canyon1);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -1258,8 +1258,8 @@ void MyGame::initHideout() {
 	transitions.push_back(hideout6Points);
 
 	vector<TransitionStruct> hideout7Points = {
-	TransitionStruct(SDL_Point{993, 82}, SDL_Point{598, 900}, 33),
-	TransitionStruct(SDL_Point{290, 82}, SDL_Point{507, 1005}, 29)
+	TransitionStruct(SDL_Point{993, 70}, SDL_Point{598, 900}, 33),
+	TransitionStruct(SDL_Point{290, 70}, SDL_Point{507, 1005}, 29)
 	};
 	transitions.push_back(hideout7Points);
 
@@ -1456,13 +1456,13 @@ void MyGame::initHideoutEnemies(Scene *s) {
 
 	}
 	if (s->id == "hideout3" && !s->enemiesAdded) {
-		//kitchen
+		// //kitchen
 		creeper1hideout3 = new Creeper(character, "creeper1hideout3");
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
-		hideout6->addChild(creeper1hideout3);
+		hideout3->addChild(creeper1hideout3);
 		creeper1hideout3->position = {320, 540};
 		creeper1hideout3->play("CreeperRight");
 
@@ -1471,7 +1471,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
-		hideout6->addChild(creeper2hideout3);
+		hideout3->addChild(creeper2hideout3);
 		creeper2hideout3->position = {650, 540};
 		creeper2hideout3->play("CreeperLeft");
 
@@ -1481,7 +1481,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		shot1hideout3->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
 		shot1hideout3->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
 		hideout3->addChild(shot1hideout3);
-		shot1hideout3->position = { 500, 440 };
+		shot1hideout3->position = { 800, 440 };
 		shot1hideout3->play("GangShotDown");
 		gang_shot[shot1hideout3] = 1;
 
@@ -1556,41 +1556,41 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree2hideout3->play("GangMarksmanDown");
 		gang_marksmans[gangmarksmanfree2hideout3] = 1;
 
-		knifeguy1hideout3 = new KnifeGuy(character, "knifeguy1hideout3");
-		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		hideout3->addChild(knifeguy1hideout3);
-		knifeguy1hideout3->position = {1580, 770};
-		knifeguy1hideout3->play("KnifeGuyDown");
+		// knifeguy1hideout3 = new KnifeGuy(character, "knifeguy1hideout3");
+		// knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		// knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		// knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		// knifeguy1hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		// hideout3->addChild(knifeguy1hideout3);
+		// knifeguy1hideout3->position = {1580, 770};
+		// knifeguy1hideout3->play("KnifeGuyDown");
 
-		knifeguy2hideout3 = new KnifeGuy(character, "knifeguy2hideout3");
-		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		hideout3->addChild(knifeguy2hideout3);
-		knifeguy2hideout3->position = {1660, 790};
-		knifeguy2hideout3->play("KnifeGuyDown");
+		// knifeguy2hideout3 = new KnifeGuy(character, "knifeguy2hideout3");
+		// knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		// knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		// knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		// knifeguy2hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		// hideout3->addChild(knifeguy2hideout3);
+		// knifeguy2hideout3->position = {1660, 790};
+		// knifeguy2hideout3->play("KnifeGuyDown");
 
-		knifeguy3hideout3 = new KnifeGuy(character, "knifeguy3hideout3");
-		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		hideout3->addChild(knifeguy3hideout3);
-		knifeguy3hideout3->position = {1590, 910};
-		knifeguy3hideout3->play("KnifeGuyUp");
+		// knifeguy3hideout3 = new KnifeGuy(character, "knifeguy3hideout3");
+		// knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		// knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		// knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		// knifeguy3hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		// hideout3->addChild(knifeguy3hideout3);
+		// knifeguy3hideout3->position = {1590, 910};
+		// knifeguy3hideout3->play("KnifeGuyUp");
 
-		knifeguy4hideout3 = new KnifeGuy(character, "knifeguy4hideout3");
-		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		hideout3->addChild(knifeguy4hideout3);
-		knifeguy4hideout3->position = {1660, 910};
-		knifeguy4hideout3->play("KnifeGuyUp");
+		// knifeguy4hideout3 = new KnifeGuy(character, "knifeguy4hideout3");
+		// knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		// knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		// knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		// knifeguy4hideout3->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		// hideout3->addChild(knifeguy4hideout3);
+		// knifeguy4hideout3->position = {1660, 910};
+		// knifeguy4hideout3->play("KnifeGuyUp");
 
 
 		
@@ -1760,10 +1760,10 @@ void MyGame::enemyShootingLoops() {
 			benemya->scaleX = 1;
 			benemya->scaleY = 1;
 			if (it->first->shots_fired == 1) {
-				it->first->shoot -= 300;
+				it->first->shoot -= 100;
 				it->first->shots_fired = 0;
 			} else{
-				it->first->shoot -= 100;
+				it->first->shoot -= 75;
 				it->first->shots_fired ++;
 			}
 			iterate ++;
@@ -2169,21 +2169,21 @@ void MyGame::initObstacles() {
 	}
 
 	if (s == hideout3) {
-		// wall
-		addDOC(s, obs, 1920, 350, 0, 0);
+		// // wall
+		// addDOC(s, obs, 1920, 350, 0, 0);
 
-		// shelves
-		addDOC(s, obs, 571, 236, 100, 165);
-		addDOC(s, obs, 680, 82, 1161, 307);
+		// // shelves
+		// addDOC(s, obs, 571, 236, 100, 165);
+		// addDOC(s, obs, 680, 82, 1161, 307);
 
-		// tables
-		addDOC(s, obs, 273, 163, 351, 478);
-		addDOC(s, obs, 273, 163, 765, 810);
-		addDOC(s, obs, 273, 163, 1158, 490);
-		addDOC(s, obs, 273, 163, 1525, 810);
+		// // tables
+		// addDOC(s, obs, 273, 163, 351, 478);
+		// addDOC(s, obs, 273, 163, 765, 810);
+		// addDOC(s, obs, 273, 163, 1158, 490);
+		// addDOC(s, obs, 273, 163, 1525, 810);
 
-		// food bar
-		addDOC(s, obs, 501, 94, 51, 909);
+		// // food bar
+		// addDOC(s, obs, 501, 94, 51, 909);
 	}
 
 	if (s == hideout4) {
