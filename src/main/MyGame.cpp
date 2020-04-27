@@ -440,6 +440,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		walkingTownee1->play("storekeeperLeft");
 		
 		s->enemiesAdded=true;
+		s->enemiesLeft=0;
 	} else if (s->id == "storeScene" && !s->enemiesAdded) {
 		string storekeeper1Text = "New to Town? Welcome to Stillwater! I hope you can give us a hand with that gang.";
 		storekeeper1 = new TownsPeople((Player*)character, "storekeeper", false, storekeeper1Text);	
@@ -452,6 +453,8 @@ void MyGame::initTownsPeople(Scene* s) {
 		storekeeper1->play("storekeeperLeft");
 		
 		s->enemiesAdded=true;
+		s->enemiesLeft=0;
+
 	} else if (s->id == "hotelScene" && !s->enemiesAdded) {
 		string hotelManText = "Sorry my friend, we don't have any vacancies.";
 		hotelMan = new TownsPeople((Player*)character, "storekeeper", false, hotelManText);	
@@ -462,7 +465,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		hotelScene->addChild(hotelMan);
 		hotelMan->position = { 550, 550 };
 		hotelMan->play("storekeeperLeft");
-		
+		s->enemiesLeft=0;
 		s->enemiesAdded=true;
 	} else if (s->id == "bankScene" && !s->enemiesAdded) {
 		string bankManText = "Hey! You look awful familiar but I can't remember how...";
@@ -474,7 +477,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		bankScene->addChild(bankMan);
 		bankMan->position = { 550, 550 };
 		bankMan->play("storekeeperLeft");
-		
+		s->enemiesLeft=0;
 		s->enemiesAdded=true;
 	} else if (s->id == "postScene" && !s->enemiesAdded) {
 		string postManText = "I'm glad you got a chance to see our nice little town. All things serve the beam!";
@@ -486,7 +489,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		postScene->addChild(postMan);
 		postMan->position = { 800, 275 };
 		postMan->play("storekeeperLeft");
-		
+		s->enemiesLeft=0;
 		s->enemiesAdded=true;
 	} else if (s->id == "cantinaScene" && !s->enemiesAdded) {
 		string cantinaManText = "Looks like you scared all my customers out of the bar!!";
@@ -498,7 +501,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		cantinaScene->addChild(cantinaMan);
 		cantinaMan->position = { 890, 300 };
 		cantinaMan->play("storekeeperLeft");
-		
+		s->enemiesLeft=0;
 		s->enemiesAdded=true;
 	} else if (s->id == "drugScene" && !s->enemiesAdded) {
 		string drugManText = "I hear you have amnesia, I'd offer you some medicine to help but there's not much I can do to solve that for ya.";
@@ -511,6 +514,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		drugMan->position = { 711, 308 };
 		drugMan->play("storekeeperLeft");
 		
+		s->enemiesLeft=0;
 		s->enemiesAdded=true;
 	}
 }
@@ -628,6 +632,8 @@ void MyGame::initLakeEnemies(Scene* s) {
 		wolf2LakeStill1->scaleX = 0.75;
 		wolf2LakeStill1->scaleY = 0.75;
 		wolf2LakeStill1->play("WolfLeft");
+
+		s->enemiesLeft=2;
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake2" && !s->enemiesAdded) {
@@ -652,6 +658,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		thug2LakeStill2->play("GangThugLeft");
 		gang_thugs[thug2LakeStill2] = 1;
 		
+		s->enemiesLeft=2;
 		s->enemiesAdded = true;
 
 	}
@@ -680,6 +687,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		mark2LakeStill3->play("GangMarksmanLeft");
 		gang_marksmans[mark2LakeStill3] = 1;
 
+		s->enemiesLeft=2;
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake4" && !s->enemiesAdded) {
@@ -706,7 +714,8 @@ void MyGame::initLakeEnemies(Scene* s) {
 		arrow2LakeStill4->width = 250;
 		arrow2LakeStill4->play("Arrow");
 		arrow_guys[arrow2LakeStill4] = 1;
-
+	    
+		s->enemiesLeft=2;
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake6" && !s->enemiesAdded) {
@@ -719,6 +728,8 @@ void MyGame::initLakeEnemies(Scene* s) {
 		shot1LakeStill->position = { 700, 300 };
 		shot1LakeStill->play("GangShotLeft");
 		gang_shot[shot1LakeStill] = 1;
+
+		s->enemiesLeft=1;
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake7" && !s->enemiesAdded) {
@@ -742,8 +753,8 @@ void MyGame::initLakeEnemies(Scene* s) {
 		creeper2LakeStill7->position = { 700, 500 };
 		creeper2LakeStill7->play("CreeperUp");
 		
+		s->enemiesLeft=2;
 		s->enemiesAdded = true;
-
 	}
 
 	if (s->id == "lake8" && !s->enemiesAdded) {
@@ -756,8 +767,8 @@ void MyGame::initLakeEnemies(Scene* s) {
 		knifeguy1LakeStill8->position = { 300, 300 };
 		knifeguy1LakeStill8->play("KnifeGuyLeft");
 		
+		s->enemiesLeft=1;
 		s->enemiesAdded = true;
-
 	}
 }
 
@@ -806,9 +817,11 @@ void MyGame::initCanyonEnemies(Scene* s) {
 		if (!openingText->textLock)
 			openingText->closeBox();
 		s->enemiesAdded = true;
+		s->enemiesLeft = 0;
 	}
 	if (s->id == "canyon2" && !s->enemiesAdded) {
 		s->enemiesAdded = true;
+		s->enemiesLeft = 0;
 	}
 	if (s->id == "canyon3" && !s->enemiesAdded) {
 		wolf1Canyon3 = new Wolf((Player*)character, "CanyonWolf1");	// Adding wolf sprites
@@ -843,7 +856,9 @@ void MyGame::initCanyonEnemies(Scene* s) {
 		wolf3Canyon3->scaleX = 0.75;
 		wolf3Canyon3->scaleY = 0.75;
 		wolf3Canyon3->play("WolfRight");
+		
 		s->enemiesAdded = true;
+		s->enemiesLeft = 3;
 	}	
 }
 
@@ -974,6 +989,8 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf6Badlands1->scaleX = 0.75;
 		wolf6Badlands1->scaleY = 0.75;
 		wolf6Badlands1->play("WolfRight");
+
+		s->enemiesLeft=6;
 		s->enemiesAdded=true;
 	}else if (s->id == "badlands2" && !s->enemiesAdded) {
 		thug1Badlands2 = new GangThug((Player*)character, "BadGangThug1");	
@@ -1036,6 +1053,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		mark2Badlands2->play("GangMarksmanLeft");
 		gang_marksmans[mark2Badlands2] = 1;
 		
+		s->enemiesLeft=6;
 		s->enemiesAdded=true;
 	}else if (s->id == "badlands3" && !s->enemiesAdded) {
 		wolf1Badlands3 = new Wolf((Player*)character, "BadWolf5"); 
@@ -1090,6 +1108,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		creeper1Badlands3->position = { 200, 1000 };
 		creeper1Badlands3->play("CreeperUp");
 
+		s->enemiesLeft=5;
 		s->enemiesAdded = true;
 	} else if (s->id=="badlands4" && !s->enemiesAdded){
 		knifeguy1Badlands4 = new KnifeGuy(character, "BadKnifeGuy1");
@@ -1111,6 +1130,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		shot1Badlands4->play("GangShotLeft");
 		gang_shot[shot1Badlands4] = 1;
 
+		s->enemiesLeft=2;
 		s->enemiesAdded = true;
 	} else if (s->id == "badlands5" && !s->enemiesAdded) {
 		thug1Badlands5 = new GangThug((Player*)character, "BadGangThug5");	
@@ -1143,6 +1163,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug3Badlands5->play("GangThugLeft");
 		gang_thugs[thug3Badlands5] = 1;
 
+		s->enemiesLeft=3;
 		s->enemiesAdded = true;
 	} else if (s->id == "badlands6" && !s->enemiesAdded) {
 		creeper1Badlands6 = new Creeper(character, "BadCreeper2");
@@ -1195,6 +1216,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug3Badlands6->play("GangThugLeft");
 		gang_thugs[thug3Badlands6] = 1;
 
+		s->enemiesLeft=5;
 		s->enemiesAdded = true;
 	}
 }
@@ -1292,10 +1314,12 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		boss_1->play("ShotgunGuyLeft");
 		shotgun_boss[boss_1] = 1;
 		
+		s->enemiesLeft=1;
 		s->enemiesAdded = true;
 	}
 	if (s->id == "hideout7" && !s->enemiesAdded) {
 		//floryan
+		s->enemiesLeft=0;
 		s->enemiesAdded = true;
 
 	}
@@ -1379,6 +1403,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		//4 knife guys in bathroom
 		//2 creeper on right
 		// gang thugs in middle
+		s->enemiesLeft=8;
 		s->enemiesAdded = true;
 
 	}
@@ -1446,12 +1471,14 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		// 2 new marksmen who don't move
 		// 1 knife on each side of tower
 		// shotgun guys from behind in the back
+		s->enemiesLeft=6;
 		s->enemiesAdded = true;
 
 	}
 	if (s->id == "hideout4" && !s->enemiesAdded) {
 		//hallway
 		// 4 new marksmen - don't move, infinite range
+		s->enemiesLeft=0;
 		s->enemiesAdded = true;
 
 	}
@@ -1593,7 +1620,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		// knifeguy4hideout3->play("KnifeGuyUp");
 
 
-		
+		s->enemiesLeft=10; // 14 with knife guys
 		s->enemiesAdded = true;
 
 	}
@@ -1669,9 +1696,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug3hideout2->play("GangThugLeft");
 		gang_thugs[gangthug3hideout2] = 1;
 
-
-
-
+		s->enemiesLeft=7;
 		s->enemiesAdded = true;
 
 	}
@@ -1707,15 +1732,11 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug3hideout1->position = {1070, 870};
 		gangthug3hideout1->play("GangThugLeft");
 		gang_thugs[gangthug3hideout1] = 1;
-		s->enemiesAdded = true;
 
+		s->enemiesLeft=3;
+		s->enemiesAdded = true;
 	}
 }
-
-
-
-
-
 
 
 void MyGame::enemyShootingLoops() {
@@ -1914,7 +1935,7 @@ void MyGame::checkTransition() {
 	for (int i = 0; i < transitions[room_state].size(); i++) {
 		TransitionStruct cur = transitions[room_state][i];
 		if (cur.detection == TransitionDetection::POINT) {
-			if (checkInsidePoint(cur.point, character)) {
+			if (checkInsidePoint(cur.point, character) && curScene->enemiesLeft == 0) {
 				curTransition = cur;
 				transitionScene();
 				break;
@@ -1922,28 +1943,28 @@ void MyGame::checkTransition() {
 		}
 		else if (cur.detection == TransitionDetection::AXIS) {
 			if (cur.direction == Cardinal::NORTH) {
-				if (character->position.y - character->pivot.y <= cur.point.y) {
+				if (character->position.y - character->pivot.y <= cur.point.y && curScene->enemiesLeft == 0) {
 					curTransition = cur;
 					transitionScene();
 					break;
 				}
 			}
 			else if (cur.direction == Cardinal::EAST) {
-				if (character->position.x - character->pivot.x + character->width >= cur.point.x) {
+				if (character->position.x - character->pivot.x + character->width >= cur.point.x && curScene->enemiesLeft == 0) {
 					curTransition = cur;
 					transitionScene();
 					break;
 				}
 			}
 			else if (cur.direction == Cardinal::SOUTH) {
-				if (character->position.y - character->pivot.y + character->height >= cur.point.y) {
+				if (character->position.y - character->pivot.y + character->height >= cur.point.y && curScene->enemiesLeft == 0) {
 					curTransition = cur;
 					transitionScene();
 					break;
 				}
 			}
 			else if (cur.direction == Cardinal::WEST) {
-				if (character->position.x - character->pivot.x <= cur.point.x) {
+				if (character->position.x - character->pivot.x <= cur.point.x && curScene->enemiesLeft == 0) {
 					curTransition = cur;
 					transitionScene();
 					break;

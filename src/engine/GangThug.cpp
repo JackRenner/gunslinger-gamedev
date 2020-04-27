@@ -31,6 +31,8 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 
 	// remove from game tree
 	if(this->clean){
+		Scene *temp = (Scene*) this->parent;
+		temp->enemiesLeft --;
 		this->removed = true;
 		this->removeThis();
 	}
