@@ -34,6 +34,8 @@ void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 	}
 	//do the actual cleaning if necessary
 	if(this->clean){
+		Scene *temp = (Scene*) this->parent;
+		temp->enemiesLeft --;
 		this->removeThis();
 	}
 

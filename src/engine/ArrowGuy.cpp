@@ -3,6 +3,7 @@
 #include "AnimatedSprite.h"
 #include "Benemy.h"
 #include "Sprite.h"
+#include "Scene.h"
 #include "DisplayObjectContainer.h"
 #include "Controls.h"
 #include <cstdlib>
@@ -30,6 +31,8 @@ void ArrowGuy::update(set<SDL_Scancode> pressedKeys){
 
 	// remove from game tree
 	if(this->clean){
+		Scene *temp = (Scene*) this->parent;
+		temp->enemiesLeft --;
 		this->removed = true;
 		this->removeThis();
 	}

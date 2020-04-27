@@ -25,6 +25,8 @@ public:
 	bool enemiesAdded = false;
 	bool obstaclesAdded = false;
 
+	int enemiesLeft = -1;
+
 
 private:
 
