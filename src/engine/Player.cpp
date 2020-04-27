@@ -82,17 +82,8 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	cout << "Position: " << position.x << " " << position.y << endl;
 	this->dispatchEvent(this->updateAmmo);
 	if (controls::pressShift()) {
-		if (this->dir == "Up") {
-			this->position.y -= 50;
-		}
-		if (this->dir == "Down") {
-			this->position.y += 50;
-		}
-		if (this->dir == "Right") {
-			this->position.x += 50;
-		}
-		if (this->dir == "Left") {
-			this->position.x -= 50;
+		if (rollpause==0){
+			rollcount=10;
 		}
 	}
 	AnimatedSprite::update(pressedKeys);	
@@ -142,6 +133,26 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			this->dir = "Left";
 			this->play("FaceLeft");
 		}
+	}
+	if (this->rollcount>0){
+		rollpause=200;
+		if (this->dir == "Up"){
+			this->position.y -= 10;
+		}
+		if (this->dir == "Down"){
+			this->position.y += 10;
+		}
+		if (this->dir == "Right"){
+			this->position.x += 10;
+		}
+		if (this->dir == "Left"){
+			this->position.x -= 10;
+		}
+		this->rollcount-=1;
+		this->save();
+	}
+	if(rollpause>0){
+	rollpause-=5;
 	}
 
 	//Allows wolves to nip
@@ -268,6 +279,11 @@ SDL_Point* Player::getGlobalHitbox(){
 	return this->MyGlobalHitbox;
 }
 
+void Player::save(){
+	// this->oldX = this->position.x;
+	// this->oldY = this->position.y;
+}
+
 void Player::healPlayer(string method){
 	if (method == "bed") {
 		this->health = 100;
@@ -302,6 +318,7 @@ void Player::takeNoDamage(int damage){
 
 void Player::draw(AffineTransform &at){
 	AnimatedSprite::draw(at);
+
 }
 
 

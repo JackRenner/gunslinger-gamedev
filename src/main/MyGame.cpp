@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 27;
+	room_state = 0;
 
-	this->setScene(hideout2);
+	this->setScene(townScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -1760,10 +1760,10 @@ void MyGame::enemyShootingLoops() {
 			benemya->scaleX = 1;
 			benemya->scaleY = 1;
 			if (it->first->shots_fired == 1) {
-				it->first->shoot -= 300;
+				it->first->shoot -= 100;
 				it->first->shots_fired = 0;
 			} else{
-				it->first->shoot -= 100;
+				it->first->shoot -= 75;
 				it->first->shots_fired ++;
 			}
 			iterate ++;

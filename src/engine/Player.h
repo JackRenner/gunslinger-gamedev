@@ -32,12 +32,15 @@ public:
 	//void onEnemyCollision(Enemy* enemy);
 	virtual void onCollision(DisplayObject* other);
 	virtual SDL_Point* getGlobalHitbox();
+	void save();
 
 	/* Health and such */
 	int health = 500;
 	int maxHealth = 100;
 	bool poisoned = false;
 	int poisonedTime = 0;
+	int rollcount=0;
+	int rollpause=0;
 
 	int gun = 0;
 

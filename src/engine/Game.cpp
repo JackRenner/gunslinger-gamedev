@@ -46,6 +46,7 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("Wolf", "Projectile");
 	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
 	ourCollisionSystem->watchForCollisions("Wolf", "Player");
+	ourCollisionSystem->watchForCollisions("Obstacle", "Wolf");
 	// arrow collision
 	ourCollisionSystem->watchForCollisions("ArrowGuy", "Projectile");
 	// creeper collision

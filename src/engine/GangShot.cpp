@@ -85,7 +85,7 @@ void GangShot::update(set<SDL_Scancode> pressedKeys){
 		if(dist<300){
 			this->state = 2;
 			this->vel = 0;
-			this->maxVel = 2;
+			this->maxVel = 4;
 			this->acc = 0.5;
 			this->rotVel = 0;
 			this->rotAcc = 0.4;

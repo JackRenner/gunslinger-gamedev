@@ -23,7 +23,7 @@ Wolf::Wolf(Player* sayu, string id) : AnimatedSprite(id){
 
 void Wolf::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
-	
+
 	// this will have to happen on the next iteration of update
 	if(this->clean){
 		delete this;
@@ -136,7 +136,6 @@ void Wolf::onMeleeStrike(){
 // }
 
 void Wolf::onCollision(DisplayObject* other){
-	//Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX + (rand() % 50) - 25, this->position.y-oldY + (rand() % 50) - 25, 0, 0);
 	if (other->type == "Projectile" && other->id != lastId) {
 		Projectile *temp = (Projectile*)other;
 		if (temp->gun == "revolver") {
@@ -161,8 +160,6 @@ void Wolf::onCollision(DisplayObject* other){
 		lastId = other->id;
 	} else if (other->type == "Projectile"){
 		lastId = other->id;
-	} else if (other->type == "Wolf"){
-		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX, this->position.y-this->oldY, 0, 0);
 	} else if (other->type == "Player"){
 		if (this->position.x > this->oldX && this->position.y > this->oldY)
 		{
@@ -179,8 +176,21 @@ void Wolf::onCollision(DisplayObject* other){
 		{
 			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX - 10, this->position.y-this->oldY + 10, 0, 0);
 		}		
-	} else if (other->type == "Obstacle") {
-		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
+	} else if (other->type != "Wolf"){
+		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
+		if (abs(this->position.x - this->oldX) > abs(this->position.y - this->oldY)) {
+			if (this->position.x - this->oldX > 0) {
+				this->targX = this->oldX - 50;
+			} else {
+				this->targX = this->oldX + 50;
+			}
+		} else {
+			if (this->position.y - this->oldY > 0) {
+				this->targY = this->oldY - 50;
+			} else {
+				this->targY = this->oldY + 50;
+			}
+		}
 	}
 }
 
@@ -192,8 +202,6 @@ void Wolf::draw(AffineTransform &at){
 void Wolf::save(){
 	this->oldX = position.x;
 	this->oldY = position.y;
-	//Sprite::save(out);
-	//TODO: ADD THIS TO SAVE Wolf DATA
 }
 
 SDL_Point* Wolf::getGlobalHitbox(){
