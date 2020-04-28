@@ -89,8 +89,14 @@ public:
 
 	WeaponSelectEvent* updateAmmo;
 
-	/* Current Enemy player is engaging with*/
-	//Enemy* curEnemy = NULL;
+	bool lakeUnlocked = false;
+	bool lakeComplete = false;
+	
+	bool badlandsUnlocked = false;
+	bool badlandsComplete = false;
+	
+	bool hideoutUnlocked = false;
+	bool hideoutComplete = false;
 
 private:
 	// int oldX=0, oldY=0;

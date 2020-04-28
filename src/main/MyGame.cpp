@@ -91,6 +91,18 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 	this->saveAllPositions();
 
+
+	// code to check if area is complete
+	if (curScene->id == "lake4" && curScene->enemiesLeft == 0) {
+		character->lakeComplete = true;
+	}
+	if (curScene->id == "badlands6" && curScene->enemiesLeft == 0) {
+		character->badlandsComplete = true;
+	}
+	if (curScene->id == "hideout8" && curScene->enemiesLeft == 0) {
+		character->hideoutComplete = true;
+	}
+
 	// code to reset scene
 	if (character->health <= 0) {
 		curTransition = transitions[0][0];
@@ -151,14 +163,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			character->selectWeapon(5);
 
 		}
-		// if (controls::toggleVisibility() && !test->textLock) {
-		// 	if (test->nextLine == 0)
-		// 		test->initBox();
-		// 	else if (test->nextLine == test->maxLine)
-		// 		test->closeBox();
-		// 	else
-		// 		test->drawNextLine();
-		// }
 	}
 
 	// reloading per frame
@@ -441,6 +445,22 @@ void MyGame::initTownsPeople(Scene* s) {
 		
 		s->enemiesAdded=true;
 		s->enemiesLeft=0;
+	} else if (s->id == "sheriffScene" && !s->enemiesAdded) {
+		string sheriffText1 = "HEY FRIEND, WE'VE BEEN UNDER ATTACK BY A GANG AND IF YOU CLEAR OUT LAKE STILL SOUTHWEST OF TOWN I CAN GIVE YOU SOME FOOD AND WHISKEY IN RETURN. ";
+		string sheriffText2 = "THANKS FOR DOING THAT, HERE'S YOUR REWARD.. CAN YOU ALSO CLEAR OUT THE BADLANDS SOUTHEAST OF TOWN?";
+		string sheriffText3 = "YOU'RE QUICKLY BECOMING A HELLUVA EFFICIENT DEPUTY, THE GANG IS SO CRIPPLED WE COULD TAKE THEM OUT RIGHT NOW AT THEIR HIDEOUT EAST OF TOWN";
+		vector<string> dialogue = {sheriffText1, sheriffText2, sheriffText3};
+		sheriff1 = new Sheriff((Player*)character, "sheriff1", dialogue);	
+		sheriff1->addAnimation("resources/friendlies/", "SheriffLeft", 1, 1, true);
+		sheriff1->addAnimation("resources/friendlies/", "SheriffRight", 1, 1, true);
+		sheriff1->addAnimation("resources/friendlies/", "SheriffUp", 1, 1, true);
+		sheriff1->addAnimation("resources/friendlies/", "SheriffDown", 1, 1, true);
+		sheriffScene->addChild(sheriff1);
+		sheriff1->position = { 881, 589 };
+		sheriff1->play("SheriffDown");
+		
+		s->enemiesAdded=true;
+		s->enemiesLeft=0;
 	} else if (s->id == "storeScene" && !s->enemiesAdded) {
 		string storekeeper1Text = "New to Town? Welcome to Stillwater! I hope you can give us a hand with that gang.";
 		storekeeper1 = new TownsPeople((Player*)character, "storekeeper", false, storekeeper1Text);	
@@ -544,7 +564,7 @@ void MyGame::initLake() {
 	//transition back to town
 	TransitionStruct(SDL_Point{ 0, 15 }, SDL_Point{720, 964}, 0, TransitionDetection::AXIS, Cardinal::NORTH),
 
-	TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 9, TransitionDetection::AXIS, Cardinal::EAST),
+	//TransitionStruct(SDL_Point{ 1085, 0 }, SDL_Point{ 80, 305 }, 9, TransitionDetection::AXIS, Cardinal::EAST),
 	TransitionStruct(SDL_Point{ 0, 595 }, SDL_Point{ 550, 80 }, 11, TransitionDetection::AXIS, Cardinal::SOUTH) };
 	transitions.push_back(lake1Points);
 
@@ -768,6 +788,12 @@ void MyGame::initLakeEnemies(Scene* s) {
 		knifeguy1LakeStill8->play("KnifeGuyLeft");
 		
 		s->enemiesLeft=1;
+		s->enemiesAdded = true;
+	}
+
+	if (s->id == "lake9" && !s->enemiesAdded) {
+	
+		s->enemiesLeft=0;
 		s->enemiesAdded = true;
 	}
 }
@@ -1936,9 +1962,23 @@ void MyGame::checkTransition() {
 		TransitionStruct cur = transitions[room_state][i];
 		if (cur.detection == TransitionDetection::POINT) {
 			if (checkInsidePoint(cur.point, character) && curScene->enemiesLeft == 0) {
-				curTransition = cur;
-				transitionScene();
-				break;
+				if (curScene->id == "townScene") {
+					// checking to see if areas are unlocked
+					if (cur.dest.x == 550 && character->lakeUnlocked || cur.dest.x == 406 && character->badlandsUnlocked
+						|| cur.dest.x == 80 && character->hideoutUnlocked) {
+						curTransition = cur;
+						transitionScene();
+						break;
+					} else if (cur.point.y < 600) { // this means it's a transition to one of the buildings
+						curTransition = cur;
+						transitionScene();
+						break;
+					}
+				} else {
+					curTransition = cur;
+					transitionScene();
+					break;
+				}
 			}
 		}
 		else if (cur.detection == TransitionDetection::AXIS) {

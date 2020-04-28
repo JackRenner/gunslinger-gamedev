@@ -16,10 +16,6 @@ Player::Player() : AnimatedSprite("Player"){
 
 	this->type = "Player";
 	
-	// this->width = 416;
-	// this->height = 454;
-	// this->scaleX = 0.15;
-	// this->scaleY = 0.15;
 	
 	this->addAnimation("resources/character/", "FaceUp", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
@@ -79,7 +75,6 @@ void Player::lightingSystem(bool on){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
-	cout << "Position: " << position.x << " " << position.y << endl;
 	this->dispatchEvent(this->updateAmmo);
 	if (controls::pressShift()) {
 		if (rollpause==0){

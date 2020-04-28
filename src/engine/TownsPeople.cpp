@@ -59,7 +59,9 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 	//everything else controlled by state machine
 	//state 0 = one time state to kick things off
 	//state 1 = patrolling
-	//state 2 = you are able to buy from the townsperson
+
+	// STATES 2 AND 3 WILL NOT BE USED UNTIL THE FINAL TOWN BATTLE
+	//state 2 = 
 
 	
 	if(this->state == 0){
@@ -68,7 +70,7 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 	else if(this->state == 1){
 		patrol();
     } else if(this->state == 2){
-		this->timeWaited++;
+		
 	}
 
 	//state transitions

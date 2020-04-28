@@ -26,6 +26,7 @@ public:
 	bool obstaclesAdded = false;
 
 	int enemiesLeft = -1;
+	bool unlocked = true;
 
 
 private:

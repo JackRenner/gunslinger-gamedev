@@ -10,6 +10,7 @@
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Player.h"
 #include "../engine/TownsPeople.h"
+#include "../engine/Sheriff.h"
 #include "../engine/Wolf.h"
 #include "../engine/GangThug.h"
 #include "../engine/GangShot.h"
@@ -113,6 +114,8 @@ private:
 	TownsPeople* cantinaMan;
 	TownsPeople* drugMan;
 
+	Sheriff* sheriff1;
+
 	// LAKE STILL SCENES
 	Scene* lake1;
 	Scene* lake2;
@@ -182,7 +185,7 @@ private:
 	Wolf* wolf3Canyon3;
 
 	// HIDEOUT ENEMIES
-		ShotgunGuy* boss_1;
+	ShotgunGuy* boss_1;
 	KnifeGuy* knifeguy1hideout6;
 	KnifeGuy* knifeguy2hideout6;
 	KnifeGuy* knifeguy3hideout6;
@@ -271,6 +274,7 @@ private:
 	GangThug* thug3Badlands6;
 
 
+	int lakeEnemiesLeft = 12;
 	// END ENEMIES CREATION
 
 	int iterate;
@@ -282,9 +286,6 @@ private:
 
 	DisplayObjectContainer* foreground;
 	Scene* cameraDemoScene;
-
-	//MyObject* object1;
-	//MyObject* object2;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;
