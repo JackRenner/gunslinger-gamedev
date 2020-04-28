@@ -44,7 +44,6 @@ public:
 	int shoot = 0;
 	/* Health and such */
 	int health = 500;
-	int maxHealth = 100;
 
 	//iFrames
 	bool iFrames = false;
@@ -88,9 +87,8 @@ private:
 
 	int oldAlpha = 0;
 
-	// int _jumpVel = -15;s
+    bool removed = false;
 
-	//void initIFrames(int numFrames);
 
 };
 

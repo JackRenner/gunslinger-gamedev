@@ -25,7 +25,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
     character = new Player();
 	//this->removeImmediateChild(character);
 
-	character->position = { 200, 600 };
+	character->position = { 200, 700 };
 	character->scaleX = 0.8;
 	character->scaleY = 0.8;
 	character->pivot = { character->width / 2, character->height / 2 };
@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 17;
+	room_state = 33;
 
-	this->setScene(canyon1);
+	this->setScene(hideout8);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -1336,7 +1336,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyDown", 1, 1, true);
 		boss_1->addAnimation("resources/enemies/", "smoke", 50, 1, true);
 		hideout8->addChild(boss_1);
-		boss_1->position = { 700, 300 };
+		boss_1->position = { 700, 400 };
 		boss_1->play("ShotgunGuyLeft");
 		shotgun_boss[boss_1] = 1;
 		

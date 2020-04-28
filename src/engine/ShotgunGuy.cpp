@@ -24,20 +24,19 @@ ShotgunGuy::ShotgunGuy(Player* sayu, string id) : AnimatedSprite(id){
 void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
-	// this will have to happen on the next iteration of update
-	if(this->clean){
+	// actually delete
+	if(this->removed){
 		delete this;
 	}
-	//enemy is dead so clean it up
-	if(this->health == 0){
-		this->clean = true; //scene will clean it up
-	}
-	//do the actual cleaning if necessary
+
+	// remove from game tree
 	if(this->clean){
 		Scene *temp = (Scene*) this->parent;
 		temp->enemiesLeft --;
+		this->removed = true;
 		this->removeThis();
 	}
+
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
     // if the difference in north/south is greater than east/west
@@ -186,9 +185,19 @@ void ShotgunGuy::onCollision(DisplayObject* other){
 		lastId = other->id;
 	}else{
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
-		this->targX = oldX + rand() % 200 - 100;
-		this->targX = oldY + rand() % 200 - 100;
-		this->state = 1;
+		if (abs(this->position.x - other->position.x) > abs(this->position.y - other->position.y)) {
+			if (this->position.x - other->position.x > 0) {
+				this->targX = this->position.x - 100;
+			} else {
+				this->targX = this->position.x + 100;
+			}
+		} else {
+			if (this->position.y - other->position.y > 0) {
+				this->targY = this->position.y - 100;
+			} else {
+				this->targY = this->position.y + 100;
+			}
+		}
 	}
 }
 
@@ -251,8 +260,7 @@ void ShotgunGuy::smokeBomb() {
     this->waitToSmokeTimer = 0;
     this->waitToSmoke = rand() % 500 + 250;
     this->position.x = rand() % 1000;
-    this->position.y = rand() % 1000;
-    cout << "LOOK HERE" << endl;
+    this->position.y = rand() % 700 + 300;
     //this->stop();
     //this->alpha = this->oldAlpha;
 }
