@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 17;
+	room_state = 30;
 
-	this->setScene(canyon1);
+	this->setScene(hideout5);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -452,7 +452,8 @@ void MyGame::initTownsPeople(Scene* s) {
 		string sheriffText1 = "HEY FRIEND, WE'VE BEEN UNDER ATTACK BY A GANG AND IF YOU CLEAR OUT LAKE STILL SOUTHWEST OF TOWN I CAN GIVE YOU SOME FOOD AND WHISKEY IN RETURN. ";
 		string sheriffText2 = "THANKS FOR DOING THAT, HERE'S YOUR REWARD.. CAN YOU ALSO CLEAR OUT THE BADLANDS SOUTHEAST OF TOWN?";
 		string sheriffText3 = "YOU'RE QUICKLY BECOMING A HELLUVA EFFICIENT DEPUTY, THE GANG IS SO CRIPPLED WE COULD TAKE THEM OUT RIGHT NOW AT THEIR HIDEOUT EAST OF TOWN";
-		vector<string> dialogue = {sheriffText1, sheriffText2, sheriffText3};
+		string sheriffText4 = "THIS TOWN OWES YOU A GREAT DEBT... WAIT DID YOU HEAR SHOOTING OUT BY THE TOWN WELL?? GO CHECK IT OUT!!";
+		vector<string> dialogue = {sheriffText1, sheriffText2, sheriffText3, sheriffText4};
 		sheriff1 = new Sheriff((Player*)character, "sheriff1", dialogue);	
 		sheriff1->addAnimation("resources/friendlies/", "SheriffLeft", 1, 1, true);
 		sheriff1->addAnimation("resources/friendlies/", "SheriffRight", 1, 1, true);
@@ -1460,43 +1461,43 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree2hideout5->play("GangMarksmanDown");
 		gang_marksmansfree[gangmarksmanfree2hideout5] = 1;
 
-		knifeguy1hideout5 = new KnifeGuy(character, "knifeguy1hideout5");
-		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		hideout5->addChild(knifeguy1hideout5);
-		knifeguy1hideout5->position = {260, 810};
-		knifeguy1hideout5->play("KnifeGuyDown");
+		// knifeguy1hideout5 = new KnifeGuy(character, "knifeguy1hideout5");
+		// knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		// knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		// knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		// knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		// hideout5->addChild(knifeguy1hideout5);
+		// knifeguy1hideout5->position = {260, 810};
+		// knifeguy1hideout5->play("KnifeGuyDown");
 
-		knifeguy2hideout5 = new KnifeGuy(character, "knifeguy2hideout5");
-		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		hideout5->addChild(knifeguy2hideout5);
-		knifeguy2hideout5->position = {660, 730};
-		knifeguy2hideout5->play("KnifeGuyDown");
+		// knifeguy2hideout5 = new KnifeGuy(character, "knifeguy2hideout5");
+		// knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		// knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		// knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		// knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		// hideout5->addChild(knifeguy2hideout5);
+		// knifeguy2hideout5->position = {660, 730};
+		// knifeguy2hideout5->play("KnifeGuyDown");
 
-		shot1hideout5 = new GangShot((Player*)character, "shot1hideout5");	
-		shot1hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
-		shot1hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
-		shot1hideout5->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
-		shot1hideout5->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
-		hideout5->addChild(shot1hideout5);
-		shot1hideout5->position = { 150, 580 };
-		shot1hideout5->play("GangShotRight");
-		gang_shot[shot1hideout5] = 1;
+		// shot1hideout5 = new GangShot((Player*)character, "shot1hideout5");	
+		// shot1hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		// shot1hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		// shot1hideout5->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		// shot1hideout5->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		// hideout5->addChild(shot1hideout5);
+		// shot1hideout5->position = { 150, 580 };
+		// shot1hideout5->play("GangShotRight");
+		// gang_shot[shot1hideout5] = 1;
 
-		shot2hideout5 = new GangShot((Player*)character, "shot2hideout5");	
-		shot2hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
-		shot2hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
-		shot2hideout5->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
-		shot2hideout5->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
-		hideout5->addChild(shot2hideout5);
-		shot2hideout5->position = { 270, 580 };
-		shot2hideout5->play("GangShotLeft");
-		gang_shot[shot2hideout5] = 1;
+		// shot2hideout5 = new GangShot((Player*)character, "shot2hideout5");	
+		// shot2hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		// shot2hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		// shot2hideout5->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		// shot2hideout5->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		// hideout5->addChild(shot2hideout5);
+		// shot2hideout5->position = { 270, 580 };
+		// shot2hideout5->play("GangShotLeft");
+		// gang_shot[shot2hideout5] = 1;
 
 		
 		// 2 new marksmen who don't move
@@ -2267,7 +2268,10 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 153, 275, 887, 457);
 		addDOC(s, obs, 141, 191, 908, 765);
 		addDOC(s, obs, 141, 229, 49, 758);
-		addDOC(s, obs, 205, 297, 369, 544);
+		addDOC(s, obs, 5, 150, 355, 544);
+		addDOC(s, obs, 5, 150, 580, 544);
+		addDOC(s, obs, 120, 5, 430, 700);
+		//addDOC(s, obs, 205, 297, 369, 544);
 	}
 
 	if (s == hideout6) {
