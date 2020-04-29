@@ -16,7 +16,7 @@ Projectile::Projectile() : AnimatedSprite("Projectile"){
 
 }
 
-Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSprite("Projectile"){
+Projectile::Projectile(string face, SDL_Point position, int type, string id) : AnimatedSprite(id){
 
 	this->type = "Projectile";
 
@@ -116,9 +116,6 @@ SDL_Point* Projectile::getGlobalHitbox(){
 void Projectile::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	controls::update(pressedKeys);
-	if (this->clean) {
-		delete this;
-	}
 	if(this->dir == "right"){
 		if(!hitSomething){
 			this->position.x -= this->speed;

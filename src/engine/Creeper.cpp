@@ -26,10 +26,6 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 	
 	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
 
-	// this will have to happen on the next iteration of update
-	if(this->clean){
-		delete this;
-	}
 	//enemy is dead so clean it up
 	if(this->health == 0){
 		this->clean = true; //scene will clean it up

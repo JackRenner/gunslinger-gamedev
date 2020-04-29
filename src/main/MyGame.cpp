@@ -93,6 +93,9 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 
 	// code to check if area is complete
+	if (curScene->id == "canyon3" && curScene->enemiesLeft == 0){
+		character->canyonComplete = true;
+	}
 	if (curScene->id == "lake4" && curScene->enemiesLeft == 0) {
 		character->lakeComplete = true;
 	}
@@ -262,7 +265,7 @@ void MyGame::setScene(Scene* scene) {
 			// }
 		}
 		
-		if (scene->id == "hideout4") {
+		if (scene->id == "hideout4" || scene->id == "hideout8") {
 			this->character->lightingSystem(true);
 		} else {
 			this->character->lightingSystem(false);
@@ -1306,8 +1309,8 @@ void MyGame::initHideout() {
 	transitions.push_back(hideout6Points);
 
 	vector<TransitionStruct> hideout7Points = {
-	TransitionStruct(SDL_Point{993, 70}, SDL_Point{598, 900}, 33),
-	TransitionStruct(SDL_Point{290, 70}, SDL_Point{507, 1005}, 29)
+	TransitionStruct(SDL_Point{993, 100}, SDL_Point{598, 900}, 33),
+	TransitionStruct(SDL_Point{290, 100}, SDL_Point{507, 1005}, 29)
 	};
 	transitions.push_back(hideout7Points);
 
@@ -1901,8 +1904,7 @@ void MyGame::enemyShootingLoops() {
 void MyGame::playerShooting(int gun, string dir){
 	if (gun == 1 && character->knife_throws > 0) {
 	} else if (gun == 1) {
-		bullet = new Projectile(dir,this->position, gun);
-		bullet->id = "bullet" + projectileIdNum;
+		bullet = new Projectile(dir,this->position, gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->speed += 5;
@@ -1911,8 +1913,7 @@ void MyGame::playerShooting(int gun, string dir){
 		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 2 && character->revolver_shots > 5) {
 	} else if (character->gun == 2) {
-		bullet = new Projectile(dir,this->position, character->gun);
-		bullet->id = "bullet" + projectileIdNum;
+		bullet = new Projectile(dir,this->position, character->gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		//foreground->addChild(bullet);
 		this->addChild(bullet);
@@ -1921,8 +1922,7 @@ void MyGame::playerShooting(int gun, string dir){
 		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 3 && character->shotgun_shots > 1) {
 	} else if (character->gun == 3) {
-		bullet = new Projectile(dir,character->position, gun);
-		bullet->id = "bullet" + projectileIdNum;
+		bullet = new Projectile(dir,character->position, gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
@@ -1930,8 +1930,7 @@ void MyGame::playerShooting(int gun, string dir){
 		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 4 && character->rifle_shots > 4) {
 	} else if (character->gun == 4) {
-		bullet = new Projectile(dir,character->position, gun);
-		bullet->id = "bullet" + projectileIdNum;
+		bullet = new Projectile(dir,character->position, gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
@@ -1968,8 +1967,8 @@ void MyGame::checkTransition() {
 			if (checkInsidePoint(cur.point, character) && curScene->enemiesLeft == 0) {
 				if (curScene->id == "townScene") {
 					// checking to see if areas are unlocked
-					if (cur.dest.x == 550 && character->lakeUnlocked || cur.dest.x == 406 && character->badlandsUnlocked
-						|| cur.dest.x == 80 && character->hideoutUnlocked) {
+					if ((cur.dest.x == 550 && character->lakeUnlocked) || (cur.dest.x == 406 && character->badlandsUnlocked)
+						|| (cur.dest.x == 80 && character->hideoutUnlocked)) {
 						curTransition = cur;
 						transitionScene();
 						break;

@@ -23,13 +23,16 @@ ShotgunGuy::ShotgunGuy(Player* sayu, string id) : AnimatedSprite(id){
 
 void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
-	
-	// actually delete
-	if(this->removed){
-		delete this;
-	}
 
-	// remove from game tree
+	cout << "HEALTH LEFT: " << this->health << endl;
+	cout << "LAST TWO ID: " << this->lastTwoId << endl;
+	cout << "LAST ID: " << this->lastId << endl;
+	
+	//enemy is dead so clean it up
+	if(this->health == 0){
+		this->clean = true; //scene will clean it up
+	}
+	//do the actual cleaning if necessary
 	if(this->clean){
 		Scene *temp = (Scene*) this->parent;
 		temp->enemiesLeft --;
@@ -159,7 +162,7 @@ void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 }
 
 void ShotgunGuy::onCollision(DisplayObject* other){
-	if (other->type == "Projectile" && other->id != lastId) {
+	if (other->type == "Projectile" && other->id != lastId && other->id != lastTwoId && other->id != lastThreeId && other->id != lastFourId && other->id != lastFiveId && other->id != lastSixId) {
 		Projectile *temp = (Projectile*)other;
 		if (temp->gun == "revolver") {
 			this->health -= 20;
@@ -180,9 +183,23 @@ void ShotgunGuy::onCollision(DisplayObject* other){
 			this->alpha -= 5;
 			if(this->health < 0) this->health = 0;
 		}
-		lastId = other->id;
+		if (lastTwoId != other->id && lastId != other->id && lastThreeId != other->id && lastFourId != other->id && lastFiveId != other->id && lastSixId != other->id) {
+			lastSixId = lastFiveId;
+			lastFiveId = lastFourId;
+			lastFourId = lastThreeId;
+			lastThreeId = lastTwoId;
+			lastTwoId = lastId;
+			lastId = other->id;
+		}
 	} else if(other->type == "Projectile"){
-		lastId = other->id;
+		if (lastTwoId != other->id && lastId != other->id && lastThreeId != other->id && lastFourId != other->id && lastFiveId != other->id && lastSixId != other->id) {
+			lastSixId = lastFiveId;
+			lastFiveId = lastFourId;
+			lastFourId = lastThreeId;
+			lastThreeId = lastTwoId;
+			lastTwoId = lastId;
+			lastId = other->id;
+		}
 	}else{
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
 		if (abs(this->position.x - other->position.x) > abs(this->position.y - other->position.y)) {

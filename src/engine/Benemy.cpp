@@ -26,9 +26,6 @@ Benemy::Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon, 
 
 void Benemy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
-	if (clean){
-		delete this;
-	}
 	if(isTargetReached()){
 		clean = true;
 		AnimatedSprite::update(pressedKeys);
