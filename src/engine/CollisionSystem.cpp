@@ -80,13 +80,13 @@ void CollisionSystem :: handleEvent(Event* e){
 
 void CollisionSystem :: handleAddDisplayObject(GameTreeEvent*e){
 
-  cout << "Add Event Triggered: " <<endl;
+  //cout << "Add Event Triggered: " <<endl;
 
   if(ObjectsOfEachType.find(e->getModifiedObject()->type) ==  ObjectsOfEachType.end()){
 
-    cout << "Keytype: ";
-    cout << e->modifiedObject->type;
-    cout << " : Was added as a new type to the Game EventTree" <<endl;
+    // cout << "Keytype: ";
+    // cout << e->modifiedObject->type;
+    // cout << " : Was added as a new type to the Game EventTree" <<endl;
 
     vector<DisplayObject*>* vectorOfDisplayObjects;
 
@@ -94,29 +94,29 @@ void CollisionSystem :: handleAddDisplayObject(GameTreeEvent*e){
 
     this->ObjectsOfEachType.emplace( e->getModifiedObject()->type , vectorOfDisplayObjects  );
     ObjectsOfEachType[e->getModifiedObject()->type]->push_back(e->getModifiedObject());
-    cout << "Added both KeyType and Object" <<endl;
+    //cout << "Added both KeyType and Object" <<endl;
   }
   else{
-    cout << e->modifiedObject->type;
-    cout <<" Already Exists as a typing." <<endl;
+    // cout << e->modifiedObject->type;
+    // cout <<" Already Exists as a typing." <<endl;
     ObjectsOfEachType[e->getModifiedObject()->type]->push_back(e->getModifiedObject());
-    cout << "Object Added to the Game Event Tree" << endl;
+    // cout << "Object Added to the Game Event Tree" << endl;
   }
 }
 
 
 void CollisionSystem :: handleRemoveDisplayObject(GameTreeEvent*e){
-  cout << "handleRemoveDisplayObjectIsCalled"<<endl;
+  // cout << "handleRemoveDisplayObjectIsCalled"<<endl;
     if(ObjectsOfEachType.find(e->getModifiedObject()->type) ==  ObjectsOfEachType.end()){
       //cout << "Keytype has not been added yet. There is nothing to remove"<<endl;
     }
     else{
       auto iter = ObjectsOfEachType[e->getModifiedObject()->type]->begin(); //Create iterator for forloop, starts with the beginning
       for(iter; iter !=  ObjectsOfEachType[e->getModifiedObject()->type]->end(); ){
-          cout << "Erase Iter" <<endl;
-          cout << (*iter)->id <<endl;
+          // cout << "Erase Iter" <<endl;
+          // cout << (*iter)->id <<endl;
           if ((*iter)->id == e->getModifiedObject()->id) {
-              cout << "Equal to Target" << endl;
+              // cout << "Equal to Target" << endl;
               iter = ObjectsOfEachType[e->getModifiedObject()->type]->erase(iter);
           }
           else

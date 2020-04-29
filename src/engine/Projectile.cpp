@@ -16,7 +16,7 @@ Projectile::Projectile() : AnimatedSprite("Projectile"){
 
 }
 
-Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSprite("Projectile"){
+Projectile::Projectile(string face, SDL_Point position, int type, string id) : AnimatedSprite(id){
 
 	this->type = "Projectile";
 

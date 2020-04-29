@@ -79,6 +79,11 @@ private:
     int pauseCount = 0;
 
     string lastId;
+    string lastTwoId;
+    string lastThreeId;
+    string lastFourId;
+    string lastFiveId;
+    string lastSixId;
 
     int waitToReload = 0;
     
