@@ -16,7 +16,7 @@ class Projectile : public AnimatedSprite{
 
 public:
 	Projectile();
-    Projectile(string face, SDL_Point position, int type);
+    Projectile(string face, SDL_Point position, int type, string id);
 	
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);

@@ -44,7 +44,6 @@ public:
 	int shoot = 0;
 	/* Health and such */
 	int health = 500;
-	int maxHealth = 100;
 
 	//iFrames
 	bool iFrames = false;
@@ -80,6 +79,11 @@ private:
     int pauseCount = 0;
 
     string lastId;
+    string lastTwoId;
+    string lastThreeId;
+    string lastFourId;
+    string lastFiveId;
+    string lastSixId;
 
     int waitToReload = 0;
     
@@ -88,9 +92,8 @@ private:
 
 	int oldAlpha = 0;
 
-	// int _jumpVel = -15;s
+    bool removed = false;
 
-	//void initIFrames(int numFrames);
 
 };
 

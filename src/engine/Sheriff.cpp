@@ -49,7 +49,7 @@ void Sheriff::update(set<SDL_Scancode> pressedKeys){
         sheriffText->drawNextLine();
         sayu->hideoutUnlocked = true;
     } else if (sayu->lakeComplete && sayu->badlandsComplete && sayu->hideoutComplete && !sheriffText->textLock) {
-        //sheriffText->drawNextLine();
+        sheriffText->drawNextLine();
     }
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //

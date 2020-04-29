@@ -50,8 +50,9 @@ public:
 
 	bool playing = false;
 
-private:
 	Animation* current;
+
+private:
 	vector<Animation*> animations;
 	int frameCount;
 	bool removed = false; //to prevent seg fault

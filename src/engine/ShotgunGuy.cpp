@@ -23,6 +23,10 @@ ShotgunGuy::ShotgunGuy(Player* sayu, string id) : AnimatedSprite(id){
 
 void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
+
+	cout << "HEALTH LEFT: " << this->health << endl;
+	cout << "LAST TWO ID: " << this->lastTwoId << endl;
+	cout << "LAST ID: " << this->lastId << endl;
 	
 	//enemy is dead so clean it up
 	if(this->health == 0){
@@ -32,8 +36,10 @@ void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 	if(this->clean){
 		Scene *temp = (Scene*) this->parent;
 		temp->enemiesLeft --;
+		this->removed = true;
 		this->removeThis();
 	}
+
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
     // if the difference in north/south is greater than east/west
@@ -156,7 +162,7 @@ void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 }
 
 void ShotgunGuy::onCollision(DisplayObject* other){
-	if (other->type == "Projectile" && other->id != lastId) {
+	if (other->type == "Projectile" && other->id != lastId && other->id != lastTwoId && other->id != lastThreeId && other->id != lastFourId && other->id != lastFiveId && other->id != lastSixId) {
 		Projectile *temp = (Projectile*)other;
 		if (temp->gun == "revolver") {
 			this->health -= 20;
@@ -177,14 +183,38 @@ void ShotgunGuy::onCollision(DisplayObject* other){
 			this->alpha -= 5;
 			if(this->health < 0) this->health = 0;
 		}
-		lastId = other->id;
+		if (lastTwoId != other->id && lastId != other->id && lastThreeId != other->id && lastFourId != other->id && lastFiveId != other->id && lastSixId != other->id) {
+			lastSixId = lastFiveId;
+			lastFiveId = lastFourId;
+			lastFourId = lastThreeId;
+			lastThreeId = lastTwoId;
+			lastTwoId = lastId;
+			lastId = other->id;
+		}
 	} else if(other->type == "Projectile"){
-		lastId = other->id;
+		if (lastTwoId != other->id && lastId != other->id && lastThreeId != other->id && lastFourId != other->id && lastFiveId != other->id && lastSixId != other->id) {
+			lastSixId = lastFiveId;
+			lastFiveId = lastFourId;
+			lastFourId = lastThreeId;
+			lastThreeId = lastTwoId;
+			lastTwoId = lastId;
+			lastId = other->id;
+		}
 	}else{
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
-		this->targX = oldX + rand() % 200 - 100;
-		this->targX = oldY + rand() % 200 - 100;
-		this->state = 1;
+		if (abs(this->position.x - other->position.x) > abs(this->position.y - other->position.y)) {
+			if (this->position.x - other->position.x > 0) {
+				this->targX = this->position.x - 100;
+			} else {
+				this->targX = this->position.x + 100;
+			}
+		} else {
+			if (this->position.y - other->position.y > 0) {
+				this->targY = this->position.y - 100;
+			} else {
+				this->targY = this->position.y + 100;
+			}
+		}
 	}
 }
 
@@ -247,8 +277,7 @@ void ShotgunGuy::smokeBomb() {
     this->waitToSmokeTimer = 0;
     this->waitToSmoke = rand() % 500 + 250;
     this->position.x = rand() % 1000;
-    this->position.y = rand() % 1000;
-    cout << "LOOK HERE" << endl;
+    this->position.y = rand() % 700 + 300;
     //this->stop();
     //this->alpha = this->oldAlpha;
 }

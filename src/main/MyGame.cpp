@@ -25,7 +25,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
     character = new Player();
 	//this->removeImmediateChild(character);
 
-	character->position = { 200, 600 };
+	character->position = { 200, 700 };
 	character->scaleX = 0.8;
 	character->scaleY = 0.8;
 	character->pivot = { character->width / 2, character->height / 2 };
@@ -379,7 +379,7 @@ void MyGame::initTown() {
 	// initialize town transition points, hardcoded for now
 	vector<TransitionStruct> townPoints = {
 	//special reset transition
-	TransitionStruct(SDL_Point{-1,-1}, SDL_Point{535, 960}, 0),
+	TransitionStruct(SDL_Point{-1,-1}, SDL_Point{800, 600}, 0),
 
 	// transitions to buildings
 	TransitionStruct(SDL_Point{ 192, 300 }, SDL_Point{ 535, 900 }, 1),
@@ -452,7 +452,8 @@ void MyGame::initTownsPeople(Scene* s) {
 		string sheriffText1 = "HEY FRIEND, WE'VE BEEN UNDER ATTACK BY A GANG AND IF YOU CLEAR OUT LAKE STILL SOUTHWEST OF TOWN I CAN GIVE YOU SOME FOOD AND WHISKEY IN RETURN. ";
 		string sheriffText2 = "THANKS FOR DOING THAT, HERE'S YOUR REWARD.. CAN YOU ALSO CLEAR OUT THE BADLANDS SOUTHEAST OF TOWN?";
 		string sheriffText3 = "YOU'RE QUICKLY BECOMING A HELLUVA EFFICIENT DEPUTY, THE GANG IS SO CRIPPLED WE COULD TAKE THEM OUT RIGHT NOW AT THEIR HIDEOUT EAST OF TOWN";
-		vector<string> dialogue = {sheriffText1, sheriffText2, sheriffText3};
+		string sheriffText4 = "THIS TOWN OWES YOU A GREAT DEBT... WAIT DID YOU HEAR SHOOTING OUT BY THE TOWN WELL?? GO CHECK IT OUT!!";
+		vector<string> dialogue = {sheriffText1, sheriffText2, sheriffText3, sheriffText4};
 		sheriff1 = new Sheriff((Player*)character, "sheriff1", dialogue);	
 		sheriff1->addAnimation("resources/friendlies/", "SheriffLeft", 1, 1, true);
 		sheriff1->addAnimation("resources/friendlies/", "SheriffRight", 1, 1, true);
@@ -1085,7 +1086,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		s->enemiesLeft=6;
 		s->enemiesAdded=true;
 	}else if (s->id == "badlands3" && !s->enemiesAdded) {
-		wolf1Badlands3 = new Wolf((Player*)character, "BadWolf5"); 
+		wolf1Badlands3 = new Wolf((Player*)character, "BadWolf7"); 
 		wolf1Badlands3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf1Badlands3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 		wolf1Badlands3->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
@@ -1096,7 +1097,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf1Badlands3->scaleY = 0.75;
 		wolf1Badlands3->play("WolfRight");
 
-		wolf2Badlands3 = new Wolf((Player*)character, "BadWolf6"); 
+		wolf2Badlands3 = new Wolf((Player*)character, "BadWolf8"); 
 		wolf2Badlands3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf2Badlands3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
 		wolf2Badlands3->addAnimation("resources/enemies/", "WolfRight", 1, 1, true);
@@ -1215,7 +1216,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		creeper2Badlands6->position = { 715, 650 };
 		creeper2Badlands6->play("CreeperLeft");
 
-		thug1Badlands6 = new GangThug((Player*)character, "BadGangThug5");	
+		thug1Badlands6 = new GangThug((Player*)character, "BadGangThug9");	
 		thug1Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug1Badlands6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1225,7 +1226,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug1Badlands6->play("GangThugLeft");
 		gang_thugs[thug1Badlands6] = 1;
 
-		thug2Badlands6 = new GangThug((Player*)character, "BadGangThug6");	
+		thug2Badlands6 = new GangThug((Player*)character, "BadGangThug10");	
 		thug2Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug2Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug2Badlands6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1235,7 +1236,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug2Badlands6->play("GangThugLeft");
 		gang_thugs[thug2Badlands6] = 1;
 
-		thug3Badlands6 = new GangThug((Player*)character, "BadGangThug7");	
+		thug3Badlands6 = new GangThug((Player*)character, "BadGangThug11");	
 		thug3Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug3Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug3Badlands6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1309,8 +1310,8 @@ void MyGame::initHideout() {
 	transitions.push_back(hideout6Points);
 
 	vector<TransitionStruct> hideout7Points = {
-	TransitionStruct(SDL_Point{993, 70}, SDL_Point{598, 900}, 33),
-	TransitionStruct(SDL_Point{290, 70}, SDL_Point{507, 1005}, 29)
+	TransitionStruct(SDL_Point{993, 100}, SDL_Point{598, 900}, 33),
+	TransitionStruct(SDL_Point{290, 100}, SDL_Point{507, 1005}, 29)
 	};
 	transitions.push_back(hideout7Points);
 
@@ -1339,7 +1340,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyDown", 1, 1, true);
 		boss_1->addAnimation("resources/enemies/", "smoke", 50, 1, true);
 		hideout8->addChild(boss_1);
-		boss_1->position = { 700, 300 };
+		boss_1->position = { 700, 400 };
 		boss_1->play("ShotgunGuyLeft");
 		shotgun_boss[boss_1] = 1;
 		
@@ -1394,6 +1395,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper1hideout6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper1hideout6->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper1hideout6->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper1hideout6->addAnimation("resources/enemies/", "Explode", 16, 1, true);
 		hideout6->addChild(creeper1hideout6);
 		creeper1hideout6->position = {1080, 510};
 		creeper1hideout6->play("CreeperDown");
@@ -1403,6 +1405,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper1hideout6->addAnimation("resources/enemies/", "Explode", 16, 1, true);
 		hideout6->addChild(creeper2hideout6);
 		creeper2hideout6->position = {1260, 520};
 		creeper2hideout6->play("CreeperDown");
@@ -1518,6 +1521,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper1hideout3->addAnimation("resources/enemies/", "Explode", 16, 1, true);
 		hideout3->addChild(creeper1hideout3);
 		creeper1hideout3->position = {320, 540};
 		creeper1hideout3->play("CreeperRight");
@@ -1527,6 +1531,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper2hideout3->addAnimation("resources/enemies/", "Explode", 16, 1, true);
 		hideout3->addChild(creeper2hideout3);
 		creeper2hideout3->position = {650, 540};
 		creeper2hideout3->play("CreeperLeft");
@@ -1900,8 +1905,7 @@ void MyGame::enemyShootingLoops() {
 void MyGame::playerShooting(int gun, string dir){
 	if (gun == 1 && character->knife_throws > 0) {
 	} else if (gun == 1) {
-		bullet = new Projectile(dir,this->position, gun);
-		bullet->id = "bullet" + projectileIdNum;
+		bullet = new Projectile(dir,this->position, gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->speed += 5;
@@ -1910,8 +1914,7 @@ void MyGame::playerShooting(int gun, string dir){
 		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 2 && character->revolver_shots > 5) {
 	} else if (character->gun == 2) {
-		bullet = new Projectile(dir,this->position, character->gun);
-		bullet->id = "bullet" + projectileIdNum;
+		bullet = new Projectile(dir,this->position, character->gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		//foreground->addChild(bullet);
 		this->addChild(bullet);
@@ -1920,8 +1923,7 @@ void MyGame::playerShooting(int gun, string dir){
 		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 3 && character->shotgun_shots > 1) {
 	} else if (character->gun == 3) {
-		bullet = new Projectile(dir,character->position, gun);
-		bullet->id = "bullet" + projectileIdNum;
+		bullet = new Projectile(dir,character->position, gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
@@ -1929,8 +1931,7 @@ void MyGame::playerShooting(int gun, string dir){
 		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 4 && character->rifle_shots > 4) {
 	} else if (character->gun == 4) {
-		bullet = new Projectile(dir,character->position, gun);
-		bullet->id = "bullet" + projectileIdNum;
+		bullet = new Projectile(dir,character->position, gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
@@ -1967,8 +1968,8 @@ void MyGame::checkTransition() {
 			if (checkInsidePoint(cur.point, character) && curScene->enemiesLeft == 0) {
 				if (curScene->id == "townScene") {
 					// checking to see if areas are unlocked
-					if (cur.dest.x == 550 && character->lakeUnlocked || cur.dest.x == 406 && character->badlandsUnlocked
-						|| cur.dest.x == 80 && character->hideoutUnlocked) {
+					if ((cur.dest.x == 550 && character->lakeUnlocked) || (cur.dest.x == 406 && character->badlandsUnlocked)
+						|| (cur.dest.x == 80 && character->hideoutUnlocked)) {
 						curTransition = cur;
 						transitionScene();
 						break;
@@ -2267,7 +2268,9 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 153, 275, 887, 457);
 		addDOC(s, obs, 141, 191, 908, 765);
 		addDOC(s, obs, 141, 229, 49, 758);
-		addDOC(s, obs, 205, 297, 369, 544);
+		addDOC(s, obs, 5, 150, 355, 544);
+		addDOC(s, obs, 5, 150, 580, 544);
+		addDOC(s, obs, 120, 5, 430, 700);
 	}
 
 	if (s == hideout6) {

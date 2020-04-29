@@ -75,6 +75,7 @@ void Player::lightingSystem(bool on){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
+	cout << "POSITION: " << this->position.x << " " << this->position.y << endl;
 	this->dispatchEvent(this->updateAmmo);
 	if (controls::pressShift()) {
 		if (rollpause==0){
@@ -109,9 +110,7 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			this->position.x -= 4;
 			//this->position.x -= 10;
 		}
-		// } else {
-		// 	this->play("Face"+this->dir);
-		// }
+
 		if (controls::holdUp()) {
 			this->dir = "Up";
 			this->play("FaceUp");
@@ -165,20 +164,6 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		this->health = 500;
 		dispatchEvent(healthChangeEvent);
 	}
-
-	// BUYING COOL THINGS!
-	// if (this->timeToBuy == 200) {
-	// 	this->ableToBuy = false;
-	// 	this->timeToBuy = 0;
-	// }
-	// if (this->ableToBuy) {
-	// 	this->timeToBuy++;
-	// }
-	// if (controls::press1() && this->ableToBuy) {
-	// 	this->foodNum ++;
-	// 	cout << "LOOK HERE RIGHT NOW DUDE" << endl;
-	// }
-	//cout << ableToBuy << endl;
 
 }
 

@@ -61,6 +61,7 @@ Game::Game(int windowWidth, int windowHeight){
 	
 	// marksman collision
 	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
+	ourCollisionSystem->watchForCollisions("GangMarksmanFree", "Projectile");
 	// obstacle collision
 	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
 	// cactus collision
@@ -71,6 +72,7 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("River", "Player");
 	// shotgun boss collision
 	ourCollisionSystem->watchForCollisions("ShotgunGuy", "Projectile");
+	ourCollisionSystem->watchForCollisions("Obstacle", "ShotgunGuy");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
 }
 
