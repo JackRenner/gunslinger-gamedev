@@ -1461,43 +1461,43 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree2hideout5->play("GangMarksmanDown");
 		gang_marksmansfree[gangmarksmanfree2hideout5] = 1;
 
-		// knifeguy1hideout5 = new KnifeGuy(character, "knifeguy1hideout5");
-		// knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		// knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		// knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		// knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		// hideout5->addChild(knifeguy1hideout5);
-		// knifeguy1hideout5->position = {260, 810};
-		// knifeguy1hideout5->play("KnifeGuyDown");
+		knifeguy1hideout5 = new KnifeGuy(character, "knifeguy1hideout5");
+		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout5->addChild(knifeguy1hideout5);
+		knifeguy1hideout5->position = {260, 810};
+		knifeguy1hideout5->play("KnifeGuyDown");
 
-		// knifeguy2hideout5 = new KnifeGuy(character, "knifeguy2hideout5");
-		// knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
-		// knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
-		// knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
-		// knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
-		// hideout5->addChild(knifeguy2hideout5);
-		// knifeguy2hideout5->position = {660, 730};
-		// knifeguy2hideout5->play("KnifeGuyDown");
+		knifeguy2hideout5 = new KnifeGuy(character, "knifeguy2hideout5");
+		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
+		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
+		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyRight", 1, 1, true);
+		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyDown", 1, 1, true);
+		hideout5->addChild(knifeguy2hideout5);
+		knifeguy2hideout5->position = {660, 730};
+		knifeguy2hideout5->play("KnifeGuyDown");
 
-		// shot1hideout5 = new GangShot((Player*)character, "shot1hideout5");	
-		// shot1hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
-		// shot1hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
-		// shot1hideout5->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
-		// shot1hideout5->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
-		// hideout5->addChild(shot1hideout5);
-		// shot1hideout5->position = { 150, 580 };
-		// shot1hideout5->play("GangShotRight");
-		// gang_shot[shot1hideout5] = 1;
+		shot1hideout5 = new GangShot((Player*)character, "shot1hideout5");	
+		shot1hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		shot1hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		shot1hideout5->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		shot1hideout5->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		hideout5->addChild(shot1hideout5);
+		shot1hideout5->position = { 150, 580 };
+		shot1hideout5->play("GangShotRight");
+		gang_shot[shot1hideout5] = 1;
 
-		// shot2hideout5 = new GangShot((Player*)character, "shot2hideout5");	
-		// shot2hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
-		// shot2hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
-		// shot2hideout5->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
-		// shot2hideout5->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
-		// hideout5->addChild(shot2hideout5);
-		// shot2hideout5->position = { 270, 580 };
-		// shot2hideout5->play("GangShotLeft");
-		// gang_shot[shot2hideout5] = 1;
+		shot2hideout5 = new GangShot((Player*)character, "shot2hideout5");	
+		shot2hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
+		shot2hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
+		shot2hideout5->addAnimation("resources/enemies/", "GangShotRight", 1, 1, true);
+		shot2hideout5->addAnimation("resources/enemies/", "GangShotDown", 1, 1, true);
+		hideout5->addChild(shot2hideout5);
+		shot2hideout5->position = { 270, 580 };
+		shot2hideout5->play("GangShotLeft");
+		gang_shot[shot2hideout5] = 1;
 
 		
 		// 2 new marksmen who don't move
@@ -2271,7 +2271,6 @@ void MyGame::initObstacles() {
 		addDOC(s, obs, 5, 150, 355, 544);
 		addDOC(s, obs, 5, 150, 580, 544);
 		addDOC(s, obs, 120, 5, 430, 700);
-		//addDOC(s, obs, 205, 297, 369, 544);
 	}
 
 	if (s == hideout6) {

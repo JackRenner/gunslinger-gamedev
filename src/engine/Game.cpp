@@ -61,6 +61,7 @@ Game::Game(int windowWidth, int windowHeight){
 	
 	// marksman collision
 	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
+	ourCollisionSystem->watchForCollisions("GangMarksmanFree", "Projectile");
 	// obstacle collision
 	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
 	// cactus collision
