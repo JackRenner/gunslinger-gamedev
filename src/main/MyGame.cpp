@@ -93,6 +93,9 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 
 	// code to check if area is complete
+	if (curScene->id == "canyon3" && curScene->enemiesLeft == 0){
+		character->canyonComplete = true;
+	}
 	if (curScene->id == "lake4" && curScene->enemiesLeft == 0) {
 		character->lakeComplete = true;
 	}
@@ -262,7 +265,7 @@ void MyGame::setScene(Scene* scene) {
 			// }
 		}
 		
-		if (scene->id == "hideout4") {
+		if (scene->id == "hideout4" || scene->id == "hideout8") {
 			this->character->lightingSystem(true);
 		} else {
 			this->character->lightingSystem(false);
