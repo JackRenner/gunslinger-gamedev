@@ -23,11 +23,6 @@ GangShot::GangShot(Player* sayu, string id) : AnimatedSprite(id){
 
 void GangShot::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
-	
-	// actually delete
-	if(this->removed){
-		delete this;
-	}
 
 	// remove from game tree
 	if(this->clean){

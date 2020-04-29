@@ -25,10 +25,6 @@ Wolf::Wolf(Player* sayu, string id) : AnimatedSprite(id){
 void Wolf::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 
-	// this will have to happen on the next iteration of update
-	if(this->clean){
-		delete this;
-	}
 	//enemy is dead so clean it up
 	if(this->health == 0){
 		this->clean = true; //scene will clean it up
@@ -124,7 +120,6 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
 		}
 	}
 	this->save();
-
 }
 
 void Wolf::onMeleeStrike(){
