@@ -32,6 +32,7 @@ public:
 	//void onEnemyCollision(Enemy* enemy);
 	virtual void onCollision(DisplayObject* other);
 	virtual SDL_Point* getGlobalHitbox();
+	void save();
 
 	/* Health and such */
 	int health = 500;
@@ -64,17 +65,18 @@ public:
 
 	void selectWeapon(int gun);
 
+	void lightingSystem(bool on); //toggles on and off the torch light lighting system
+
 	/* direction */
 	string dir;
 	int holding = 0;
 
-	//iFrames
-	bool iFrames = false;
-	int iFrameCount = 0;
-	int numIFrames = 0;
+	//purchasing counter
+	int timeToBuy = 0;
 
 	//AnimatedSprite* bullet;
 	AnimatedSprite* bloodSplatter;
+	AnimatedSprite* lightingEffect;
 
 	HealthEvent * healthChangeEvent;
 
@@ -85,8 +87,18 @@ public:
 	WeaponSelectEvent* selectRifle;
 	WeaponSelectEvent* playerHeal;
 
-	/* Current Enemy player is engaging with*/
-	//Enemy* curEnemy = NULL;
+	WeaponSelectEvent* updateAmmo;
+
+	bool canyonComplete = false;
+
+	bool lakeUnlocked = false;
+	bool lakeComplete = false;
+	
+	bool badlandsUnlocked = false;
+	bool badlandsComplete = false;
+	
+	bool hideoutUnlocked = false;
+	bool hideoutComplete = false;
 
 private:
 	// int oldX=0, oldY=0;
@@ -94,6 +106,8 @@ private:
 	// int _jumpVel = -15;s
 	int wolfWaitToDamage = 0;
 	int knifeWaitToDamage = 0;
+
+	bool ableToBuy = false;
 
 	//void initIFrames(int numFrames);
 

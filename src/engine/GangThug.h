@@ -85,6 +85,10 @@ private:
 
     string lastId;
 
+    bool removed = false;
+
+    bool river_flip = false;
+
 	// int oldX=0, oldY=0;
 
 	// int _jumpVel = -15;s

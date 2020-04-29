@@ -12,12 +12,20 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-TownsPeople::TownsPeople(Player* sayu, string id) : AnimatedSprite(id){
+TownsPeople::TownsPeople(Player* sayu, string id, bool walking, string text) : AnimatedSprite(id){
 	this->type = "TownsPeople";
 	this->sayu = sayu;
-	//this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
+	this->walker = walking;
+	
+	townspeopleText = new TextBox(SDL_Point{ 1500, 500 }, 400, 100, 20, 20, 20, 255);
+
+	townspeopleText->addTextLine("./resources/fonts/west.otf", text, 24, SDL_Color{ 255, 255, 255 });
+	this->addChild(townspeopleText);
+	townspeopleText->position = { -100, -200 };
+	townspeopleText->initBox();
+	townspeopleText->alpha = 0;
 }
 
 void TownsPeople::update(set<SDL_Scancode> pressedKeys){
@@ -52,17 +60,23 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 	//state 0 = one time state to kick things off
 	//state 1 = patrolling
 
+	// STATES 2 AND 3 WILL NOT BE USED UNTIL THE FINAL TOWN BATTLE
+	//state 2 = 
+
 	
 	if(this->state == 0){
 		setPatrolRange();
 	}
 	else if(this->state == 1){
 		patrol();
-    }
+    } else if(this->state == 2){
+		
+	}
 
 	//state transitions
 	if(this->state == 0){
-		this->state = 1;
+		if (this->walker)
+			this->state = 1;
 		this->targX = std::rand()%(this->maxPatX-this->minPatX) + this->minPatX;
 		this->targY = std::rand()%(this->maxPatY-this->minPatY) + this->minPatY;
 		this->vel = 0;
@@ -71,23 +85,22 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 	else if(this->state == 1){
 
 	}
+	else if(this->state == 2){
+		if (this->timeWaited == 300){
+			this->timeWaited = 0;
+			this->state = 0;
+			this->ableToBuy = false;
+		}
+	}
+	this->save();
 
 }
 
 
 void TownsPeople::onCollision(DisplayObject* other){
 	if (other->type == "Player") {
-		std::cout << "Show Text" << endl;
-		}
 	}
-	// if(other->type == "Weapon"){
-	// 	if(controls::pressSpecial()) 
-	// 		onEssenceStrike((Weapon*)other);
-	// }
-	// else if(other->type == "Blast"){
-	// 	if(controls::pressAttack())
-	// 		onMeleeStrike();
-	// }
+}
 
 
 SDL_Point* TownsPeople::getGlobalHitbox(){
@@ -105,9 +118,9 @@ void TownsPeople::draw(AffineTransform &at){
 	//this->drawHitbox(position);
 }
 
-void TownsPeople::save(ofstream &out){
-	//Sprite::save(out);
-	//TODO: ADD THIS TO SAVE TOWNSPEOPLE DATA
+void TownsPeople::save(){
+	this->oldX = this->position.x;
+	this->oldY = this->position.y;
 }
 
 

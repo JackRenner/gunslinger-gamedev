@@ -24,8 +24,14 @@ ShotgunGuy::ShotgunGuy(Player* sayu, string id) : AnimatedSprite(id){
 void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
+	//enemy is dead so clean it up
+	if(this->health == 0){
+		this->clean = true; //scene will clean it up
+	}
 	//do the actual cleaning if necessary
 	if(this->clean){
+		Scene *temp = (Scene*) this->parent;
+		temp->enemiesLeft --;
 		this->removeThis();
 	}
 
@@ -176,6 +182,9 @@ void ShotgunGuy::onCollision(DisplayObject* other){
 		lastId = other->id;
 	}else{
 		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+		this->targX = oldX + rand() % 200 - 100;
+		this->targX = oldY + rand() % 200 - 100;
+		this->state = 1;
 	}
 }
 

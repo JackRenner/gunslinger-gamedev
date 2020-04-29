@@ -9,15 +9,14 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-Benemy::Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon) : AnimatedSprite("Benemy"){
+Benemy::Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon, string id) : AnimatedSprite(id){
 	this->type = "Benemy";
 	this->sayu = sayu;
 	this->targX = x;
 	this->source = weapon;
 	this->addAnimation("resources/weapons/", weapon, 1, 1, true);
 	this->play(weapon);
-	// this->width = 100;
-	// this->height = 100;
+
 	this->targY = y;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
@@ -43,6 +42,8 @@ void Benemy::draw(AffineTransform &at){
 
 void Benemy::onCollision(DisplayObject *other) {
 	this->removeThis();
+	this->clean = true;
+	//delete this;
 }
 
 SDL_Point* Benemy::getGlobalHitbox(){
@@ -70,7 +71,7 @@ void Benemy::fire(){
 	this->vel = std::min(this->vel, this->maxVel);
 
 	//use unit vector to determine percent that goes into x and y 
-	double theta = atan2(std::abs(this->targY - this->position.y),std::abs(this->targX - this->position.x));
+	theta = atan2(std::abs(this->targY - this->position.y),std::abs(this->targX - this->position.x));
 	double xComp = this->vel*cos(theta);
 	double yComp = this->vel*sin(theta);
 	if(this->targX - this->position.x < 0) xComp *= -1;
@@ -78,18 +79,14 @@ void Benemy::fire(){
 
     this->position.x += xComp;
     this->position.y += yComp;
+
+	if (timer % 5 == 0) {
+		this->targX += xComp;
+		this->targY += yComp;
+	}
+	timer++;
 }
 
 bool Benemy::isTargetReached(){
 	return std::abs(this->position.x-this->targX) <= 6 && std::abs(this->position.y-this->targY) <= 6;
-}
-
-bool Benemy::distanceReached(){
-	double distancex = (this->initial.x - this->position.x)*(this->initial.x - this->position.x);
-	double distancey = (this->initial.y - this->position.y)*(this->initial.y - this->position.y);
-	double distanceF = sqrt(distancex - distancey);
-	if(this->distance <= distanceF) {
-		return true;
-	}
-	return false;
 }

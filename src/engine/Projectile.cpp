@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "Controls.h"
 #include "Game.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -37,7 +38,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->height = 30;
  		this->dir = face;
 		this->play("knife");
-		this->Distance = 150;
+		this->Distance = 250;
 		this->speed = 4;
 		this->gun = "knife";
 	}
@@ -73,7 +74,7 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 		this->addAnimation("./resources/weapons/", "bullet", 1, 1, true);
  		this->dir = face;
 		this->play("bullet");
-		this->Distance = 350;
+		this->Distance = 500;
 		this->speed = 15;
 		this->gun = "rifle";
 		
@@ -88,6 +89,9 @@ Projectile::Projectile(string face, SDL_Point position, int type) : AnimatedSpri
 
 void Projectile::onCollision(DisplayObject* other) {
 	if (this->thrown && other->type=="Player"){
+		Player* p = static_cast<Player*>(other);
+		p->knife_throws = 0;
+		this->clean = true;
 		this->removeThis();
 	} else if (other->type!="Player"){
 		if(other->type == "ArrowGuy" || other->type == "Obstacle"){ //add an or here once collision detection with wall is feasible
@@ -95,10 +99,7 @@ void Projectile::onCollision(DisplayObject* other) {
 		} else {
 			this->play("blood_splatter");
 		}
-		if (this->gun == "knife" && !this->thrown) {
-			this->removeThis();
-		} if (!this->thrown)
-			hitSomething = true;
+		hitSomething = true;
 	}
 }
 
@@ -148,18 +149,15 @@ void Projectile::update(set<SDL_Scancode> pressedKeys){
 		this->durability +=this->speed;
 	}
 	if(this->durability > this->Distance) {
-		if(this->Distance == 150) {
+		if(this->Distance == 250) {
 			this->thrown = true;
 			this->speed = 0;
 			this->position = this->position;
-			//this->stop();
-			//this->play("knife");
 		}else{
+			this->clean = true;
 			this->removeThis();
 		}
 	}
-	
-	//Game::instance->ourCollisionSystem->collidesWith()
 }
 
 void Projectile::draw(AffineTransform &at){

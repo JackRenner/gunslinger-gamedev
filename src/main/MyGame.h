@@ -10,12 +10,14 @@
 #include "../engine/AnimatedSprite.h"
 #include "../engine/Player.h"
 #include "../engine/TownsPeople.h"
+#include "../engine/Sheriff.h"
 #include "../engine/Wolf.h"
 #include "../engine/GangThug.h"
 #include "../engine/GangShot.h"
 #include "../engine/Creeper.h"
 #include "../engine/KnifeGuy.h"
 #include "../engine/GangMarksman.h"
+#include "../engine/GangMarksmanFree.h"
 #include "../engine/ShotgunGuy.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
@@ -25,9 +27,11 @@
 #include "../engine/eventhandlers/CoinListener.h"
 #include "../engine/TransitionStruct.h"
 #include "../engine/SceneInfo.h"
+#include "../engine/Music.h"
 #include "../engine/ui/TextBox.h"
 #include "../engine/ui/HealthBar.h"
 #include "../engine/ui/WeaponSelect.h"
+#include "../engine/ui/AmmoCount.h"
 //#include "MyObject.h"
 
 
@@ -79,27 +83,38 @@ public:
 	std::map<GangThug*,int> gang_thugs;
 	std::map<GangShot*,int> gang_shot;
 	std::map<GangMarksman*,int> gang_marksmans;
+	std::map<GangMarksmanFree*,int> gang_marksmansfree;
 	std::map<ArrowGuy*,int> arrow_guys;
 	std::map<ShotgunGuy*,int> shotgun_boss;
 
 private:
 
+	void addDOC(Scene* s, string type, int width, int height, int xpos, int ypos);
+
 	Scene* curScene = NULL;
 
-	TextBox* test;
+	//TextBox* test;
 
 	// TOWN SCENES
 	Scene* townScene;
-	Scene* townSheriffScene;
-	Scene* townStoreScene;
-	Scene* townHotelScene;
-	Scene* townBankScene;
-	Scene* townPostScene;
-	Scene* townCantinaScene;
-	Scene* townDrugScene;
+	Scene* sheriffScene;
+	Scene* storeScene;
+	Scene* hotelScene;
+	Scene* bankScene;
+	Scene* postScene;
+	Scene* cantinaScene;
+	Scene* drugScene;
 
 	// TOWN NPCS
+	TownsPeople* walkingTownee1;
 	TownsPeople* storekeeper1;
+	TownsPeople* hotelMan;
+	TownsPeople* bankMan;
+	TownsPeople* postMan;
+	TownsPeople* cantinaMan;
+	TownsPeople* drugMan;
+
+	Sheriff* sheriff1;
 
 	// LAKE STILL SCENES
 	Scene* lake1;
@@ -138,6 +153,7 @@ private:
 	Scene* hideout8;
 
 	WeaponSelect* selection;
+	AmmoCount* ammoCounter;
 	Player* character;
 	Projectile* bullet;
 	
@@ -170,25 +186,106 @@ private:
 
 	// HIDEOUT ENEMIES
 	ShotgunGuy* boss_1;
+	KnifeGuy* knifeguy1hideout6;
+	KnifeGuy* knifeguy2hideout6;
+	KnifeGuy* knifeguy3hideout6;
+	KnifeGuy* knifeguy4hideout6;
+
+	Creeper* creeper1hideout6;
+	Creeper* creeper2hideout6;
+
+	GangThug* gangthug1hideout6;
+	GangThug* gangthug2hideout6;
+
+
+	GangMarksmanFree* gangmarksmanfree1hideout5;
+	GangMarksmanFree* gangmarksmanfree2hideout5;
+
+	KnifeGuy* knifeguy1hideout5;
+	KnifeGuy* knifeguy2hideout5;
+
+	GangShot* shot1hideout5;
+	GangShot* shot2hideout5;
+
+	KnifeGuy* knifeguy3hideout3;
+	KnifeGuy* knifeguy2hideout3;
+	KnifeGuy* knifeguy1hideout3;
+	KnifeGuy* knifeguy4hideout3;
+
+	GangMarksman* gangmarksmanfree1hideout3;
+	GangMarksman* gangmarksmanfree2hideout3;
+
+	GangThug* gangthug1hideout3;
+	GangThug* gangthug2hideout3;
+	GangThug* gangthug3hideout3;
+	GangThug* gangthug4hideout3;
+
+	Creeper* creeper1hideout3;
+	Creeper* creeper2hideout3;
+
+	GangShot* shot1hideout3;
+	GangShot* shot2hideout3;
+
+	KnifeGuy* knifeguy3hideout2;
+	KnifeGuy* knifeguy2hideout2;
+	KnifeGuy* knifeguy1hideout2;
+	KnifeGuy* knifeguy4hideout2;
+
+	GangThug* gangthug1hideout2;
+	GangThug* gangthug2hideout2;
+	GangThug* gangthug3hideout2;
+
+	GangThug* gangthug1hideout1;
+	GangThug* gangthug2hideout1;
+	GangThug* gangthug3hideout1;
+	
 	//BADLANDS ENEMIES
 	Wolf* wolf1Badlands1;
+	Wolf* wolf2Badlands1;
+	Wolf* wolf3Badlands1;
+	Wolf* wolf4Badlands1;
+	Wolf* wolf5Badlands1;
+	Wolf* wolf6Badlands1;
 
-	//AnimatedSprite* wolf;
-	Benemy* benemy;
-	Benemy* benemy2;
-	Benemy* benemy3;
-	Benemy* benemya;
-	Benemy* benemyb;
-	Benemy* benemyc;
+	GangThug* thug1Badlands2;
+	GangThug* thug2Badlands2;
+	GangThug* thug3Badlands2;
+	GangThug* thug4Badlands2;
+	GangMarksman* mark1Badlands2;
+	GangMarksman* mark2Badlands2;
+
+	Wolf* wolf1Badlands3;
+	Wolf* wolf2Badlands3;
+	GangMarksman* mark1Badlands3;
+	GangMarksman* mark2Badlands3;
+	Creeper* creeper1Badlands3;
+
+	KnifeGuy* knifeguy1Badlands4;
+	GangShot* shot1Badlands4;
+
+	GangThug* thug1Badlands5;
+	GangThug* thug2Badlands5;
+	GangThug* thug3Badlands5;
+
+	Creeper* creeper1Badlands6;
+	Creeper* creeper2Badlands6;
+	GangThug* thug1Badlands6;
+	GangThug* thug2Badlands6;
+	GangThug* thug3Badlands6;
+
+
+	int lakeEnemiesLeft = 12;
+	// END ENEMIES CREATION
+
+	int iterate;
+
+	int reloadTime = 300;
 
 	Sprite* blackBox;
 	Sprite* healthBackground;
 
 	DisplayObjectContainer* foreground;
 	Scene* cameraDemoScene;
-
-	//MyObject* object1;
-	//MyObject* object2;
 
 	bool sceneFlip = false;
 	bool keyToggle = true;
@@ -197,7 +294,10 @@ private:
 
 	int room_state = -1;
 
-	Sound* music;
+	Music* currentMusic;
+
+	Music* lakeMusic;
+	Music* townMusic;
 
 	TweenJuggler* juggler;
 

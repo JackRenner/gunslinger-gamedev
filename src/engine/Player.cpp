@@ -8,6 +8,7 @@
 #include "CollisionSystem.h"
 #include "Benemy.h"
 #include "Sound.h"
+#include "TownsPeople.h"
 
 using namespace std;
 
@@ -15,15 +16,16 @@ Player::Player() : AnimatedSprite("Player"){
 
 	this->type = "Player";
 	
-	// this->width = 416;
-	// this->height = 454;
-	// this->scaleX = 0.15;
-	// this->scaleY = 0.15;
 	
 	this->addAnimation("resources/character/", "FaceUp", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
+
+	this->addAnimation("resources/character/", "MoveLeft", 3, 1, true);
+	// this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
+	// this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
+	// this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
 
 	healthChangeEvent = new HealthEvent(HealthEvent::HEALTH_CHANGE_EVENT, this);
 
@@ -33,6 +35,8 @@ Player::Player() : AnimatedSprite("Player"){
 	selectShotgun = new WeaponSelectEvent(WeaponSelectEvent::SELECT_SHOTGUN_EVENT, this);
 	selectRifle = new WeaponSelectEvent(WeaponSelectEvent::SELECT_RIFLE_EVENT, this);
 	playerHeal = new WeaponSelectEvent(WeaponSelectEvent::PLAYER_HEAL, this);
+
+	updateAmmo = new WeaponSelectEvent(WeaponSelectEvent::UPDATE_AMMO, this);
 	
 	this->play("FaceUp");
 	holding = 0;
@@ -46,11 +50,32 @@ Player::Player() : AnimatedSprite("Player"){
 	bloodSplatter->play("blood_splatter");
 
 	this->addChild(bloodSplatter);
+
+	//add lighting effect for tunnel room (hideout room 4)
+	lightingEffect = new AnimatedSprite("le");
+	lightingEffect->addAnimation("./resources/sprites/", "lighting", 2, 10, true);
+	lightingEffect->width = 3000;
+	lightingEffect->height = 3000;
+	lightingEffect->position.x = lightingEffect->position.x - (lightingEffect->width / 2);
+	lightingEffect->position.y = lightingEffect->position.y - (lightingEffect->height / 2);
+	lightingEffect->alpha = 0;
+	lightingEffect->play("lighting");
+
+	this->addChild(lightingEffect);
+
+}
+
+void Player::lightingSystem(bool on){
+	if(on){
+		lightingEffect->alpha = 255;
+	} else {
+		lightingEffect->alpha = 0;
+	}
 }
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
-
+	this->dispatchEvent(this->updateAmmo);
 	if (controls::pressShift()) {
 		if (rollpause==0){
 			rollcount=10;
@@ -63,27 +88,30 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		if (controls::holdW()) {
 			this->dir = "Up";
 			this->play("FaceUp");
-			//this->position.y -= 4;
-			this->position.y -= 10;
+			this->position.y -= 4;
+			//this->position.y -= 10;
 		}
 		if (controls::holdS()) {
 			this->dir = "Down";
 			this->play("FaceDown");
-			//this->position.y += 4;
-			this->position.y += 10;
+			this->position.y += 4;
+			//this->position.y += 10;
 		}
 		if (controls::holdD()) {
 			this->dir = "Right";
 			this->play("FaceRight");
-			//this->position.x += 4;
-			this->position.x += 10;
+			this->position.x += 4;
+			//this->position.x += 10;
 		}
 		if (controls::holdA()) {
 			this->dir = "Left";
 			this->play("FaceLeft");
-			//this->position.x -= 4;
-			this->position.x -= 10;
+			this->position.x -= 4;
+			//this->position.x -= 10;
 		}
+		// } else {
+		// 	this->play("Face"+this->dir);
+		// }
 		if (controls::holdUp()) {
 			this->dir = "Up";
 			this->play("FaceUp");
@@ -101,6 +129,26 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			this->play("FaceLeft");
 		}
 	}
+	if (this->rollcount>0){
+		rollpause=200;
+		if (this->dir == "Up"){
+			this->position.y -= 10;
+		}
+		if (this->dir == "Down"){
+			this->position.y += 10;
+		}
+		if (this->dir == "Right"){
+			this->position.x += 10;
+		}
+		if (this->dir == "Left"){
+			this->position.x -= 10;
+		}
+		this->rollcount-=1;
+		this->save();
+	}
+	if(rollpause>0){
+	rollpause-=5;
+	}
 
 	//Allows wolves to nip
 	this->wolfWaitToDamage++;
@@ -117,6 +165,20 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 		this->health = 500;
 		dispatchEvent(healthChangeEvent);
 	}
+
+	// BUYING COOL THINGS!
+	// if (this->timeToBuy == 200) {
+	// 	this->ableToBuy = false;
+	// 	this->timeToBuy = 0;
+	// }
+	// if (this->ableToBuy) {
+	// 	this->timeToBuy++;
+	// }
+	// if (controls::press1() && this->ableToBuy) {
+	// 	this->foodNum ++;
+	// 	cout << "LOOK HERE RIGHT NOW DUDE" << endl;
+	// }
+	//cout << ableToBuy << endl;
 
 }
 
@@ -149,7 +211,7 @@ void Player::heal(string food){
 
 // do not include attacks from bosses yet
 void Player::hitByMelee(string enemy){
-	std::cout << this->wolfWaitToDamage << endl;
+	//std::cout << this->wolfWaitToDamage << endl;
 	if (enemy == "creeper") {
 		takeDamage(this->health);
 	} else if (enemy == "wolf" && this->wolfWaitToDamage > 40) {
@@ -159,6 +221,9 @@ void Player::hitByMelee(string enemy){
 	else if (enemy == "knife" && this->knifeWaitToDamage > 40) {
 		takeDamage(100);
 		this->knifeWaitToDamage = 0;
+	}
+	else if (enemy == "cactus" ) {
+		takeDamage(5);
 	}
 }
 
@@ -173,6 +238,7 @@ void Player::onCollision(DisplayObject* other){
 		if (temp->gun == "knife" && temp->thrown) {
 			// picking up knife
 			this->knife_throws = 0;
+			this->dispatchEvent(this->updateAmmo);
 		}
 	} else if (other->type == "Wolf") {
 		hitByMelee("wolf");
@@ -180,22 +246,37 @@ void Player::onCollision(DisplayObject* other){
 		hitByMelee("creeper");
 	} else if (other->type == "KnifeGuy") {
 		hitByMelee("knife");
-	}
-	else if (other->type == "Obstacle") {
+	} else if (other->type == "Obstacle") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
-	} else if (other->type == "River") {
+	} 
+	else if (other->type == "River") {
 		this->health = 0;
+	}
+	else if (other->type == "Cactus") {
+		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
+		hitByMelee("cactus");
+	}
+	if (other->type == "TownsPeople") {
+		TownsPeople *temp = (TownsPeople*) other;
+		if (temp->id == "storekeeper" && !this->ableToBuy) {
+			this->ableToBuy = true;
+		}
 	}
 }
 
 SDL_Point* Player::getGlobalHitbox(){
 	//Creating an array of SDL_Points allows us to return the four corners of the hitbox.
 	AffineTransform* temp = this->getGlobalTransform();
-	this->MyGlobalHitbox[0] = temp->transformPoint(25, 25);
-	this->MyGlobalHitbox[1] = temp->transformPoint(75, 25);
-	this->MyGlobalHitbox[2] = temp->transformPoint(25, 50);
-	this->MyGlobalHitbox[3] = temp->transformPoint(75, 50);
+	this->MyGlobalHitbox[0] = temp->transformPoint(0, 0);
+	this->MyGlobalHitbox[1] = temp->transformPoint(80, 0);
+	this->MyGlobalHitbox[2] = temp->transformPoint(0, 80);
+	this->MyGlobalHitbox[3] = temp->transformPoint(80, 80);
 	return this->MyGlobalHitbox;
+}
+
+void Player::save(){
+	// this->oldX = this->position.x;
+	// this->oldY = this->position.y;
 }
 
 void Player::healPlayer(string method){
@@ -259,6 +340,7 @@ void Player::draw(AffineTransform &at){
 
 void Player::selectWeapon(int gun) {
 	this->gun = gun;
+	this->dispatchEvent(updateAmmo);
 	switch (gun) {
 	case 0:
 		this->dispatchEvent(selectFist);

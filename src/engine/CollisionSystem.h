@@ -65,6 +65,10 @@ public:
 
 	void handleAddDisplayObject(GameTreeEvent* e);
 	void handleRemoveDisplayObject(GameTreeEvent* e);
+	
+	double distance(SDL_Point &p1, SDL_Point &p2);
+	double HeronFormulaOfTriangle(SDL_Point &p1, SDL_Point &p2, SDL_Point &p3);
+	double areaOfFourTriangles(SDL_Point &p1, SDL_Point &p2, SDL_Point &p3, SDL_Point &p4, SDL_Point &p5);
 
 
 

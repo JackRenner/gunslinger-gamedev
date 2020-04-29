@@ -2,13 +2,15 @@
 
 using namespace std;
 
-TextBox::TextBox(SDL_Point position, int width, int height) {
+TextBox::TextBox(SDL_Point position, int width, int height, int red, int green, int blue, int alpha) {
+	this->type = "TextBox";
 	this->position = position;
-	background = new Sprite("textbox", 20, 20, 20);
+	background = new Sprite("textbox", red, green, blue);
 	background->width = width;
 	background->height = height;
 	background->position = { width / 2, height / 2 };
 	background->pivot = { width / 2, height / 2 };
+	background->alpha = alpha;
 
 	sz = width - (TEXTBOX_MARGIN * 2);
 
@@ -20,6 +22,8 @@ TextBox::TextBox(SDL_Point position, int width, int height) {
 }
 
 TextBox::~TextBox() {
+	if (background->children.size() != 0)
+		background->unlinkChild(0);
 	for (int i = 0; i < textLines.size(); i++) {
 		delete textLines[i];
 	}
@@ -32,11 +36,12 @@ void TextBox::addTextLine(string fontPath, string text, int pts, SDL_Color fontC
 	displayText->pivot = { background->width / 2, background->height / 2 };
 
 	textLines.push_back(displayText);
-	maxLine++;
+	this->maxLine++;
 }
 
 void TextBox::initBox() {
 	textLock = true;
+	this->nextLine = 0;
 
 	background->addChild(textLines[0]);
 	Tween* initTween = new Tween(this->background);
@@ -48,6 +53,7 @@ void TextBox::initBox() {
 
 void TextBox::closeBox() {
 	textLock = true;
+	this->nextLine = this->maxLine;
 
 	Tween* closeTween = new Tween(this->background);
 	closeTween->animate(TweenableParams::SCALE_X, 1.0, 0, 10, TweenTransitions::EASEINCUBIC);
@@ -66,15 +72,15 @@ void TextBox::drawNextLine() {
 }
 
 void TextBox::handleEvent(Event* e) {
-	if (nextLine == maxLine) {
+	if (this->nextLine == this->maxLine) {
 		e->getSource()->removeEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
 		background->unlinkImmediateChild(textLines[maxLine - 1]);
-		nextLine = 0;
+		this->nextLine = 0;
 		textLock = false;
 	}
-	else if (nextLine == 0) {
+	else if (this->nextLine == 0) {
 		e->getSource()->removeEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
-		nextLine++;
+		this->nextLine++;
 		textLock = false;
 	}
 	else if (!nextLock) {
@@ -90,7 +96,7 @@ void TextBox::handleEvent(Event* e) {
 		nextTween->addEventListener(this, TweenEvent::TWEEN_COMPLETE_EVENT);
 	}
 	else {
-		nextLine++;
+		this->nextLine++;
 		textLock = false;
 		nextLock = false;
 	}

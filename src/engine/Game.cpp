@@ -26,34 +26,48 @@ Game::Game(int windowWidth, int windowHeight){
  	ourCollisionSystem = new CollisionSystem();
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "addObject");
 	this->MyEventDispatcher->addEventListener(ourCollisionSystem, "removeObject");
+	// player + townspeople collision
+	ourCollisionSystem->watchForCollisions("TownsPeople", "Player");
 	// player + bullet collision
-	ourCollisionSystem->watchForCollisions("Benemy", "Player");
+	ourCollisionSystem->watchForCollisions("Player", "Benemy");
 	ourCollisionSystem->watchForCollisions("Projectile", "Player");
 	// gang thug collisions
 	ourCollisionSystem->watchForCollisions("GangThug", "GangThug");
 	ourCollisionSystem->watchForCollisions("GangThug", "Projectile");
+	//ourCollisionSystem->watchForCollisions("Obstacle", "GangThug");
+	ourCollisionSystem->watchForCollisions("River", "GangThug");
+
 	// gang shot
 	ourCollisionSystem->watchForCollisions("GangShot", "GangShot");
 	ourCollisionSystem->watchForCollisions("GangShot", "Projectile");
+	//ourCollisionSystem->watchForCollisions("Obstacle", "GangShot");
+	
 	// wolf collisions
 	ourCollisionSystem->watchForCollisions("Wolf", "Projectile");
 	ourCollisionSystem->watchForCollisions("Wolf", "Wolf");
 	ourCollisionSystem->watchForCollisions("Wolf", "Player");
+	ourCollisionSystem->watchForCollisions("Obstacle", "Wolf");
 	// arrow collision
 	ourCollisionSystem->watchForCollisions("ArrowGuy", "Projectile");
 	// creeper collision
 	ourCollisionSystem->watchForCollisions("Creeper", "Projectile");
 	ourCollisionSystem->watchForCollisions("Creeper", "Player");
+	
 	// knifeguy collision
 	ourCollisionSystem->watchForCollisions("KnifeGuy", "KnifeGuy");
 	ourCollisionSystem->watchForCollisions("KnifeGuy", "Projectile");
 	ourCollisionSystem->watchForCollisions("KnifeGuy", "Player");
+	//ourCollisionSystem->watchForCollisions("Obstacle", "KnifeGuy");
+	
 	// marksman collision
 	ourCollisionSystem->watchForCollisions("GangMarksman", "Projectile");
 	// obstacle collision
 	ourCollisionSystem->watchForCollisions("Obstacle", "Player");
+	// cactus collision
+	ourCollisionSystem->watchForCollisions("Cactus", "Player");
 	//projectile and obstacle for particle effect
-	ourCollisionSystem->watchForCollisions("Projectile", "Obstacle");
+	//ourCollisionSystem->watchForCollisions("Benemy", "Obstacle");
+	ourCollisionSystem->watchForCollisions("Obstacle", "Projectile");
 	ourCollisionSystem->watchForCollisions("River", "Player");
 	// shotgun boss collision
 	ourCollisionSystem->watchForCollisions("ShotgunGuy", "Projectile");
@@ -61,7 +75,6 @@ Game::Game(int windowWidth, int windowHeight){
 }
 
 Game::~Game(){
-	//DisplayObjectContainer::~DisplayObjectContainer ();
 	quitSDL();
 }
 

@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <math.h>
 #include "Game.h"
+#include "Scene.h"
 #include <algorithm>
 
 using namespace std;
@@ -23,11 +24,15 @@ GangMarksman::GangMarksman(Player* sayu, string id) : AnimatedSprite(id){
 
 void GangMarksman::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
-	
-	//enemy is dead so clean it up
+
+	// remove from game tree
 	if(this->clean){
+		Scene *temp = (Scene*) this->parent;
+		temp->enemiesLeft --;
+		this->removed = true;
 		this->removeThis();
 	}
+
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
     // if the difference in north/south is greater than east/west
     if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
@@ -122,8 +127,21 @@ void GangMarksman::onCollision(DisplayObject* other){
 		lastId = other->id;
 	} else if(other->type == "Projectile"){
 		lastId = other->id;
-	} else{
-		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - oldX, this->position.y-oldY, 0, 0);
+	} else if (other->type != "GangMarksman"){
+		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
+		if (abs(this->position.x - this->oldX) > abs(this->position.y - this->oldY)) {
+			if (this->position.x - this->oldX > 0) {
+				this->targX = this->oldX - 50;
+			} else {
+				this->targX = this->oldX + 50;
+			}
+		} else {
+			if (this->position.y - this->oldY > 0) {
+				this->targY = this->oldY - 50;
+			} else {
+				this->targY = this->oldY + 50;
+			}
+		}
 	}
 }
 
@@ -176,6 +194,7 @@ void GangMarksman::patrol(){
 	else{
 		moveToTarget();
 	}
+	fire();
 }
 
 void GangMarksman::moveToTarget(){

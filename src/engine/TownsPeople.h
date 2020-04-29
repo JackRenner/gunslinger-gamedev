@@ -9,6 +9,7 @@
 #include "Sprite.h"
 #include "Controls.h"
 #include "Player.h"
+#include "./ui/TextBox.h"
 
 
 using namespace std;
@@ -16,7 +17,7 @@ using namespace std;
 class TownsPeople : public AnimatedSprite{
 
 public:
-	TownsPeople(Player* sayu, string id);
+	TownsPeople(Player* sayu, string id, bool walking, string text);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -25,7 +26,7 @@ public:
     virtual void onCollision(DisplayObject* other);
     virtual SDL_Point* getGlobalHitbox();
 
-    void save(ofstream &out);
+    void save();
     
     void setPatrolRange();
 
@@ -64,12 +65,15 @@ private:
     double vel = 4;
     double maxVel = 20;
     double acc = 2;
-    double rotVel = 2;
-    double rotAcc = 2;
-    double maxRotVel = 20;
 
     int pauseCount = 0;
     int waitToDelete = 0;
+
+    TextBox* townspeopleText;
+    bool ableToBuy = true;
+    int timeWaited = 0;
+
+    bool walker = false;
 
 	// int oldX=0, oldY=0;
 
