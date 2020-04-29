@@ -24,12 +24,11 @@ ShotgunGuy::ShotgunGuy(Player* sayu, string id) : AnimatedSprite(id){
 void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
-	// actually delete
-	if(this->removed){
-		delete this;
+	//enemy is dead so clean it up
+	if(this->health == 0){
+		this->clean = true; //scene will clean it up
 	}
-
-	// remove from game tree
+	//do the actual cleaning if necessary
 	if(this->clean){
 		Scene *temp = (Scene*) this->parent;
 		temp->enemiesLeft --;

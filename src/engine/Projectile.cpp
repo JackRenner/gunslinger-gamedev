@@ -116,9 +116,6 @@ SDL_Point* Projectile::getGlobalHitbox(){
 void Projectile::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	controls::update(pressedKeys);
-	if (this->clean) {
-		delete this;
-	}
 	if(this->dir == "right"){
 		if(!hitSomething){
 			this->position.x -= this->speed;

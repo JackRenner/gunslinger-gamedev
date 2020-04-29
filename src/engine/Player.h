@@ -89,6 +89,8 @@ public:
 
 	WeaponSelectEvent* updateAmmo;
 
+	bool canyonComplete = false;
+
 	bool lakeUnlocked = false;
 	bool lakeComplete = false;
 	
