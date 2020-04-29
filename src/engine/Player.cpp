@@ -109,9 +109,7 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			this->position.x -= 4;
 			//this->position.x -= 10;
 		}
-		// } else {
-		// 	this->play("Face"+this->dir);
-		// }
+
 		if (controls::holdUp()) {
 			this->dir = "Up";
 			this->play("FaceUp");

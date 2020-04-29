@@ -70,6 +70,7 @@ public:
 	/* direction */
 	string dir;
 	int holding = 0;
+	string lastPressed;
 
 	//purchasing counter
 	int timeToBuy = 0;

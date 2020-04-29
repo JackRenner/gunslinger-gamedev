@@ -38,9 +38,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 33;
+	room_state = 17;
 
-	this->setScene(hideout8);
+	this->setScene(canyon1);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -376,7 +376,7 @@ void MyGame::initTown() {
 	// initialize town transition points, hardcoded for now
 	vector<TransitionStruct> townPoints = {
 	//special reset transition
-	TransitionStruct(SDL_Point{-1,-1}, SDL_Point{535, 960}, 0),
+	TransitionStruct(SDL_Point{-1,-1}, SDL_Point{800, 600}, 0),
 
 	// transitions to buildings
 	TransitionStruct(SDL_Point{ 192, 300 }, SDL_Point{ 535, 900 }, 1),
@@ -1391,6 +1391,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper1hideout6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper1hideout6->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper1hideout6->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper1hideout6->addAnimation("resources/enemies/", "Explode", 16, 1, true);
 		hideout6->addChild(creeper1hideout6);
 		creeper1hideout6->position = {1080, 510};
 		creeper1hideout6->play("CreeperDown");
@@ -1400,6 +1401,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper1hideout6->addAnimation("resources/enemies/", "Explode", 16, 1, true);
 		hideout6->addChild(creeper2hideout6);
 		creeper2hideout6->position = {1260, 520};
 		creeper2hideout6->play("CreeperDown");
@@ -1515,6 +1517,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper1hideout3->addAnimation("resources/enemies/", "Explode", 16, 1, true);
 		hideout3->addChild(creeper1hideout3);
 		creeper1hideout3->position = {320, 540};
 		creeper1hideout3->play("CreeperRight");
@@ -1524,6 +1527,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
+		creeper2hideout3->addAnimation("resources/enemies/", "Explode", 16, 1, true);
 		hideout3->addChild(creeper2hideout3);
 		creeper2hideout3->position = {650, 540};
 		creeper2hideout3->play("CreeperLeft");
