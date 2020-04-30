@@ -34,6 +34,7 @@ void Wolf::update(set<SDL_Scancode> pressedKeys){
 		Scene *temp = (Scene*) this->parent;
 		temp->enemiesLeft --;
 		this->removeThis();
+		return;
 	}
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //
@@ -133,59 +134,70 @@ void Wolf::onMeleeStrike(){
 // 	if(this->health < 0) this->health = 0;
 // }
 
-void Wolf::onCollision(DisplayObject* other){
+void Wolf::onCollision(DisplayObject* other) {
 	if (other->type == "Projectile" && other->id != lastId) {
-		Projectile *temp = (Projectile*)other;
+		Projectile* temp = (Projectile*)other;
 		if (temp->gun == "revolver") {
 			this->health -= 20;
 			this->alpha -= 40;
-			if(this->health < 0) this->health = 0;
-		}else if (temp->gun == "knife" && temp->thrown) {
-		} else if(temp->gun == "knife") {
+			if (this->health < 0) this->health = 0;
+		}
+		else if (temp->gun == "knife" && temp->thrown) {
+		}
+		else if (temp->gun == "knife") {
 			this->health -= 50;
 			this->alpha -= 100;
-			if(this->health < 0) this->health = 0;
+			if (this->health < 0) this->health = 0;
 			sayu->knife_throws = 0;
-		} else if (temp->gun == "shotgun") {
+		}
+		else if (temp->gun == "shotgun") {
 			this->health -= 40;
 			this->alpha -= 80;
-			if(this->health < 0) this->health = 0;
-		} else if (temp->gun == "rifle") {
+			if (this->health < 0) this->health = 0;
+		}
+		else if (temp->gun == "rifle") {
 			this->health -= 30;
 			this->alpha -= 60;
-			if(this->health < 0) this->health = 0;
+			if (this->health < 0) this->health = 0;
 		}
 		lastId = other->id;
-	} else if (other->type == "Projectile"){
+	}
+	else if (other->type == "Projectile") {
 		lastId = other->id;
-	} else if (other->type == "Player"){
-		if (this->position.x > this->oldX && this->position.y > this->oldY)
+	}
+	else if (other->type == "Player") {
+		if (this->position.x > this->oldX&& this->position.y > this->oldY)
 		{
-			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX - 10, this->position.y-this->oldY - 10, 0, 0);
+			Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX - 10, this->position.y - this->oldY - 10, 0, 0);
 		}
 		else if (this->position.x < this->oldX && this->position.y < this->oldY)
 		{
-			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX + 10, this->position.y-this->oldY + 10, 0, 0);
+			Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX + 10, this->position.y - this->oldY + 10, 0, 0);
 		}
 		else if (this->position.x < this->oldX)
 		{
-			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX + 10, this->position.y-this->oldY - 10, 0, 0);
-		} else 
+			Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX + 10, this->position.y - this->oldY - 10, 0, 0);
+		}
+		else
 		{
-			Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX - 10, this->position.y-this->oldY + 10, 0, 0);
-		}		
-	} else if (other->type != "Wolf"){
-		Game::instance->ourCollisionSystem->resolveCollision(this, other , this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
+			Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX - 10, this->position.y - this->oldY + 10, 0, 0);
+		}
+	}
+	else if (other->type != "Wolf") {
+		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
 		if (abs(this->position.x - this->oldX) > abs(this->position.y - this->oldY)) {
 			if (this->position.x - this->oldX > 0) {
 				this->targX = this->oldX - 50;
-			} else {
+			}
+			else {
 				this->targX = this->oldX + 50;
 			}
-		} else {
+		}
+		else {
 			if (this->position.y - this->oldY > 0) {
 				this->targY = this->oldY - 50;
-			} else {
+			}
+			else {
 				this->targY = this->oldY + 50;
 			}
 		}

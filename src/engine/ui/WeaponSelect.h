@@ -21,9 +21,12 @@ private:
 	Sprite* background;
 	Sprite* box0;
 	Sprite* box1;
-	Sprite* box2;
-	Sprite* box3;
-	Sprite* box4;
+	Sprite* box2_unlock;
+	Sprite* box2_lock;
+	Sprite* box3_unlock;
+	Sprite* box3_lock;
+	Sprite* box4_unlock;
+	Sprite* box4_lock;
 	Sprite* box5;
 
 	int food = 5;

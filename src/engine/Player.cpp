@@ -37,6 +37,10 @@ Player::Player() : AnimatedSprite("Player"){
 	playerHeal = new WeaponSelectEvent(WeaponSelectEvent::PLAYER_HEAL, this);
 
 	updateAmmo = new WeaponSelectEvent(WeaponSelectEvent::UPDATE_AMMO, this);
+
+	unlockPistol = new WeaponSelectEvent(WeaponSelectEvent::UNLOCK_PISTOL, this);
+	unlockRifle = new WeaponSelectEvent(WeaponSelectEvent::UNLOCK_RIFLE, this);
+	unlockShotgun = new WeaponSelectEvent(WeaponSelectEvent::UNLOCK_SHOTGUN, this);
 	
 	this->play("FaceUp");
 	holding = 0;
@@ -304,25 +308,49 @@ void Player::draw(AffineTransform &at){
 
 
 void Player::selectWeapon(int gun) {
-	this->gun = gun;
-	this->dispatchEvent(updateAmmo);
-	switch (gun) {
-	case 0:
+	if (gun == 0) {
+		this->gun = gun;
+		this->dispatchEvent(updateAmmo);
 		this->dispatchEvent(selectFist);
-		break;
-	case 1:
+	}
+	else if (gun == 1) {
+		this->gun = gun;
+		this->dispatchEvent(updateAmmo);
 		this->dispatchEvent(selectKnife);
-		break;
-	case 2:
+	}
+	else if (gun == 2 && lakeComplete) {
+		this->gun = gun;
+		this->dispatchEvent(updateAmmo);
 		this->dispatchEvent(selectPistol);
-		break;
-	case 3:
+	}
+	else if (gun == 3 && hideoutComplete) {
+		this->gun = gun;
+		this->dispatchEvent(updateAmmo);
 		this->dispatchEvent(selectShotgun);
-		break;
-	case 4:
+	}
+	else if (gun == 4 && badlandsComplete) {
+		this->gun = gun;
+		this->dispatchEvent(updateAmmo);
 		this->dispatchEvent(selectRifle);
-		break;
-	case 5:
+	}
+	else if (gun == 5) {
 		this->dispatchEvent(playerHeal);
+	}
+}
+
+void Player::areaAccess(int unlock) {
+	if (unlock == 0)
+		this->canyonComplete = true;
+	else if (unlock == 1) {
+		this->lakeComplete = true;
+		this->dispatchEvent(unlockPistol);
+	}
+	else if (unlock == 2) {
+		this->badlandsComplete = true;
+		this->dispatchEvent(unlockRifle);
+	}
+	else if (unlock == 3) {
+		this->hideoutComplete = true;
+		this->dispatchEvent(unlockShotgun);
 	}
 }

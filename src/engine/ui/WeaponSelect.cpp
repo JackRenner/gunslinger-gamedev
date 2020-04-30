@@ -12,37 +12,50 @@ WeaponSelect::WeaponSelect() {
 	background->position = { -10, -10 };
 	background->alpha = 180;
 
-	box0 = new Sprite("box0", 10, 10, 10);
+	box0 = new Sprite("box0", "./resources/weapons/nosymbol.png");
 	box0->width = 40;
 	box0->height = 30;
-	Text* placeholder0 = new Text(fontPath, "None", 12, SDL_Color{255, 255, 255}, 40);
-	box0->addChild(placeholder0);
 
 	box1 = new Sprite("box1", "./resources/weapons/knife_ui.png");
 	box1->width = 40;
 	box1->height = 30;
 	box1->position = { 0, 40 };
 
-	box2 = new Sprite("box2", "./resources/weapons/revolver_ui.png");
-	box2->width = 40;
-	box2->height = 30;
-	box2->position = { 0, 80 };
+	box2_unlock = new Sprite("box2_unlock", "./resources/weapons/revolver_ui.png");
+	box2_unlock->width = 40;
+	box2_unlock->height = 30;
+	box2_unlock->position = { 0, 80 };
 
-	box3 = new Sprite("box3", "./resources/weapons/shotgun_ui.png");
-	box3->width = 40;
-	box3->height = 30;
-	box3->position = { 0, 120 };
+	box2_lock = new Sprite("box2_lock", "./resources/wepaons/locked.png");
+	box2_lock->width = 40;
+	box2_lock->height = 30;
+	box2_lock->position = { 0, 80 };
 
-	box4 = new Sprite("box4", "./resources/weapons/rifle_ui.png");
-	box4->width = 40;
-	box4->height = 30;
-	box4->position = { 0, 160 };
+	box3_unlock = new Sprite("box3_unlock", "./resources/weapons/shotgun_ui.png");
+	box3_unlock->width = 40;
+	box3_unlock->height = 30;
+	box3_unlock->position = { 0, 160 };
 
-	box5 = new Sprite("box5", 10, 10, 10);
+	box3_lock = new Sprite("box3_lock", "./resources/wepaons/locked.png");
+	box3_lock->width = 40;
+	box3_lock->height = 30;
+	box3_lock->position = { 0, 160 };
+
+	box4_unlock = new Sprite("box4_unlock", "./resources/weapons/rifle_ui.png");
+	box4_unlock->width = 40;
+	box4_unlock->height = 30;
+	box4_unlock->position = { 0, 120 };
+
+	box4_lock = new Sprite("box4_lock", "./resources/wepaons/locked.png");
+	box4_lock->width = 40;
+	box4_lock->height = 30;
+	box4_lock->position = { 0, 120 };
+
+	box5 = new Sprite("box5", "./resources/weapons/whiskey.png");
 	box5->width = 40;
 	box5->height = 30;
 	box5->position = { 0, 200 };
-	Text* placeholder5 = new Text(fontPath, "W:" + std::to_string(this->food), 12, SDL_Color{ 240, 240, 240 }, 40);
+	Text* placeholder5 = new Text(fontPath, std::to_string(this->food), 12, SDL_Color{ 10, 10, 10 }, 40);
 	box5->addChild(placeholder5);
 
 	selector = new Sprite("selector", 10, 10, 10);
@@ -54,9 +67,9 @@ WeaponSelect::WeaponSelect() {
 	this->addChild(background);
 	this->addChild(box0);
 	this->addChild(box1);
-	this->addChild(box2);
-	this->addChild(box3);
-	this->addChild(box4);
+	this->addChild(box2_lock);
+	this->addChild(box3_lock);
+	this->addChild(box4_lock);
 	this->addChild(box5);
 	this->addChild(selector);
 
@@ -69,7 +82,24 @@ WeaponSelect::~WeaponSelect() {
 
 void WeaponSelect::handleEvent(Event* e) {
 	string type = e->getType();
-	int newPos = 0;
+
+	if (type == "unlock_pistol") {
+		this->removeImmediateChild(box2_lock);
+		this->addChild(box2_unlock);
+		return;
+	}
+	else if (type == "unlock_rifle") {
+		this->removeImmediateChild(box4_lock);
+		this->addChild(box4_unlock);
+		return;
+	}
+	else if (type == "unlock_shotgun") {
+		this->removeImmediateChild(box3_lock);
+		this->addChild(box3_unlock);
+		return;
+	}
+
+	int newPos = selector->position.y;
 	Tween* moveSelect = new Tween(selector);
 	if (type == "select_0") {
 		newPos = 15;
@@ -83,7 +113,7 @@ void WeaponSelect::handleEvent(Event* e) {
 	else if (type == "select_3") {
 		newPos = 135;
 	}
-	else {
+	else if (type == "select_4") {
 		newPos = 175;
 	}
 	moveSelect->animate(TweenableParams::POS_Y, selector->position.y, newPos, 5, TweenTransitions::EASEINCUBIC);
@@ -93,7 +123,7 @@ void WeaponSelect::handleEvent(Event* e) {
 		this->food -=1;
 		//cout << " landon" + to_string(this->food) + "test";
 		string fontPath = "./resources/fonts/arial.ttf";
-		Text* placeholder5 = new Text(fontPath, "W:" + std::to_string(this->food), 12, SDL_Color{ 240, 240, 240 }, 40);
+		Text* placeholder5 = new Text(fontPath, std::to_string(this->food), 12, SDL_Color{ 10, 10, 10 }, 40);
 
 		this->box5->removeChild(0);
 		this->box5->addChild(placeholder5);

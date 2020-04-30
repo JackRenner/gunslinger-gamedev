@@ -23,7 +23,6 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	lakeMusic = new Music("./resources/music/lakestill_music.wav");
 
     character = new Player();
-	//this->removeImmediateChild(character);
 
 	character->position = { 200, 700 };
 	character->scaleX = 0.8;
@@ -73,6 +72,10 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	character->addEventListener(ammoCounter, WeaponSelectEvent::UPDATE_AMMO);
 
+	character->addEventListener(selection, WeaponSelectEvent::UNLOCK_PISTOL);
+	character->addEventListener(selection, WeaponSelectEvent::UNLOCK_RIFLE);
+	character->addEventListener(selection, WeaponSelectEvent::UNLOCK_SHOTGUN);
+
 	foreground->addChild(character);
 	foreground->addChild(selection);
 	character->addChild(healthBackground);
@@ -94,16 +97,19 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 	// code to check if area is complete
 	if (curScene->id == "canyon3" && curScene->enemiesLeft == 0){
-		character->canyonComplete = true;
+		character->areaAccess(0);
 	}
 	if (curScene->id == "lake4" && curScene->enemiesLeft == 0) {
-		character->lakeComplete = true;
+		character->areaAccess(1);
+		character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_PISTOL);
 	}
 	if (curScene->id == "badlands6" && curScene->enemiesLeft == 0) {
-		character->badlandsComplete = true;
+		character->areaAccess(2);
+		character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_RIFLE);
 	}
 	if (curScene->id == "hideout8" && curScene->enemiesLeft == 0) {
-		character->hideoutComplete = true;
+		character->areaAccess(3);
+		character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_SHOTGUN);
 	}
 
 	// code to reset scene
@@ -126,10 +132,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			character->selectWeapon(2);
 		};
 		if (controls::press4()) {
-			character->selectWeapon(3);
+			character->selectWeapon(4);
 		};
 		if (controls::press5()) {
-			character->selectWeapon(4);
+			character->selectWeapon(3);
 		};
 		// shooting
 		if (controls::pressUp()) {
@@ -165,6 +171,14 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			character->foodNum -=1;
 			character->selectWeapon(5);
 
+		}
+		if (controls::toggleVisibility()) {
+			character->areaAccess(1);
+			character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_PISTOL);
+			character->areaAccess(2);
+			character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_RIFLE);
+			character->areaAccess(3);
+			character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_SHOTGUN);
 		}
 	}
 
