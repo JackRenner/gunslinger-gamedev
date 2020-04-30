@@ -19,6 +19,7 @@
 #include "../engine/GangMarksman.h"
 #include "../engine/GangMarksmanFree.h"
 #include "../engine/ShotgunGuy.h"
+#include "../engine/GangLeader.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
@@ -57,6 +58,10 @@ public:
 
 	void handleEvent(Event* e);
 
+	int testint = 0;
+	int testint2 = 0;
+	int testint3 = 0;
+
 	void checkTransition();
 	void transitionScene();
 
@@ -86,6 +91,7 @@ public:
 	std::map<GangMarksmanFree*,int> gang_marksmansfree;
 	std::map<ArrowGuy*,int> arrow_guys;
 	std::map<ShotgunGuy*,int> shotgun_boss;
+	std::map<GangLeader*,int> final_bosses;
 
 private:
 
@@ -115,6 +121,7 @@ private:
 	TownsPeople* drugMan;
 
 	Sheriff* sheriff1;
+	Sheriff* sheriff2;
 
 	// LAKE STILL SCENES
 	Scene* lake1;
@@ -275,6 +282,18 @@ private:
 
 
 	int lakeEnemiesLeft = 12;
+
+	// Final Town Battle
+	GangLeader* final_boss;
+
+	GangThug* angryTownspeople1;
+	GangThug* angryTownspeople2;
+	GangThug* angryTownspeople3;
+	GangThug* angryTownspeople4;
+	GangThug* angryTownspeople5;
+	GangThug* angryTownspeople6;
+
+
 	// END ENEMIES CREATION
 
 	int iterate;

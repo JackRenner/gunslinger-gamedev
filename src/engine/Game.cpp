@@ -70,10 +70,17 @@ Game::Game(int windowWidth, int windowHeight){
 	//ourCollisionSystem->watchForCollisions("Benemy", "Obstacle");
 	ourCollisionSystem->watchForCollisions("Obstacle", "Projectile");
 	ourCollisionSystem->watchForCollisions("River", "Player");
+	ourCollisionSystem->watchForCollisions("Well", "Player");
 	// shotgun boss collision
 	ourCollisionSystem->watchForCollisions("ShotgunGuy", "Projectile");
 	ourCollisionSystem->watchForCollisions("Obstacle", "ShotgunGuy");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
+
+	// FINAL BOSS
+	ourCollisionSystem->watchForCollisions("GangLeader", "Projectile");
+	ourCollisionSystem->watchForCollisions("Well", "GangLeader");
+
+	ourCollisionSystem->watchForCollisions("Sheriff", "Projectile");
 }
 
 Game::~Game(){

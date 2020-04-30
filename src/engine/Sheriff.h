@@ -18,7 +18,7 @@ using namespace std;
 class Sheriff : public AnimatedSprite{
 
 public:
-	Sheriff(Player* sayu, string id, vector<string> dialogue);
+	Sheriff(Player* sayu, string id, vector<string> dialogue, bool hurtable);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -55,8 +55,6 @@ public:
     int shots_fired = 0;
     bool clean = false;
 
-    bool engagePlayer = false;
-
 
 private:
     Player* sayu;
@@ -79,6 +77,10 @@ private:
     string lastId;
 
     bool removed = false;
+
+    bool hurtable = false;
+
+    bool lastLine = false;
 
 	TextBox* sheriffText;
 

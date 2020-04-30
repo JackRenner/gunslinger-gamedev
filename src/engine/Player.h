@@ -89,6 +89,9 @@ public:
 	WeaponSelectEvent* selectShotgun;
 	WeaponSelectEvent* selectRifle;
 	WeaponSelectEvent* playerHeal;
+	WeaponSelectEvent* playerHeal2;
+
+	WeaponSelectEvent* newlevel;
 
 	WeaponSelectEvent* updateAmmo;
 
@@ -106,6 +109,11 @@ public:
 	
 	bool hideoutUnlocked = false;
 	bool hideoutComplete = false;
+
+	bool finalBattleUnlocked = false;
+	bool finalBossDefeated = false;
+
+	bool killTheTown = false;
 
 private:
 	// int oldX=0, oldY=0;

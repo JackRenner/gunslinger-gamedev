@@ -35,6 +35,8 @@ Player::Player() : AnimatedSprite("Player"){
 	selectShotgun = new WeaponSelectEvent(WeaponSelectEvent::SELECT_SHOTGUN_EVENT, this);
 	selectRifle = new WeaponSelectEvent(WeaponSelectEvent::SELECT_RIFLE_EVENT, this);
 	playerHeal = new WeaponSelectEvent(WeaponSelectEvent::PLAYER_HEAL, this);
+	playerHeal2 = new WeaponSelectEvent(WeaponSelectEvent::PLAYER_HEAL2, this);
+	newlevel = new WeaponSelectEvent(WeaponSelectEvent::NEW_LEVEL, this);
 
 	updateAmmo = new WeaponSelectEvent(WeaponSelectEvent::UPDATE_AMMO, this);
 
@@ -79,7 +81,7 @@ void Player::lightingSystem(bool on){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
-	cout << "POSITION: " << this->position.x << " " << this->position.y << endl;
+	//cout << "POSITION: " << this->position.x << " " << this->position.y << endl;
 	this->dispatchEvent(this->updateAmmo);
 	if (controls::pressShift()) {
 		if (rollpause==0){
@@ -235,7 +237,7 @@ void Player::onCollision(DisplayObject* other){
 		hitByMelee("creeper");
 	} else if (other->type == "KnifeGuy") {
 		hitByMelee("knife");
-	} else if (other->type == "Obstacle") {
+	} else if (other->type == "Obstacle" || other->type == "Well") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
 	} 
 	else if (other->type == "River") {
@@ -335,6 +337,9 @@ void Player::selectWeapon(int gun) {
 	}
 	else if (gun == 5) {
 		this->dispatchEvent(playerHeal);
+	}
+	else if (gun == 6) {
+		this->dispatchEvent(playerHeal2);
 	}
 }
 

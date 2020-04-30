@@ -13,12 +13,17 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-GangThug::GangThug(Player* sayu, string id) : AnimatedSprite(id){
+GangThug::GangThug(Player* sayu, string id, bool townspeople) : AnimatedSprite(id){
 	this->type = "GangThug";
 	this->sayu = sayu;
 	this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
+	if (townspeople) {
+		this->animation = "storekeeper";
+	} else {
+		this->animation = "GangThug";
+	}
 }
 
 void GangThug::update(set<SDL_Scancode> pressedKeys){
@@ -36,15 +41,15 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
     // if the difference in north/south is greater than east/west
     if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
         if (this->position.x - sayu->position.x > 0) {
-            this->play("GangThugLeft");
+            this->play(this->animation+"Left");
         } else {
-            this->play("GangThugRight");
+            this->play(this->animation+"Right");
         }
     } else {
         if (this->position.y - sayu->position.y > 0) {
-            this->play("GangThugUp");
+            this->play(this->animation+"Up");
         } else {
-            this->play("GangThugDown");
+            this->play(this->animation+"Down");
         }
     }
 	//everything else controlled by state machine
@@ -82,7 +87,10 @@ void GangThug::update(set<SDL_Scancode> pressedKeys){
 		if(dist<300){
 			this->state = 2;
 			this->vel = 0;
-			this->maxVel = 4;
+			if (this->animation == "storekeeper")
+				this->maxVel = 0;
+			else
+				this->maxVel = 4;
 			this->acc = 0.5;
 			this->rotVel = 0;
 			this->rotAcc = 0.4;

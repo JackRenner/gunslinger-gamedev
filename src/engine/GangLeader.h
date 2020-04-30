@@ -1,5 +1,5 @@
-#ifndef GANGTHUG_H
-#define GANGTHUG_H
+#ifndef GANGLEADER_H
+#define GANGLEADER_H
 
 #include <iostream>
 #include "AnimatedSprite.h"
@@ -14,29 +14,22 @@
 
 using namespace std;
 
-class GangThug : public AnimatedSprite{
+class GangLeader : public AnimatedSprite{
 
 public:
-	GangThug(Player* sayu, string id, bool townspeople);
+	GangLeader(Player* sayu, string id);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
 
     void onMeleeStrike();
     
-    // void GangThug::onEssenceStrike(Weapon* w);
     virtual void onCollision(DisplayObject* other);
     virtual SDL_Point* getGlobalHitbox();
 
     void save();
     
     void charge();
-
-    void prepareCharge();
-
-    void setPatrolRange();
-
-    void patrol();
 
     void moveToTarget();
 
@@ -46,10 +39,11 @@ public:
 
     int fire();
 
+    void smokeBomb();
+
 	int shoot = 0;
 	/* Health and such */
-	int health = 120;
-	int maxHealth = 100;
+	int health = 500;
 
 	//iFrames
 	bool iFrames = false;
@@ -58,16 +52,21 @@ public:
 
     int shots_fired = 0;
     bool clean = false;
+    int state = 0;
+    bool knives = false;
+
+    bool dualWield = false;
+
+    bool invincible = false;
 
 
 private:
     Player* sayu;
     Benemy* dirt;
     
-    int state = 0;
 
-    int targX = 0;
-    int targY = 0;
+    double targX = 0;
+    double targY = 0;
 
     int maxPatX = 0;
     int maxPatY = 0;
@@ -84,12 +83,23 @@ private:
     int pauseCount = 0;
 
     string lastId;
+    string lastTwoId;
+    string lastThreeId;
+    string lastFourId;
+    string lastFiveId;
+    string lastSixId;
+
+    int waitToReload = 0;
+    
+    int waitToDualTimer = 0;
+    int waitToDual = rand() % 500 + 250;
+
+    int timeInWell = 0;
+
+    int oldAlpha = 255;
 
     bool removed = false;
 
-    bool river_flip = false;
-
-    string animation;
 
 };
 
