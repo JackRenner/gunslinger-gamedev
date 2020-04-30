@@ -44,6 +44,7 @@ void DisplayObjectContainer::removeImmediateChild(DisplayObject* child) {
             callRemoveChildEvent(child);
             delete child;
             children.erase(children.begin() + i);
+            break;
         }
     }
 }
@@ -55,6 +56,7 @@ void DisplayObjectContainer::removeImmediateChild(string id) {
             callRemoveChildEvent(children[i]);
             delete children[i];
             children.erase(children.begin() + i);
+            break;
         }
     }
 }
@@ -65,6 +67,7 @@ void DisplayObjectContainer::unlinkImmediateChild(DisplayObject* child) {
             callRemoveChildEvent(children[i]);
             child->parent = NULL;
             children.erase(children.begin() + i);
+            break;
         }
     }
 }
@@ -75,7 +78,7 @@ void DisplayObjectContainer::unlinkImmediateChild(string id) {
             callRemoveChildEvent(children[i]);
             children[i]->parent = NULL;
             children.erase(children.begin() + i);
-
+            break;
         }
     }
 }

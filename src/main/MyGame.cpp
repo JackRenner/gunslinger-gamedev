@@ -99,7 +99,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if (curScene->id == "canyon3" && curScene->enemiesLeft == 0){
 		character->areaAccess(0);
 	}
-	if (curScene->id == "lake4" && curScene->enemiesLeft == 0) {
+	if (curScene->id == "lake2" && curScene->enemiesLeft == 0) {
 		character->areaAccess(1);
 		character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_PISTOL);
 	}
@@ -114,6 +114,31 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 	// code to reset scene
 	if (character->health <= 0) {
+		if(!character->canyonComplete){
+			for(SceneInfo s : sceneInfo){
+				if(s.scenePointer->id.substr(0,4) == "cany"){
+					s.scenePointer->enemiesAdded = false;
+				}
+			}
+		} else if (!character->lakeComplete){
+			for(SceneInfo s : sceneInfo){
+				if(s.scenePointer->id.substr(0,4) == "lake"){
+					s.scenePointer->enemiesAdded = false;
+				}
+			}
+		} else if (!character->badlandsComplete){
+			for(SceneInfo s : sceneInfo){
+				if(s.scenePointer->id.substr(0,4) == "badl"){
+					s.scenePointer->enemiesAdded = false;
+				}
+			}
+		} else if (!character->hideoutComplete){
+			for(SceneInfo s : sceneInfo){
+				if(s.scenePointer->id.substr(0,4) == "hide"){
+					s.scenePointer->enemiesAdded = false;
+				}
+			}
+		}
 		curTransition = transitions[0][0];
 		transitionScene();
 	}
@@ -448,7 +473,7 @@ void MyGame::initTown() {
 
 void MyGame::initTownsPeople(Scene* s) {
 	if (s->id == "townScene" && !s->enemiesAdded) {
-		string walkingTownee1Text = "What's up homey!";
+		string walkingTownee1Text = "You look like the kind of guy the sheriff would want to talk to.";
 		walkingTownee1 = new TownsPeople((Player*)character, "walkingTownee1", true, walkingTownee1Text);	
 		walkingTownee1->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
 		walkingTownee1->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
@@ -649,6 +674,9 @@ void MyGame::initLake() {
 void MyGame::initLakeEnemies(Scene* s) {
 	if (s->id == "lake1" && !s->enemiesAdded) {
 		// wolves
+		if(s->getChild("LakeWolf1") != NULL){
+			wolf1LakeStill1->removeThis();
+		}
 		wolf1LakeStill1 = new Wolf((Player*)character, "LakeWolf1");	// Adding wolf sprites
 		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf1LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -660,6 +688,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 		wolf1LakeStill1->scaleY = 0.75;
 		wolf1LakeStill1->play("WolfLeft");
 
+		if(s->getChild("LakeWolf2") != NULL){
+			wolf2LakeStill1->removeThis();
+		}
 		wolf2LakeStill1 = new Wolf((Player*)character, "LakeWolf2");	// Adding wolf sprites
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf2LakeStill1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -675,7 +706,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake2" && !s->enemiesAdded) {
-
+		if(s->getChild("LakeGangThug1") != NULL){
+			thug1LakeStill2->removeThis();
+		}
 		thug1LakeStill2 = new GangThug((Player*)character, "LakeGangThug1");	
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -686,6 +719,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 		thug1LakeStill2->play("GangThugLeft");
 		gang_thugs[thug1LakeStill2] = 1;
 
+		if(s->getChild("LakeGangThug2") != NULL){
+			thug2LakeStill2->removeThis();
+		}
 		thug2LakeStill2 = new GangThug((Player*)character, "LakeGangThug2");	
 		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -701,6 +737,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 
 	}
 	if (s->id == "lake3" && !s->enemiesAdded) {
+		if(s->getChild("LakeGangMarksman1") != NULL){
+			mark1LakeStill3->removeThis();
+		}
 		mark1LakeStill3 = new GangMarksman((Player*)character, "LakeGangMarksman1");	
 		mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		mark1LakeStill3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -713,6 +752,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 		mark1LakeStill3->play("GangMarksmanLeft");
 		gang_marksmans[mark1LakeStill3] = 1;
 
+		if(s->getChild("LakeGangMarksman2") != NULL){
+			mark2LakeStill3->removeThis();
+		}
 		mark2LakeStill3 = new GangMarksman((Player*)character, "LakeGangMarksman2");	
 		mark2LakeStill3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		mark2LakeStill3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -729,6 +771,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake4" && !s->enemiesAdded) {
+		if(s->getChild("LakeArrow1") != NULL){
+			arrow1LakeStill4->removeThis();
+		}
 		arrow1LakeStill4 = new ArrowGuy((Player*)character, "LakeArrow1");
 		arrow1LakeStill4->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
 		lake4->addChild(arrow1LakeStill4);
@@ -741,6 +786,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 		arrow1LakeStill4->play("Arrow");
 		arrow_guys[arrow1LakeStill4] = 1;
 
+		if(s->getChild("LakeArrow2") != NULL){
+			arrow2LakeStill4->removeThis();
+		}
 		arrow2LakeStill4 = new ArrowGuy((Player*)character, "LakeArrow2");
 		arrow2LakeStill4->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
 		lake4->addChild(arrow2LakeStill4);
@@ -757,6 +805,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake6" && !s->enemiesAdded) {
+		if(s->getChild("LakeGangShot1") != NULL){
+			shot1LakeStill->removeThis();
+		}
 		shot1LakeStill = new GangShot((Player*)character, "LakeGangShot1");	
 		shot1LakeStill->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
 		shot1LakeStill->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
@@ -771,6 +822,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 		s->enemiesAdded = true;
 	}
 	if (s->id == "lake7" && !s->enemiesAdded) {
+		if(s->getChild("LakeCreeper1") != NULL){
+			creeper1LakeStill7->removeThis();
+		}
 		creeper1LakeStill7 = new Creeper(character, "LakeCreeper1");
 		creeper1LakeStill7->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper1LakeStill7->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
@@ -781,6 +835,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 		creeper1LakeStill7->position = { 300, 700 };
 		creeper1LakeStill7->play("CreeperUp");
 
+		if(s->getChild("LakeCreeper2") != NULL){
+			creeper2LakeStill7->removeThis();
+		}
 		creeper2LakeStill7 = new Creeper(character, "LakeCreeper2");
 		creeper2LakeStill7->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper2LakeStill7->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
@@ -796,6 +853,9 @@ void MyGame::initLakeEnemies(Scene* s) {
 	}
 
 	if (s->id == "lake8" && !s->enemiesAdded) {
+		if(s->getChild("LakeKnifeGuy1") != NULL){
+			knifeguy1LakeStill8->removeThis();
+		}
 		knifeguy1LakeStill8 = new KnifeGuy(character, "LakeKnifeGuy1");
 		knifeguy1LakeStill8->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy1LakeStill8->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -868,6 +928,9 @@ void MyGame::initCanyonEnemies(Scene* s) {
 		s->enemiesLeft = 0;
 	}
 	if (s->id == "canyon3" && !s->enemiesAdded) {
+		if(s->getChild("CanyonWolf1") != NULL){
+			wolf1Canyon3->removeThis();
+		}
 		wolf1Canyon3 = new Wolf((Player*)character, "CanyonWolf1");	// Adding wolf sprites
 		wolf1Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf1Canyon3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -879,6 +942,9 @@ void MyGame::initCanyonEnemies(Scene* s) {
 		wolf1Canyon3->scaleY = 0.75;
 		wolf1Canyon3->play("WolfRight");
 
+		if(s->getChild("CanyonWolf2") != NULL){
+			wolf2Canyon3->removeThis();
+		}
 		wolf2Canyon3 = new Wolf((Player*)character, "CanyonWolf2");	// Adding wolf sprites
 		wolf2Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf2Canyon3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -890,6 +956,9 @@ void MyGame::initCanyonEnemies(Scene* s) {
 		wolf2Canyon3->scaleY = 0.75;
 		wolf2Canyon3->play("WolfRight");
 
+		if(s->getChild("CanyonWolf3") != NULL){
+			wolf3Canyon3->removeThis();
+		}
 		wolf3Canyon3 = new Wolf((Player*)character, "CanyonWolf3");	// Adding wolf sprites
 		wolf3Canyon3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf3Canyon3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -968,6 +1037,9 @@ void MyGame::initBadlands() {
 
 void MyGame::initBadlandsEnemies(Scene* s) {
 	if (s->id == "badlands1" && !s->enemiesAdded) {
+		if(s->getChild("BadWolf1") != NULL){
+			wolf1Badlands1->removeThis();
+		}
 		wolf1Badlands1 = new Wolf((Player*)character, "BadWolf1"); 
 		wolf1Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf1Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -979,6 +1051,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf1Badlands1->scaleY = 0.75;
 		wolf1Badlands1->play("WolfRight");
 
+		if(s->getChild("BadWolf2") != NULL){
+			wolf2Badlands1->removeThis();
+		}
 		wolf2Badlands1 = new Wolf((Player*)character, "BadWolf2"); 
 		wolf2Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf2Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -990,6 +1065,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf2Badlands1->scaleY = 0.75;
 		wolf2Badlands1->play("WolfRight");
 
+		if(s->getChild("BadWolf3") != NULL){
+			wolf3Badlands1->removeThis();
+		}
 		wolf3Badlands1 = new Wolf((Player*)character, "BadWolf3"); 
 		wolf3Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf3Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -1001,6 +1079,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf3Badlands1->scaleY = 0.75;
 		wolf3Badlands1->play("WolfRight");
 
+		if(s->getChild("BadWolf4") != NULL){
+			wolf4Badlands1->removeThis();
+		}
 		wolf4Badlands1 = new Wolf((Player*)character, "BadWolf4"); 
 		wolf4Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf4Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -1012,6 +1093,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf4Badlands1->scaleY = 0.75;
 		wolf4Badlands1->play("WolfRight");
 
+		if(s->getChild("BadWolf5") != NULL){
+			wolf5Badlands1->removeThis();
+		}
 		wolf5Badlands1 = new Wolf((Player*)character, "BadWolf5"); 
 		wolf5Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf5Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -1023,6 +1107,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf5Badlands1->scaleY = 0.75;
 		wolf5Badlands1->play("WolfRight");
 
+		if(s->getChild("BadWolf6") != NULL){
+			wolf6Badlands1->removeThis();
+		}
 		wolf6Badlands1 = new Wolf((Player*)character, "BadWolf6"); 
 		wolf6Badlands1->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf6Badlands1->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -1037,6 +1124,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		s->enemiesLeft=6;
 		s->enemiesAdded=true;
 	}else if (s->id == "badlands2" && !s->enemiesAdded) {
+		if(s->getChild("BadGangThug1") != NULL){
+			thug1Badlands2->removeThis();
+		}
 		thug1Badlands2 = new GangThug((Player*)character, "BadGangThug1");	
 		thug1Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1047,6 +1137,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug1Badlands2->play("GangThugLeft");
 		gang_thugs[thug1Badlands2] = 1;
 
+		if(s->getChild("BadGangThug2") != NULL){
+			thug2Badlands2->removeThis();
+		}
 		thug2Badlands2 = new GangThug((Player*)character, "BadGangThug2");	
 		thug2Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug2Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1057,6 +1150,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug2Badlands2->play("GangThugLeft");
 		gang_thugs[thug2Badlands2] = 1;
 
+		if(s->getChild("BadGangThug3") != NULL){
+			thug3Badlands2->removeThis();
+		}
 		thug3Badlands2 = new GangThug((Player*)character, "BadGangThug3");	
 		thug3Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug3Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1067,6 +1163,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug3Badlands2->play("GangThugLeft");
 		gang_thugs[thug3Badlands2] = 1;
 
+		if(s->getChild("BadGangThug4") != NULL){
+			thug4Badlands2->removeThis();
+		}
 		thug4Badlands2 = new GangThug((Player*)character, "BadGangThug4");	
 		thug4Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug4Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1077,6 +1176,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug4Badlands2->play("GangThugLeft");
 		gang_thugs[thug4Badlands2] = 1;
 
+		if(s->getChild("BadGangMarksman1") != NULL){
+			mark1Badlands2->removeThis();
+		}
 		mark1Badlands2 = new GangMarksman((Player*)character, "BadGangMarksman1");	
 		mark1Badlands2->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		mark1Badlands2->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -1087,6 +1189,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		mark1Badlands2->play("GangMarksmanLeft");
 		gang_marksmans[mark1Badlands2] = 1;
 
+		if(s->getChild("BadGangMarksman2") != NULL){
+			mark2Badlands2->removeThis();
+		}
 		mark2Badlands2 = new GangMarksman((Player*)character, "BadGangMarksman2");	
 		mark2Badlands2->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		mark2Badlands2->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -1100,6 +1205,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		s->enemiesLeft=6;
 		s->enemiesAdded=true;
 	}else if (s->id == "badlands3" && !s->enemiesAdded) {
+		if(s->getChild("BadWolf7") != NULL){
+			wolf1Badlands3->removeThis();
+		}
 		wolf1Badlands3 = new Wolf((Player*)character, "BadWolf7"); 
 		wolf1Badlands3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf1Badlands3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -1111,6 +1219,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf1Badlands3->scaleY = 0.75;
 		wolf1Badlands3->play("WolfRight");
 
+		if(s->getChild("BadWolf8") != NULL){
+			wolf2Badlands3->removeThis();
+		}
 		wolf2Badlands3 = new Wolf((Player*)character, "BadWolf8"); 
 		wolf2Badlands3->addAnimation("resources/enemies/", "WolfUp", 1, 1, true);
 		wolf2Badlands3->addAnimation("resources/enemies/", "WolfLeft", 1, 1, true);
@@ -1122,6 +1233,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		wolf2Badlands3->scaleY = 0.75;
 		wolf2Badlands3->play("WolfRight");
 
+		if(s->getChild("BadGangMarksman3") != NULL){
+			mark1Badlands3->removeThis();
+		}
 		mark1Badlands3 = new GangMarksman((Player*)character, "BadGangMarksman3");	
 		mark1Badlands3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		mark1Badlands3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -1132,6 +1246,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		mark1Badlands3->play("GangMarksmanLeft");
 		gang_marksmans[mark1Badlands3] = 1;
 
+		if(s->getChild("BadGangMarksman4") != NULL){
+			mark2Badlands3->removeThis();
+		}
 		mark2Badlands3 = new GangMarksman((Player*)character, "BadGangMarksman4");	
 		mark2Badlands3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		mark2Badlands3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -1142,6 +1259,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		mark2Badlands3->play("GangMarksmanLeft");
 		gang_marksmans[mark2Badlands3] = 1;
 
+		if(s->getChild("BadCreeper1") != NULL){
+			creeper1Badlands3->removeThis();
+		}
 		creeper1Badlands3 = new Creeper(character, "BadCreeper1");
 		creeper1Badlands3->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper1Badlands3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
@@ -1155,6 +1275,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		s->enemiesLeft=5;
 		s->enemiesAdded = true;
 	} else if (s->id=="badlands4" && !s->enemiesAdded){
+		if(s->getChild("BadKnifeGuy1") != NULL){
+			knifeguy1Badlands4->removeThis();
+		}
 		knifeguy1Badlands4 = new KnifeGuy(character, "BadKnifeGuy1");
 		knifeguy1Badlands4->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy1Badlands4->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1164,6 +1287,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		knifeguy1Badlands4->position = { 300, 300 };
 		knifeguy1Badlands4->play("KnifeGuyLeft");
 		
+		if(s->getChild("BadGangShot1") != NULL){
+			shot1Badlands4->removeThis();
+		}
 		shot1Badlands4 = new GangShot((Player*)character, "BadGangShot1");	
 		shot1Badlands4->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
 		shot1Badlands4->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
@@ -1177,6 +1303,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		s->enemiesLeft=2;
 		s->enemiesAdded = true;
 	} else if (s->id == "badlands5" && !s->enemiesAdded) {
+		if(s->getChild("BadGangThug5") != NULL){
+			thug1Badlands5->removeThis();
+		}
 		thug1Badlands5 = new GangThug((Player*)character, "BadGangThug5");	
 		thug1Badlands5->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1Badlands5->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1187,6 +1316,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug1Badlands5->play("GangThugLeft");
 		gang_thugs[thug1Badlands5] = 1;
 
+		if(s->getChild("BadGangThug6") != NULL){
+			thug2Badlands5->removeThis();
+		}
 		thug2Badlands5 = new GangThug((Player*)character, "BadGangThug6");	
 		thug2Badlands5->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug2Badlands5->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1197,6 +1329,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug2Badlands5->play("GangThugLeft");
 		gang_thugs[thug2Badlands5] = 1;
 
+		if(s->getChild("BadGangThug7") != NULL){
+			thug3Badlands5->removeThis();
+		}
 		thug3Badlands5 = new GangThug((Player*)character, "BadGangThug7");	
 		thug3Badlands5->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug3Badlands5->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1210,6 +1345,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		s->enemiesLeft=3;
 		s->enemiesAdded = true;
 	} else if (s->id == "badlands6" && !s->enemiesAdded) {
+		if(s->getChild("BadCreeper2") != NULL){
+			creeper1Badlands6->removeThis();
+		}
 		creeper1Badlands6 = new Creeper(character, "BadCreeper2");
 		creeper1Badlands6->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper1Badlands6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
@@ -1220,6 +1358,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		creeper1Badlands6->position = { 70, 650 };
 		creeper1Badlands6->play("CreeperRight");
 
+		if(s->getChild("BadCreeper3") != NULL){
+			creeper2Badlands6->removeThis();
+		}
 		creeper2Badlands6 = new Creeper(character, "BadCreeper3");
 		creeper2Badlands6->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper2Badlands6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
@@ -1230,6 +1371,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		creeper2Badlands6->position = { 715, 650 };
 		creeper2Badlands6->play("CreeperLeft");
 
+		if(s->getChild("BadGangThug9") != NULL){
+			thug1Badlands6->removeThis();
+		}
 		thug1Badlands6 = new GangThug((Player*)character, "BadGangThug9");	
 		thug1Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1240,6 +1384,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug1Badlands6->play("GangThugLeft");
 		gang_thugs[thug1Badlands6] = 1;
 
+		if(s->getChild("BadGangThug10") != NULL){
+			thug2Badlands6->removeThis();
+		}
 		thug2Badlands6 = new GangThug((Player*)character, "BadGangThug10");	
 		thug2Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug2Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1250,6 +1397,9 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		thug2Badlands6->play("GangThugLeft");
 		gang_thugs[thug2Badlands6] = 1;
 
+		if(s->getChild("BadGangThug11") != NULL){
+			thug3Badlands6->removeThis();
+		}
 		thug3Badlands6 = new GangThug((Player*)character, "BadGangThug11");	
 		thug3Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug3Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1347,6 +1497,9 @@ void MyGame::initHideout() {
 
 void MyGame::initHideoutEnemies(Scene *s) {
 	if (s->id == "hideout8" && !s->enemiesAdded) {
+		if(s->getChild("Boss1") != NULL){
+			boss_1->removeThis();
+		}
 		boss_1 = new ShotgunGuy((Player*)character, "Boss1");	
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyUp", 1, 1, true);
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyLeft", 1, 1, true);
@@ -1368,6 +1521,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 
 	}
 	if (s->id == "hideout6" && !s->enemiesAdded) {
+		if(s->getChild("knifeguy1hideout6") != NULL){
+			knifeguy1hideout6->removeThis();
+		}
 		knifeguy1hideout6 = new KnifeGuy(character, "knifeguy1hideout6");
 		knifeguy1hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy1hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1377,6 +1533,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		knifeguy1hideout6->position = {395, 810};
 		knifeguy1hideout6->play("KnifeGuyLeft");
 
+		if(s->getChild("knifeguy2hideout6") != NULL){
+			knifeguy2hideout6->removeThis();
+		}
 		knifeguy2hideout6 = new KnifeGuy(character, "knifeguy2hideout6");
 		knifeguy2hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy2hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1386,6 +1545,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		knifeguy2hideout6->position = {395, 880};
 		knifeguy2hideout6->play("KnifeGuyLeft");
 
+		if(s->getChild("knifeguy3hideout6") != NULL){
+			knifeguy3hideout6->removeThis();
+		}
 		knifeguy3hideout6 = new KnifeGuy(character, "knifeguy3hideout6");
 		knifeguy3hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy3hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1395,6 +1557,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		knifeguy3hideout6->position = {65, 960};
 		knifeguy3hideout6->play("KnifeGuyLeft");
 
+		if(s->getChild("knifeguy4hideout6") != NULL){
+			knifeguy4hideout6->removeThis();
+		}
 		knifeguy4hideout6 = new KnifeGuy(character, "knifeguy4hideout6");
 		knifeguy4hideout6->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy4hideout6->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1404,6 +1569,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		knifeguy4hideout6->position = {51, 780};
 		knifeguy4hideout6->play("KnifeGuyLeft");
 
+		if(s->getChild("creeper1hideout6") != NULL){
+			creeper1hideout6->removeThis();
+		}
 		creeper1hideout6 = new Creeper(character, "creeper1hideout6");
 		creeper1hideout6->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper1hideout6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
@@ -1414,6 +1582,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper1hideout6->position = {1080, 510};
 		creeper1hideout6->play("CreeperDown");
 
+		if(s->getChild("creeper2hideout6") != NULL){
+			creeper2hideout6->removeThis();
+		}
 		creeper2hideout6 = new Creeper(character, "creeper2hideout6");
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
@@ -1424,6 +1595,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper2hideout6->position = {1260, 520};
 		creeper2hideout6->play("CreeperDown");
 
+		if(s->getChild("gangthug1hideout6") != NULL){
+			gangthug1hideout6->removeThis();
+		}
 		gangthug1hideout6 = new GangThug(character, "gangthug1hideout6");
 		gangthug1hideout6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug1hideout6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1434,6 +1608,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug1hideout6->play("GangThugUp");
 		gang_thugs[gangthug1hideout6] = 1;
 
+		if(s->getChild("gangthug2hideout6") != NULL){
+			gangthug2hideout6->removeThis();
+		}
 		gangthug2hideout6 = new GangThug(character, "gangthug2hideout6");
 		gangthug2hideout6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug2hideout6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1455,6 +1632,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 	}
 	if (s->id == "hideout5" && !s->enemiesAdded) {
 		//prison
+		if(s->getChild("gangmarksmanfree1hideout5") != NULL){
+			gangmarksmanfree1hideout5->removeThis();
+		}
 		gangmarksmanfree1hideout5 = new GangMarksmanFree(character, "gangmarksmanfree1hideout5");
 		gangmarksmanfree1hideout5->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		gangmarksmanfree1hideout5->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -1465,6 +1645,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree1hideout5->play("GangMarksmanDown");
 		gang_marksmansfree[gangmarksmanfree1hideout5] = 1;
 
+		if(s->getChild("gangmarksmanfree2hideout5") != NULL){
+			gangmarksmanfree2hideout5->removeThis();
+		}
 		gangmarksmanfree2hideout5 = new GangMarksmanFree(character, "gangmarksmanfree2hideout5");
 		gangmarksmanfree2hideout5->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		gangmarksmanfree2hideout5->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -1475,6 +1658,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree2hideout5->play("GangMarksmanDown");
 		gang_marksmansfree[gangmarksmanfree2hideout5] = 1;
 
+		if(s->getChild("knifeguy1hideout5") != NULL){
+			knifeguy1hideout5->removeThis();
+		}
 		knifeguy1hideout5 = new KnifeGuy(character, "knifeguy1hideout5");
 		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy1hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1484,6 +1670,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		knifeguy1hideout5->position = {260, 810};
 		knifeguy1hideout5->play("KnifeGuyDown");
 
+		if(s->getChild("knifeguy2hideout5") != NULL){
+			knifeguy2hideout5->removeThis();
+		}
 		knifeguy2hideout5 = new KnifeGuy(character, "knifeguy2hideout5");
 		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy2hideout5->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1493,6 +1682,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		knifeguy2hideout5->position = {660, 730};
 		knifeguy2hideout5->play("KnifeGuyDown");
 
+		if(s->getChild("shot1hideout5") != NULL){
+			shot1hideout5->removeThis();
+		}
 		shot1hideout5 = new GangShot((Player*)character, "shot1hideout5");	
 		shot1hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
 		shot1hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
@@ -1503,6 +1695,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		shot1hideout5->play("GangShotRight");
 		gang_shot[shot1hideout5] = 1;
 
+		if(s->getChild("shot2hideout5") != NULL){
+			shot2hideout5->removeThis();
+		}
 		shot2hideout5 = new GangShot((Player*)character, "shot2hideout5");	
 		shot2hideout5->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
 		shot2hideout5->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
@@ -1530,6 +1725,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 	}
 	if (s->id == "hideout3" && !s->enemiesAdded) {
 		// //kitchen
+		if(s->getChild("creeper1hideout3") != NULL){
+			creeper1hideout3->removeThis();
+		}
 		creeper1hideout3 = new Creeper(character, "creeper1hideout3");
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper1hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
@@ -1540,6 +1738,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper1hideout3->position = {320, 540};
 		creeper1hideout3->play("CreeperRight");
 
+		if(s->getChild("creeper2hideout3") != NULL){
+			creeper2hideout3->removeThis();
+		}
 		creeper2hideout3 = new Creeper(character, "creeper2hideout3");
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperUp", 1, 1, true);
 		creeper2hideout3->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
@@ -1550,6 +1751,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper2hideout3->position = {650, 540};
 		creeper2hideout3->play("CreeperLeft");
 
+		if(s->getChild("shot1hideout3") != NULL){
+			shot1hideout3->removeThis();
+		}
 		shot1hideout3 = new GangShot((Player*)character, "shot1hideout3");	
 		shot1hideout3->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
 		shot1hideout3->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
@@ -1560,6 +1764,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		shot1hideout3->play("GangShotDown");
 		gang_shot[shot1hideout3] = 1;
 
+		if(s->getChild("shot2hideout3") != NULL){
+			shot2hideout3->removeThis();
+		}
 		shot2hideout3 = new GangShot((Player*)character, "shot2hideout3");	
 		shot2hideout3->addAnimation("resources/enemies/", "GangShotUp", 1, 1, true);
 		shot2hideout3->addAnimation("resources/enemies/", "GangShotLeft", 1, 1, true);
@@ -1570,6 +1777,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		shot2hideout3->play("GangShotUp");
 		gang_shot[shot2hideout3] = 1;
 
+		if(s->getChild("gangthug1hideout3") != NULL){
+			gangthug1hideout3->removeThis();
+		}
 		gangthug1hideout3 = new GangThug(character, "gangthug1hideout3");
 		gangthug1hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug1hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1580,6 +1790,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug1hideout3->play("GangThugDown");
 		gang_thugs[gangthug1hideout3] = 1;
 
+		if(s->getChild("gangthug2hideout3") != NULL){
+			gangthug2hideout3->removeThis();
+		}
 		gangthug2hideout3 = new GangThug(character, "gangthug2hideout3");
 		gangthug2hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug2hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1590,6 +1803,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug2hideout3->play("GangThugDown");
 		gang_thugs[gangthug2hideout3] = 1;
 
+		if(s->getChild("gangthug3hideout3") != NULL){
+			gangthug3hideout3->removeThis();
+		}
 		gangthug3hideout3 = new GangThug(character, "gangthug3hideout3");
 		gangthug3hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug3hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1600,7 +1816,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug3hideout3->play("GangThugLeft");
 		gang_thugs[gangthug3hideout3] = 1;
 		
-
+		if(s->getChild("gangthug4hideout3") != NULL){
+			gangthug4hideout3->removeThis();
+		}
 		gangthug4hideout3 = new GangThug(character, "gangthug4hideout3");
 		gangthug4hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug4hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1611,6 +1829,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug4hideout3->play("GangThugUp");
 		gang_thugs[gangthug4hideout3] = 1;
 
+		if(s->getChild("gangmarksmanfree1hideout3") != NULL){
+			gangmarksmanfree1hideout3->removeThis();
+		}
 		gangmarksmanfree1hideout3 = new GangMarksman(character, "gangmarksmanfree1hideout3");
 		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -1621,6 +1842,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree1hideout3->play("GangMarksmanRight");
 		gang_marksmans[gangmarksmanfree1hideout3] = 1;
 
+		if(s->getChild("gangmarksmanfree2hideout3") != NULL){
+			gangmarksmanfree2hideout3->removeThis();
+		}
 		gangmarksmanfree2hideout3 = new GangMarksman(character, "gangmarksmanfree2hideout3");
 		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanUp", 1, 1, true);
 		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanLeft", 1, 1, true);
@@ -1678,6 +1902,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		// 2 knife wielders at first table
 		// 2 knife wielders at back table
 
+		if(s->getChild("knifeguy1hideout2") != NULL){
+			knifeguy1hideout2->removeThis();
+		}
 		knifeguy1hideout2 = new KnifeGuy(character, "knifeguy1hideout2");
 		knifeguy1hideout2->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy1hideout2->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1687,6 +1914,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		knifeguy1hideout2->position = {666, 650};
 		knifeguy1hideout2->play("KnifeGuyDown");
 
+		if(s->getChild("knifeguy2hideout2") != NULL){
+			knifeguy2hideout2->removeThis();
+		}
 		knifeguy2hideout2 = new KnifeGuy(character, "knifeguy2hideout2");
 		knifeguy2hideout2->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy2hideout2->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1696,6 +1926,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		knifeguy2hideout2->position = {867, 650};
 		knifeguy2hideout2->play("KnifeGuyDown");
 
+		if(s->getChild("knifeguy3hideout2") != NULL){
+			knifeguy3hideout2->removeThis();
+		}
 		knifeguy3hideout2 = new KnifeGuy(character, "knifeguy3hideout2");
 		knifeguy3hideout2->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy3hideout2->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1705,6 +1938,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		knifeguy3hideout2->position = {1367, 870};
 		knifeguy3hideout2->play("KnifeGuyUp");
 
+		if(s->getChild("knifeguy4hideout2") != NULL){
+			knifeguy4hideout2->removeThis();
+		}
 		knifeguy4hideout2 = new KnifeGuy(character, "knifeguy4hideout2");
 		knifeguy4hideout2->addAnimation("resources/enemies/", "KnifeGuyUp", 1, 1, true);
 		knifeguy4hideout2->addAnimation("resources/enemies/", "KnifeGuyLeft", 1, 1, true);
@@ -1714,6 +1950,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		knifeguy4hideout2->position = {1557, 870};
 		knifeguy4hideout2->play("KnifeGuyUp");
 
+		if(s->getChild("gangthug1hideout2") != NULL){
+			gangthug1hideout2->removeThis();
+		}
 		gangthug1hideout2 = new GangThug(character, "gangthug1hideout2");
 		gangthug1hideout2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug1hideout2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1724,6 +1963,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug1hideout2->play("GangThugDown");
 		gang_thugs[gangthug1hideout2] = 1;
 
+		if(s->getChild("gangthug2hideout2") != NULL){
+			gangthug1hideout2->removeThis();
+		}
 		gangthug2hideout2 = new GangThug(character, "gangthug2hideout2");
 		gangthug2hideout2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug2hideout2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1734,6 +1976,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug2hideout2->play("GangThugDown");
 		gang_thugs[gangthug2hideout2] = 1;
 
+		if(s->getChild("gangthug3hideout2") != NULL){
+			gangthug1hideout2->removeThis();
+		}
 		gangthug3hideout2 = new GangThug(character, "gangthug3hideout2");
 		gangthug3hideout2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug3hideout2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1750,6 +1995,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 	}
 	if (s->id == "hideout1" && !s->enemiesAdded) {
 		// 3 gang thugs
+		if(s->getChild("gangthug1hideout1") != NULL){
+			gangthug1hideout1->removeThis();
+		}
 		gangthug1hideout1 = new GangThug(character, "gangthug1hideout1");
 		gangthug1hideout1->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug1hideout1->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1760,7 +2008,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug1hideout1->play("GangThugDown");
 		gang_thugs[gangthug1hideout1] = 1;
 
-
+		if(s->getChild("gangthug2hideout1") != NULL){
+			gangthug2hideout1->removeThis();
+		}
 		gangthug2hideout1 = new GangThug(character, "gangthug2hideout1");
 		gangthug2hideout1->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug2hideout1->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
@@ -1771,6 +2021,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangthug2hideout1->play("GangThugDown");
 		gang_thugs[gangthug2hideout1] = 1;
 
+		if(s->getChild("gangthug3hideout1") != NULL){
+			gangthug3hideout1->removeThis();
+		}
 		gangthug3hideout1 = new GangThug(character, "gangthug3hideout1");
 		gangthug3hideout1->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug3hideout1->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
