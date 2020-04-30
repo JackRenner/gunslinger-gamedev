@@ -121,6 +121,7 @@ private:
 	TownsPeople* drugMan;
 
 	Sheriff* sheriff1;
+	Sheriff* sheriff2;
 
 	// LAKE STILL SCENES
 	Scene* lake1;

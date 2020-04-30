@@ -13,12 +13,13 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-Sheriff::Sheriff(Player* sayu, string id, vector<string> dialogue) : AnimatedSprite(id){
+Sheriff::Sheriff(Player* sayu, string id, vector<string> dialogue, bool hurtable) : AnimatedSprite(id){
 	this->type = "Sheriff";
 	this->sayu = sayu;
 	this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
+	this->hurtable = hurtable;
 
     sheriffText = new TextBox(SDL_Point{ 1500, 500 }, 300, 200, 20, 20, 20, 255);
 
@@ -34,21 +35,25 @@ Sheriff::Sheriff(Player* sayu, string id, vector<string> dialogue) : AnimatedSpr
 void Sheriff::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 
-	// remove from game tree
-	if(this->clean){
-		Scene *temp = (Scene*) this->parent;
-		temp->enemiesLeft --;
-		this->removed = true;
-		this->removeThis();
+	//enemy is dead so clean it up
+	if(this->health == 0){
+		this->clean = true; //scene will clean it up
 	}
-
-    if (!sayu->badlandsUnlocked && sayu->lakeComplete && !sayu->badlandsComplete && !sayu->hideoutComplete && !sheriffText->textLock) {
+	//do the actual cleaning if necessary
+	if(this->clean){
+		sayu->killTheTown = true;
+		Scene *temp = (Scene*) this->parent;
+		this->removeThis();
+		return;
+	}
+	
+    if (!this->lastLine && !sayu->badlandsUnlocked && sayu->lakeComplete && !sayu->badlandsComplete && !sayu->hideoutComplete && !sheriffText->textLock) {
         sheriffText->drawNextLine();
         sayu->badlandsUnlocked = true;
-    } else if (!sayu->hideoutUnlocked && sayu->lakeComplete && sayu->badlandsComplete && !sayu->hideoutComplete && !sheriffText->textLock) {
+    } else if (!this->lastLine && !sayu->hideoutUnlocked && sayu->lakeComplete && sayu->badlandsComplete && !sayu->hideoutComplete && !sheriffText->textLock) {
         sheriffText->drawNextLine();
         sayu->hideoutUnlocked = true;
-    } else if (sayu->lakeComplete && sayu->badlandsComplete && sayu->hideoutComplete && !sheriffText->textLock) {
+    } else if (!this->lastLine && sayu->lakeComplete && sayu->badlandsComplete && sayu->hideoutComplete && !sayu->finalBossDefeated && !sheriffText->textLock) {
         sheriffText->drawNextLine();
 		sayu->finalBattleUnlocked = true;
     }
@@ -89,9 +94,7 @@ void Sheriff::update(set<SDL_Scancode> pressedKeys){
 
 	//state transitions
 	if(this->state == 0){
-		if (this->engagePlayer) {
-            this->state = 1;
-        }
+
 	}
 	else if(this->state == 1){
 		//if player is close, start to prepare charge
@@ -129,7 +132,7 @@ void Sheriff::update(set<SDL_Scancode> pressedKeys){
 
 
 void Sheriff::onCollision(DisplayObject* other){
-	if (other->type == "Projectile" && other->id != lastId) {
+	if (other->type == "Projectile" && other->id != lastId && this->hurtable) {
 		Projectile *temp = (Projectile*)other;
 		if (temp->gun == "revolver") {
 			this->health -= 20;
@@ -151,7 +154,7 @@ void Sheriff::onCollision(DisplayObject* other){
 			if(this->health < 0) this->health = 0;
 		}
 		lastId = other->id;
-	} else if(other->type == "Projectile") {
+	} else if(other->type == "Projectile" && this->hurtable) {
 		lastId = other->id;	
 	} else if (other->type == "Obstacle" || other->type == "Cactus") {
 		if (abs(this->position.x - other->position.x) > abs(this->position.y - other->position.y)) {

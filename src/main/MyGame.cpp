@@ -97,6 +97,10 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	this->saveAllPositions();
 
 
+	// code necessary to ensure townspeople spawn angry
+	if (curScene->id == "townScene" && character->finalBossDefeated && character->killTheTown) {
+		initTownEnemies(curScene);
+	}
 	// code to check if area is complete
 	if (curScene->id == "canyon3" && curScene->enemiesLeft == 0){
 		character->areaAccess(0);
@@ -518,7 +522,7 @@ void MyGame::initTownsPeople(Scene* s) {
 		string sheriffText3 = "YOU'RE QUICKLY BECOMING A HELLUVA EFFICIENT DEPUTY, THE GANG IS SO CRIPPLED WE COULD TAKE THEM OUT RIGHT NOW AT THEIR HIDEOUT EAST OF TOWN";
 		string sheriffText4 = "THIS TOWN OWES YOU A GREAT DEBT... WAIT DID YOU HEAR SHOOTING OUT BY THE TOWN WELL?? GO CHECK IT OUT!!";
 		vector<string> dialogue = {sheriffText1, sheriffText2, sheriffText3, sheriffText4};
-		sheriff1 = new Sheriff((Player*)character, "sheriff1", dialogue);	
+		sheriff1 = new Sheriff((Player*)character, "sheriff1", dialogue, false);	
 		sheriff1->addAnimation("resources/friendlies/", "SheriffLeft", 1, 1, true);
 		sheriff1->addAnimation("resources/friendlies/", "SheriffRight", 1, 1, true);
 		sheriff1->addAnimation("resources/friendlies/", "SheriffUp", 1, 1, true);
@@ -2065,7 +2069,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 }
 
 void MyGame::initTownEnemies(Scene* s) {
-	if (s->id == "townScene" && !s->enemiesAdded && !character->finalBossDefeated) {
+	if (s->id == "townScene" && !character->finalBossDefeated) {
 		if(s->getChild("FinalBoss1") != NULL){
 			final_boss->removeThis();
 		}
@@ -2079,11 +2083,24 @@ void MyGame::initTownEnemies(Scene* s) {
 		final_boss->position = { 700, 600 };
 		final_boss->play("GangLeaderLeft");
 		final_bosses[final_boss] = 1;
+
+		s->enemiesLeft = 1;
 		
-		s->enemiesLeft=1;
-		s->enemiesAdded = true;
-	} else if (character->finalBossDefeated) {
-	} else if (character->killTheTown) {
+	} else if (character->finalBossDefeated && !character->killTheTown) {
+		if(s->getChild("sheriff2") != NULL){
+			sheriff2->removeThis();
+		}
+		string sheriff2Text1 = "I'm sorry son but I'm going to have to arrest you... it's obvious that you were part of that gang. As long as I'm alive you're going to see justice.";
+		vector<string> dialogue = {sheriff2Text1};
+		sheriff2 = new Sheriff((Player*)character, "sheriff2", dialogue, true);	
+		sheriff2->addAnimation("resources/friendlies/", "SheriffLeft", 1, 1, true);
+		sheriff2->addAnimation("resources/friendlies/", "SheriffRight", 1, 1, true);
+		sheriff2->addAnimation("resources/friendlies/", "SheriffUp", 1, 1, true);
+		sheriff2->addAnimation("resources/friendlies/", "SheriffDown", 1, 1, true);
+		townScene->addChild(sheriff2);
+		sheriff2->position = { 600, 589 };
+		sheriff2->play("SheriffDown");
+	} else if (character->killTheTown && !s->enemiesAdded) {
 		if(s->getChild("angryTownspeople1") != NULL){
 			angryTownspeople1->removeThis();
 		}
@@ -2161,7 +2178,9 @@ void MyGame::initTownEnemies(Scene* s) {
 		angryTownspeople6->position = {1400, 500};
 		angryTownspeople6->play("storekeeperDown");
 		gang_thugs[angryTownspeople6] = 1;
-
+		
+		s->enemiesAdded = true;
+		s->enemiesLeft=6;
 	}
 }
 
@@ -2314,7 +2333,6 @@ void MyGame::enemyShootingLoops() {
 	// GANG LEADER loop
 	for (std::map<GangLeader*, int>::iterator it=final_bosses.begin(); it!=final_bosses.end(); ++it) {
 		if (it->first->health == 0 ) {
-			cout << "THIS HAPPENED" << endl;
 			character->finalBossDefeated = true;
 			initTownEnemies(curScene);
 			it->first->clean = true;

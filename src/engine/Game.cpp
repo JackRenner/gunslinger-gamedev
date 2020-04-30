@@ -79,6 +79,8 @@ Game::Game(int windowWidth, int windowHeight){
 	// FINAL BOSS
 	ourCollisionSystem->watchForCollisions("GangLeader", "Projectile");
 	ourCollisionSystem->watchForCollisions("Well", "GangLeader");
+
+	ourCollisionSystem->watchForCollisions("Sheriff", "Projectile");
 }
 
 Game::~Game(){
