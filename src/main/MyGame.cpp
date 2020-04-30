@@ -37,9 +37,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 0;
+	room_state = 17;
 
-	this->setScene(townScene);
+	this->setScene(canyon1);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -2065,7 +2065,85 @@ void MyGame::initTownEnemies(Scene* s) {
 		s->enemiesLeft=1;
 		s->enemiesAdded = true;
 	} else if (character->finalBossDefeated) {
-		cout << "TIME TO IMPLEMENT ANGRY TOWNSPEOPLE" << endl;
+	} else if (character->killTheTown) {
+		if(s->getChild("angryTownspeople1") != NULL){
+			angryTownspeople1->removeThis();
+		}
+		angryTownspeople1 = new GangThug(character, "angryTownspeople1", true);
+		angryTownspeople1->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		angryTownspeople1->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		angryTownspeople1->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		angryTownspeople1->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		townScene->addChild(angryTownspeople1);
+		angryTownspeople1->position = {400, 500};
+		angryTownspeople1->play("storekeeperDown");
+		gang_thugs[angryTownspeople1] = 1;
+
+		if(s->getChild("angryTownspeople2") != NULL){
+			angryTownspeople2->removeThis();
+		}
+		angryTownspeople2 = new GangThug(character, "angryTownspeople2", true);
+		angryTownspeople2->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		angryTownspeople2->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		angryTownspeople2->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		angryTownspeople2->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		townScene->addChild(angryTownspeople2);
+		angryTownspeople2->position = {600, 500};
+		angryTownspeople2->play("storekeeperDown");
+		gang_thugs[angryTownspeople2] = 1;
+
+		if(s->getChild("angryTownspeople3") != NULL){
+			angryTownspeople3->removeThis();
+		}
+		angryTownspeople3 = new GangThug(character, "angryTownspeople3", true);
+		angryTownspeople3->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		angryTownspeople3->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		angryTownspeople3->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		angryTownspeople3->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		townScene->addChild(angryTownspeople3);
+		angryTownspeople3->position = {800, 500};
+		angryTownspeople3->play("storekeeperDown");
+		gang_thugs[angryTownspeople3] = 1;
+
+		if(s->getChild("angryTownspeople4") != NULL){
+			angryTownspeople4->removeThis();
+		}
+		angryTownspeople4 = new GangThug(character, "angryTownspeople4", true);
+		angryTownspeople4->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		angryTownspeople4->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		angryTownspeople4->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		angryTownspeople4->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		townScene->addChild(angryTownspeople4);
+		angryTownspeople4->position = {1000, 500};
+		angryTownspeople4->play("storekeeperDown");
+		gang_thugs[angryTownspeople4] = 1;
+
+		if(s->getChild("angryTownspeople5") != NULL){
+			angryTownspeople5->removeThis();
+		}
+		angryTownspeople5 = new GangThug(character, "angryTownspeople5", true);
+		angryTownspeople5->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		angryTownspeople5->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		angryTownspeople5->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		angryTownspeople5->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		townScene->addChild(angryTownspeople5);
+		angryTownspeople5->position = {1200, 500};
+		angryTownspeople5->play("storekeeperDown");
+		gang_thugs[angryTownspeople5] = 1;
+
+		if(s->getChild("angryTownspeople6") != NULL){
+			angryTownspeople6->removeThis();
+		}
+		angryTownspeople6 = new GangThug(character, "angryTownspeople6", true);
+		angryTownspeople6->addAnimation("resources/friendlies/", "storekeeperUp", 1, 1, true);
+		angryTownspeople6->addAnimation("resources/friendlies/", "storekeeperLeft", 1, 1, true);
+		angryTownspeople6->addAnimation("resources/friendlies/", "storekeeperRight", 1, 1, true);
+		angryTownspeople6->addAnimation("resources/friendlies/", "storekeeperDown", 1, 1, true);
+		townScene->addChild(angryTownspeople6);
+		angryTownspeople6->position = {1400, 500};
+		angryTownspeople6->play("storekeeperDown");
+		gang_thugs[angryTownspeople6] = 1;
+
 	}
 }
 
@@ -2218,6 +2296,7 @@ void MyGame::enemyShootingLoops() {
 	// GANG LEADER loop
 	for (std::map<GangLeader*, int>::iterator it=final_bosses.begin(); it!=final_bosses.end(); ++it) {
 		if (it->first->health == 0 ) {
+			cout << "THIS HAPPENED" << endl;
 			character->finalBossDefeated = true;
 			initTownEnemies(curScene);
 			it->first->clean = true;

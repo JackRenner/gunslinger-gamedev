@@ -281,6 +281,14 @@ private:
 	// Final Town Battle
 	GangLeader* final_boss;
 
+	GangThug* angryTownspeople1;
+	GangThug* angryTownspeople2;
+	GangThug* angryTownspeople3;
+	GangThug* angryTownspeople4;
+	GangThug* angryTownspeople5;
+	GangThug* angryTownspeople6;
+
+
 	// END ENEMIES CREATION
 
 	int iterate;
