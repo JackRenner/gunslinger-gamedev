@@ -58,6 +58,10 @@ public:
 
 	void handleEvent(Event* e);
 
+	int testint = 0;
+	int testint2 = 0;
+	int testint3 = 0;
+
 	void checkTransition();
 	void transitionScene();
 

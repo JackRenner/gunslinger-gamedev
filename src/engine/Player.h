@@ -89,6 +89,9 @@ public:
 	WeaponSelectEvent* selectShotgun;
 	WeaponSelectEvent* selectRifle;
 	WeaponSelectEvent* playerHeal;
+	WeaponSelectEvent* playerHeal2;
+
+	WeaponSelectEvent* newlevel;
 
 	WeaponSelectEvent* updateAmmo;
 

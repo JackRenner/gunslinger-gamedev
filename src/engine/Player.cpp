@@ -35,6 +35,8 @@ Player::Player() : AnimatedSprite("Player"){
 	selectShotgun = new WeaponSelectEvent(WeaponSelectEvent::SELECT_SHOTGUN_EVENT, this);
 	selectRifle = new WeaponSelectEvent(WeaponSelectEvent::SELECT_RIFLE_EVENT, this);
 	playerHeal = new WeaponSelectEvent(WeaponSelectEvent::PLAYER_HEAL, this);
+	playerHeal2 = new WeaponSelectEvent(WeaponSelectEvent::PLAYER_HEAL2, this);
+	newlevel = new WeaponSelectEvent(WeaponSelectEvent::NEW_LEVEL, this);
 
 	updateAmmo = new WeaponSelectEvent(WeaponSelectEvent::UPDATE_AMMO, this);
 
@@ -335,6 +337,9 @@ void Player::selectWeapon(int gun) {
 	}
 	else if (gun == 5) {
 		this->dispatchEvent(playerHeal);
+	}
+	else if (gun == 6) {
+		this->dispatchEvent(playerHeal2);
 	}
 }
 
