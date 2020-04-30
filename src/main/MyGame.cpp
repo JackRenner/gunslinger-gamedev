@@ -69,6 +69,8 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	character->addEventListener(selection, WeaponSelectEvent::SELECT_SHOTGUN_EVENT);
 	character->addEventListener(selection, WeaponSelectEvent::SELECT_RIFLE_EVENT);
 	character->addEventListener(selection, WeaponSelectEvent::PLAYER_HEAL);
+	
+	character->addEventListener(selection, WeaponSelectEvent::PLAYER_HEAL2);
 
 	character->addEventListener(ammoCounter, WeaponSelectEvent::UPDATE_AMMO);
 
@@ -102,14 +104,29 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 	if (curScene->id == "lake2" && curScene->enemiesLeft == 0) {
 		character->areaAccess(1);
 		character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_PISTOL);
+		if(testint == 0) {
+			character->foodNum += 10;
+			character->selectWeapon(6);
+		}
+		testint = 1;
 	}
 	if (curScene->id == "badlands6" && curScene->enemiesLeft == 0) {
 		character->areaAccess(2);
 		character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_RIFLE);
+		if(testint2 == 0) {
+			character->foodNum += 10;
+			character->selectWeapon(6);
+		}
+		testint2 = 1;
 	}
 	if (curScene->id == "hideout8" && curScene->enemiesLeft == 0) {
 		character->areaAccess(3);
 		character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_SHOTGUN);
+		if(testint3 == 0) {
+			character->foodNum += 10;
+			character->selectWeapon(6);
+		}
+		testint3 = 1;
 	}
 
 	// code to reset scene
@@ -195,6 +212,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			character->heal("whiskey");
 			character->foodNum -=1;
 			character->selectWeapon(5);
+			//character->selectWeapon(6);
 
 		}
 		if (controls::toggleVisibility()) {

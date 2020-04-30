@@ -127,6 +127,27 @@ void WeaponSelect::handleEvent(Event* e) {
 
 		this->box5->removeChild(0);
 		this->box5->addChild(placeholder5);
+		
+	}
+	if(type == "heal2") {
+		this->food +=10;
+		//cout << " landon" + to_string(this->food) + "test";
+		string fontPath = "./resources/fonts/arial.ttf";
+		Text* placeholder5 = new Text(fontPath, std::to_string(this->food), 12, SDL_Color{ 10, 10, 10 }, 40);
+
+		this->box5->removeChild(0);
+		this->box5->addChild(placeholder5);
+		
+	}
+
+	if(type == "newlevel") {
+		this->food +=10;
+		cout << " landon" + to_string(this->food) + "test";
+		string fontPath = "./resources/fonts/arial.ttf";
+		Text* placeholder5 = new Text(fontPath, std::to_string(this->food), 12, SDL_Color{ 10, 10, 10 }, 40);
+
+		this->box5->removeChild(0);
+		this->box5->addChild(placeholder5);
 	}
 	
 
