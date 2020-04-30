@@ -65,6 +65,8 @@ public:
 
 	void selectWeapon(int gun);
 
+	void areaAccess(int unlock);
+
 	void lightingSystem(bool on); //toggles on and off the torch light lighting system
 
 	/* direction */
@@ -89,6 +91,10 @@ public:
 	WeaponSelectEvent* playerHeal;
 
 	WeaponSelectEvent* updateAmmo;
+
+	WeaponSelectEvent* unlockPistol;
+	WeaponSelectEvent* unlockRifle;
+	WeaponSelectEvent* unlockShotgun;
 
 	bool canyonComplete = false;
 
