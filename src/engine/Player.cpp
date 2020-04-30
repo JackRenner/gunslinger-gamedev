@@ -44,7 +44,7 @@ Player::Player() : AnimatedSprite("Player"){
 	unlockRifle = new WeaponSelectEvent(WeaponSelectEvent::UNLOCK_RIFLE, this);
 	unlockShotgun = new WeaponSelectEvent(WeaponSelectEvent::UNLOCK_SHOTGUN, this);
 	
-	this->play("FaceUp");
+	this->play("FaceDown");
 	holding = 0;
 
 	//add blood splatter effect if player is hit

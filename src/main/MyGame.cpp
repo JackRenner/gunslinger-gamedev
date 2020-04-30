@@ -24,7 +24,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
     character = new Player();
 
-	character->position = { 200, 700 };
+	character->position = { 918, 644 };
 	character->scaleX = 0.8;
 	character->scaleY = 0.8;
 	character->pivot = { character->width / 2, character->height / 2 };
@@ -160,7 +160,12 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 				}
 			}
 		}
-		curTransition = transitions[0][0];
+		if(!character->canyonComplete){
+			//If you die in canyons you stay in canyons
+			curTransition = transitions[17][0];
+		} else {
+			curTransition = transitions[0][0];
+		}
 		transitionScene();
 	}
 
@@ -701,7 +706,18 @@ void MyGame::initLake() {
 }
 
 void MyGame::initLakeEnemies(Scene* s) {
-	if (s->id == "lake1" && !s->enemiesAdded) {
+	if(s->id == "lake1" && character->lakeComplete){
+		if (s->getChild("revolverText") == NULL){
+			revolverText = new TextBox(SDL_Point{470, 380}, 400, 100, 20, 20, 20, 255);
+			revolverText->id = "revolverText";
+			string revolverTextText = "You unlocked a REVOLVER! Press '3' to use it. Press 'R' to reload it.";
+			revolverText->addTextLine("./resources/fonts/west.otf", revolverTextText, 24, SDL_Color{255, 255, 255});
+			lake1->addChild(revolverText);
+			if (!revolverText->textLock){
+				revolverText->initBox();
+			}
+		}
+	} else if (s->id == "lake1" && !s->enemiesAdded) {
 		// wolves
 		if(s->getChild("LakeWolf1") != NULL){
 			wolf1LakeStill1->removeThis();
@@ -949,14 +965,69 @@ void MyGame::initCanyonEnemies(Scene* s) {
 			openingText->initBox();
 		if (!openingText->textLock)
 			openingText->closeBox();
+
+		wasdText = new TextBox(SDL_Point{ 690, 770 }, 200, 100, 20, 20, 20, 255);
+		string wasdTextText = "Use the W-A-S-D keys to move";
+		wasdText->addTextLine("./resources/fonts/west.otf", wasdTextText, 24, SDL_Color{ 255, 255, 255 });
+		canyon1->addChild(wasdText);
+		if(!wasdText->textLock){
+			wasdText->initBox();
+		}
+
+		knifeText = new TextBox(SDL_Point{ 0, 800 }, 150, 150, 20, 20, 20, 255);
+		string knifeTextText = "Press '2' to arm yourself with your knife!";
+		knifeText->addTextLine("./resources/fonts/west.otf", knifeTextText, 24, SDL_Color{ 255, 255, 255 });
+		canyon1->addChild(knifeText);
+		if(!knifeText->textLock){
+			knifeText->initBox();
+		}
+
 		s->enemiesAdded = true;
 		s->enemiesLeft = 0;
 	}
 	if (s->id == "canyon2" && !s->enemiesAdded) {
+		riverText = new TextBox(SDL_Point{ 800, 400 }, 200, 100, 20, 20, 20, 255);
+		string riverTextText = "Don't fall into the river, you'll drown...";
+		riverText->addTextLine("./resources/fonts/west.otf", riverTextText, 24, SDL_Color{ 255, 255, 255 });
+		canyon2->addChild(riverText);
+		if(!riverText->textLock){
+			riverText->initBox();
+		}
+
+		dashText = new TextBox(SDL_Point{ 140, 890 }, 200, 100, 20, 20, 20, 255);
+		string dashTextText = "Press 'shift' to dash!";
+		dashText->addTextLine("./resources/fonts/west.otf", dashTextText, 24, SDL_Color{ 255, 255, 255 });
+		canyon2->addChild(dashText);
+		if(!dashText->textLock){
+			dashText->initBox();
+		}
+
 		s->enemiesAdded = true;
 		s->enemiesLeft = 0;
 	}
 	if (s->id == "canyon3" && !s->enemiesAdded) {
+		if(s->getChild("throwText") == NULL){
+			throwText = new TextBox(SDL_Point{ 745, 450 }, 200, 110, 20, 20, 20, 255);
+			throwText->id = "throwText";
+			string throwTextText = "Use the arrow keys to throw the knife!";
+			throwText->addTextLine("./resources/fonts/west.otf", throwTextText, 24, SDL_Color{ 255, 255, 255 });
+			canyon3->addChild(throwText);
+			if(!throwText->textLock){
+				throwText->initBox();
+			}
+		}
+
+		if(s->getChild("whiskeyText") == NULL){
+			whiskeyText = new TextBox(SDL_Point{ 450, 900 }, 400, 110, 20, 20, 20, 255);
+			whiskeyText->id = "whiskeyText";
+			string whiskeyTextText = "If you get hurt, press 'F' to drink your whiskey and numb the pain! But be careful, you only have so much alcohol...";
+			whiskeyText->addTextLine("./resources/fonts/west.otf", whiskeyTextText, 24, SDL_Color{ 255, 255, 255 });
+			canyon3->addChild(whiskeyText);
+			if(!whiskeyText->textLock){
+				whiskeyText->initBox();
+			}
+		}
+
 		if(s->getChild("CanyonWolf1") != NULL){
 			wolf1Canyon3->removeThis();
 		}

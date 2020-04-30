@@ -140,6 +140,12 @@ private:
 	Scene* canyon3;
 
 	TextBox* openingText;
+	TextBox* wasdText;
+	TextBox* knifeText;
+	TextBox* riverText;
+	TextBox* dashText;
+	TextBox* throwText;
+	TextBox* whiskeyText;
 
 	// BADLANDS SCENES
 	Scene* badlands1;
@@ -185,6 +191,9 @@ private:
 	Creeper* creeper2LakeStill7;
 
 	KnifeGuy* knifeguy1LakeStill8;
+
+	//Text once revolver is unlocked
+	TextBox* revolverText;
 
 	// CANYON ENEMIES
 	Wolf* wolf1Canyon3;
