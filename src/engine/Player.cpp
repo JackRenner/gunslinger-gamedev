@@ -79,7 +79,7 @@ void Player::lightingSystem(bool on){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
-	cout << "POSITION: " << this->position.x << " " << this->position.y << endl;
+	//cout << "POSITION: " << this->position.x << " " << this->position.y << endl;
 	this->dispatchEvent(this->updateAmmo);
 	if (controls::pressShift()) {
 		if (rollpause==0){

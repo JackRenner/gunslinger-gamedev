@@ -24,7 +24,7 @@ GangLeader::GangLeader(Player* sayu, string id) : AnimatedSprite(id){
 void GangLeader::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 
-    cout << "SHOTS FIRED " << this->shots_fired << endl;
+    cout << "HEALTH: " << this->health << endl;
 	
 	//enemy is dead so clean it up
 	if(this->health == 0){

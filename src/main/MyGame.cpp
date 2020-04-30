@@ -37,9 +37,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 17;
+	room_state = 0;
 
-	this->setScene(canyon1);
+	this->setScene(townScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -716,7 +716,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		if(s->getChild("LakeGangThug1") != NULL){
 			thug1LakeStill2->removeThis();
 		}
-		thug1LakeStill2 = new GangThug((Player*)character, "LakeGangThug1");	
+		thug1LakeStill2 = new GangThug((Player*)character, "LakeGangThug1", false);	
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug1LakeStill2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -729,7 +729,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 		if(s->getChild("LakeGangThug2") != NULL){
 			thug2LakeStill2->removeThis();
 		}
-		thug2LakeStill2 = new GangThug((Player*)character, "LakeGangThug2");	
+		thug2LakeStill2 = new GangThug((Player*)character, "LakeGangThug2", false);	
 		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug2LakeStill2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1134,7 +1134,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		if(s->getChild("BadGangThug1") != NULL){
 			thug1Badlands2->removeThis();
 		}
-		thug1Badlands2 = new GangThug((Player*)character, "BadGangThug1");	
+		thug1Badlands2 = new GangThug((Player*)character, "BadGangThug1", false);	
 		thug1Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug1Badlands2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1147,7 +1147,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		if(s->getChild("BadGangThug2") != NULL){
 			thug2Badlands2->removeThis();
 		}
-		thug2Badlands2 = new GangThug((Player*)character, "BadGangThug2");	
+		thug2Badlands2 = new GangThug((Player*)character, "BadGangThug2", false);	
 		thug2Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug2Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug2Badlands2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1160,7 +1160,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		if(s->getChild("BadGangThug3") != NULL){
 			thug3Badlands2->removeThis();
 		}
-		thug3Badlands2 = new GangThug((Player*)character, "BadGangThug3");	
+		thug3Badlands2 = new GangThug((Player*)character, "BadGangThug3", false);	
 		thug3Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug3Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug3Badlands2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1173,7 +1173,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		if(s->getChild("BadGangThug4") != NULL){
 			thug4Badlands2->removeThis();
 		}
-		thug4Badlands2 = new GangThug((Player*)character, "BadGangThug4");	
+		thug4Badlands2 = new GangThug((Player*)character, "BadGangThug4", false);	
 		thug4Badlands2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug4Badlands2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug4Badlands2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1313,39 +1313,39 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		if(s->getChild("BadGangThug5") != NULL){
 			thug1Badlands5->removeThis();
 		}
-		thug1Badlands5 = new GangThug((Player*)character, "BadGangThug5");	
+		thug1Badlands5 = new GangThug((Player*)character, "BadGangThug5", false);	
 		thug1Badlands5->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1Badlands5->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug1Badlands5->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
 		thug1Badlands5->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
 		badlands5->addChild(thug1Badlands5);
-		thug1Badlands5->position = { 100, 300 };
+		thug1Badlands5->position = { 400, 300 };
 		thug1Badlands5->play("GangThugLeft");
 		gang_thugs[thug1Badlands5] = 1;
 
 		if(s->getChild("BadGangThug6") != NULL){
 			thug2Badlands5->removeThis();
 		}
-		thug2Badlands5 = new GangThug((Player*)character, "BadGangThug6");	
+		thug2Badlands5 = new GangThug((Player*)character, "BadGangThug6", false);	
 		thug2Badlands5->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug2Badlands5->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug2Badlands5->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
 		thug2Badlands5->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
 		badlands5->addChild(thug2Badlands5);
-		thug2Badlands5->position = { 100, 400 };
+		thug2Badlands5->position = { 300, 300 };
 		thug2Badlands5->play("GangThugLeft");
 		gang_thugs[thug2Badlands5] = 1;
 
 		if(s->getChild("BadGangThug7") != NULL){
 			thug3Badlands5->removeThis();
 		}
-		thug3Badlands5 = new GangThug((Player*)character, "BadGangThug7");	
+		thug3Badlands5 = new GangThug((Player*)character, "BadGangThug7", false);	
 		thug3Badlands5->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug3Badlands5->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug3Badlands5->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
 		thug3Badlands5->addAnimation("resources/enemies/", "GangThugDown", 1, 1, true);
 		badlands5->addChild(thug3Badlands5);
-		thug3Badlands5->position = { 200, 400 };
+		thug3Badlands5->position = { 500, 400 };
 		thug3Badlands5->play("GangThugLeft");
 		gang_thugs[thug3Badlands5] = 1;
 
@@ -1381,7 +1381,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		if(s->getChild("BadGangThug9") != NULL){
 			thug1Badlands6->removeThis();
 		}
-		thug1Badlands6 = new GangThug((Player*)character, "BadGangThug9");	
+		thug1Badlands6 = new GangThug((Player*)character, "BadGangThug9", false);	
 		thug1Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug1Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug1Badlands6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1394,7 +1394,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		if(s->getChild("BadGangThug10") != NULL){
 			thug2Badlands6->removeThis();
 		}
-		thug2Badlands6 = new GangThug((Player*)character, "BadGangThug10");	
+		thug2Badlands6 = new GangThug((Player*)character, "BadGangThug10", false);	
 		thug2Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug2Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug2Badlands6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1407,7 +1407,7 @@ void MyGame::initBadlandsEnemies(Scene* s) {
 		if(s->getChild("BadGangThug11") != NULL){
 			thug3Badlands6->removeThis();
 		}
-		thug3Badlands6 = new GangThug((Player*)character, "BadGangThug11");	
+		thug3Badlands6 = new GangThug((Player*)character, "BadGangThug11", false);	
 		thug3Badlands6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		thug3Badlands6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		thug3Badlands6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1605,7 +1605,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		if(s->getChild("gangthug1hideout6") != NULL){
 			gangthug1hideout6->removeThis();
 		}
-		gangthug1hideout6 = new GangThug(character, "gangthug1hideout6");
+		gangthug1hideout6 = new GangThug(character, "gangthug1hideout6", false);
 		gangthug1hideout6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug1hideout6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug1hideout6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1618,7 +1618,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		if(s->getChild("gangthug2hideout6") != NULL){
 			gangthug2hideout6->removeThis();
 		}
-		gangthug2hideout6 = new GangThug(character, "gangthug2hideout6");
+		gangthug2hideout6 = new GangThug(character, "gangthug2hideout6", false);
 		gangthug2hideout6->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug2hideout6->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug2hideout6->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1787,7 +1787,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		if(s->getChild("gangthug1hideout3") != NULL){
 			gangthug1hideout3->removeThis();
 		}
-		gangthug1hideout3 = new GangThug(character, "gangthug1hideout3");
+		gangthug1hideout3 = new GangThug(character, "gangthug1hideout3", false);
 		gangthug1hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug1hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug1hideout3->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1800,7 +1800,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		if(s->getChild("gangthug2hideout3") != NULL){
 			gangthug2hideout3->removeThis();
 		}
-		gangthug2hideout3 = new GangThug(character, "gangthug2hideout3");
+		gangthug2hideout3 = new GangThug(character, "gangthug2hideout3", false);
 		gangthug2hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug2hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug2hideout3->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1813,7 +1813,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		if(s->getChild("gangthug3hideout3") != NULL){
 			gangthug3hideout3->removeThis();
 		}
-		gangthug3hideout3 = new GangThug(character, "gangthug3hideout3");
+		gangthug3hideout3 = new GangThug(character, "gangthug3hideout3", false);
 		gangthug3hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug3hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug3hideout3->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1826,7 +1826,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		if(s->getChild("gangthug4hideout3") != NULL){
 			gangthug4hideout3->removeThis();
 		}
-		gangthug4hideout3 = new GangThug(character, "gangthug4hideout3");
+		gangthug4hideout3 = new GangThug(character, "gangthug4hideout3", false);
 		gangthug4hideout3->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug4hideout3->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug4hideout3->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1960,7 +1960,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		if(s->getChild("gangthug1hideout2") != NULL){
 			gangthug1hideout2->removeThis();
 		}
-		gangthug1hideout2 = new GangThug(character, "gangthug1hideout2");
+		gangthug1hideout2 = new GangThug(character, "gangthug1hideout2", false);
 		gangthug1hideout2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug1hideout2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug1hideout2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1971,9 +1971,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gang_thugs[gangthug1hideout2] = 1;
 
 		if(s->getChild("gangthug2hideout2") != NULL){
-			gangthug1hideout2->removeThis();
+			gangthug2hideout2->removeThis();
 		}
-		gangthug2hideout2 = new GangThug(character, "gangthug2hideout2");
+		gangthug2hideout2 = new GangThug(character, "gangthug2hideout2", false);
 		gangthug2hideout2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug2hideout2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug2hideout2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -1984,9 +1984,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gang_thugs[gangthug2hideout2] = 1;
 
 		if(s->getChild("gangthug3hideout2") != NULL){
-			gangthug1hideout2->removeThis();
+			gangthug3hideout2->removeThis();
 		}
-		gangthug3hideout2 = new GangThug(character, "gangthug3hideout2");
+		gangthug3hideout2 = new GangThug(character, "gangthug3hideout2", false);
 		gangthug3hideout2->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug3hideout2->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug3hideout2->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -2005,7 +2005,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		if(s->getChild("gangthug1hideout1") != NULL){
 			gangthug1hideout1->removeThis();
 		}
-		gangthug1hideout1 = new GangThug(character, "gangthug1hideout1");
+		gangthug1hideout1 = new GangThug(character, "gangthug1hideout1", false);
 		gangthug1hideout1->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug1hideout1->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug1hideout1->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -2018,7 +2018,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		if(s->getChild("gangthug2hideout1") != NULL){
 			gangthug2hideout1->removeThis();
 		}
-		gangthug2hideout1 = new GangThug(character, "gangthug2hideout1");
+		gangthug2hideout1 = new GangThug(character, "gangthug2hideout1", false);
 		gangthug2hideout1->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug2hideout1->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug2hideout1->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -2031,7 +2031,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		if(s->getChild("gangthug3hideout1") != NULL){
 			gangthug3hideout1->removeThis();
 		}
-		gangthug3hideout1 = new GangThug(character, "gangthug3hideout1");
+		gangthug3hideout1 = new GangThug(character, "gangthug3hideout1", false);
 		gangthug3hideout1->addAnimation("resources/enemies/", "GangThugUp", 1, 1, true);
 		gangthug3hideout1->addAnimation("resources/enemies/", "GangThugLeft", 1, 1, true);
 		gangthug3hideout1->addAnimation("resources/enemies/", "GangThugRight", 1, 1, true);
@@ -2047,7 +2047,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 }
 
 void MyGame::initTownEnemies(Scene* s) {
-	if (s->id == "townScene" && !s->enemiesAdded) {
+	if (s->id == "townScene" && !s->enemiesAdded && !character->finalBossDefeated) {
 		if(s->getChild("FinalBoss1") != NULL){
 			final_boss->removeThis();
 		}
@@ -2064,6 +2064,8 @@ void MyGame::initTownEnemies(Scene* s) {
 		
 		s->enemiesLeft=1;
 		s->enemiesAdded = true;
+	} else if (character->finalBossDefeated) {
+		cout << "TIME TO IMPLEMENT ANGRY TOWNSPEOPLE" << endl;
 	}
 }
 
@@ -2138,6 +2140,24 @@ void MyGame::enemyShootingLoops() {
 			iterate++;
 		}
 	}
+	for (std::map<GangMarksmanFree*, int>::iterator it=gang_marksmansfree.begin(); it!=gang_marksmansfree.end(); ++it) {
+		if (it->first->health == 0 ) {
+			it->first->clean = true;
+			gang_marksmansfree.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0) {
+			Benemy* benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "rifle", "Benemy"+to_string(iterate));
+			benemy3->distance = 20;
+			this->addChild(benemy3);
+			benemy3->position = {it->first->position.x, it->first->position.y };
+			benemy3->pivot = { benemy3->width / 2, benemy3->height / 2 };
+			benemy3->scaleX = 1;
+			benemy3->scaleY = 1;
+			it->first->shoot -= 200;
+			iterate++;
+		}
+	}
 	// ARROW GUY loop
 	for (std::map<ArrowGuy*, int>::iterator it=arrow_guys.begin(); it!=arrow_guys.end(); ++it) {
 		if (it->first->health == 0 ) {
@@ -2198,6 +2218,8 @@ void MyGame::enemyShootingLoops() {
 	// GANG LEADER loop
 	for (std::map<GangLeader*, int>::iterator it=final_bosses.begin(); it!=final_bosses.end(); ++it) {
 		if (it->first->health == 0 ) {
+			character->finalBossDefeated = true;
+			initTownEnemies(curScene);
 			it->first->clean = true;
 			final_bosses.erase(it->first);
 			break;
@@ -2336,7 +2358,8 @@ void MyGame::checkTransition() {
 		TransitionStruct cur = transitions[room_state][i];
 		if (cur.detection == TransitionDetection::POINT) {
 			if (checkInsidePoint(cur.point, character) && curScene->enemiesLeft == 0) {
-				if (curScene->id == "townScene") {
+				if (character->finalBattleUnlocked) {}
+				else if (curScene->id == "townScene") {
 					// checking to see if areas are unlocked
 					if ((cur.dest.x == 550 && character->lakeUnlocked) || (cur.dest.x == 406 && character->badlandsUnlocked)
 						|| (cur.dest.x == 80 && character->hideoutUnlocked)) {

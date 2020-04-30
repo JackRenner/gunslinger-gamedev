@@ -13,7 +13,7 @@
 using namespace std;
 
 //Here, "Sayu" is the player character
-GangThug::GangThug(Player* sayu, string id) : AnimatedSprite(id){
+GangThug::GangThug(Player* sayu, string id, bool townspeople) : AnimatedSprite(id){
 	this->type = "GangThug";
 	this->sayu = sayu;
 	this->width = 80; this->height = 100;

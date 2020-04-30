@@ -17,7 +17,7 @@ using namespace std;
 class GangThug : public AnimatedSprite{
 
 public:
-	GangThug(Player* sayu, string id);
+	GangThug(Player* sayu, string id, bool townspeople);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);

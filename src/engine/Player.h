@@ -107,7 +107,8 @@ public:
 	bool hideoutUnlocked = false;
 	bool hideoutComplete = false;
 
-	bool finalBattleUnlocked = false;
+	bool finalBattleUnlocked = true;
+	bool finalBossDefeated = false;
 
 private:
 	// int oldX=0, oldY=0;
