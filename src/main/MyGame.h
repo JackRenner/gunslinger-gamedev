@@ -19,6 +19,7 @@
 #include "../engine/GangMarksman.h"
 #include "../engine/GangMarksmanFree.h"
 #include "../engine/ShotgunGuy.h"
+#include "../engine/GangLeader.h"
 #include "../engine/Projectile.h"
 #include "../engine/Scene.h"
 #include "../engine/Sound.h"
@@ -86,6 +87,7 @@ public:
 	std::map<GangMarksmanFree*,int> gang_marksmansfree;
 	std::map<ArrowGuy*,int> arrow_guys;
 	std::map<ShotgunGuy*,int> shotgun_boss;
+	std::map<GangLeader*,int> final_bosses;
 
 private:
 
@@ -275,6 +277,10 @@ private:
 
 
 	int lakeEnemiesLeft = 12;
+
+	// Final Town Battle
+	GangLeader* final_boss;
+
 	// END ENEMIES CREATION
 
 	int iterate;

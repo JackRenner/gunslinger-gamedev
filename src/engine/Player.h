@@ -107,6 +107,8 @@ public:
 	bool hideoutUnlocked = false;
 	bool hideoutComplete = false;
 
+	bool finalBattleUnlocked = false;
+
 private:
 	// int oldX=0, oldY=0;
 

@@ -74,6 +74,10 @@ Game::Game(int windowWidth, int windowHeight){
 	ourCollisionSystem->watchForCollisions("ShotgunGuy", "Projectile");
 	ourCollisionSystem->watchForCollisions("Obstacle", "ShotgunGuy");
 	//ourCollisionSystem->setSpecialCollisionType("Sprite", "Sprite", 1);
+
+	// FINAL BOSS
+	ourCollisionSystem->watchForCollisions("GangLeader", "Projectile");
+	ourCollisionSystem->watchForCollisions("Well", "GangLeader");
 }
 
 Game::~Game(){

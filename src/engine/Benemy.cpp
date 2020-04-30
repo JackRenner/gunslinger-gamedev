@@ -14,6 +14,10 @@ Benemy::Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon, 
 	this->sayu = sayu;
 	this->targX = x;
 	this->source = weapon;
+	if (weapon == "knife") {
+		this->width = 30;
+		this->height = 30;
+	}
 	this->addAnimation("resources/weapons/", weapon, 1, 1, true);
 	this->play(weapon);
 
@@ -81,6 +85,10 @@ void Benemy::fire(){
     this->position.y += yComp;
 
 	if (timer % 5 == 0) {
+		if (this->source == "rifle") {
+			this->targX += xComp*2;
+			this->targY += yComp*2;
+		}
 		this->targX += xComp;
 		this->targY += yComp;
 	}

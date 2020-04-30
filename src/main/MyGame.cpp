@@ -296,13 +296,17 @@ void MyGame::setScene(Scene* scene) {
 		}
 		//all town scenes end with Scene
 		else if (scene->id.length() > 5 && scene->id.substr(scene->id.length() - 5, scene->id.length() - 1) == "Scene") {
-			initTownsPeople(scene);
+			if (!character->finalBattleUnlocked) {
+				initTownsPeople(scene);
+			} else {
+				initTownEnemies(scene);
+			}
 			// if (currentMusic != townMusic) {
 			// 	cout << "Start town music!" << endl;
 			// 	townMusic->play();
 			// 	currentMusic = townMusic;
 			// }
-		}
+		} // need to add in a proper if loop here
 		
 		if (scene->id == "hideout4" || scene->id == "hideout8") {
 			this->character->lightingSystem(true);
@@ -2042,6 +2046,27 @@ void MyGame::initHideoutEnemies(Scene *s) {
 	}
 }
 
+void MyGame::initTownEnemies(Scene* s) {
+	if (s->id == "townScene" && !s->enemiesAdded) {
+		if(s->getChild("FinalBoss1") != NULL){
+			final_boss->removeThis();
+		}
+		final_boss = new GangLeader((Player*)character, "FinalBoss1");	
+		final_boss->addAnimation("resources/enemies/", "GangLeaderUp", 1, 1, true);
+		final_boss->addAnimation("resources/enemies/", "GangLeaderLeft", 1, 1, true);
+		final_boss->addAnimation("resources/enemies/", "GangLeaderRight", 1, 1, true);
+		final_boss->addAnimation("resources/enemies/", "GangLeaderDown", 1, 1, true);
+		final_boss->addAnimation("resources/enemies/", "smoke", 50, 1, true);
+		townScene->addChild(final_boss);
+		final_boss->position = { 700, 600 };
+		final_boss->play("GangLeaderLeft");
+		final_bosses[final_boss] = 1;
+		
+		s->enemiesLeft=1;
+		s->enemiesAdded = true;
+	}
+}
+
 
 void MyGame::enemyShootingLoops() {
 	// GANG THUG LOOP
@@ -2170,6 +2195,81 @@ void MyGame::enemyShootingLoops() {
 			iterate++;
 		}
 	}
+	// GANG LEADER loop
+	for (std::map<GangLeader*, int>::iterator it=final_bosses.begin(); it!=final_bosses.end(); ++it) {
+		if (it->first->health == 0 ) {
+			it->first->clean = true;
+			final_bosses.erase(it->first);
+			break;
+		}
+		if(it->first->shoot > 0 && !it->first->dualWield) {
+			Benemy* benemyboss = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 8, "rifle", "Benemy"+to_string(iterate));
+			benemyboss->distance = 20;
+			this->addChild(benemyboss);
+			benemyboss->position = {it->first->position.x, it->first->position.y };
+			benemyboss->pivot = { benemyboss->width / 2, benemyboss->height / 2 };
+			benemyboss->scaleX = 1;
+			benemyboss->scaleY = 1;
+			if (it->first->shots_fired == 6) {
+				it->first->shoot -= 100;
+				it->first->shots_fired = 0;
+			} else{
+				it->first->shoot -= 75;
+				it->first->shots_fired ++;
+			}
+			iterate++;
+		}
+		if(it->first->shoot > 0 && it->first->dualWield) {
+			Benemy* benemybossUp = new Benemy((AnimatedSprite*)it->first, character->position.x + rand() % 50, character->position.y, 6, "rifle", "Benemy"+to_string(iterate));
+			Benemy* benemybossDown = new Benemy((AnimatedSprite*)it->first, character->position.x - rand() % 50, character->position.y, 6, "rifle", "Benemy"+to_string(iterate+1));
+			benemybossUp->distance = 20;
+			benemybossDown->distance = 20;
+			this->addChild(benemybossUp);
+			this->addChild(benemybossDown);
+			benemybossUp->position = {it->first->position.x, it->first->position.y };
+			benemybossDown->position = {it->first->position.x, it->first->position.y };
+			benemybossUp->pivot = { benemybossUp->width / 2, benemybossUp->height / 2 };
+			benemybossDown->pivot = { benemybossDown->width / 2, benemybossDown->height / 2 };			
+			benemybossUp->scaleX = 1;
+			benemybossDown->scaleX = 1;
+			benemybossUp->scaleY = 1;
+			benemybossDown->scaleY = 1;
+			if (it->first->shots_fired == 6) {
+				it->first->shoot -= 100;
+				it->first->shots_fired = 0;
+			} else{
+				it->first->shoot -= 75;
+				it->first->shots_fired ++;
+			}
+			iterate+=2;
+		}
+		if(it->first->knives){
+			// ensure dynamite is only thrown once
+			it->first->knives = false;
+			Benemy* benemyknifeUp = new Benemy((AnimatedSprite*)it->first, character->position.x + rand() % 100, character->position.y, 6, "knife", "Benemy"+to_string(iterate));
+			Benemy* benemyknife = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "knife", "Benemy"+to_string(iterate+1));
+			Benemy* benemyknifeDown = new Benemy((AnimatedSprite*)it->first, character->position.x - rand() % 100, character->position.y, 6, "knife", "Benemy"+to_string(iterate+2));
+			benemyknifeUp->distance = 20;
+			benemyknife->distance = 20;
+			benemyknifeDown->distance = 20;
+			//this->addChild(benemyknifeUp);
+			this->addChild(benemyknife);
+			//this->addChild(benemyknifeDown);
+			benemyknifeUp->position = {it->first->position.x, it->first->position.y };
+			benemyknife->position = {it->first->position.x, it->first->position.y };
+			benemyknifeDown->position = {it->first->position.x, it->first->position.y };
+			benemyknifeUp->pivot = { benemyknifeUp->width / 2, benemyknifeUp->height / 2 };
+			benemyknife->pivot = { benemyknifeUp->width / 2, benemyknifeUp->height / 2 };
+			benemyknifeDown->pivot = { benemyknifeDown->width / 2, benemyknifeDown->height / 2 };			
+			benemyknifeUp->scaleX = 1;
+			benemyknife->scaleX = 1;
+			benemyknifeDown->scaleX = 1;
+			benemyknifeUp->scaleY = 1;
+			benemyknife->scaleY = 1;
+			benemyknifeDown->scaleY = 1;
+			iterate+=3;
+		}
+	}
 }
 
 void MyGame::playerShooting(int gun, string dir){
@@ -2296,6 +2396,7 @@ void MyGame::initObstacles() {
 	string obs = "Obstacle";
 	string riv = "River";
 	string cac = "Cactus";
+	string well = "Well";
 
 	SDL_Rect rect = sceneInfo[room_state].bounds.bounds;
 	// initialize outer walls
@@ -2340,7 +2441,7 @@ void MyGame::initObstacles() {
 
 	if (s == townScene) {
 		// well
-		addDOC(s, obs, 80, 85, 1375, 570);
+		addDOC(s, well, 80, 85, 1375, 570);
 		// skybox
 		addDOC(s, obs, 3000, 300, 0, 0);
 	}

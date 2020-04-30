@@ -235,7 +235,7 @@ void Player::onCollision(DisplayObject* other){
 		hitByMelee("creeper");
 	} else if (other->type == "KnifeGuy") {
 		hitByMelee("knife");
-	} else if (other->type == "Obstacle") {
+	} else if (other->type == "Obstacle" || other->type == "Well") {
 		Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX, this->position.y - this->oldY, 0, 0);
 	} 
 	else if (other->type == "River") {
