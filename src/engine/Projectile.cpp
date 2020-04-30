@@ -92,9 +92,12 @@ void Projectile::onCollision(DisplayObject* other) {
 		p->knife_throws = 0;
 		this->clean = true;
 		this->removeThis();
-	} else if (other->type!="Player"){
+	} else if (other->type!="Player" && !hitSomething){
 		if(other->type == "ArrowGuy" || other->type == "Obstacle"){ //add an or here once collision detection with wall is feasible
 			this->play("wood_chip");
+		} else if (other->type == "River" && this->gun == "knife"){
+			this->player->knife_throws = 0;
+			this->removeThis();
 		} else {
 			this->play("blood_splatter");
 		}

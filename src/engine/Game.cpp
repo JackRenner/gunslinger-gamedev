@@ -70,6 +70,7 @@ Game::Game(int windowWidth, int windowHeight){
 	//ourCollisionSystem->watchForCollisions("Benemy", "Obstacle");
 	ourCollisionSystem->watchForCollisions("Obstacle", "Projectile");
 	ourCollisionSystem->watchForCollisions("River", "Player");
+	ourCollisionSystem->watchForCollisions("River", "Projectile");
 	ourCollisionSystem->watchForCollisions("Well", "Player");
 	// shotgun boss collision
 	ourCollisionSystem->watchForCollisions("ShotgunGuy", "Projectile");
