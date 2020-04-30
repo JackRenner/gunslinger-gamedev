@@ -24,6 +24,8 @@ struct Animation {
 	int curFrame;
 	bool fromSheet;
 	SDL_Rect** rects;
+	bool whenDoneSwitch = false;
+	string nameToSwitch;
 	bool whenDoneRemove = false; //removes object when animation plays through
 };
 
@@ -43,6 +45,7 @@ public:
 	void replay();
 	void stop();
 	void whenDoneRemove(string animName);
+	void whenDonePlay(string animOne, string animTwo); //two will play after one goes through
 	vector<string> parseXML(string spriteSheet, string xml);
 
 	virtual void update(set<SDL_Scancode> pressedKeys);

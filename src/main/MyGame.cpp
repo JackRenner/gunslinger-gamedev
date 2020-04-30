@@ -310,6 +310,9 @@ void MyGame::setScene(Scene* scene) {
 			this->character->lightingSystem(false);
 		}
 		
+		//ensure the character has a knife on scene change
+		character->knife_throws = 0;
+
 		initObstacles();
 	}
 }
@@ -2172,7 +2175,7 @@ void MyGame::enemyShootingLoops() {
 void MyGame::playerShooting(int gun, string dir){
 	if (gun == 1 && character->knife_throws > 0) {
 	} else if (gun == 1) {
-		bullet = new Projectile(dir,this->position, gun, "bullet"+to_string(projectileIdNum));
+		bullet = new Projectile(character, dir,this->position, gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->speed += 5;
@@ -2181,7 +2184,7 @@ void MyGame::playerShooting(int gun, string dir){
 		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 2 && character->revolver_shots > 5) {
 	} else if (character->gun == 2) {
-		bullet = new Projectile(dir,this->position, character->gun, "bullet"+to_string(projectileIdNum));
+		bullet = new Projectile(character, dir,this->position, character->gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		//foreground->addChild(bullet);
 		this->addChild(bullet);
@@ -2190,7 +2193,7 @@ void MyGame::playerShooting(int gun, string dir){
 		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 3 && character->shotgun_shots > 1) {
 	} else if (character->gun == 3) {
-		bullet = new Projectile(dir,character->position, gun, "bullet"+to_string(projectileIdNum));
+		bullet = new Projectile(character, dir,character->position, gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
@@ -2198,7 +2201,7 @@ void MyGame::playerShooting(int gun, string dir){
 		character->dispatchEvent(character->updateAmmo);
 	} else if (character->gun == 4 && character->rifle_shots > 4) {
 	} else if (character->gun == 4) {
-		bullet = new Projectile(dir,character->position, gun, "bullet"+to_string(projectileIdNum));
+		bullet = new Projectile(character, dir,character->position, gun, "bullet"+to_string(projectileIdNum));
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };

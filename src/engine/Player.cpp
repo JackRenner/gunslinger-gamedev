@@ -339,9 +339,9 @@ void Player::selectWeapon(int gun) {
 }
 
 void Player::areaAccess(int unlock) {
-	if (unlock == 0)
+	if (unlock == 0){
 		this->canyonComplete = true;
-	else if (unlock == 1) {
+	} else if (unlock == 1) {
 		this->lakeComplete = true;
 		this->dispatchEvent(unlockPistol);
 	}

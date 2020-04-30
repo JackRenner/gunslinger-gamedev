@@ -9,6 +9,9 @@
 #include "Sprite.h"
 #include "CollisionSystem.h"
 #include "Controls.h"
+#include "Player.h"
+
+class Player;
 
 using namespace std;
 
@@ -16,7 +19,7 @@ class Projectile : public AnimatedSprite{
 
 public:
 	Projectile();
-    Projectile(string face, SDL_Point position, int type, string id);
+    Projectile(Player* player, string face, SDL_Point position, int type, string id);
 	
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform &at);
@@ -46,7 +49,7 @@ public:
 
 
 private:
-
+	Player* player;
 	bool clean = false;
 };
 

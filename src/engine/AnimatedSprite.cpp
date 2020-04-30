@@ -152,6 +152,16 @@ void AnimatedSprite::whenDoneRemove(string animName){
     }
 }
 
+void AnimatedSprite::whenDonePlay(string animOne, string animTwo){
+    Animation* one = getAnimation(animOne);
+    Animation* two = getAnimation(animTwo);
+
+    if(one != NULL && two != NULL){
+        one->whenDoneSwitch = true;
+        one->nameToSwitch = animTwo;
+    }
+}
+
 void AnimatedSprite::update(set<SDL_Scancode> pressedKeys) {
     Sprite::update(pressedKeys);
     if (playing) {
@@ -169,6 +179,8 @@ void AnimatedSprite::update(set<SDL_Scancode> pressedKeys) {
                     if(current->whenDoneRemove){
                         this->removeThis();
                         removed = true;
+                    } else if(current->whenDoneSwitch){
+                        this->play(current->nameToSwitch);
                     }
                 }
             }

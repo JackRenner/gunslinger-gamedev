@@ -16,8 +16,8 @@ Projectile::Projectile() : AnimatedSprite("Projectile"){
 
 }
 
-Projectile::Projectile(string face, SDL_Point position, int type, string id) : AnimatedSprite(id){
-
+Projectile::Projectile(Player* player, string face, SDL_Point position, int type, string id) : AnimatedSprite(id){
+	this->player = player;
 	this->type = "Projectile";
 
 	//code for blood splatter effect
@@ -80,10 +80,9 @@ Projectile::Projectile(string face, SDL_Point position, int type, string id) : A
 		
 	}
 
-	if(type != 1){
-		this->whenDoneRemove("blood_splatter");
-		this->whenDoneRemove("wood_chip");
-	}
+	
+	this->whenDoneRemove("blood_splatter");
+	this->whenDoneRemove("wood_chip");
 
 }
 
@@ -98,6 +97,9 @@ void Projectile::onCollision(DisplayObject* other) {
 			this->play("wood_chip");
 		} else {
 			this->play("blood_splatter");
+		}
+		if(this->gun == "knife"){
+			this->player->knife_throws = 0;
 		}
 		hitSomething = true;
 	}
@@ -153,6 +155,10 @@ void Projectile::update(set<SDL_Scancode> pressedKeys){
 			this->thrown = true;
 			this->speed = 0;
 			this->position = this->position;
+			if(hitSomething){
+				this->clean = true;
+				this->removeThis();
+			}
 		}else{
 			this->clean = true;
 			this->removeThis();
