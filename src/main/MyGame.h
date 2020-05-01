@@ -186,6 +186,11 @@ private:
 
 	ArrowGuy* arrow1LakeStill4;
 	ArrowGuy* arrow2LakeStill4;
+	ArrowGuy* arrow2LakeStill9;
+	ArrowGuy* arrow1LakeStill9;
+	ArrowGuy* arrow3LakeStill9;
+	ArrowGuy* arrow4LakeStill9;
+	
 
 	Creeper* creeper1LakeStill7;
 	Creeper* creeper2LakeStill7;

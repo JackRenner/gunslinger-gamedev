@@ -53,7 +53,7 @@ void Sheriff::update(set<SDL_Scancode> pressedKeys){
     } else if (!this->lastLine && !sayu->hideoutUnlocked && sayu->lakeComplete && sayu->badlandsComplete && !sayu->hideoutComplete && !sheriffText->textLock) {
         sheriffText->drawNextLine();
         sayu->hideoutUnlocked = true;
-    } else if (!this->lastLine && sayu->lakeComplete && sayu->badlandsComplete && sayu->hideoutComplete && !sayu->finalBossDefeated && !sheriffText->textLock) {
+    } else if (!this->lastLine && !sayu->finalBattleUnlocked && sayu->lakeComplete && sayu->badlandsComplete && sayu->hideoutComplete && !sayu->finalBossDefeated && !sheriffText->textLock) {
         sheriffText->drawNextLine();
 		sayu->finalBattleUnlocked = true;
     }

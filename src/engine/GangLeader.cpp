@@ -19,6 +19,16 @@ GangLeader::GangLeader(Player* sayu, string id) : AnimatedSprite(id){
 	this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
+
+	leaderText = new TextBox(SDL_Point{ 1500, 500 }, 300, 100, 220, 220, 220, 100);
+	vector<string> dialogue = {"", "Your knifes will no longer work on me, gunslinger!", "", "Don't you know where you're from? You were one of us!!!", "", "And you act like we are scum, when you are the worst of us."};
+    for (string line: dialogue) {
+        leaderText->addTextLine("./resources/fonts/west.otf", line, 24, SDL_Color{ 73, 43, 196 });
+	    this->addChild(leaderText);
+    }
+	leaderText->position = { -100, -250 };
+	leaderText->background->alpha = 0;
+	leaderText->initBox();
 }
 
 void GangLeader::update(set<SDL_Scancode> pressedKeys){
@@ -81,7 +91,7 @@ void GangLeader::update(set<SDL_Scancode> pressedKeys){
 		this->targY = this->sayu->position.y;
         charge();
         this->waitToReload ++;
-    } else if(this->state == 5){
+    } else if(this->state == 5 && !this->invincible){
         // go to well!
         this->targX = 1421;
         this->targY = 696;
@@ -144,6 +154,10 @@ void GangLeader::update(set<SDL_Scancode> pressedKeys){
     }
     else if(this->state == 5){
         if (this->invincible) {
+			if (this->timeInWell == 0 && !leaderText->textLock && leaderText->nextLine != leaderText->maxLine) {
+				leaderText->background->alpha = 100;
+				leaderText->drawNextLine();
+			}
             fire();
             if (this->timeInWell == 500) {
                 this->timeInWell = 0;
@@ -151,9 +165,15 @@ void GangLeader::update(set<SDL_Scancode> pressedKeys){
                 this->position = {1400, 800};
                 this->shots_fired = 0;
                 this->invincible = false;
+				this->knife_invincible = true;
                 this->alpha = this->oldAlpha;
-            }
-            this->timeInWell++;
+				if (leaderText->nextLine != leaderText->maxLine) {
+					leaderText->drawNextLine();
+					leaderText->background->alpha = 0;
+				}
+            } else {
+            	this->timeInWell++;
+			}
         }
     }
 
@@ -164,6 +184,12 @@ void GangLeader::update(set<SDL_Scancode> pressedKeys){
         this->dualWield = !this->dualWield;
     }
     this->waitToDualTimer ++;
+
+	// this will make him go back to well at 200 health intervals
+	if (this->health % 200 == 0) {
+		this->health --;
+		this->state=5;
+	}
 	
 	this->save();
 }
@@ -176,7 +202,7 @@ void GangLeader::onCollision(DisplayObject* other){
 			this->alpha -= 5;
 			if(this->health < 0) this->health = 0;
 		}else if (temp->gun == "knife" && temp->thrown) {
-		} else if(temp->gun == "knife") {
+		} else if(temp->gun == "knife" && !this->knife_invincible) {
 			this->health -= 50;
 			this->alpha -= 5;
 			if(this->health < 0) this->health = 0;
