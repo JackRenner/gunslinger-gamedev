@@ -1797,7 +1797,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperLeft", 1, 1, true);
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperRight", 1, 1, true);
 		creeper2hideout6->addAnimation("resources/enemies/", "CreeperDown", 1, 1, true);
-		creeper1hideout6->addAnimation("resources/enemies/", "Explode", 16, 1, true);
+		creeper2hideout6->addAnimation("resources/enemies/", "Explode", 16, 1, true);
 		hideout6->addChild(creeper2hideout6);
 		creeper2hideout6->position = {1260, 520};
 		creeper2hideout6->play("CreeperDown");
