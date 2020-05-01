@@ -22,7 +22,10 @@ Player::Player() : AnimatedSprite("Player"){
 	this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
 
-	this->addAnimation("resources/character/", "MoveLeft", 3, 1, true);
+	this->addAnimation("resources/character/", "MoveUp", 3, 6, true);
+	this->addAnimation("resources/character/", "MoveLeft", 3, 6, true);
+	this->addAnimation("resources/character/", "MoveRight", 3, 6, true);
+	this->addAnimation("resources/character/", "MoveDown", 3, 6, true);
 	// this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
 	// this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
 	// this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
@@ -87,25 +90,25 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	if (!transLock) {
 		if (controls::holdW()) {
 			this->dir = "Up";
-			this->play("FaceUp");
+			this->play("MoveUp");
 			this->position.y -= 4;
 			//this->position.y -= 10;
 		}
 		if (controls::holdS()) {
 			this->dir = "Down";
-			this->play("FaceDown");
+			this->play("MoveDown");
 			this->position.y += 4;
 			//this->position.y += 10;
 		}
 		if (controls::holdD()) {
 			this->dir = "Right";
-			this->play("FaceRight");
+			this->play("MoveRight");
 			this->position.x += 4;
 			//this->position.x += 10;
 		}
 		if (controls::holdA()) {
 			this->dir = "Left";
-			this->play("FaceLeft");
+			this->play("MoveLeft");
 			this->position.x -= 4;
 			//this->position.x -= 10;
 		}
