@@ -7,21 +7,16 @@
 #include <iostream>
 #include <string>
 
-class Sound{ 
 
+class Sound {
 public:
 	Sound(std::string filepath);
 	~Sound();
 
 	void playSFX();
 
-	//std::string cur_music = "town";
-
 private:
-	SDL_AudioSpec wavSpec;
-	Uint32 wavLength;
-	Uint8* wavBuffer;
-	SDL_AudioDeviceID deviceId;
+	Mix_Chunk* sound = NULL;
 };
 
 #endif

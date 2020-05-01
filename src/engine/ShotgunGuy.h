@@ -56,7 +56,6 @@ public:
     bool dynamite = false;
 
     Sound* shot_sound;
-    Sound* explosion;
 
 
 private:

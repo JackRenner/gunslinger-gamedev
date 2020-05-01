@@ -21,7 +21,6 @@ ShotgunGuy::ShotgunGuy(Player* sayu, string id) : AnimatedSprite(id){
 	this->pivot.y = this->height/2;
 
 	shot_sound = new Sound("./resources/sfx/double_barrel_shot.wav");
-	explosion = new Sound("./resources/sfx/DeathFlash.wav");
 }
 
 void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){

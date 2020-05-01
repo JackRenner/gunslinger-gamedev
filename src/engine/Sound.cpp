@@ -5,17 +5,13 @@ using namespace std;
 
 
 Sound::Sound(std::string filepath) {
-    SDL_LoadWAV(filepath.c_str(), &wavSpec, &wavBuffer, &wavLength);
-    deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+	sound = Mix_LoadWAV(filepath.c_str());
 }
 
-Sound::~Sound(){
-    SDL_CloseAudioDevice(deviceId);
-    SDL_FreeWAV(wavBuffer);
+Sound::~Sound() {
+	Mix_FreeChunk(sound);
 }
 
-void Sound::playSFX(){
-    SDL_ClearQueuedAudio(deviceId);
-    SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-    SDL_PauseAudioDevice(deviceId, 0);
+void Sound::playSFX() {
+	Mix_PlayChannel(-1, sound, 0);
 }
