@@ -1,0 +1,31 @@
+{
+    "scene_id": "MenuScene",s
+ "InformationBanner": {
+        "type": "Sprite",
+        "filepath": "./resources/Menus/Start_Screen_1.png",
+        "dimensions": [
+            400,
+            150
+        ],
+        "position": [
+            500,
+  	    500
+        ],
+        "pivot": [
+            200,
+            75
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    }
+	
+
+
+
+}

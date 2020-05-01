@@ -1,0 +1,27 @@
+{
+    "scene_id": "StartMenu",
+    "background": {
+        "type": "Sprite",
+        "filepath": "./resources/Menus/BangBangBanner",
+        "dimensions": [
+            1080,
+            1080
+        ],
+        "position": [
+            0,
+            0
+        ],
+        "pivot": [
+            0,
+            0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    }
+}
