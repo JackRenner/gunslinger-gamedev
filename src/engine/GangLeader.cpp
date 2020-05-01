@@ -172,6 +172,8 @@ void GangLeader::update(set<SDL_Scancode> pressedKeys){
 				if (leaderText->nextLine != leaderText->maxLine) {
 					leaderText->drawNextLine();
 					leaderText->background->alpha = 0;
+				} else {
+					leaderText->background->alpha = 0;
 				}
             } else {
             	this->timeInWell++;

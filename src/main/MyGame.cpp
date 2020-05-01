@@ -365,7 +365,7 @@ void MyGame::setScene(Scene* scene) {
 			 
 		} // need to add in a proper if loop here
 		
-		if (scene->id == "hideout4" || scene->id == "hideout8") {
+		if (scene->id == "hideout4") {
 			this->character->lightingSystem(true);
 		} else {
 			this->character->lightingSystem(false);
@@ -2277,6 +2277,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 
 void MyGame::initTownEnemies(Scene* s) {
 	if (s->id == "townScene" && !character->finalBossDefeated) {
+		if(s->getChild("walkingTownee1") != NULL) {
+			walkingTownee1->removeThis();
+		}
 		if(s->getChild("FinalBoss1") != NULL){
 			final_boss->removeThis();
 			final_bosses.erase(final_boss);
