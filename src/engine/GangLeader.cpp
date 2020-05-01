@@ -20,6 +20,9 @@ GangLeader::GangLeader(Player* sayu, string id) : AnimatedSprite(id){
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
 
+	shot_sound = new Sound("./resources/sfx/rifle_shot.wav");
+	knife_throw = new Sound("./resources/sfx/knife_throw.wav");
+
 	leaderText = new TextBox(SDL_Point{ 1500, 500 }, 300, 100, 220, 220, 220, 100);
 	vector<string> dialogue = {"", "Your knifes will no longer work on me, gunslinger!", "", "Don't you know where you're from? You were one of us!!!", "", "And you act like we are scum, when you are the worst of us."};
     for (string line: dialogue) {

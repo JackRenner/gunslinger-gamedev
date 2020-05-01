@@ -63,6 +63,7 @@ public:
 private:
     Player* sayu;
     Benemy* dirt;
+    Sound* explosion;
     
     int state = 0;
 

@@ -1,10 +1,4 @@
 #include "Creeper.h"
-#include "Player.h"
-#include "AnimatedSprite.h"
-#include "Benemy.h"
-#include "Sprite.h"
-#include "DisplayObjectContainer.h"
-#include "Controls.h"
 #include "../main/MyGame.h"
 #include <cstdlib>
 #include <math.h>
@@ -19,6 +13,7 @@ Creeper::Creeper(Player* sayu, string id) : AnimatedSprite(id){
 	this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
+	explosion = new Sound("./resources/sfx/DeathFlash.wav");
 }
 
 void Creeper::update(set<SDL_Scancode> pressedKeys){
@@ -126,8 +121,8 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 			//this->rotVel = 0;
 			this->targX = this->position.x;
 			this->targY = this->position.y;
-			Sound* new_sound = new Sound();
-			new_sound->playSFX();
+			Sound new_sound = Sound("./resources/sfx/DeathFlash.wav");
+			new_sound.playSFX();
 			this->play("Explode");
 		}
 	}
@@ -231,6 +226,7 @@ bool Creeper::isTargetReached(){
 }
 
 void Creeper::explode(){
+	explosion->playSFX();
 	if (this->waitToDelete > 100)
 		this->health = 0;
 	this->waitToDelete ++;

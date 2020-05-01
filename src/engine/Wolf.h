@@ -58,6 +58,7 @@ public:
 private:
     Player* sayu;
     Benemy* dirt;
+    Sound* bite;
     bool clean = false;
     int state = 0;
 

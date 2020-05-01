@@ -18,7 +18,7 @@ public:
 	void play();
 
 private:
-	Mix_Music * music;
+	Mix_Music * music = NULL;
 };
 
 #endif

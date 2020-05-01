@@ -60,6 +60,9 @@ public:
 
     bool invincible = false;
 
+    Sound* shot_sound;
+    Sound* knife_throw;
+
 
 private:
     Player* sayu;

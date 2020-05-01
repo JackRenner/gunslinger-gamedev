@@ -20,6 +20,8 @@ Wolf::Wolf(Player* sayu, string id) : AnimatedSprite(id){
 	this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
+
+	bite = new Sound("./resources/sfx/dog_bite.wav");
 }
 
 void Wolf::update(set<SDL_Scancode> pressedKeys){
@@ -166,6 +168,8 @@ void Wolf::onCollision(DisplayObject* other) {
 		lastId = other->id;
 	}
 	else if (other->type == "Player") {
+		if (((Player*)other)->wolfWaitToDamage > 40)
+			bite->playSFX();
 		if (this->position.x > this->oldX&& this->position.y > this->oldY)
 		{
 			Game::instance->ourCollisionSystem->resolveCollision(this, other, this->position.x - this->oldX - 10, this->position.y - this->oldY - 10, 0, 0);

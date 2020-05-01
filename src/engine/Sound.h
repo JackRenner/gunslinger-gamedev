@@ -5,26 +5,23 @@
 #include <SDL2/SDL_audio.h>
 #include <SDL2/SDL_mixer.h>
 #include <iostream>
+#include <string>
 
 class Sound{ 
 
 public:
-	Sound();
-	// Sound(string filepath, bool isMusic);
+	Sound(std::string filepath);
 	~Sound();
 
 	void playSFX();
-	void playMusic(std::string area);
 
 	//std::string cur_music = "town";
 
 private:
-    SDL_AudioSpec wavSpec;
-    Uint32 wavLength;
-    Uint8 *wavBuffer;
+	SDL_AudioSpec wavSpec;
+	Uint32 wavLength;
+	Uint8* wavBuffer;
 	SDL_AudioDeviceID deviceId;
-	Mix_Music * town_music;
-	Mix_Music * lakestill_music;
 };
 
 #endif

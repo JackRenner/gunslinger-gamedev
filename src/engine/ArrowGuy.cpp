@@ -19,6 +19,8 @@ ArrowGuy::ArrowGuy(Player* sayu, string id) : AnimatedSprite(id){
 	this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
+
+	shot_sound = new Sound("./resources/sfx/revolver_shot.wav");
 }
 
 void ArrowGuy::update(set<SDL_Scancode> pressedKeys){
