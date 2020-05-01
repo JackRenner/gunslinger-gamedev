@@ -70,8 +70,6 @@ void Benemy::save(ofstream &out){
 
 void Benemy::fire(){
 	
-    //std::cout << "CURRENT POSITION: " << this->position.x << " " << this->position.y <<"\n";
-    //std::cout << "TARGET POSITION: " << this->targX << " " << this->targY << "\n";
 	//increase velocity by accel
 	this->vel = std::min(this->vel, this->maxVel);
 

@@ -85,8 +85,6 @@ void Player::lightingSystem(bool on){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
-	cout << "POSITION: " << this->position.x << " " << this->position.y << endl;
-	cout << "DID YOU KILL THE TOWN YET? " << this->killedTheTown << endl;
 	this->dispatchEvent(this->updateAmmo);
 	if (controls::pressShift()) {
 		if (rollpause==0){
@@ -202,6 +200,8 @@ void Player::hitByProjectile(string gun){
 	} else if (gun == "dynamite") {
 		explosion->playSFX();
 		takeDamage(200);
+	} else if (gun == "finalrifle") {
+		takeDamage(75);
 	}
 }
 

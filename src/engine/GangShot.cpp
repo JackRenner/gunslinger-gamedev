@@ -114,7 +114,6 @@ void GangShot::update(set<SDL_Scancode> pressedKeys){
 			this->targX = this->position.x;
 			this->targY = this->position.y;
 		}
-		std::cout << dist << endl;
 	}
 	this->save();
 }

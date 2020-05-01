@@ -2583,7 +2583,7 @@ void MyGame::enemyShootingLoops() {
 			break;
 		}
 		else if(it->first->shoot > 0 && !it->first->dualWield) {
-			Benemy* benemyboss = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 8, "rifle", "Benemy"+to_string(iterate));
+			Benemy* benemyboss = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 8, "finalrifle", "Benemy"+to_string(iterate));
 			it->first->shot_sound->playSFX();
 			benemyboss->distance = 20;
 			this->addChild(benemyboss);
@@ -2601,8 +2601,8 @@ void MyGame::enemyShootingLoops() {
 			iterate++;
 		}
 		else if(it->first->shoot > 0 && it->first->dualWield) {
-			Benemy* benemybossUp = new Benemy((AnimatedSprite*)it->first, character->position.x + rand() % 50, character->position.y, 6, "rifle", "Benemy"+to_string(iterate));
-			Benemy* benemybossDown = new Benemy((AnimatedSprite*)it->first, character->position.x - rand() % 50, character->position.y, 6, "rifle", "Benemy"+to_string(iterate+1));
+			Benemy* benemybossUp = new Benemy((AnimatedSprite*)it->first, character->position.x + rand() % 50, character->position.y, 8, "finalrifle", "Benemy"+to_string(iterate));
+			Benemy* benemybossDown = new Benemy((AnimatedSprite*)it->first, character->position.x - rand() % 50, character->position.y, 8, "finalrifle", "Benemy"+to_string(iterate+1));
 			it->first->shot_sound->playSFX();
 			benemybossUp->distance = 20;
 			benemybossDown->distance = 20;
