@@ -326,6 +326,11 @@ private:
 
 	Music* lakeMusic;
 	Music* townMusic;
+	Music* badlandsMusic;
+	Music* canyonMusic;
+	Music* hideoutMusic;
+	Music* bossMusic;
+	Music* finaleMusic;
 
 	TweenJuggler* juggler;
 

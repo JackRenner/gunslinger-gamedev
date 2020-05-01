@@ -21,6 +21,11 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
 	townMusic = new Music("./resources/music/MoodyLoop.wav");
 	lakeMusic = new Music("./resources/music/lakestill_music.wav");
+	badlandsMusic = new Music("./resources/music/badlands_music.wav");
+	canyonMusic = new Music("./resources/music/canyon_music.wav");
+	hideoutMusic = new Music("./resources/music/hideout_music.wav");
+	bossMusic = new Music("./resources/music/boss_music.wav");
+	finaleMusic = new Music("./resources/music/finale_music.wav");
 
     character = new Player();
 
@@ -307,32 +312,48 @@ void MyGame::setScene(Scene* scene) {
 		this->addChild(curScene);
 		if (scene->id.substr(0,4) == "lake") {
 			initLakeEnemies(scene);
-			// if(currentMusic != lakeMusic){
-			// 	lakeMusic->play();
-			// 	currentMusic = lakeMusic;
-			// }
+			 if(currentMusic != lakeMusic){
+			 	lakeMusic->play();
+			 	currentMusic = lakeMusic;
+			 }
 		}
 		else if (scene->id.substr(0,4) == "badl") {
 			initBadlandsEnemies(scene);
+			if (currentMusic != badlandsMusic) {
+				badlandsMusic->play();
+				currentMusic = badlandsMusic;
+			}
 		}
 		else if (scene->id.substr(0,4) == "cany") {
 			initCanyonEnemies(scene);
+			if (currentMusic != canyonMusic) {
+				canyonMusic->play();
+				currentMusic = canyonMusic;
+			}
+		}
+		else if (scene == hideout8) {
+			bossMusic->play();
 		}
 		else if (scene->id.substr(0,4) == "hide") {
 			initHideoutEnemies(scene);
+			if (currentMusic != hideoutMusic) {
+				hideoutMusic->play();
+				currentMusic = hideoutMusic;
+			}
 		}
 		//all town scenes end with Scene
 		else if (scene->id.length() > 5 && scene->id.substr(scene->id.length() - 5, scene->id.length() - 1) == "Scene") {
 			if (!character->finalBattleUnlocked) {
 				initTownsPeople(scene);
+				if (currentMusic != townMusic) {
+					townMusic->play();
+					currentMusic = townMusic;
+				}
 			} else {
 				initTownEnemies(scene);
+				finaleMusic->play();
 			}
-			// if (currentMusic != townMusic) {
-			// 	cout << "Start town music!" << endl;
-			// 	townMusic->play();
-			// 	currentMusic = townMusic;
-			// }
+			 
 		} // need to add in a proper if loop here
 		
 		if (scene->id == "hideout4" || scene->id == "hideout8") {
