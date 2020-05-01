@@ -30,6 +30,7 @@ void ArrowGuy::update(set<SDL_Scancode> pressedKeys){
 		temp->enemiesLeft --;
 		this->removed = true;
 		this->removeThis();
+		return;
 	}
 
     // ENSURE ENEMIES FACE THE CORRECT DIRECTION //

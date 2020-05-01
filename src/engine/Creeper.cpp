@@ -35,6 +35,7 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 		Scene *temp = (Scene*) this->parent;
 		temp->enemiesLeft --;
 		this->removeThis();
+		return;
 	}
 
 

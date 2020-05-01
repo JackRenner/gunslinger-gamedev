@@ -38,6 +38,7 @@ void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 		temp->enemiesLeft --;
 		this->removed = true;
 		this->removeThis();
+		return;
 	}
 
 
