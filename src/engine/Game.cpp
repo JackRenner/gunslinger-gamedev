@@ -93,6 +93,7 @@ void Game::quitSDL(){
 	SDL_DestroyRenderer(Game::renderer);
 	SDL_DestroyWindow(window);
 	IMG_Quit();
+	Mix_CloseAudio();
 	SDL_Quit();
 }
 
@@ -101,7 +102,12 @@ void Game::initSDL(){
 	IMG_Init(IMG_INIT_PNG);
 	SDL_Init(SDL_INIT_AUDIO);
 
-	Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
+	//Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
+	int audio_rate = 22050;
+	Uint16 audio_format = AUDIO_S16SYS;
+	int audio_channels = 2;
+	int audio_buffers = 4096;
+	Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers);
 
 	window = SDL_CreateWindow("myGame",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->windowWidth, this->windowHeight, 0);
