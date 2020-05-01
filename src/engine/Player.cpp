@@ -191,6 +191,7 @@ void Player::hitByProjectile(string gun){
 	} else if (gun == "rifle") {
 		takeDamage(40);
 	} else if (gun == "dynamite") {
+		explosion->playSFX();
 		takeDamage(200);
 	}
 }
