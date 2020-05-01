@@ -11,6 +11,7 @@
 #include "Controls.h"
 #include "Player.h"
 #include "Benemy.h"
+#include "ui/TextBox.h"
 
 using namespace std;
 
@@ -43,7 +44,7 @@ public:
 
 	int shoot = 0;
 	/* Health and such */
-	int health = 500;
+	int health = 1000;
 
 	//iFrames
 	bool iFrames = false;
@@ -95,10 +96,13 @@ private:
     int waitToDual = rand() % 500 + 250;
 
     int timeInWell = 0;
+    bool knife_invincible = false;
 
     int oldAlpha = 255;
 
     bool removed = false;
+
+    TextBox* leaderText;
 
 
 };

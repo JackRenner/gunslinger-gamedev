@@ -37,9 +37,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 17;
+	room_state = 0;
 
-	this->setScene(canyon1);
+	this->setScene(townScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -2814,21 +2814,21 @@ void MyGame::initObstacles() {
 	}
 
 	if (s == hideout3) {
-		// // wall
-		// addDOC(s, obs, 1920, 350, 0, 0);
+		// wall
+		addDOC(s, obs, 1920, 350, 0, 0);
 
-		// // shelves
-		// addDOC(s, obs, 571, 236, 100, 165);
-		// addDOC(s, obs, 680, 82, 1161, 307);
+		// shelves
+		addDOC(s, obs, 571, 236, 100, 165);
+		addDOC(s, obs, 680, 82, 1161, 307);
 
-		// // tables
-		// addDOC(s, obs, 273, 163, 351, 478);
-		// addDOC(s, obs, 273, 163, 765, 810);
-		// addDOC(s, obs, 273, 163, 1158, 490);
-		// addDOC(s, obs, 273, 163, 1525, 810);
+		// tables
+		addDOC(s, obs, 273, 163, 351, 478);
+		addDOC(s, obs, 273, 163, 765, 810);
+		addDOC(s, obs, 273, 163, 1158, 490);
+		addDOC(s, obs, 273, 163, 1525, 810);
 
-		// // food bar
-		// addDOC(s, obs, 501, 94, 51, 909);
+		// food bar
+		addDOC(s, obs, 501, 94, 51, 909);
 	}
 
 	if (s == hideout4) {

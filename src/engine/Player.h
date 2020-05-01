@@ -110,7 +110,7 @@ public:
 	bool hideoutUnlocked = false;
 	bool hideoutComplete = false;
 
-	bool finalBattleUnlocked = false;
+	bool finalBattleUnlocked = true;
 	bool finalBossDefeated = false;
 
 	bool killTheTown = false;
