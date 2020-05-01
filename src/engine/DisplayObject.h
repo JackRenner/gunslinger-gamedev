@@ -71,6 +71,7 @@ public:
 
 	int getWidth();
 	int getHeight();
+	void hashID();
 
 	void setSourceRect(SDL_Rect* srcrect);
 

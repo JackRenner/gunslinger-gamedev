@@ -26,7 +26,7 @@ WeaponSelect::WeaponSelect() {
 	box2_unlock->height = 30;
 	box2_unlock->position = { 0, 80 };
 
-	box2_lock = new Sprite("box2_lock", "./resources/wepaons/locked.png");
+	box2_lock = new Sprite("box2_lock", "./resources/weapons/locked.png");
 	box2_lock->width = 40;
 	box2_lock->height = 30;
 	box2_lock->position = { 0, 80 };
@@ -36,7 +36,7 @@ WeaponSelect::WeaponSelect() {
 	box3_unlock->height = 30;
 	box3_unlock->position = { 0, 160 };
 
-	box3_lock = new Sprite("box3_lock", "./resources/wepaons/locked.png");
+	box3_lock = new Sprite("box3_lock", "./resources/weapons/locked.png");
 	box3_lock->width = 40;
 	box3_lock->height = 30;
 	box3_lock->position = { 0, 160 };
@@ -46,7 +46,7 @@ WeaponSelect::WeaponSelect() {
 	box4_unlock->height = 30;
 	box4_unlock->position = { 0, 120 };
 
-	box4_lock = new Sprite("box4_lock", "./resources/wepaons/locked.png");
+	box4_lock = new Sprite("box4_lock", "./resources/weapons/locked.png");
 	box4_lock->width = 40;
 	box4_lock->height = 30;
 	box4_lock->position = { 0, 120 };

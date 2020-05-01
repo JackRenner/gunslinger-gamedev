@@ -115,6 +115,7 @@ SDL_Point* Projectile::getGlobalHitbox(){
 	this->MyGlobalHitbox[1] = temp->transformPoint(10, 0);
 	this->MyGlobalHitbox[2] = temp->transformPoint(0, 10);
 	this->MyGlobalHitbox[3] = temp->transformPoint(10, 10);
+	delete temp;
 	return this->MyGlobalHitbox;
 }
 

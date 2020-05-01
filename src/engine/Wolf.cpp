@@ -236,6 +236,7 @@ SDL_Point* Wolf::getGlobalHitbox(){
 	// this->MyGlobalHitbox[1] = temp->transformPoint(this->width/4, -this->height/4);
 	// this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/4, this->height/4);
 	// this->MyGlobalHitbox[3] = temp->transformPoint(this->width/4, this->height/4);
+	delete temp;
 	return this->MyGlobalHitbox;
 }
 

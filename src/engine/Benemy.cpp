@@ -60,6 +60,7 @@ SDL_Point* Benemy::getGlobalHitbox(){
 	this->MyGlobalHitbox[1] = temp->transformPoint(40, 0);
 	this->MyGlobalHitbox[2] = temp->transformPoint(0, 40);
 	this->MyGlobalHitbox[3] = temp->transformPoint(40, 40);
+	delete temp;
 	return this->MyGlobalHitbox;
 }
 

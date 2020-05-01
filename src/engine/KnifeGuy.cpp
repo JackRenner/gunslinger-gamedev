@@ -194,6 +194,7 @@ SDL_Point* KnifeGuy::getGlobalHitbox(){
 	this->MyGlobalHitbox[1] = temp->transformPoint(this->width/2, -this->height/2);
 	this->MyGlobalHitbox[2] = temp->transformPoint(-this->width/2, this->height/2);
 	this->MyGlobalHitbox[3] = temp->transformPoint(this->width/2, this->height/2);
+	delete temp;
 	return this->MyGlobalHitbox;
 }
 

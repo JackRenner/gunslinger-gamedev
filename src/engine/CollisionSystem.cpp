@@ -43,11 +43,10 @@ void CollisionSystem:: update(){
           //cout << SecondObject->id;
           if(OneObject != SecondObject){
             if(collidesWith(OneObject, SecondObject)){
-                std::cout << "Detected Collision between ";
-                std::cout << OneObject->id;
-                std::cout << " And ";
-                std::cout << SecondObject->id << endl;
-                std::cout<< OneObject->position.x;
+                /*cout << "Detected Collision between ";
+                cout << OneObject->id;
+                cout << " And ";
+                cout << SecondObject->id << endl;*/
                 OneObject->onCollision(SecondObject);
                 SecondObject->onCollision(OneObject);
 

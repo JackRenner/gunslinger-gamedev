@@ -264,6 +264,7 @@ SDL_Point* Player::getGlobalHitbox(){
 	this->MyGlobalHitbox[1] = temp->transformPoint(80, 0);
 	this->MyGlobalHitbox[2] = temp->transformPoint(0, 80);
 	this->MyGlobalHitbox[3] = temp->transformPoint(80, 80);
+	delete temp;
 	return this->MyGlobalHitbox;
 }
 

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cmath>
 #include "Controls.h"
+#include <functional>
 
 
 #define PI 3.14159265
@@ -18,12 +19,12 @@ DisplayObject::DisplayObject(){
 	texture = NULL;
 	curTexture = NULL;
 
- this->MyGlobalHitbox = new SDL_Point[4];
+ 	this->MyGlobalHitbox = new SDL_Point[4];
 
- EventDispatcher* myEventDispatcher = new EventDispatcher();
- this->MyEventDispatcher = myEventDispatcher;
+ 	EventDispatcher* myEventDispatcher = new EventDispatcher();
+ 	this->MyEventDispatcher = myEventDispatcher;
 
-
+	hashID();
 
 }
 
@@ -75,6 +76,12 @@ void DisplayObject::loadTexture(string filepath){
 	setTexture(texture);
 }
 
+void DisplayObject::hashID(){
+	hash<int*> ptr_hash;
+	string hash_val = to_string(ptr_hash(&width));
+	this->id = hash_val;
+}
+
 void DisplayObject::loadRGBTexture(int red, int green, int blue){
 	image = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0x000000ff);
 	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, red, green, blue));
@@ -88,7 +95,7 @@ void DisplayObject::setTexture(SDL_Texture* t){
 }
 
 void DisplayObject::update(set<SDL_Scancode> pressedKeys){
-	SDL_Point* temp = this->getGlobalHitbox();
+	//SDL_Point* temp = this->getGlobalHitbox();
 }
 
 void DisplayObject::setSourceRect(SDL_Rect* srcrect){
@@ -198,6 +205,7 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 			this->MyGlobalHitbox[1] = temp->transformPoint(this->width, 0);
 			this->MyGlobalHitbox[2] = temp->transformPoint(0, this->height);
 			this->MyGlobalHitbox[3] = temp->transformPoint(this->width, this->height);
+			delete temp; //TODO check if this fixes memory issue
 			return this->MyGlobalHitbox;
 		}
 
