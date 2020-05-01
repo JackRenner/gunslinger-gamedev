@@ -7,6 +7,7 @@
 #include "../engine/Player.h"
 #include "../engine/Benemy.h"
 #include "MyGame.h"
+#include "SDL2/SDL_mixer.h"
 
 using namespace std;
 
@@ -26,6 +27,11 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	hideoutMusic = new Music("./resources/music/hideout_music.wav");
 	bossMusic = new Music("./resources/music/boss_music.wav");
 	finaleMusic = new Music("./resources/music/finale_music.wav");
+
+	knifeThrow = new Sound("./resources/sfx/knife_throw.wav");
+	pistolShot = new Sound("./resources/sfx/revolver_shot.wav");
+	rifleShot = new Sound("./resources/sfx/rifle_shot.wav");
+	shotgunShot = new Sound("./resources/sfx/double_barrel_shot.wav");
 
     character = new Player();
 
@@ -224,6 +230,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		}
 		if (controls::pressF() && character->health < 500) {
 			character->heal("whiskey");
+			character->drink->playSFX();
 			character->foodNum -=1;
 			character->selectWeapon(5);
 			//character->selectWeapon(6);
@@ -2287,6 +2294,7 @@ void MyGame::enemyShootingLoops() {
 		}
 		if(it->first->shoot > 0) {
 			Benemy* benemy = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "revolver", "Benemy"+to_string(iterate));
+			it->first->shot_sound->playSFX();
 			benemy->distance = 20;
 			this->addChild(benemy);
 			benemy->position = {it->first->position.x, it->first->position.y };
@@ -2312,6 +2320,7 @@ void MyGame::enemyShootingLoops() {
 		}
 		if(it->first->shoot > 0) {
 			Benemy* benemya = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun", "Benemy"+to_string(iterate));
+			it->first->shot_sound->playSFX();
 			benemya->distance = 20;
 			this->addChild(benemya);
 			benemya->position = {it->first->position.x, it->first->position.y };
@@ -2337,6 +2346,7 @@ void MyGame::enemyShootingLoops() {
 		}
 		if(it->first->shoot > 0) {
 			Benemy* benemy2 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "rifle", "Benemy"+to_string(iterate));
+			it->first->shot_sound->playSFX();
 			benemy2->distance = 20;
 			this->addChild(benemy2);
 			benemy2->position = {it->first->position.x, it->first->position.y };
@@ -2355,6 +2365,7 @@ void MyGame::enemyShootingLoops() {
 		}
 		if(it->first->shoot > 0) {
 			Benemy* benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "rifle", "Benemy"+to_string(iterate));
+			it->first->shot_sound->playSFX();
 			benemy3->distance = 20;
 			this->addChild(benemy3);
 			benemy3->position = {it->first->position.x, it->first->position.y };
@@ -2374,6 +2385,7 @@ void MyGame::enemyShootingLoops() {
 		}
 		if(it->first->shoot > 0) {
 			Benemy * benemy3 = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 5, "arrow", "Benemy"+to_string(iterate));
+			it->first->shot_sound->playSFX();
 			benemy3->distance = 20;
 			this->addChild(benemy3);
 			benemy3->position = {it->first->position.x, it->first->position.y };
@@ -2393,6 +2405,7 @@ void MyGame::enemyShootingLoops() {
 		}
 		if(it->first->shoot > 0) {
 			Benemy* benemyb = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "shotgun", "Benemy"+to_string(iterate));
+			it->first->shot_sound->playSFX();
 			benemyb->distance = 20;
 			this->addChild(benemyb);
 			benemyb->position = {it->first->position.x, it->first->position.y };
@@ -2433,6 +2446,7 @@ void MyGame::enemyShootingLoops() {
 		}
 		if(it->first->shoot > 0 && !it->first->dualWield) {
 			Benemy* benemyboss = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 8, "rifle", "Benemy"+to_string(iterate));
+			it->first->shot_sound->playSFX();
 			benemyboss->distance = 20;
 			this->addChild(benemyboss);
 			benemyboss->position = {it->first->position.x, it->first->position.y };
@@ -2451,6 +2465,7 @@ void MyGame::enemyShootingLoops() {
 		if(it->first->shoot > 0 && it->first->dualWield) {
 			Benemy* benemybossUp = new Benemy((AnimatedSprite*)it->first, character->position.x + rand() % 50, character->position.y, 6, "rifle", "Benemy"+to_string(iterate));
 			Benemy* benemybossDown = new Benemy((AnimatedSprite*)it->first, character->position.x - rand() % 50, character->position.y, 6, "rifle", "Benemy"+to_string(iterate+1));
+			it->first->shot_sound->playSFX();
 			benemybossUp->distance = 20;
 			benemybossDown->distance = 20;
 			this->addChild(benemybossUp);
@@ -2478,6 +2493,7 @@ void MyGame::enemyShootingLoops() {
 			Benemy* benemyknifeUp = new Benemy((AnimatedSprite*)it->first, character->position.x + rand() % 100, character->position.y, 6, "knife", "Benemy"+to_string(iterate));
 			Benemy* benemyknife = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 6, "knife", "Benemy"+to_string(iterate+1));
 			Benemy* benemyknifeDown = new Benemy((AnimatedSprite*)it->first, character->position.x - rand() % 100, character->position.y, 6, "knife", "Benemy"+to_string(iterate+2));
+			it->first->knife_throw->playSFX();
 			benemyknifeUp->distance = 20;
 			benemyknife->distance = 20;
 			benemyknifeDown->distance = 20;
@@ -2505,6 +2521,7 @@ void MyGame::playerShooting(int gun, string dir){
 	if (gun == 1 && character->knife_throws > 0) {
 	} else if (gun == 1) {
 		bullet = new Projectile(character, dir,this->position, gun, "bullet"+to_string(projectileIdNum));
+		knifeThrow->playSFX();
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->speed += 5;
@@ -2514,6 +2531,7 @@ void MyGame::playerShooting(int gun, string dir){
 	} else if (character->gun == 2 && character->revolver_shots > 5) {
 	} else if (character->gun == 2) {
 		bullet = new Projectile(character, dir,this->position, character->gun, "bullet"+to_string(projectileIdNum));
+		pistolShot->playSFX();
 		projectileIdNum++;
 		//foreground->addChild(bullet);
 		this->addChild(bullet);
@@ -2523,6 +2541,7 @@ void MyGame::playerShooting(int gun, string dir){
 	} else if (character->gun == 3 && character->shotgun_shots > 1) {
 	} else if (character->gun == 3) {
 		bullet = new Projectile(character, dir,character->position, gun, "bullet"+to_string(projectileIdNum));
+		shotgunShot->playSFX();
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };
@@ -2531,6 +2550,7 @@ void MyGame::playerShooting(int gun, string dir){
 	} else if (character->gun == 4 && character->rifle_shots > 4) {
 	} else if (character->gun == 4) {
 		bullet = new Projectile(character, dir,character->position, gun, "bullet"+to_string(projectileIdNum));
+		rifleShot->playSFX();
 		projectileIdNum++;
 		this->addChild(bullet);
 		bullet->position = { character->position.x - character->pivot.x, character->position.y - character->pivot.y };

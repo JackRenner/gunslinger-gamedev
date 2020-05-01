@@ -13,6 +13,7 @@
 #include "ui/HealthEvent.h"
 #include "ui/WeaponSelectEvent.h"
 #include "Game.h"
+#include "Sound.h"
 
 using namespace std;
 
@@ -115,11 +116,19 @@ public:
 
 	bool killTheTown = false;
 
+	Sound* grunt;
+	Sound* drink;
+
+	// bit of a strange hack, need this so Benemy can have access to it
+	Sound* explosion;
+
+	int wolfWaitToDamage = 0;
+
 private:
 	// int oldX=0, oldY=0;
 
 	// int _jumpVel = -15;s
-	int wolfWaitToDamage = 0;
+
 	int knifeWaitToDamage = 0;
 
 	bool ableToBuy = false;

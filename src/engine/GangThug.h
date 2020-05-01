@@ -59,6 +59,8 @@ public:
     int shots_fired = 0;
     bool clean = false;
 
+    Sound* shot_sound;
+
 
 private:
     Player* sayu;

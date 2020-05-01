@@ -19,6 +19,9 @@ GangLeader::GangLeader(Player* sayu, string id) : AnimatedSprite(id){
 	this->width = 80; this->height = 100;
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
+
+	shot_sound = new Sound("./resources/sfx/rifle_shot.wav");
+	knife_throw = new Sound("./resources/sfx/knife_throw.wav");
 }
 
 void GangLeader::update(set<SDL_Scancode> pressedKeys){

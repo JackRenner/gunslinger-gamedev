@@ -61,7 +61,7 @@ DisplayObject::DisplayObject(string id, int red, int green, int blue){
 
 DisplayObject::~DisplayObject(){
 	//TODO: Get this freeing working
-	//if(image != NULL) SDL_FreeSurface(image);
+	if(image != NULL) SDL_FreeSurface(image);
 	if(texture != NULL) SDL_DestroyTexture(texture);
 	if(MyGlobalHitbox!= NULL){
 		free(MyGlobalHitbox);

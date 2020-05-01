@@ -24,6 +24,8 @@ GangThug::GangThug(Player* sayu, string id, bool townspeople) : AnimatedSprite(i
 	} else {
 		this->animation = "GangThug";
 	}
+
+	shot_sound = new Sound("./resources/sfx/revolver_shot.wav");
 }
 
 void GangThug::update(set<SDL_Scancode> pressedKeys){

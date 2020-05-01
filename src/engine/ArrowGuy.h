@@ -53,11 +53,13 @@ public:
 	int numIFrames = 0;
 
     bool clean = false;
+    Sound* shot_sound;
 
 
 private:
     Player* sayu;
     Benemy* dirt;
+
     int state = 0;
 
     int targX = 0;

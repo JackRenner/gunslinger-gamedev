@@ -15,6 +15,10 @@ using namespace std;
 Player::Player() : AnimatedSprite("Player"){
 
 	this->type = "Player";
+
+	grunt = new Sound("./resources/sfx/grunt.wav");
+	drink = new Sound("./resources/sfx/gulp.wav");
+	explosion = new Sound("./resources/sfx/DeathFlash.wav");
 	
 	
 	this->addAnimation("resources/character/", "FaceUp", 1, 1, true);
@@ -188,8 +192,6 @@ void Player::hitByProjectile(string gun){
 		takeDamage(40);
 	} else if (gun == "dynamite") {
 		takeDamage(200);
-		Sound* new_sound = new Sound();
-		new_sound->playSFX();
 	}
 }
 
@@ -281,6 +283,7 @@ void Player::healPlayer(string method){
 }
 
 void Player::takeDamage(int damage){
+	grunt->playSFX();
 	this->bloodSplatter->alpha = 255;
 	this->bloodSplatter->replay();
 	if(this->health > 0){

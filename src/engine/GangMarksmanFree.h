@@ -52,6 +52,8 @@ public:
 	int iFrameCount = 0;
 	int numIFrames = 0;
 
+    Sound* shot_sound;
+
 private:
     Player* sayu;
     Benemy* dirt;

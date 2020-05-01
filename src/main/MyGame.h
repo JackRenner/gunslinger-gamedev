@@ -332,6 +332,11 @@ private:
 	Music* bossMusic;
 	Music* finaleMusic;
 
+	Sound* knifeThrow;
+	Sound* pistolShot;
+	Sound* shotgunShot;
+	Sound* rifleShot;
+
 	TweenJuggler* juggler;
 
 	vector<vector<TransitionStruct>> transitions;

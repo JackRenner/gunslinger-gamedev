@@ -55,6 +55,9 @@ public:
     int state = 0;
     bool dynamite = false;
 
+    Sound* shot_sound;
+    Sound* explosion;
+
 
 private:
     Player* sayu;
