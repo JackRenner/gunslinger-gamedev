@@ -40,8 +40,9 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 		return;
 	}
 
-	this->scaleX = 0.75;
-	this->scaleY = 0.75;
+	this->townspeopleText->scaleX=2;
+	this->scaleX = 0.48;
+	this->scaleY = 0.90;
 	if (abs(this->position.x - sayu->position.x) > abs(this->position.y - sayu->position.y)) {
 		if (this->position.x - sayu->position.x > 0) {
 			this->play("storekeeperLeft");
