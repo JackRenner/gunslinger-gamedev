@@ -2067,7 +2067,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
 		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
 		hideout3->addChild(gangmarksmanfree1hideout3);
-		gangmarksmanfree1hideout3->position = {1300, 550};
+		gangmarksmanfree1hideout3->position = {1600, 450};
 		gangmarksmanfree1hideout3->play("GangMarksmanRight");
 		gang_marksmans[gangmarksmanfree1hideout3] = 1;
 
@@ -2081,7 +2081,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
 		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
 		hideout3->addChild(gangmarksmanfree2hideout3);
-		gangmarksmanfree2hideout3->position = {1400,470};
+		gangmarksmanfree2hideout3->position = {1400,650};
 		gangmarksmanfree2hideout3->play("GangMarksmanDown");
 		gang_marksmans[gangmarksmanfree2hideout3] = 1;
 
