@@ -134,9 +134,12 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		}
 		testint2 = 1;
 	}
-	if (curScene->id == "hideout8" && curScene->enemiesLeft == 0) {
+	if (curScene->id == "hideout7") {
 		character->areaAccess(3);
 		character->removeEventListener(selection, WeaponSelectEvent::UNLOCK_SHOTGUN);
+	}
+	if (curScene->id == "hideout8" && curScene->enemiesLeft == 0) {
+		character->areaAccess(4);
 		if(testint3 == 0) {
 			character->foodNum += 10;
 			character->selectWeapon(6);
@@ -398,15 +401,15 @@ void MyGame::enforceCameraBounds() {
 		if (gameCamera.x < upper_left.x)
 			gameCamera.x = upper_left.x;
 	}
-	// check upper bound
-	if (room.check_up) {
-		if (gameCamera.y < upper_left.y)
-			gameCamera.y = upper_left.y;
-	}
 	// check lower bound
 	if (room.check_down) {
 		if (gameCamera.y + gameCamera.viewportHeight > lower_right.y)
 			gameCamera.y = lower_right.y - gameCamera.viewportHeight;
+	}
+	// check upper bound
+	if (room.check_up) {
+		if (gameCamera.y < upper_left.y)
+			gameCamera.y = upper_left.y;
 	}
 }
 

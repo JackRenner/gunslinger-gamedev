@@ -360,7 +360,9 @@ void Player::areaAccess(int unlock) {
 		this->dispatchEvent(unlockRifle);
 	}
 	else if (unlock == 3) {
-		this->hideoutComplete = true;
 		this->dispatchEvent(unlockShotgun);
+	}
+	else if (unlock == 4) {
+		this->hideoutComplete = true;
 	}
 }
