@@ -50,6 +50,7 @@ public:
 	int shotgun_shots = 0;
 	int rifle_shots = 0;
 	int foodNum = 5;
+	int movenum=0;
 
 	void hitByProjectile(string gun);
 

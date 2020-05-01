@@ -82,35 +82,70 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	if (controls::pressShift()) {
 		if (rollpause==0){
 			rollcount=10;
+			cout << "Add roll count" << endl;
 		}
+		cout << "Pressed Shift" << endl;
 	}
 	AnimatedSprite::update(pressedKeys);	
 	controls::update(pressedKeys);
 
 	if (!transLock) {
 		if (controls::holdW()) {
-			this->dir = "Up";
-			this->play("MoveUp");
+			if(movenum!=1){
+				this->dir = "Up";
+				this->play("MoveUp");
+				}
+			movenum=1;
 			this->position.y -= 4;
 			//this->position.y -= 10;
 		}
 		if (controls::holdS()) {
+			if(movenum!=2){
 			this->dir = "Down";
 			this->play("MoveDown");
+			}
+			movenum=2;
 			this->position.y += 4;
 			//this->position.y += 10;
 		}
 		if (controls::holdD()) {
+			if(movenum!=3){
 			this->dir = "Right";
 			this->play("MoveRight");
+			}
+			movenum=3;
 			this->position.x += 4;
 			//this->position.x += 10;
 		}
 		if (controls::holdA()) {
+			if(movenum!=4){
 			this->dir = "Left";
 			this->play("MoveLeft");
+			}
+			movenum=4;
 			this->position.x -= 4;
 			//this->position.x -= 10;
+		}
+		if (!controls::holdW()) {
+			if (!controls::holdS()) {
+				if (!controls::holdD()) {
+					if (!controls::holdA()) {
+						if(this->dir=="Up"){
+							this->play("FaceUp");
+						}
+						if(this->dir=="Down"){
+							this->play("FaceDown");
+						}
+						if(this->dir=="Right"){
+							this->play("FaceRight");
+						}
+						if(this->dir=="Left"){
+							this->play("FaceLeft");
+						}
+						movenum=0;
+					}
+				}
+			}
 		}
 		// } else {
 		// 	this->play("Face"+this->dir);
@@ -132,6 +167,7 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 			this->play("FaceLeft");
 		}
 	}
+	/*
 	if (this->rollcount>0){
 		rollpause=200;
 		if (this->dir == "Up"){
@@ -152,6 +188,7 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	if(rollpause>0){
 	rollpause-=5;
 	}
+	*/
 
 	//Allows wolves to nip
 	this->wolfWaitToDamage++;
@@ -337,6 +374,8 @@ void Player::draw(AffineTransform &at){
 	if(rollpause>0){
 	rollpause-=5;
 	}
+	cout << "Count:" << rollcount << endl;
+	cout << "Pause:" << rollpause << endl;
 }
 
 
