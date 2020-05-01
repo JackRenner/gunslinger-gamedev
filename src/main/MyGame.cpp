@@ -333,6 +333,7 @@ void MyGame::setScene(Scene* scene) {
 		}
 		else if (scene == hideout8) {
 			bossMusic->play();
+			initHideoutEnemies(scene);
 		}
 		else if (scene->id.substr(0,4) == "hide") {
 			initHideoutEnemies(scene);
@@ -1707,6 +1708,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 			boss_1->removeThis();
 			shotgun_boss.erase(boss_1);
 		}
+		cout << "SHOULD BE WORKING...." << endl;
 		boss_1 = new ShotgunGuy((Player*)character, "Boss1");	
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyUp", 1, 1, true);
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyLeft", 1, 1, true);
@@ -2687,6 +2689,13 @@ void MyGame::checkTransition() {
 						transitionScene();
 						break;
 					} else if (cur.point.y < 600) { // this means it's a transition to one of the buildings
+						curTransition = cur;
+						transitionScene();
+						break;
+					}
+				} else if (curScene->id == "hideout7" && cur.dest.x == 598){
+					// checking to make sure enemies are dead in rest of level
+					if (hideout5->enemiesLeft == 0 && hideout6->enemiesLeft == 0) {
 						curTransition = cur;
 						transitionScene();
 						break;
