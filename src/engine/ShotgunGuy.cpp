@@ -64,26 +64,21 @@ void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
     //state 5 = smoke bomb and relocate
 	
 	if(this->state == 0){
-        cout << "init state" << endl;
 		
 	}
 	else if(this->state == 1){
-        cout << "state 1" << endl;
 		
 	}
 	else if(this->state == 2){
-        cout << "state 2" << endl;
         fire();
 	}
 	else if(this->state == 3){
-        cout << "state 3" << endl;
         // state where he moves towards player
 		charge();
 		this->targX = this->sayu->position.x;
 		this->targY = this->sayu->position.y;
 	}
     else if(this->state == 4){
-        cout << "state 4" << endl;
         // charge();
 		// this->targX = this->sayu->position.x + rand() % 100 + 100; 
 		// this->targY = this->sayu->position.y + rand() % 100 + 100;

@@ -19,8 +19,6 @@ Creeper::Creeper(Player* sayu, string id) : AnimatedSprite(id){
 void Creeper::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	
-	//std::cout << sayu->position.x << " " << sayu->position.y << "\n";
-
 	//enemy is dead so clean it up
 	if(this->health == 0){
 		this->clean = true; //scene will clean it up
@@ -45,17 +43,14 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 		setPatrolRange();
 	}
 	else if(this->state == 1){
-		std::cout << "setting state 1" << endl;
 		patrol();
 	}
 	else if(this->state == 2){
-        std::cout << "charging\n";
 		// this->targX = sayu->x;
 		// this->targY = sayu->y;
 		charge();
 	}
 	else if(this->state == 3){
-		std::cout << "explode" << endl;
 		// blow up
 		explode();
 	}

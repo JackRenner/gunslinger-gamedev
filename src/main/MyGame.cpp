@@ -214,7 +214,7 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 	this->enemyShootingLoops();
 
-	if (!transLock) {
+	if (!transLock && !character->killedTheTown) {
 		// gun select
 		if (controls::press1()) {
 			character->selectWeapon(0);
@@ -395,7 +395,7 @@ void MyGame::setScene(Scene* scene) {
 
 		} // need to add in a proper if loop here
 
-		if (scene->id == "hideout4" || scene->id == "hideout8") {
+		if (scene->id == "hideout4") {
 			this->character->lightingSystem(true);
 		} else {
 			this->character->lightingSystem(false);
@@ -2098,7 +2098,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
 		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
 		hideout3->addChild(gangmarksmanfree1hideout3);
-		gangmarksmanfree1hideout3->position = {1300, 550};
+		gangmarksmanfree1hideout3->position = {1550, 550};
 		gangmarksmanfree1hideout3->play("GangMarksmanRight");
 		gang_marksmans[gangmarksmanfree1hideout3] = 1;
 
@@ -2112,7 +2112,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
 		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
 		hideout3->addChild(gangmarksmanfree2hideout3);
-		gangmarksmanfree2hideout3->position = {1400,470};
+		gangmarksmanfree2hideout3->position = {1450,470};
 		gangmarksmanfree2hideout3->play("GangMarksmanDown");
 		gang_marksmans[gangmarksmanfree2hideout3] = 1;
 
@@ -2308,6 +2308,9 @@ void MyGame::initHideoutEnemies(Scene *s) {
 
 void MyGame::initTownEnemies(Scene* s) {
 	if (s->id == "townScene" && !character->finalBossDefeated) {
+		if(s->getChild("walkingTownee1") != NULL) {
+			walkingTownee1->removeThis();
+		}
 		if(s->getChild("FinalBoss1") != NULL){
 			final_boss->removeThis();
 			final_bosses.erase(final_boss);
@@ -2339,6 +2342,7 @@ void MyGame::initTownEnemies(Scene* s) {
 		townScene->addChild(sheriff2);
 		sheriff2->position = { 600, 589 };
 		sheriff2->play("SheriffDown");
+		s->enemiesAdded = false;
 	} else if (character->killTheTown && !s->enemiesAdded) {
 		if(s->getChild("angryTownspeople1") != NULL){
 			angryTownspeople1->removeThis();
@@ -2426,6 +2430,25 @@ void MyGame::initTownEnemies(Scene* s) {
 
 		s->enemiesAdded = true;
 		s->enemiesLeft=6;
+	} else if (s->enemiesLeft == 0 && character->killTheTown) {
+		character->killedTheTown = true;
+		healthBackground->alpha = 0;
+		playerHealth->alpha = 0;
+		ammoCounter->alpha = 0;
+		if (character->leftTown && this->rolandNotHere) {
+			rolandDeschain = new Sprite("TheGunslinger", "resources/friendlies/Roland.png");
+			townScene->addChild(rolandDeschain);
+			rolandDeschain->position = {2700, character->position.y - 150};
+
+			rolandText = new TextBox(SDL_Point{ 1500, 500 }, 300, 100, 220, 220, 220, 255);
+			string line = "I cannot believe I was too late. The man in black destroyed another town.";
+			rolandText->addTextLine("./resources/fonts/west.otf", line, 24, SDL_Color{ 73, 43, 196 });
+			rolandDeschain->addChild(rolandText);
+			rolandText->position = { -100, -100 };
+			rolandText->initBox();
+
+			this->rolandNotHere = false;
+		}
 	}
 }
 
@@ -2591,7 +2614,7 @@ void MyGame::enemyShootingLoops() {
 			break;
 		}
 		else if(it->first->shoot > 0 && !it->first->dualWield) {
-			Benemy* benemyboss = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 8, "rifle", "Benemy"+to_string(iterate));
+			Benemy* benemyboss = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 8, "finalrifle", "Benemy"+to_string(iterate));
 			it->first->shot_sound->playSFX();
 			benemyboss->distance = 20;
 			this->addChild(benemyboss);
@@ -2609,8 +2632,8 @@ void MyGame::enemyShootingLoops() {
 			iterate++;
 		}
 		else if(it->first->shoot > 0 && it->first->dualWield) {
-			Benemy* benemybossUp = new Benemy((AnimatedSprite*)it->first, character->position.x + rand() % 50, character->position.y, 6, "rifle", "Benemy"+to_string(iterate));
-			Benemy* benemybossDown = new Benemy((AnimatedSprite*)it->first, character->position.x - rand() % 50, character->position.y, 6, "rifle", "Benemy"+to_string(iterate+1));
+			Benemy* benemybossUp = new Benemy((AnimatedSprite*)it->first, character->position.x + rand() % 50, character->position.y, 8, "finalrifle", "Benemy"+to_string(iterate));
+			Benemy* benemybossDown = new Benemy((AnimatedSprite*)it->first, character->position.x - rand() % 50, character->position.y, 8, "finalrifle", "Benemy"+to_string(iterate+1));
 			it->first->shot_sound->playSFX();
 			benemybossUp->distance = 20;
 			benemybossDown->distance = 20;

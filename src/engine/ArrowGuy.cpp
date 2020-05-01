@@ -59,15 +59,12 @@ void ArrowGuy::update(set<SDL_Scancode> pressedKeys){
 	//state 5 = stunned
 	
 	if(this->state == 0){
-        //std::cout << "init\n";
 		setPatrolRange();
 	}
 	else if(this->state == 1){
-        //std::cout << "patrolling\n";
 		patrol();
 	}
 	else if(this->state == 4){
-        //std::cout << "post charging\n";		
         patrol();
 	}
 

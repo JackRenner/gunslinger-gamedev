@@ -115,6 +115,9 @@ public:
 	bool finalBossDefeated = false;
 
 	bool killTheTown = false;
+	bool killedTheTown = false;
+
+	bool leftTown = false;
 
 	Sound* grunt;
 	Sound* drink;

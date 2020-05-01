@@ -37,7 +37,6 @@ GangLeader::GangLeader(Player* sayu, string id) : AnimatedSprite(id){
 void GangLeader::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 
-    cout << "HEALTH: " << this->health << endl;
 	
 	//do the actual cleaning if necessary
 	if(this->clean){
@@ -171,6 +170,8 @@ void GangLeader::update(set<SDL_Scancode> pressedKeys){
                 this->alpha = this->oldAlpha;
 				if (leaderText->nextLine != leaderText->maxLine) {
 					leaderText->drawNextLine();
+					leaderText->background->alpha = 0;
+				} else {
 					leaderText->background->alpha = 0;
 				}
             } else {

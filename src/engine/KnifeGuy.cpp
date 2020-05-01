@@ -48,17 +48,14 @@ void KnifeGuy::update(set<SDL_Scancode> pressedKeys){
 		setPatrolRange();
 	}
 	else if(this->state == 1){
-		std::cout << "setting state 1" << endl;
 		patrol();
 	}
 	else if(this->state == 2){
-        std::cout << "charging\n";
 		// this->targX = sayu->x;
 		// this->targY = sayu->y;
 		charge();
 	}
 	else if(this->state == 3){
-		std::cout << "slash" << endl;
 		// strike with knife
 		slash();
 	}
