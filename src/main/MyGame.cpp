@@ -48,9 +48,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 1;
+	room_state = 17;
 
-	this->setScene(sheriffScene);
+	this->setScene(canyon1);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();

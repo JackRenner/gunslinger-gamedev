@@ -21,7 +21,7 @@ GangMarksman::GangMarksman(Player* sayu, string id) : AnimatedSprite(id){
 	this->pivot.x = this->width/2;
 	this->pivot.y = this->height/2;
 
-	shot_sound = new Sound("./sources/sfx/rifle_shot.wav");
+	shot_sound = new Sound("./resources/sfx/rifle_shot.wav");
 }
 
 void GangMarksman::update(set<SDL_Scancode> pressedKeys){
