@@ -85,7 +85,8 @@ void Player::lightingSystem(bool on){
 
 
 void Player::update(set<SDL_Scancode> pressedKeys){
-	//cout << "POSITION: " << this->position.x << " " << this->position.y << endl;
+	cout << "POSITION: " << this->position.x << " " << this->position.y << endl;
+	cout << "DID YOU KILL THE TOWN YET? " << this->killedTheTown << endl;
 	this->dispatchEvent(this->updateAmmo);
 	if (controls::pressShift()) {
 		if (rollpause==0){
@@ -95,7 +96,15 @@ void Player::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);	
 	controls::update(pressedKeys);
 
-	if (!transLock) {
+	if (this->killedTheTown) {
+		if (this->position.x >= 2975) {
+			this->leftTown = true;
+			this->alpha = 0;
+		} else {
+			this->position.x += 4;
+		}
+	}
+	if (!transLock && !this->killedTheTown) {
 		if (controls::holdW()) {
 			this->dir = "Up";
 			this->play("FaceUp");
@@ -224,6 +233,9 @@ void Player::hitByMelee(string enemy){
 //Called automatically by collision system when something collides with the player
 //our job is to simply react to that collision.
 void Player::onCollision(DisplayObject* other){
+	if (other->type == "Well" && this->killedTheTown) {
+		this->position.y += 4;
+	}
 	if (other->type == "Benemy") {
 		Benemy *temp = (Benemy*) other;
 		hitByProjectile(temp->source);

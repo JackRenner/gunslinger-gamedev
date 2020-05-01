@@ -123,6 +123,11 @@ private:
 	Sheriff* sheriff1;
 	Sheriff* sheriff2;
 
+	Sprite* rolandDeschain;
+	bool rolandNotHere = true;
+	TextBox* rolandText;
+
+
 	// LAKE STILL SCENES
 	Scene* lake1;
 	Scene* lake2;
