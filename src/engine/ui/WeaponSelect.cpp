@@ -110,10 +110,10 @@ void WeaponSelect::handleEvent(Event* e) {
 	else if (type == "select_2") {
 		newPos = 95;
 	}
-	else if (type == "select_3") {
+	else if (type == "select_4") {
 		newPos = 135;
 	}
-	else if (type == "select_4") {
+	else if (type == "select_3") {
 		newPos = 175;
 	}
 	moveSelect->animate(TweenableParams::POS_Y, selector->position.y, newPos, 5, TweenTransitions::EASEINCUBIC);

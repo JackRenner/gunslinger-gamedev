@@ -21,8 +21,8 @@ AffineTransform::~AffineTransform()
 void AffineTransform::cleanMatrix(double **m)
 {
 	for (int i = 0; i < 3; i++)
-		delete m[i];
-	//delete m;
+		delete[] m[i];
+	delete[] m;
 }
 
 /* Returns the identity matrix as an array */

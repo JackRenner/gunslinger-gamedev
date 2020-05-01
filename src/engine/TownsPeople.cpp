@@ -37,6 +37,7 @@ void TownsPeople::update(set<SDL_Scancode> pressedKeys){
 	//do the actual cleaning if necessary
 	if(this->clean){
 		this->removeThis();
+		return;
 	}
 
 	this->scaleX = 0.75;
