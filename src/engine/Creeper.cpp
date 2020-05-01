@@ -121,8 +121,8 @@ void Creeper::update(set<SDL_Scancode> pressedKeys){
 			//this->rotVel = 0;
 			this->targX = this->position.x;
 			this->targY = this->position.y;
-			Sound new_sound = Sound("./resources/sfx/DeathFlash.wav");
-			new_sound.playSFX();
+			Sound* explosion = new Sound("./resources/sfx/DeathFlash.wav");
+			explosion->playSFX();
 			this->play("Explode");
 		}
 	}

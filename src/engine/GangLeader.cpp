@@ -27,8 +27,8 @@ GangLeader::GangLeader(Player* sayu, string id) : AnimatedSprite(id){
 	vector<string> dialogue = {"", "Your knifes will no longer work on me, gunslinger!", "", "Don't you know where you're from? You were one of us!!!", "", "And you act like we are scum, when you are the worst of us."};
     for (string line: dialogue) {
         leaderText->addTextLine("./resources/fonts/west.otf", line, 24, SDL_Color{ 73, 43, 196 });
-	    this->addChild(leaderText);
     }
+	this->addChild(leaderText);
 	leaderText->position = { -100, -250 };
 	leaderText->background->alpha = 0;
 	leaderText->initBox();
@@ -168,7 +168,6 @@ void GangLeader::update(set<SDL_Scancode> pressedKeys){
                 this->position = {1400, 800};
                 this->shots_fired = 0;
                 this->invincible = false;
-				this->knife_invincible = true;
                 this->alpha = this->oldAlpha;
 				if (leaderText->nextLine != leaderText->maxLine) {
 					leaderText->drawNextLine();
@@ -204,13 +203,7 @@ void GangLeader::onCollision(DisplayObject* other){
 			this->health -= 20;
 			this->alpha -= 5;
 			if(this->health < 0) this->health = 0;
-		}else if (temp->gun == "knife" && temp->thrown) {
-		} else if(temp->gun == "knife" && !this->knife_invincible) {
-			this->health -= 50;
-			this->alpha -= 5;
-			if(this->health < 0) this->health = 0;
-			sayu->knife_throws = 0;
-		} else if (temp->gun == "shotgun") {
+		}else if (temp->gun == "shotgun") {
 			this->health -= 40;
 			this->alpha -= 5;
 			if(this->health < 0) this->health = 0;

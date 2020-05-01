@@ -25,8 +25,8 @@ Sheriff::Sheriff(Player* sayu, string id, vector<string> dialogue, bool hurtable
 
     for (string line: dialogue) {
         sheriffText->addTextLine("./resources/fonts/west.otf", line, 24, SDL_Color{ 255, 255, 255 });
-	    this->addChild(sheriffText);
     }
+	this->addChild(sheriffText);
 	sheriffText->position = { -100, -250 };
 	sheriffText->initBox();
     sayu->lakeUnlocked = true;

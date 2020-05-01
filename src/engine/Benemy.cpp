@@ -31,9 +31,10 @@ Benemy::Benemy(AnimatedSprite* sayu, int x, int y, int velocity, string weapon, 
 void Benemy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
 	if(isTargetReached()){
-		// weird hack, explosion is actually member of Player to avoid long Benemy construction times
-		if (this->source == "dynamite")
-			((Player*)this->sayu)->explosion->playSFX();
+		// cout << "just seeing something" << endl;
+		// // weird hack, explosion is actually member of Player to avoid long Benemy construction times
+		// if (this->source == "dynamite")
+		// 	((Player*)this->sayu)->explosion->playSFX();
 		clean = true;
 		AnimatedSprite::update(pressedKeys);
 		this->removeThis();

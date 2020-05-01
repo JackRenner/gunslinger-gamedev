@@ -26,7 +26,7 @@ Player::Player() : AnimatedSprite("Player"){
 	this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
 	this->addAnimation("resources/character/", "FaceDown", 1, 1, true);
 
-	this->addAnimation("resources/character/", "MoveLeft", 3, 1, true);
+	// this->addAnimation("resources/character/", "MoveLeft", 3, 1, true);
 	// this->addAnimation("resources/character/", "FaceLeft", 1, 1, true);
 	// this->addAnimation("resources/character/", "FaceRight", 1, 1, true);
 	// this->addAnimation("resources/character/", "FaceDown", 1, 1, true);

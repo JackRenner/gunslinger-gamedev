@@ -35,7 +35,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 
     character = new Player();
 
-	character->position = { 918, 644 };
+	character->position = { 600, 644 };
 	character->scaleX = 0.8;
 	character->scaleY = 0.8;
 	character->pivot = { character->width / 2, character->height / 2 };
@@ -48,9 +48,9 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	initBadlands();
 	initHideout();
 
-	room_state = 17;
+	room_state = 1;
 
-	this->setScene(canyon1);
+	this->setScene(sheriffScene);
 	this->addChild(foreground);
 	
 	juggler = TweenJuggler::getInstance();
@@ -143,7 +143,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 		}
 		testint3 = 1;
 	}
-
 	// code to reset scene
 	if (character->health <= 0) {
 		if(!character->canyonComplete){
@@ -281,7 +280,6 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			this->reloadTime ++;
 		}
 	}
-
 	Game::update(pressedKeys);
 	controls::update(pressedKeys);
 
@@ -1715,7 +1713,6 @@ void MyGame::initHideoutEnemies(Scene *s) {
 			boss_1->removeThis();
 			shotgun_boss.erase(boss_1);
 		}
-		cout << "SHOULD BE WORKING...." << endl;
 		boss_1 = new ShotgunGuy((Player*)character, "Boss1");	
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyUp", 1, 1, true);
 		boss_1->addAnimation("resources/enemies/", "ShotgunGuyLeft", 1, 1, true);
@@ -2067,7 +2064,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
 		gangmarksmanfree1hideout3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
 		hideout3->addChild(gangmarksmanfree1hideout3);
-		gangmarksmanfree1hideout3->position = {1130, 550};
+		gangmarksmanfree1hideout3->position = {1300, 550};
 		gangmarksmanfree1hideout3->play("GangMarksmanRight");
 		gang_marksmans[gangmarksmanfree1hideout3] = 1;
 
@@ -2081,7 +2078,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanRight", 1, 1, true);
 		gangmarksmanfree2hideout3->addAnimation("resources/enemies/", "GangMarksmanDown", 1, 1, true);
 		hideout3->addChild(gangmarksmanfree2hideout3);
-		gangmarksmanfree2hideout3->position = {1220,470};
+		gangmarksmanfree2hideout3->position = {1400,470};
 		gangmarksmanfree2hideout3->play("GangMarksmanDown");
 		gang_marksmans[gangmarksmanfree2hideout3] = 1;
 
@@ -2559,7 +2556,7 @@ void MyGame::enemyShootingLoops() {
 			final_bosses.erase(it->first);
 			break;
 		}
-		if(it->first->shoot > 0 && !it->first->dualWield) {
+		else if(it->first->shoot > 0 && !it->first->dualWield) {
 			Benemy* benemyboss = new Benemy((AnimatedSprite*)it->first, character->position.x, character->position.y, 8, "rifle", "Benemy"+to_string(iterate));
 			it->first->shot_sound->playSFX();
 			benemyboss->distance = 20;
@@ -2577,7 +2574,7 @@ void MyGame::enemyShootingLoops() {
 			}
 			iterate++;
 		}
-		if(it->first->shoot > 0 && it->first->dualWield) {
+		else if(it->first->shoot > 0 && it->first->dualWield) {
 			Benemy* benemybossUp = new Benemy((AnimatedSprite*)it->first, character->position.x + rand() % 50, character->position.y, 6, "rifle", "Benemy"+to_string(iterate));
 			Benemy* benemybossDown = new Benemy((AnimatedSprite*)it->first, character->position.x - rand() % 50, character->position.y, 6, "rifle", "Benemy"+to_string(iterate+1));
 			it->first->shot_sound->playSFX();
@@ -2602,7 +2599,7 @@ void MyGame::enemyShootingLoops() {
 			}
 			iterate+=2;
 		}
-		if(it->first->knives){
+		else if(it->first->knives){
 			// ensure dynamite is only thrown once
 			it->first->knives = false;
 			Benemy* benemyknifeUp = new Benemy((AnimatedSprite*)it->first, character->position.x + rand() % 100, character->position.y, 6, "knife", "Benemy"+to_string(iterate));
@@ -2699,8 +2696,8 @@ void MyGame::checkTransition() {
 	for (int i = 0; i < transitions[room_state].size(); i++) {
 		TransitionStruct cur = transitions[room_state][i];
 		if (cur.detection == TransitionDetection::POINT) {
-			if (checkInsidePoint(cur.point, character) && curScene->enemiesLeft == 0) {
-				if (character->finalBattleUnlocked) {}
+			if (checkInsidePoint(cur.point, character) && curScene->enemiesLeft <= 0) {
+				if (character->finalBattleUnlocked && curScene->id == "townScene") {}
 				else if (curScene->id == "townScene") {
 					// checking to see if areas are unlocked
 					if ((cur.dest.x == 550 && character->lakeUnlocked) || (cur.dest.x == 406 && character->badlandsUnlocked)

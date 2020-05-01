@@ -26,10 +26,6 @@ ShotgunGuy::ShotgunGuy(Player* sayu, string id) : AnimatedSprite(id){
 
 void ShotgunGuy::update(set<SDL_Scancode> pressedKeys){
 	AnimatedSprite::update(pressedKeys);
-
-	cout << "HEALTH LEFT: " << this->health << endl;
-	cout << "LAST TWO ID: " << this->lastTwoId << endl;
-	cout << "LAST ID: " << this->lastId << endl;
 	
 	//enemy is dead so clean it up
 	if(this->health == 0){

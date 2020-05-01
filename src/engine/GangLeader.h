@@ -44,7 +44,7 @@ public:
 
 	int shoot = 0;
 	/* Health and such */
-	int health = 1000;
+	int health = 999;
 
 	//iFrames
 	bool iFrames = false;
