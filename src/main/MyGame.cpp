@@ -924,6 +924,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 	if (s->id == "lake9" && !s->enemiesAdded) {
 		if(s->getChild("LakeArrow3") != NULL){
 			arrow1LakeStill9->removeThis();
+			arrow_guys.erase(arrow1LakeStill9);
 		}
 		arrow1LakeStill9 = new ArrowGuy((Player*)character, "LakeArrow3");
 		arrow1LakeStill9->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
@@ -939,6 +940,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 
 		if(s->getChild("LakeArrow4") != NULL){
 			arrow2LakeStill9->removeThis();
+			arrow_guys.erase(arrow2LakeStill9);
 		}
 		arrow2LakeStill9 = new ArrowGuy((Player*)character, "LakeArrow4");
 		arrow2LakeStill9->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
@@ -954,6 +956,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 
 		if(s->getChild("LakeArrow5") != NULL){
 			arrow3LakeStill9->removeThis();
+			arrow_guys.erase(arrow3LakeStill9);
 		}
 		arrow3LakeStill9 = new ArrowGuy((Player*)character, "LakeArrow5");
 		arrow3LakeStill9->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
@@ -969,6 +972,7 @@ void MyGame::initLakeEnemies(Scene* s) {
 
 		if(s->getChild("LakeArrow6") != NULL){
 			arrow4LakeStill9->removeThis();
+			arrow_guys.erase(arrow4LakeStill9);
 		}
 		arrow4LakeStill9 = new ArrowGuy((Player*)character, "LakeArrow6");
 		arrow4LakeStill9->addAnimation("resources/enemies/", "Arrow", 1, 1, true);
