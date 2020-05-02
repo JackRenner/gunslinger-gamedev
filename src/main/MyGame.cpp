@@ -387,32 +387,32 @@ void MyGame::setScene(Scene* scene) {
 		if (scene->id.substr(0,4) == "lake") {
 			initLakeEnemies(scene);
 			 if(currentMusic != lakeMusic){
-			 	//lakeMusic->play();
+			 	lakeMusic->play();
 			 	currentMusic = lakeMusic;
 			 }
 		}
 		else if (scene->id.substr(0,4) == "badl") {
 			initBadlandsEnemies(scene);
 			if (currentMusic != badlandsMusic) {
-				//badlandsMusic->play();
+				badlandsMusic->play();
 				currentMusic = badlandsMusic;
 			}
 		}
 		else if (scene->id.substr(0,4) == "cany") {
 			initCanyonEnemies(scene);
 			if (currentMusic != canyonMusic) {
-				//canyonMusic->play();
+				canyonMusic->play();
 				currentMusic = canyonMusic;
 			}
 		}
 		else if (scene == hideout8) {
-			//bossMusic->play();
+			bossMusic->play();
 			initHideoutEnemies(scene);
 		}
 		else if (scene->id.substr(0,4) == "hide") {
 			initHideoutEnemies(scene);
 			if (currentMusic != hideoutMusic) {
-				//hideoutMusic->play();
+				hideoutMusic->play();
 				currentMusic = hideoutMusic;
 			}
 		}
@@ -421,12 +421,12 @@ void MyGame::setScene(Scene* scene) {
 			if (!character->finalBattleUnlocked) {
 				initTownsPeople(scene);
 				if (currentMusic != townMusic) {
-					//townMusic->play();
+					townMusic->play();
 					currentMusic = townMusic;
 				}
 			} else {
 				initTownEnemies(scene);
-				//finaleMusic->play();
+				finaleMusic->play();
 			}
 
 		} // need to add in a proper if loop here
