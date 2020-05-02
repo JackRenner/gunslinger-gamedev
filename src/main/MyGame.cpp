@@ -137,11 +137,11 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			//this->currentGameState = 1;
 			if(currentGameState == 1){
 				this->currentGameState = 2;
-				this->addChild(PauseScene);
+				//this->addChild(PauseScene);
 			}
 			else if(currentGameState == 2){
 				this->currentGameState = 1;
-				this->removeImmediateChild("PauseBanner");
+				//this->removeImmediateChild("PauseBanner");
 			}
 			else if(currentGameState == 0){
 				this->initialize();
@@ -1782,7 +1782,7 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		floryan = new Sprite("TheGunslinger2", "resources/friendlies/floryan.png");
 		hideout7->addChild(floryan);
 		floryan->position = {665, 400};
-		
+
 		floryanText = new TextBox(SDL_Point{ 1500, 500 }, 300, 100, 220, 220, 220, 255);
 		string line = "Sorry, can't talk. I'm almost done with trials of the master sword!";
 		floryanText->addTextLine("./resources/fonts/west.otf", line, 24, SDL_Color{ 73, 43, 196 });
