@@ -45,11 +45,15 @@ class MyGame : public Game, public EventListener {
 public:
 	MyGame();
 	virtual ~MyGame();
-
 	virtual void update(set<SDL_Scancode> pressedKeys);
 	virtual void draw(AffineTransform& at);
 
 	void setScene(Scene* scene);
+
+	int currentGameState; //0 if at main menu, 1 if the game started, 2 if paused;
+
+	void initialize();
+
 
 	bool checkInsideBox(SDL_Rect box, DisplayObject* entity);
 	bool checkInsidePoint(SDL_Point point, DisplayObject* entity);
@@ -100,6 +104,10 @@ private:
 	Scene* curScene = NULL;
 
 	//TextBox* test;
+
+	Scene* MainMenuScene;
+	Scene* PauseScene;
+
 
 	// TOWN SCENES
 	Scene* townScene;
@@ -176,18 +184,18 @@ private:
 	AmmoCount* ammoCounter;
 	Player* character;
 	Projectile* bullet;
-	
+
 	HealthBar* playerHealth;
 
 	// LAKE STILL ENEMIES
 	Wolf* wolf1LakeStill1;
 	Wolf* wolf2LakeStill1;
-	
+
 	GangThug* thug1LakeStill2;
 	GangThug* thug2LakeStill2;
 
 	GangShot* shot1LakeStill;
-	
+
 	GangMarksman* mark1LakeStill3;
 	GangMarksman* mark2LakeStill3;
 
@@ -197,7 +205,7 @@ private:
 	ArrowGuy* arrow1LakeStill9;
 	ArrowGuy* arrow3LakeStill9;
 	ArrowGuy* arrow4LakeStill9;
-	
+
 
 	Creeper* creeper1LakeStill7;
 	Creeper* creeper2LakeStill7;
@@ -266,7 +274,7 @@ private:
 	GangThug* gangthug1hideout1;
 	GangThug* gangthug2hideout1;
 	GangThug* gangthug3hideout1;
-	
+
 	//BADLANDS ENEMIES
 	Wolf* wolf1Badlands1;
 	Wolf* wolf2Badlands1;

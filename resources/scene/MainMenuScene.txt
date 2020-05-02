@@ -1,0 +1,69 @@
+{
+    "scene_id": "MenuScene",
+	"BlackBox": {
+		"type": "RGB",
+		"rgb": [0, 0, 0],
+
+		"dimensions": [1500, 1500],
+		"position": [0, 0],
+		"pivot": [0, 0],
+		"scale": [1.0, 1.0],
+		"rotation": 0.0,
+		"alpha": 255,
+		"visible": true,
+
+		"parent": null
+	},
+    "GameBanner": {
+        "type": "Sprite",
+        "filepath": "./resources/Menus/BangBangBanner.png",
+        "dimensions": [
+            800,
+            400
+        ],
+        "position": [
+            50,
+            0
+        ],
+        "pivot": [
+            0,
+            0
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    },
+ "InformationBanner": {
+        "type": "Sprite",
+        "filepath": "./resources/Menus/Start_Screen_1.png",
+        "dimensions": [
+            400,
+            150
+        ],
+        "position": [
+            500,
+  	    500
+        ],
+        "pivot": [
+            200,
+            75
+        ],
+        "scale": [
+            1.0,
+            1.0
+        ],
+        "rotation": 0.0,
+        "alpha": 255,
+        "visible": true,
+        "parent": null
+    }
+	
+
+
+
+}
