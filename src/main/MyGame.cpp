@@ -1731,7 +1731,16 @@ void MyGame::initHideoutEnemies(Scene *s) {
 		s->enemiesAdded = true;
 	}
 	if (s->id == "hideout7" && !s->enemiesAdded) {
-		//floryan
+		floryan = new Sprite("TheGunslinger2", "resources/friendlies/floryan.png");
+		hideout7->addChild(floryan);
+		floryan->position = {665, 400};
+		
+		floryanText = new TextBox(SDL_Point{ 1500, 500 }, 300, 100, 220, 220, 220, 255);
+		string line = "Sorry, can't talk. I'm almost done with trials of the master sword!";
+		floryanText->addTextLine("./resources/fonts/west.otf", line, 24, SDL_Color{ 73, 43, 196 });
+		floryan->addChild(floryanText);
+		floryanText->position = { -150, -100};
+		floryanText->initBox();
 		s->enemiesLeft=0;
 		s->enemiesAdded = true;
 

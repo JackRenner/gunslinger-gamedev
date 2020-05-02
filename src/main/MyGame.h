@@ -124,8 +124,10 @@ private:
 	Sheriff* sheriff2;
 
 	Sprite* rolandDeschain;
+	Sprite* floryan;
 	bool rolandNotHere = true;
 	TextBox* rolandText;
+	TextBox* floryanText;
 
 
 	// LAKE STILL SCENES
