@@ -1,8 +1,8 @@
 {
-    "scene_id": "MenuScene",s
- "InformationBanner": {
+    "scene_id": "MenuScene",
+ "PauseBanner": {
         "type": "Sprite",
-        "filepath": "./resources/Menus/Start_Screen_1.png",
+        "filepath": "./resources/Menus/Pause_Banner.png",
         "dimensions": [
             400,
             150

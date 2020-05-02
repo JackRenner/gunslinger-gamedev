@@ -51,6 +51,16 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	MainMenuScene = new Scene();
 	MainMenuScene->loadScene("./resources/scene/MainMenuScene.txt");
 	this->currentGameState = 0;
+	this->PauseButtonPressedDown = false;
+/*
+	this->PauseBanner = new DisplayObject("PauseBanner", "./resources/Menus/Pause_Banner.png");
+	this->PauseBanner->width = 500;
+	this->PauseBanner->height = 150;
+*/
+
+	PauseScene = new Scene();
+	PauseScene-> loadScene("./resources/scene/PauseOverlay.txt");
+
 
 		room_state = 17;
 		this->addChild(foreground);
@@ -123,19 +133,26 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 
 
 
-	if (pressedKeys.find(SDL_SCANCODE_ESCAPE) != pressedKeys.end()) {
-		//this->currentGameState = 1;
-		if(currentGameState == 0){
-			this->initialize();
-		}
-		else if(currentGameState == 1){
-			this->currentGameState = 2;
-		}
-		else if(currentGameState == 2){
-			this->currentGameState = 1;
-		}
+		if ( this->PauseButtonPressedDown && pressedKeys.find(SDL_SCANCODE_ESCAPE) == pressedKeys.end()) {
+			//this->currentGameState = 1;
+			if(currentGameState == 1){
+				this->currentGameState = 2;
+				this->addChild(PauseScene);
+			}
+			else if(currentGameState == 2){
+				this->currentGameState = 1;
+				this->removeImmediateChild("PauseBanner");
+			}
+			else if(currentGameState == 0){
+				this->initialize();
 
-	}
+			}
+			this->PauseButtonPressedDown = false;
+		}
+		if (pressedKeys.find(SDL_SCANCODE_ESCAPE) != pressedKeys.end()) {
+				//this->currentGameState = 1;
+				this->PauseButtonPressedDown = true;
+		}
 
 
 	// code necessary to ensure townspeople spawn angry

@@ -51,7 +51,8 @@ public:
 	void setScene(Scene* scene);
 
 	int currentGameState; //0 if at main menu, 1 if the game started, 2 if paused;
-
+	bool PauseButtonPressedDown;
+	DisplayObject* PauseBanner;
 	void initialize();
 
 
