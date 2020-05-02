@@ -119,10 +119,12 @@ void DisplayObject::draw(AffineTransform &at){
 		int h = (int)distance(upperRight, lowerRight);
 		if(this->hitboxDrawn){
 			this->getGlobalHitbox();
+			/*
 			cout << this->MyGlobalHitbox[0].x << endl;
 			cout << this->MyGlobalHitbox[0].y <<endl;
 			cout << this->MyGlobalHitbox[3].x << endl;
 			cout << this->MyGlobalHitbox[3].y <<endl;
+			*/
 //			this->drawHitbox( setGlobalTransform(globalTransform, this->pivot) );
 		 }
 		SDL_Rect dstrect = { origin.x, origin.y, w, h };
@@ -292,6 +294,6 @@ double DisplayObject::calculateRotation(SDL_Point &origin, SDL_Point &p) {
 	  this->oldY = position.y;
 	};
 	void DisplayObject:: saveAllPositions(){
-		cout << "Display Object's Save all Positions Called";
+//		cout << "Display Object's Save all Positions Called";
 		this-> savePosition();
 	}
