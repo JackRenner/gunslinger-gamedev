@@ -190,13 +190,13 @@ void Player::hitByProjectile(string gun){
 		this->poisoned = true;
 		this->poisonedTime = 10;
 	} else if (gun == "arrow") {
-		takeDamage(10);
+		takeDamage(10*3);
 	} else if (gun == "revolver") {
-		takeDamage(15);
+		takeDamage(15*3);
 	} else if (gun == "shotgun") {
 		takeDamage(60);
 	} else if (gun == "rifle") {
-		takeDamage(40);
+		takeDamage(40*3);
 	} else if (gun == "dynamite") {
 		explosion->playSFX();
 		takeDamage(200);
@@ -207,7 +207,7 @@ void Player::hitByProjectile(string gun){
 
 void Player::heal(string food){
 	if (food == "whiskey" && foodNum > 0) {
-		takeNoDamage(-20);
+		takeNoDamage(-50);
 	}
 
 }
@@ -218,7 +218,7 @@ void Player::hitByMelee(string enemy){
 	if (enemy == "creeper") {
 		takeDamage(this->health);
 	} else if (enemy == "wolf" && this->wolfWaitToDamage > 40) {
-		takeDamage(15);
+		takeDamage(15*4);
 		this->wolfWaitToDamage = 0;
 	}
 	else if (enemy == "knife" && this->knifeWaitToDamage > 40) {
