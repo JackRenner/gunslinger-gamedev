@@ -52,14 +52,7 @@ MyGame::MyGame() : Game(gameCamera.viewportWidth, gameCamera.viewportHeight) {
 	MainMenuScene->loadScene("./resources/scene/MainMenuScene.txt");
 	this->currentGameState = 0;
 	this->PauseButtonPressedDown = false;
-/*
-	this->PauseBanner = new DisplayObject("PauseBanner", "./resources/Menus/Pause_Banner.png");
-	this->PauseBanner->width = 500;
-	this->PauseBanner->height = 150;
-*/
 
-	PauseScene = new Scene();
-	PauseScene-> loadScene("./resources/scene/PauseOverlay.txt");
 
 
 		room_state = 17;
@@ -137,11 +130,38 @@ void MyGame::update(set<SDL_Scancode> pressedKeys) {
 			//this->currentGameState = 1;
 			if(currentGameState == 1){
 				this->currentGameState = 2;
-				//this->addChild(PauseScene);
+							PauseScene = new Scene();
+							PauseScene-> loadScene("./resources/scene/PauseOverlay.txt");
+							this->curScene->addChild(PauseScene);
+							this->unlinkImmediateChild("foreground");
+							gameCamera.x = 100;
+							gameCamera.y = 100;
+
+
+								/*
+				PauseScene = new Scene();
+				PauseScene-> loadScene("./resources/scene/PauseOverlay.txt");
+				this->TempSceneHolder = this->curScene;
+					this->unlinkImmediateChild("foreground");
+					this->setScene(PauseScene);
+					this->addChild(foreground);
+
+				this->PauseBanner = new DisplayObject("PauseBanner", "./resources/Menus/Pause_Banner.png");
+				this->PauseBanner->width = 500;
+				this->PauseBanner->height = 150;
+				character->addChild(PauseBanner);
+				*/
 			}
 			else if(currentGameState == 2){
 				this->currentGameState = 1;
-				//this->removeImmediateChild("PauseBanner");
+				//character->removeImmediateChild("PauseBanner");
+				this->PauseScene->removeThis();
+				this->addChild(foreground);
+				/*
+				this->unlinkImmediateChild("foreground");
+				this->setScene(TempSceneHolder);
+				this->addChild(foreground);
+				*/
 			}
 			else if(currentGameState == 0){
 				this->initialize();

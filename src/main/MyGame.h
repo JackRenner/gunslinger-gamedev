@@ -54,6 +54,10 @@ public:
 	bool PauseButtonPressedDown;
 	DisplayObject* PauseBanner;
 	void initialize();
+	Scene * TempSceneHolder;
+	int cameraX;
+	int cameraY;
+	
 
 
 	bool checkInsideBox(SDL_Rect box, DisplayObject* entity);
