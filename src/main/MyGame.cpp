@@ -468,15 +468,15 @@ void MyGame::enforceCameraBounds() {
 		if (gameCamera.x < upper_left.x)
 			gameCamera.x = upper_left.x;
 	}
-	// check lower bound
-	if (room.check_down) {
-		if (gameCamera.y + gameCamera.viewportHeight > lower_right.y)
-			gameCamera.y = lower_right.y - gameCamera.viewportHeight;
-	}
 	// check upper bound
 	if (room.check_up) {
 		if (gameCamera.y < upper_left.y)
 			gameCamera.y = upper_left.y;
+	}
+	// check lower bound
+	if (room.check_down) {
+		if (gameCamera.y + gameCamera.viewportHeight > lower_right.y)
+			gameCamera.y = lower_right.y - gameCamera.viewportHeight;
 	}
 }
 
